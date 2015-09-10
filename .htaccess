@@ -1,0 +1,10 @@
+RewriteEngine On
+ErrorDocument 404 /page_not_found.html
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteRule ^([a-zA-Z0-9_-]+)$ index.php?controller=$1 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)/$ index.php?controller=$1 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ index.php?controller=$1&action=$2 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/$ index.php?controller=$1&action=$2 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9/-]+)$ index.php?controller=$1&action=$2&param=$3 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9/-]+)/$ index.php?controller=$1&action=$2&param=$3 [L]
