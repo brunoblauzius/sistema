@@ -1,7 +1,6 @@
 <?php
     session_start();
-    
-	
+
     error_reporting( true );
     ini_set( "display_errors", true );
 
@@ -20,7 +19,7 @@
             require_once 'Controller' . DS . $classe;
         } 
         else if (file_exists('Model' . DS . $classe ) ) {
-            require_once 'Model' . DS . $classe;
+			require_once 'Model' . DS . $classe;
         }
         else if (file_exists('Model' . DS . 'Entity' . DS . $classe ) ) {
             require_once 'Model' . DS . 'Entity' . DS . $classe;

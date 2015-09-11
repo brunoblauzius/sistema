@@ -20,6 +20,10 @@ class EmpresasController extends AppController {
     private $Contato     = null;
     private $Endereco     = null;
     private $Email        = null;
+    private $SituacaoEmpresa  = null;
+    private $SituacaoConta  = null;
+    private $TiposPagamento  = null;
+    private $TipoConta  = null;
     
     public function __construct(){
         parent::__construct();
@@ -30,6 +34,10 @@ class EmpresasController extends AppController {
         $this->Endereco = new Endereco();
         $this->Email    = new Email();
         $this->ContaEmpresa    = new ContaEmpresa();
+        $this->SituacaoEmpresa    = new SituacaoEmpresa();
+        $this->SituacaoConta    = new SituacaoConta();
+        $this->TiposPagamento    = new TiposPagamento();
+        $this->TipoConta    = new TipoConta();
     }
     
     public function index(){
@@ -253,11 +261,24 @@ class EmpresasController extends AppController {
             
             $contaEmpresa = $this->Empresa->contaEmpresa( $_GET['param'] );
             
+            $_SESSION['Form']['empresas_id'] = $contaEmpresa[0]['empresas_id'];
+            
+            $empresa      = $this->Empresa->findEmpresa($contaEmpresa[0]['empresas_id']);
+            $situacaoEmpresas = $this->SituacaoEmpresa->find('all', array('status' => true ));
+            $situacaoContas = $this->SituacaoConta->find('all');
+            $tiposPagamentos = $this->TiposPagamento->find('all');
+            $TipoContas = $this->TipoConta->find('all');
             /**
              * recuperar dados da empresa
              */                        
             $this->set('title_layout', 'Empresa: situação conta');
             $this->set('contaEmpresa', array_shift($contaEmpresa) );
+            $this->set('empresa', array_shift($empresa) );
+            $this->set('situacaoEmpresas', $situacaoEmpresas );
+            $this->set('situacaoContas', $situacaoContas );
+            $this->set('tiposPagamentos', $tiposPagamentos );
+            $this->set('TipoContas', $TipoContas );
+            
             $this->render();
             
         } catch (Exception $ex) {
@@ -271,6 +292,38 @@ class EmpresasController extends AppController {
          echo json_encode(array(
              'qtde' => count($empresa)
          )); 
+    }
+    
+    
+    public function alterarConta(){
+        try {
+            
+            
+            if( $this->is('post') || $this->is('put') ){
+                
+                $this->Empresa->alterarContaEmpresa( $_SESSION['Form']['empresas_id'], $_POST['TiposPagamento']['id'], $_POST['SituacaoConta']['id'], $_POST['TipoConta']['id'] );
+                $this->Empresa->alterarSituacaoEmpresa( $_SESSION['Form']['empresas_id'],$_POST['SituacaoEmpresa']['id'] );
+                
+                $json = json_encode(array(
+                    'message' => 'Sua alteração foi efetuada com sucesso!',
+                    "style" =>'success',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => "window.location.reload();",
+                    'before' => "$('#loading').fadeOut(500);",
+                    'icon'   => '',
+                    'title'  => 'Sucesso!'
+                ));
+                
+                echo json_encode(array(
+                    'funcao' => "bootsAlert( $json );",
+                ));
+                
+            }
+            
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
     }
     
 }
