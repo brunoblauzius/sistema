@@ -1100,7 +1100,7 @@
            $('.alerta').remove();
            var elemento  = '<div class="alert alert-dismissable alert-success col-md-3 alerta">';
                    elemento +=	'<button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button>';
-                   elemento +=	'<strong><i class="glyphicon glyphicon-floppy-saved"></i></strong> ' + msg;
+                   elemento +=	'<strong><i class="fa fa-sign"></i></strong> ' + msg;
                    elemento +=	'</div>';
            $(elemento).appendTo( 'body' ).delay(1000).fadeOut(1000);
     }

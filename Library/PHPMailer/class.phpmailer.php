@@ -69,13 +69,13 @@ class PHPMailer
      * The From email address for the message.
      * @type string
      */
-    public $From = 'contato@agentus.com.br'; 
+    public $From = 'contato@mynight.com.br'; 
 
     /**
      * The From name of the message.
      * @type string
      */
-    public $FromName = 'Sistema Agenda Financeira  No-reply';  
+    public $FromName = 'Sistema reservas  No-reply';  
 
     /**
      * The Sender email (Return-Path) of the message.
@@ -194,7 +194,7 @@ class PHPMailer
      * by SERVER_NAME is used or 'localhost.localdomain'.
      * @type string
      */
-    public $Hostname = 'agentus.com.br';
+    public $Hostname = 'mynight.com.br';
 
     /**
      * An ID to be used in the Message-Id header.
@@ -221,7 +221,7 @@ class PHPMailer
      * Hosts will be tried in order.
      * @type string
      */
-    public $Host = 'agentus.com.br';
+    public $Host = 'mynight.com.br';
 
     /**
      * The default SMTP server port.
@@ -258,13 +258,13 @@ class PHPMailer
      * SMTP username.
      * @type string
      */
-    public $Username = 'contato@agentus.com.br';
+    public $Username = 'contato@mynight.com.br';
 
     /**
      * SMTP password.
      * @type string
      */
-    public $Password = 'jinx159!';
+    public $Password = 'contato01';
 
     /**
      * SMTP auth type.

@@ -217,3 +217,4 @@ function cadastroClienteHtml( json ){
     $('#dados-cliente').html(elemento);
     
 }
+

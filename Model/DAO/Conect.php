@@ -16,8 +16,8 @@ class Conect {
     const SERVER        = 'mysql';
     const HOST          = '162.144.49.114';
     const DATA_BASE     = 'reservas';
-    const USER          = 'mynight';
-    const PASS          = '5(!=Ls(O^{Ln';
+    const USER          = 'producao';
+    const PASS          = 'asx1998';
     
     private static $conn = null;
 

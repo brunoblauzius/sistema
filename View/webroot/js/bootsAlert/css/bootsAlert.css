@@ -1,0 +1,12 @@
+.bootsAlert .modal-content{border:none;border-radius:0px;padding: 0px !important;}
+.bootsAlert .ba-icon-title{font-size: 80px !important;text-shadow: 2px 2px 3px rgba(0,0,0,0.4);}
+.bootsAlert .modal-header{color:#FFF;}
+.bootsAlert-primary .modal-header{background-color:#428bca !important;}
+.bootsAlert-success .modal-header{background-color:#14AF36 !important;}
+.bootsAlert-danger .modal-header{background-color:#E82E1A !important;}
+.bootsAlert-warning .modal-header{background-color:#E8B71A !important;}
+.bootsAlert-info .modal-header{background-color:#108D88 !important;}
+.bootsAlert-info .ba-btn{background-color:#108D88;border-color:#0e7772;}
+.bootsAlert-default .modal-header{background-color:#212121 !important;}
+.bootsAlert .ba-btn{border-radius: 2px !important;}
+.bootsAlert .modal-body{padding: 20px !important;}
