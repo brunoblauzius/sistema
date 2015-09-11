@@ -138,6 +138,14 @@ class Mesa extends AppModel{
         }
     }
     
+    public function mesasReservasList($array, $node ){
+        $newArray = array();
+        foreach ($array as $value) {
+            $newArray[] = ($value[$node]);
+        }
+        return $newArray[0] = $newArray;
+    }
+    
     
     public function selectIn( array $mesas ){
         try {

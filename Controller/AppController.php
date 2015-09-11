@@ -40,6 +40,7 @@ class AppController extends Render {
 
             $this->css = array(
                 'css/bootstrap', 
+                'css/bootstrap_papper', 
                 'css/bootstrap-reset', 
                 'font-awesome/css/font-awesome',
                 'css/style',
@@ -49,6 +50,7 @@ class AppController extends Render {
                 'css/Icomoon/style',
                 'css/preloader',
                 'js/data-tables/DT_bootstrap',
+                'js/bootsAlert/css/bootsAlert',
                 );
             
             $this->js = array(
@@ -70,6 +72,7 @@ class AppController extends Render {
                 'js/funcoes',
                 'js/permission_js',
                 'js/scripts',
+                'js/bootsAlert/js/bootsAlert',
             );
             
             $this->ACL     = new ACL();

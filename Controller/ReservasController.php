@@ -577,6 +577,187 @@ class ReservasController extends AppController {
     }
     
     
+    public function envioEmail(){
+        try {
+            
+            $this->layout = 'null';
+            
+            $token = $_GET['param'];
+        
+            $reserva = $this->Reserva->find('first', array('token' => $token ));
+            $reserva = array_shift($reserva);
+
+            /**
+            * recupero o salão e ambiente da reserva
+            */
+            $dadoEmailReserva = $this->Reserva->recuperaDadosReservaEmail($reserva['Reserva']['id']);
+            
+            
+
+           /**
+            * VERIFICO SE O CLIENTE TEM EMAIL CADASTRADO
+            */
+
+           if( !empty($dadoEmailReserva[0]['email']) ){
+               /**
+                * envio o email para o cliente cadastrado para inserir na lista os dados das pessoas relacionadas
+                */
+                $email = new Email();
+                $email->useTable = 'emails_sistema';
+                $registro = $email->find('first', array('tag' => 'cadastro_reserva'));
+
+                /**
+                 * recupero o endereço da empresa
+                 */
+                $endereco = $this->Endereco->findEnderecosEmpresa( $this->empresas_id );
+                $enderecoEmpresa = $endereco[0]['logradouro'] .', '.$endereco[0]['numero'] .' | '. $endereco[0]['cidade'] . ' - ' . $endereco[0]['bairro'] . ' - ' . $endereco[0]['uf'];
+                
+                
+                
+                
+                /**
+                 * recupero as mesas
+                 */
+                $mesaModel = new Mesa();
+                $mesas = $mesaModel->mesasReservas($reserva['Reserva']['id']);
+                $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
+                $mesas = $mesaModel->selectIn($mesas);
+
+                
+                /**
+                 * #faço a troca de siglas para personalizar o email
+                 */
+                $array = array(
+                    '__CLIENTE__' => $cliente[0]['Cliente']['nome'],
+                    '__DATE__' => date('d/m/Y h:i:s'),
+                    '__NOME_FANTASIA__' => Session::read('Empresa.nome_fantasia'),
+                    '__LUGARES__' => $reserva['Reserva']['qtde_pessoas'],
+                    '__ENDERECO_EMPRESA__' => $enderecoEmpresa,
+                    '__MESAS__' => join(' - ', array_values($mesas)),
+                    '__DATA_INICIO__' => Utils::convertData( $dataCallendar ),
+                    '__SALAO__' => $dadoEmailReserva[0]['salao'],
+                    '__AMBIENTE__' => $dadoEmailReserva[0]['ambiente'],
+                );
+
+                #envio o email de confirmação para o meu cliente cadastrado
+
+                $objeto = new MailPHPMailer();
+
+                $objeto->setAssunto( 'Reserva Camarote: ' . Session::read('Empresa.nome_fantasia') );
+
+                //$objeto->setRemetente();
+
+                /**
+                 *   CORPO DO EMAIL
+                 */
+                $objeto->setBody(str_replace(array_keys($array), array_values($array), $registro[0]['Email']['corpo_mail']));
+
+                /**
+                 *   DESTINO PARA QUEM VAI O EMAIL - CLIENTE
+                 */
+                $objeto->setDestinatario( $dadoEmailReserva[0]['email'], $dadoEmailReserva[0]['cliente'] );
+                $emailEnvio = $objeto->sendMail();
+                
+                /**
+                 * renomeando o nome da tabela de email
+                 */
+                $email->useTable = 'emails_enviados';
+                
+                
+                if( $emailEnvio ){
+                    
+                    $gravaEmail = array(
+                            'reservas_id' => $reserva['Reserva']['id'],
+                            'empresas_id' => $reserva['Reserva']['empresas_id'],
+                            'pessoas_id'  => $this->pessoas_id,
+                            'clientes_id' => $reserva['Reserva']['clientes_id'],
+                            'created' => date('Y-m-d H:i:s'),
+                            'status' => 1
+                    );
+                    
+                    /**
+                     * inserindo na tabela o envio do email
+                     */
+                    $email->genericInsert( $gravaEmail );
+                    
+                    echo json_encode(array(
+
+                        'message' => 'Email enviado com sucesso!',
+                        "style" =>'success',
+                        'time' => 5000,
+                        'size' => 'sm',
+                        'callback' => false,
+                        'before' => false,
+                        'icon'   => '',
+                        'title'  => 'Sucesso no envio!'
+
+                    ));
+                } else {
+                    $gravaEmail = array(
+                            'reservas_id' => $reserva['Reserva']['id'],
+                            'empresas_id' => $reserva['Reserva']['empresas_id'],
+                            'pessoas_id'  => $this->pessoas_id,
+                            'clientes_id' => $reserva['Reserva']['clientes_id'],
+                            'created' => date('Y-m-d H:i:s'),
+                            'status' => 0
+                    );
+                    
+                    /**
+                     * inserindo na tabela o envio do email
+                     */
+                    $email->genericInsert( $gravaEmail );
+                    
+                    echo json_encode(array(
+                    
+                        'message' => 'Problema no servidor de envio dos emails, contate o suporte.',
+                        "style" =>'danger',
+                        'time' => 5000,
+                        'size' => 'sm',
+                        'callback' => false,
+                        'before' => false,
+                        'icon'   => '',
+                        'title'  => 'Falha no envio!'
+
+                    ));
+                    
+                }
+                
+           } else {
+            
+                echo json_encode(array(
+                    
+                    'message' => 'Não foi possivel reenviar seu email tente novamente mais tarde ou avise o suporte.',
+                    "style" =>'danger',
+                    'time' => 5000,
+                    'size' => 'sm',
+                    'callback' => false,
+                    'before' => false,
+                    'icon'   => '',
+                    'title'  => 'Falha no envio!'
+                                
+                ));
+                
+           }
+            
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                
+                'message' => $ex->getMessage(),
+                "style" =>'danger',
+                'time' => 5000,
+                'size' => 'sm',
+                'callback' => false,
+                'before' => false,
+                'icon'   => '',
+                'title'  => 'Falha no envio!'
+                        
+            ));
+            
+        }
+    }
+    
+    
+    
     protected function montarArray( $mesas, $node = NULL ){
         $newArray = array();
         $newMiddle = array();
