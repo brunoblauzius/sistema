@@ -86,6 +86,39 @@ class Empresa extends AppModel {
         
     }
 
+    
+    public function alterarContaEmpresa( $empresaId, $tiposPagamentosId, $situacaoContasId, $contasEmpresasTiposId ){
+        try {
+            
+            $sql = "UPDATE reservas.contas_empresas SET 
+                            situacao_contas_id = $situacaoContasId,
+                            tipos_pagamentos_id = $tiposPagamentosId,
+                            contas_empresas_tipos_id = $contasEmpresasTiposId
+                        WHERE empresas_id = $empresaId;";
+            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    public function alterarSituacaoEmpresa( $empresaId,  $situacaoEmpresaId ){
+        try {
+            
+            $sql = "UPDATE reservas.empresas SET 
+                            situacao_empresas_id = $situacaoEmpresaId
+                        WHERE id = $empresaId;";
+            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    
     public function contaEmpresa( $hash ){
         try {
             
@@ -94,8 +127,11 @@ class Empresa extends AppModel {
                     Conta.empresas_id,
                     Conta.created,
                     SituacaoConta.nome as situacao_conta,
+                    SituacaoConta.id as situacao_contas_id,
                     TipoPagamento.nome as tipo_pagamento,
+                    TipoPagamento.id as tipos_pagamentos_id,
                     TipoConta.nome as tipo_conta,
+                    TipoConta.id as contas_empresas_tipos_id,
                     TipoConta.valor,
                     TipoConta.duracao_contrato
                 FROM
@@ -262,6 +298,7 @@ class Empresa extends AppModel {
                         Juridica.ie,
                         Juridica.data_fundacao,
                         Empresa.situacao_empresas_id,
+                        SituacaoEmpresa.nome as situacao_empresas,
                         Empresa.status,
                         Empresa.logo,
                         Empresa.created
@@ -269,6 +306,8 @@ class Empresa extends AppModel {
                         reservas.pessoaJuridica AS Juridica
                             INNER JOIN
                         reservas.empresas AS Empresa ON Empresa.pessoaJuridica_id = Juridica.id
+                            INNER JOIN
+                        reservas.situacao_empresas AS SituacaoEmpresa ON Empresa.situacao_empresas_id = SituacaoEmpresa.id
                     WHERE
                         Empresa.id = $empresasId;";
             
