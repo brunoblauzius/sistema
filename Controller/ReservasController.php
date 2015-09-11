@@ -137,7 +137,7 @@ class ReservasController extends AppController {
              * 	SE O ROLE ID FOR Usuario ELE PEGA SOMENTE O Usuario SE NãoO OS USUARIOS DA EMPRESA
              */
             $registros = $this->Reserva->filtrar($this->empresas_id);
-            $urlPDF = 'http://snappypdf.com.br/gerar.php?' . Router::url(array('Reservas', 'imprimir' ));
+            $urlPDF = 'http://snappypdf.com.br/gerar.php?url=' . Router::url(array('Reservas', 'imprimir' ));
             $this->set('registros', $registros);
             $this->set('urlPDF', $urlPDF);
             $this->set('title_layout', 'Reservas -  Página Inicial');
@@ -453,7 +453,7 @@ class ReservasController extends AppController {
             $lista = $this->Reserva->perfil(md5(($_POST['id'])));
             $mesas = $this->Reserva->listarMesasReservas( $lista['id'] );
             
-            $urlPDF = Router::url(array('Reservas', 'imprimir', md5($lista['id']) ));
+            $urlPDF = "http://snappypdf.com.br/gerar.php?url=" . Router::url(array('Reservas', 'imprimir', md5($lista['id']) ));
             
             
             $this->set('lista', $lista);
