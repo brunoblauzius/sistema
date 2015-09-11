@@ -169,7 +169,7 @@ class EmpresasController extends AppController {
                 $this->Email->inserirEmailEmpresa( $empresaId, $_POST['Email']['email'] );
                 
                 
-                $url = Router::url(array('Pessoas', 'index'));
+                $url = Router::url(array('Empresas', 'empresasRelacionadas', md5( $_POST[$this->Juridica->name]['pessoas_id'] ) ));
                 
                 echo json_encode(array(
                     'funcao' => "sucessoForm( 'Seu cadastro foi efetuado com sucesso', '#PessoaAddForm' );"
@@ -267,7 +267,7 @@ class EmpresasController extends AppController {
     
     
     public function totalEmpresas(){
-         $empresa = $this->Empresa->empresasRelacionadas(md5($this->pessoas_id), Session::read('Usuario.roles_id'));
+         $empresa = $this->Empresa->empresasRelacionadas( md5($this->pessoas_id), Session::read('Usuario.roles_id') );
          echo json_encode(array(
              'qtde' => count($empresa)
          )); 

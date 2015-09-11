@@ -50,8 +50,8 @@
                                 <td><?= Utils::convertData($empresa['created'])?></td>
                                 <td>
                                     <div class="btn-group btn-group-xs">
-                                        <a href="<?= Router::url( array( 'Empresas', 'editar', md5($empresa['pessoas_id'])) )?>" class="btn btn-primary btn-xs" title="Editar Empresa">Editar</a>
-                                        <a href="<?= Router::url( array( 'Empresas', 'contaEmpresa', md5($empresa['pessoas_id'])) )?>" class="btn btn-warning btn-xs" title="Situação da Conta">Conta</a>
+                                        <!--a href="<?= Router::url( array( 'Empresas', 'editar', md5($empresa['empresas_id'])) )?>" class="btn btn-primary btn-xs" title="Editar Empresa">Editar</a-->
+                                        <a href="<?= Router::url( array( 'Empresas', 'contaEmpresa', md5($empresa['empresas_id'])) )?>" class="btn btn-warning btn-xs" title="Situação da Conta">Conta</a>
                                     </div>
                                 </td>
                             </tr>
