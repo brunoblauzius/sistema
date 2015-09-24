@@ -93,7 +93,7 @@ var Script = function () {
 //			$('#dados-reserva').empty();
 //			$('#loading').fadeOut(500);
 
-                        novoEvento( date, 'Reservas/cadastro' );
+                        novoEvento( date.format(), 'Reservas/cadastro' );
 		},
 
 		/**

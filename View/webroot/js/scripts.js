@@ -966,6 +966,45 @@
     });
     
     
+    $(document).on('click', '#procurar-cliente', function(){
+        var url   = web_root + 'Clientes/procurarCliente';
+        var busca = $('#BuscarPor').val();
+        var valor = $('#cliente').val();
+        
+        if( valor != null || valor != '' ){
+            $('#loading').fadeIn(500);
+            // iniciar o loader
+            $.ajax({
+                url: url,
+                data:{
+                    busca: busca,
+                    valor: valor,
+                },
+                dataType: 'html',
+                type: 'post',
+                success: function (html) {
+                    // encerrar loader
+                    $('#loading').fadeOut(500);
+                    // dados
+                    $('#dados-cliente').html(html);
+                    $('#dados-reserva').empty();
+                }
+            });
+        }
+    });
+    
+    $(document).on('change', '#BuscarPor', function(){
+        if( $('#BuscarPor').val() == 'telefone' ){
+            $('#cliente').addClass('telefone');
+            $('.telefone').mask('(00) 0000-0000');
+        } else {
+            $('#cliente').removeClass('telefone');
+            $('#cliente').removeAttr('autocomplete');
+            $('#cliente').removeAttr('maxlength');
+            $('#cliente').removeAttr('value');
+        }
+    });
+    
 
     function infoErro( mensagem, elementoDiv ) {
         $(elementoDiv).find('.msgError').remove();
@@ -1011,22 +1050,22 @@
         var dataInit = null;
         var dataEnd = null;
         
-        if( date.format().length ){
+        if( date.length ){
             $.ajax({
                 url: web_root + url,
                 data:{
-                    data: date.format()
+                    data: date
                 },
                 dataType: 'html',
                 type: 'post',
                 success: function (html) {
                                         
-                    if( date.format().length < 19 ){
-                        dataInit = date.format().split("-");
+                    if( date.length < 19 ){
+                        dataInit = date.split("-");
                         //dataEnd      = '20:00';
                         dataInit     = dataInit[2] +"/"+ dataInit[1] +"/"+ dataInit[0];
                      } else {
-                        dataInit = date.format().split("T");
+                        dataInit = date.split("T");
                         var hora = dataInit[1];
                         var data = dataInit[0];
                         dataInit = data.split("-");
@@ -1105,4 +1144,13 @@
            $(elemento).appendTo( 'body' ).delay(1000).fadeOut(1000);
     }
 
-    
+    $(document).on('hidden.bs.modal', '#ModalFormulario', function () {
+        
+        var data_inicio  = $("#data_inicio").val();
+        
+        alert(data_inicio);
+        
+        $('#dados-cliente').empty();
+        $('#dados-reserva').empty();
+        
+    });

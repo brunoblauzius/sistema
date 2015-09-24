@@ -89,14 +89,14 @@ class ReservasController extends AppController {
             /**
              *  verificar se tem alguem utilizando a data do cadastro pela empresa logada
              */
-            $this->Reserva->verificaDisponibilidade($_POST['data'], $this->empresas_id);
+            //$this->Reserva->verificaDisponibilidade($_POST['data'], $this->empresas_id);
             
             /**
              * gerar um cadastro stand para o novo registro e devolver o id da reserva 
              */
             
-            $idReserva = $this->Reserva->cadastroBasico($this->empresas_id, $this->pessoas_id, $_POST['data']);
-            $_SESSION['Form']['reservas_id'] = $idReserva;
+            //$idReserva = $this->Reserva->cadastroBasico($this->empresas_id, $this->pessoas_id, $_POST['data']);
+            //$_SESSION['Form']['reservas_id'] = $idReserva;
             
             $this->layout= 'null';
             $this->render();
@@ -131,6 +131,7 @@ class ReservasController extends AppController {
             $this->checaEmpresa();
             $Modelambientes = new Ambiente();
             
+            
             $usuariosEmpresa = array();
             $condicao = array();
             
@@ -139,11 +140,14 @@ class ReservasController extends AppController {
              */
             //$registros = $this->Reserva->filtrar($this->empresas_id);
             $ambientes = $Modelambientes->find('all', array('empresas_id' => $this->empresas_id) );
-            
+            $mesasRestantes = $this->Reserva->reservasMesasRestantes($this->empresas_id);
             
             $urlPDF = 'http://snappypdf.com.br/gerar.php?url=' . Router::url(array('Reservas', 'imprimir' ));
+            
             //$this->set('registros', $registros);
+            
             $this->set('ambientes', $ambientes);
+            $this->set('mesasRestantes', $mesasRestantes);
             $this->set('urlPDF', $urlPDF);
             $this->set('title_layout', 'Reservas -  Página Inicial');
             $this->render();
@@ -287,10 +291,10 @@ class ReservasController extends AppController {
                      $email = $objeto->sendMail();
                 }
                
-               $url = Router::url(array('Reservas', 'index'));
+               
                 echo json_encode(array(
                     'funcao' => "sucessoForm( 'Sua alteração efetuada com sucesso!', '#ReservaEditForm' ); "
-                    . "redirect('{$url}', '" . '#ReservaEditForm' . "');",
+                    . "window.location.reload();",
                    ));
 
                
@@ -430,12 +434,11 @@ class ReservasController extends AppController {
                 */
                $this->Reserva->deletaMesas($idReserva);
                $this->Reserva->mesasReservas($mesas, $idReserva, $_POST[$this->Reserva->name]['start']);
-                              
-               $url = Router::url(array('Reservas', 'index'));
-                echo json_encode(array(
-                    'funcao' => "sucessoForm( 'Sua alteração efetuada com sucesso!', '#ReservaEditForm' ); "
-                    . "redirect('{$url}', '" . '#ReservaEditForm' . "');",
-                   ));
+                
+               echo json_encode(array(
+                   'funcao' => "sucessoForm( 'Sua alteração efetuada com sucesso!', '#ReservaEditForm' ); "
+                   . "window.location.reload();",
+                ));
 
                
             } else {
