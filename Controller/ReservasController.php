@@ -89,11 +89,13 @@ class ReservasController extends AppController {
             /**
              *  verificar se tem alguem utilizando a data do cadastro pela empresa logada
              */
+            
             $this->Reserva->verificaDisponibilidade($_POST['data'], $this->empresas_id);
             
             /**
              * gerar um cadastro stand para o novo registro e devolver o id da reserva 
              */
+            
             
             $idReserva = $this->Reserva->cadastroBasico($this->empresas_id, $this->pessoas_id, $_POST['data']);
             $_SESSION['Form']['reservas_id'] = $idReserva;
