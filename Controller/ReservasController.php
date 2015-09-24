@@ -127,6 +127,47 @@ class ReservasController extends AppController {
     }
     
     
+    public function deletaCadastroInicio(){
+        try {
+            
+            $data = join('-', array_reverse(explode('/', $_POST['data_inicio'])));
+            
+            if( $this->Reserva->deletaCadastroInicio($this->empresas_id, $this->pessoas_id, $data) ) {
+                echo json_encode(array(
+                    'style' => 'info',
+                    'icon'  => 'alert',
+                    'title' => 'Atenção',
+                    'message' => 'Esta data está liberada para uma nova reserva!',
+                    'button' => 'Fechar',
+                    'time' => 5000,
+                    'size' => 'sm',
+                ));
+            } else {
+                echo json_encode(array(
+                    'style' => 'warning',
+                    'icon'  => 'alert',
+                    'title' => 'ALERTA',
+                    'message' => 'Não foi possivel liberar esta data para uma nova reserva, favor alterar o cadastro iniciado!',
+                    'button' => 'Fechar',
+                    'time' => 5000,
+                    'size' => 'md',
+                ));
+            }
+            
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                    'style' => 'danger',
+                    'icon'  => 'alert',
+                    'title' => 'ALERTA',
+                    'message' => $ex->getMessage(),
+                    'button' => 'Fechar',
+                    'time' => 5000,
+                    'size' => 'sm',
+                ));
+        }
+    }
+    
+    
     public function listar(){
         try {
             
@@ -808,6 +849,7 @@ class ReservasController extends AppController {
         }
         return $newArray;
     }
+    
     
     
     

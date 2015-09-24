@@ -1146,11 +1146,26 @@
 
     $(document).on('hidden.bs.modal', '#ModalFormulario', function () {
         
-        var data_inicio  = $("#data_inicio").val();
+        var data_inicio  = $("#start").val();
         
-        alert(data_inicio);
+        if( data_inicio.length > 0 ){
+            $('#loading').fadeIn(500);
+            $.ajax({
+                url: web_root + 'Reservas/deletaCadastroInicio',
+                data:{ data_inicio: data_inicio },
+                dataType: 'json',
+                type: 'post',
+                success: function (data) {
+                    
+                    bootsAlert(data);
+                    
+                    $('#dados-cliente').empty();
+                    $('#dados-reserva').empty();
+                    
+                    $('#loading').fadeOut(1000);
+                }
+            });
+        }
         
-        $('#dados-cliente').empty();
-        $('#dados-reserva').empty();
         
     });

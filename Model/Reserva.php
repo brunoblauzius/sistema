@@ -782,4 +782,27 @@ class Reserva extends AppModel {
         }
     }
     
+    
+    
+    public function deletaCadastroInicio( $empresasId, $pessoasId, $data){
+        try {
+            
+            $sql = "DELETE FROM reservas 
+                        WHERE
+                            empresas_id = $empresasId 
+                            AND pessoas_id = $pessoasId
+                            AND clientes_id = 1
+                            AND saloes_id = 1
+                            AND ambientes_id = 1 
+                            AND qtde_pessoas = 1
+                            AND date(start) = date('$data');";
+            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
 }
