@@ -757,4 +757,29 @@ class Reserva extends AppModel {
         
     }
     
+    
+    public function reservasMesasRestantes( $empresaId ){
+        try {
+            
+            $sql = "SELECT 
+                        (SELECT COUNT(*) FROM reservas_has_mesas AS Res
+                                    LEFT JOIN mesas AS Mesa ON Mesa.id = Res.mesas_id
+                                    WHERE Mesa.ambientes_id = Reserva.ambientes_id AND DATE(data) = DATE(CURRENT_DATE())) AS mesasReservadas,
+                        (select count(*) FROM mesas WHERE ambientes_id = Reserva.ambientes_id) AS totalMesas,
+                        DATE(CURRENT_DATE()),
+                        Ambiente.nome AS ambiente
+                    FROM
+                        ambientes AS Ambiente
+                        left JOIN reservas AS Reserva ON Ambiente.id = Reserva.ambientes_id
+                    WHERE
+                        Ambiente.empresas_id = $empresaId
+                            GROUP BY Ambiente.id";
+            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
 }
