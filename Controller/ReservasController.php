@@ -129,6 +129,7 @@ class ReservasController extends AppController {
         try {
             
             $this->checaEmpresa();
+            $Modelambientes = new Ambiente();
             
             $usuariosEmpresa = array();
             $condicao = array();
@@ -136,9 +137,13 @@ class ReservasController extends AppController {
             /**
              * 	SE O ROLE ID FOR Usuario ELE PEGA SOMENTE O Usuario SE NãoO OS USUARIOS DA EMPRESA
              */
-            $registros = $this->Reserva->filtrar($this->empresas_id);
+            //$registros = $this->Reserva->filtrar($this->empresas_id);
+            $ambientes = $Modelambientes->find('all', array('empresas_id' => $this->empresas_id) );
+            
+            
             $urlPDF = 'http://snappypdf.com.br/gerar.php?url=' . Router::url(array('Reservas', 'imprimir' ));
-            $this->set('registros', $registros);
+            //$this->set('registros', $registros);
+            $this->set('ambientes', $ambientes);
             $this->set('urlPDF', $urlPDF);
             $this->set('title_layout', 'Reservas -  Página Inicial');
             $this->render();
@@ -510,7 +515,7 @@ class ReservasController extends AppController {
                 $dataFim = Utils::revertDate($_POST['data_fim']);
             }
 
-            $registros = $this->Reserva->filtrar($this->empresas_id, $_POST['funcionario_id'], $dataInicio, $dataFim);
+            $registros = $this->Reserva->filtrar($this->empresas_id, $_POST['ambientes_id'], $dataInicio, $dataFim, NULL);
             $this->set('registros', $registros);
             $this->render();
         } catch (Exception $ex) {

@@ -116,6 +116,7 @@ class AppController extends Render {
              */
             
             if( in_array(Session::read('Usuario.roles_id'), array(3,4))  ){
+                
                 $empresasRelacionadas = $this->Empresa->empresasRelacionadas( md5($this->pessoas_id), Session::read('Usuario.roles_id') );
             } 
             $this->set('empresasRelacionadas', $empresasRelacionadas);

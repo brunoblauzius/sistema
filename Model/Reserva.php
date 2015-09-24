@@ -365,18 +365,23 @@ class Reserva extends AppModel {
 
     
 
-    public function filtrar($empresaId, $funcionarioId = null, $dataInicio = null, $dataFim = NULL) {
+    public function filtrar($empresaId, $ambientesId = null, $dataInicio = null, $dataFim = NULL, $funcionarioId = null) {
 
         try {
 
             $FUNC = NULL;
+            $AMBIENTE = NULL;
 
             $DATE = NULL;
 
+            if (!empty($ambientesId)) {
+                $AMBIENTE = " and Calendar.ambientes_id = {$ambientesId} ";
+            }
+            
             if (!empty($funcionarioId)) {
                 $FUNC = " and Calendar.pessoas_id = {$funcionarioId} ";
             }
-
+            
             if (!empty($dataInicio) && !empty($dataFim)) {
 
                 $DATE = " and date(Calendar.start) between date('{$dataInicio}') AND date('{$dataFim}')  ";
@@ -389,28 +394,31 @@ class Reserva extends AppModel {
 
 
 
-            $sql = "select 
-
-							Calendar . id, 
-							Calendar . title,
-							Calendar . start, 
-							Calendar . end, 
-							Calendar . token, 
-                                                        Pessoa.nome as funcionario,
-                                                        Cliente.nome as cliente,
-                                                        Cliente.telefone,
-                                                        Cliente.email
-						from
-							reservas as Calendar
-                                                            inner join
-							pessoaFisica as Pessoa ON Pessoa.pessoas_id = Calendar.pessoas_id
-                                                            inner join
-							clientes as Cliente ON Cliente.id = Calendar.clientes_id
-						where
-							Calendar.empresas_id = {$empresaId}
-								" . $FUNC . "
-								and Calendar.status = TRUE
-                                                        " . $DATE . ";";
+            $sql = "SELECT 
+                    Calendar . id, 
+                    Calendar . title,
+                    Calendar . start, 
+                    Calendar . end, 
+                    Calendar . token, 
+                    Ambiente . nome as ambiente,
+                    Pessoa.nome as funcionario,
+                    Cliente.nome as cliente,
+                    Cliente.telefone,
+                    Cliente.email
+            from
+                    reservas as Calendar
+                        inner join
+                    pessoaFisica as Pessoa ON Pessoa.pessoas_id = Calendar.pessoas_id
+                        inner join
+                    clientes as Cliente ON Cliente.id = Calendar.clientes_id
+                        inner join
+                    ambientes as Ambiente ON Ambiente.id = Calendar.ambientes_id
+            where
+                    Calendar.empresas_id = {$empresaId}
+                            " . $FUNC . "
+                            " . $AMBIENTE . "
+                            and Calendar.status = TRUE
+                    " . $DATE . ";";
 
 
 
