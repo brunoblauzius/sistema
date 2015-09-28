@@ -562,8 +562,12 @@ class ReservasController extends AppController {
                 $dataFim = Utils::revertDate($_POST['data_fim']);
             }
 
+            
+            $urlPDF = 'http://snappypdf.com.br/gerar.php?url=' . Router::url(array('Reservas', 'imprimir' ));
+            
             $registros = $this->Reserva->filtrar($this->empresas_id, $_POST['ambientes_id'], $dataInicio, $dataFim, NULL);
             $this->set('registros', $registros);
+            $this->set('urlPDF', $urlPDF);
             $this->render();
         } catch (Exception $ex) {
             echo $ex->getMessage();
