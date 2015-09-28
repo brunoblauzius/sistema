@@ -709,10 +709,7 @@ class ReservasController extends AppController {
                 $objeto->setDestinatario( $dadoEmailReserva[0]['email'], $dadoEmailReserva[0]['cliente'] );
                 $emailEnvio = $objeto->sendMail();
                 
-                /**
-                 * renomeando o nome da tabela de email
-                 */
-                $email->useTable = 'emails_enviados';
+                
                 
                 
                 if( $emailEnvio ){
@@ -729,7 +726,7 @@ class ReservasController extends AppController {
                     /**
                      * inserindo na tabela o envio do email
                      */
-                    $email->genericInsert( $gravaEmail );
+                    $this->Reserva->gravaEnvioEmail( $gravaEmail );
                     
                     echo json_encode(array(
 
@@ -756,7 +753,7 @@ class ReservasController extends AppController {
                     /**
                      * inserindo na tabela o envio do email
                      */
-                    $email->genericInsert( $gravaEmail );
+                    $this->Reserva->gravaEnvioEmail( $gravaEmail );
                     
                     echo json_encode(array(
                     
@@ -850,10 +847,65 @@ class ReservasController extends AppController {
         return $newArray;
     }
     
-    
+    final public function confirmReserva(){
+        try {
+            
+            if( $this->is('post') ){
+                $token = $_POST['token'];
+            } else {
+                $token = $_GET['param'];
+            }
+            
+            
+            if ( $this->Reserva->confirmReserva( $token ) ) {
+                             
+                echo json_encode(array(
+
+                        'message' => 'Reserva foi confirmada pelo painel administrativo!',
+                        "style" =>'success',
+                        'time' => 5000,
+                        'size' => 'sm',
+                        'callback' => false,
+                        'before' => "$('#loading').fadeOut(1000);",
+                        'icon'   => '',
+                        'title'  => 'Sucesso!'
+
+                    ));
+                
+                
+            } else {
+                
+                echo json_encode(array(
+                    
+                    'message' => 'Não foi possivel cancelar o registro, tente novamente mais tarde!',
+                    "style" =>'danger',
+                    'time' => 5000,
+                    'size' => 'sm',
+                    'callback' => 'window.location.reload()',
+                    'before' => "$('#loading').fadeOut(1000);",
+                    'icon'   => '',
+                    'title'  => 'Falha!'
+                                
+                ));
+            }
+            
+            
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                    
+                'message' => $ex->getMessage(),
+                "style" =>'danger',
+                'time' => 5000,
+                'size' => 'sm',
+                'callback' => 'window.location.reload()',
+                'before' => "$('#loading').fadeOut(1000);",
+                //'icon'   => '',
+                'title'  => 'Falha no servidor!'
+
+            ));
+        }
+    }
     
     
     
 }
-
-?>
