@@ -310,8 +310,9 @@ class ReservasController extends AppController {
                          '__ENDERECO_EMPRESA__' => $enderecoEmpresa,
                          '__MESAS__' => join(' - ', array_values($mesas)),
                          '__DATA_INICIO__' => Utils::convertData( $dataCallendar ),
-                         '__SALAO__' => $dadoEmailReserva[0]['salao'],
-                         '__AMBIENTE__' => $dadoEmailReserva[0]['ambiente'],
+                         '__SALAO__'      => $dadoEmailReserva[0]['salao'],
+                         '__AMBIENTE__'   => $dadoEmailReserva[0]['ambiente'],
+                         '__URL_ATIVAR__' => Router::url(array('Reservas', 'confirmReservaEmail', $_POST[$this->Reserva->name]['token'] ))
                      );
 
                      #envio o email de confirmação para o meu cliente cadastrado
@@ -688,6 +689,7 @@ class ReservasController extends AppController {
                     '__DATA_INICIO__' => Utils::convertData( $dataCallendar ),
                     '__SALAO__' => $dadoEmailReserva[0]['salao'],
                     '__AMBIENTE__' => $dadoEmailReserva[0]['ambiente'],
+                    '__URL_ATIVAR__' => Router::url(array('Reservas', 'confirmReservaEmail', $reserva['Reserva']['token'] ))
                 );
 
                 #envio o email de confirmação para o meu cliente cadastrado
@@ -867,7 +869,7 @@ class ReservasController extends AppController {
                         'size' => 'sm',
                         'callback' => false,
                         'before' => "$('#loading').fadeOut(1000);",
-                        'icon'   => '',
+                        //'icon'   => '',
                         'title'  => 'Sucesso!'
 
                     ));
@@ -883,13 +885,11 @@ class ReservasController extends AppController {
                     'size' => 'sm',
                     'callback' => 'window.location.reload()',
                     'before' => "$('#loading').fadeOut(1000);",
-                    'icon'   => '',
+                    //'icon'   => '',
                     'title'  => 'Falha!'
                                 
                 ));
             }
-            
-            
         } catch (Exception $ex) {
             echo json_encode(array(
                     
@@ -906,6 +906,57 @@ class ReservasController extends AppController {
         }
     }
     
+    
+    final public function confirmReservaEmail(){
+        try {
+            $token = $_GET['param'];
+            
+            $reserva = $this->Reserva->find('all', array('token' => $token, 'status' => 1));
+            $reserva = array_shift($reserva);
+            
+            
+            $cliente  = $this->Cliente->find('first', array('id' => $reserva['Reserva']['clientes_id']));
+            $empresa = $this->Empresa->findEmpresa($reserva['Reserva']['empresas_id']);
+            
+            /**
+            * recupero as mesas
+            */
+           $mesaModel = new Mesa();
+           $mesas = $mesaModel->mesasReservas($reserva['Reserva']['id']);
+           $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
+           $mesas = $mesaModel->selectIn($mesas);
+            
+           
+           $dadoEmailReserva = $this->Reserva->recuperaDadosReservaEmail($reserva['Reserva']['id']);
+           
+           
+           /**
+            * recupero o endereço da empresa
+            */
+           $endereco = $this->Endereco->findEnderecosEmpresa( $reserva['Reserva']['empresas_id'] );
+           $enderecoEmpresa = $endereco[0]['logradouro'] .', '.$endereco[0]['numero'] .' | '. $endereco[0]['cidade'] . ' - ' . $endereco[0]['bairro'] . ' - ' . $endereco[0]['uf'];
+
+                
+           
+           
+            /**
+             * validação de tempo 
+             */
+            $this->Reserva->confirmReserva( $token );
+            
+            $this->set('reserva', $reserva);
+            $this->set('cliente', array_shift($cliente));
+            $this->set('empresa', array_shift($empresa));
+            $this->set('mesas', join(', ',$mesas));
+            $this->set('dadoEmailReserva', $dadoEmailReserva);
+            $this->set('enderecoEmpresa', $enderecoEmpresa);
+            $this->set('title_layout', 'Reservas -  Cliente');
+            $this->render(array('controller' => 'Clientes','view' => 'minhaReserva'), 'cliente');
+            
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
     
     
 }
