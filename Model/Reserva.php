@@ -404,7 +404,10 @@ class Reserva extends AppModel {
                     Pessoa.nome as funcionario,
                     Cliente.nome as cliente,
                     Cliente.telefone,
-                    Cliente.email
+                    Cliente.email,
+                    EmailEnviado.status,
+                    EmailEnviado.total_enviado,
+                    EmailEnviado.confirm
             from
                     reservas as Calendar
                         inner join
@@ -413,6 +416,8 @@ class Reserva extends AppModel {
                     clientes as Cliente ON Cliente.id = Calendar.clientes_id
                         inner join
                     ambientes as Ambiente ON Ambiente.id = Calendar.ambientes_id
+                        left join
+                    emails_enviados AS EmailEnviado ON EmailEnviado.reservas_id = Calendar.id
             where
                     Calendar.empresas_id = {$empresaId}
                             " . $FUNC . "
@@ -484,22 +489,14 @@ class Reserva extends AppModel {
         try {
 
             $sql = "SELECT 
-
-						count(*) as count
-
-					FROM
-
-						reservas_has_tipos_servicos
-
-					WHERE
-
-						reservas_id       = {$reservasId}  
-
-						AND empresas_id       = {$empresasId} 
-
-						AND tipos_servicos_id = {$tiposServicosId} 
-
-						AND servicos_id       = {$servicosId} ;";
+                            count(*) as count
+                    FROM
+                            reservas_has_tipos_servicos
+                    WHERE
+                            reservas_id       = {$reservasId}  
+                            AND empresas_id       = {$empresasId} 
+                            AND tipos_servicos_id = {$tiposServicosId} 
+                            AND servicos_id       = {$servicosId} ;";
 
 
 
@@ -781,5 +778,80 @@ class Reserva extends AppModel {
             throw $ex;
         }
     }
+    
+    
+    
+    public function deletaCadastroInicio( $empresasId, $pessoasId, $data){
+        try {
+            
+            $sql = "DELETE FROM reservas 
+                        WHERE
+                            empresas_id = $empresasId 
+                            AND pessoas_id = $pessoasId
+                            AND clientes_id = 1
+                            AND saloes_id = 1
+                            AND ambientes_id = 1 
+                            AND qtde_pessoas = 1
+                            AND date(start) = date('$data');";
+            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    final public function gravaEnvioEmail( $dados ){
+        try {
+            
+           $emailEnviado =  $this->query("SELECT * FROM emails_enviados WHERE reservas_id = {$dados['reservas_id']}");
+            
+           if( count($emailEnviado) <= 0 ){
+               
+               $this->useTable = 'emails_enviados';
+               return $this->genericInsert( $dados );
+               
+           } else {
+               $sql = "
+                   UPDATE reservas.emails_enviados 
+                        SET 
+                            status = {$dados['status']},
+                            total_enviado = (total_enviado + 1)
+                        WHERE
+                            reservas_id = {$dados['reservas_id']};";
+               return $this->query($sql);
+           }
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function confirmReserva( $token ){
+        try {
+            
+            if( !empty($token) ){
+                $reserva = $this->find('first',array( 'token' => $token, 'status' => 1 ));
+                $reserva = array_shift($reserva); 
+
+                if( !empty($reserva) ){
+
+                    $sql = "UPDATE emails_enviados 
+                             SET 
+                                 confirm = 1,
+                                 status  = 1
+                             WHERE
+                                 reservas_id = {$reserva[$this->name]['id']};";
+                    return $this->query($sql);
+                }
+            }
+           
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
     
 }
