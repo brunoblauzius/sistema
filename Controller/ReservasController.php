@@ -319,7 +319,7 @@ class ReservasController extends AppController {
 
                      $objeto = new MailPHPMailer();
 
-                     $objeto->setAssunto( 'Reserva Camarote: ' . Session::read('Empresa.nome_fantasia') );
+                     $objeto->setAssunto( 'Reserva de Camarote: ' . Session::read('Empresa.nome_fantasia') );
 
                      //$objeto->setRemetente();
 
@@ -332,12 +332,29 @@ class ReservasController extends AppController {
                       *   DESTINO PARA QUEM VAI O EMAIL - CLIENTE
                       */
                      $objeto->setDestinatario( $dadoEmailReserva[0]['email'], $dadoEmailReserva[0]['cliente'] );
-                     $email = $objeto->sendMail();
+                     $emailEnvio = $objeto->sendMail();
+                     
+                     
+                     /*if( $emailEnvio ){
+                    
+                        $gravaEmail = array(
+                                'reservas_id' => $idReserva,
+                                'empresas_id' => $_POST[$this->Reserva->name]['empresas_id'],
+                                'pessoas_id'  => $this->pessoas_id,
+                                'clientes_id' => $_POST[$this->Reserva->name]['clientes_id'],
+                                'created' => date('Y-m-d H:i:s'),
+                                'status' => 1
+                        );
+                         
+                        $this->Reserva->gravaEnvioEmail( $gravaEmail );
+
+                    }*/
+                     
                 }
                
                
                 echo json_encode(array(
-                    'funcao' => "sucessoForm( 'Sua alteração efetuada com sucesso!', '#ReservaEditForm' ); "
+                    'funcao' => "sucessoForm( 'Cadastro efetuado com sucesso!', '#ReservaAddForm' ); "
                     . "window.location.reload();",
                    ));
 
@@ -480,7 +497,7 @@ class ReservasController extends AppController {
                $this->Reserva->mesasReservas($mesas, $idReserva, $_POST[$this->Reserva->name]['start']);
                 
                echo json_encode(array(
-                   'funcao' => "sucessoForm( 'Sua alteração efetuada com sucesso!', '#ReservaEditForm' ); "
+                   'funcao' => "sucessoForm( 'Sua alteração efetuada com sucesso!', '#ReservaAddForm' ); "
                    . "window.location.reload();",
                 ));
 
@@ -566,7 +583,31 @@ class ReservasController extends AppController {
             $urlPDF = 'http://snappypdf.com.br/gerar.php?url=' . Router::url(array('Reservas', 'imprimir' ));
             
             $registros = $this->Reserva->filtrar($this->empresas_id, $_POST['ambientes_id'], $dataInicio, $dataFim, NULL);
-            $this->set('registros', $registros);
+            
+            
+            $newRegistros = array();
+            
+            
+            
+            foreach ($registros as $registro) {
+                   
+                /**
+                * recupero as mesas
+                */
+               $mesaModel = new Mesa();
+               $mesas = $mesaModel->mesasReservas($registro['id']);
+               $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
+               $mesas = $mesaModel->selectIn($mesas);
+               $arrayMesas = array('mesas' => join(', ', $mesas));
+
+               $newRegistros[] = array_merge($registro, $arrayMesas);
+                     
+            }
+            
+            
+            
+            
+            $this->set('registros', $newRegistros);
             $this->set('urlPDF', $urlPDF);
             $this->render();
         } catch (Exception $ex) {
@@ -593,11 +634,14 @@ class ReservasController extends AppController {
                     'funcao' => "sucesso('Registro foi cancelado com sucesso!');"
                     . "window.location.reload();"
                 ));
+                
             } else {
+                
                 echo json_encode(array(
                     'funcao' => "sucesso('Não foi possivel cancelar o registro, tente novamente mais tarde!');"
                     . "window.location.reload();"
                 ));
+                
             }
         } catch (Exception $ex) {
             echo $ex->getMessage();
@@ -660,7 +704,7 @@ class ReservasController extends AppController {
                 */
                 $email = new Email();
                 $email->useTable = 'emails_sistema';
-                $registro = $email->find('first', array('tag' => 'cadastro_reserva'));
+                $registro = $email->find('first', array('tag' => 'email_confirmacao'));
 
                 /**
                  * recupero o endereço da empresa
@@ -690,7 +734,7 @@ class ReservasController extends AppController {
                     '__LUGARES__' => $reserva['Reserva']['qtde_pessoas'],
                     '__ENDERECO_EMPRESA__' => $enderecoEmpresa,
                     '__MESAS__' => join(' - ', array_values($mesas)),
-                    '__DATA_INICIO__' => Utils::convertData( $dataCallendar ),
+                    '__DATA_INICIO__' => Utils::convertData( $reserva['Reserva']['start'] ),
                     '__SALAO__' => $dadoEmailReserva[0]['salao'],
                     '__AMBIENTE__' => $dadoEmailReserva[0]['ambiente'],
                     '__URL_ATIVAR__' => Router::url(array('Reservas', 'confirmReservaEmail', $reserva['Reserva']['token'] ))
@@ -700,7 +744,7 @@ class ReservasController extends AppController {
 
                 $objeto = new MailPHPMailer();
 
-                $objeto->setAssunto( 'Reserva Camarote: ' . Session::read('Empresa.nome_fantasia') );
+                $objeto->setAssunto( 'Confirmação de reserva: ' . Session::read('Empresa.nome_fantasia') );
 
                 //$objeto->setRemetente();
 
@@ -887,7 +931,7 @@ class ReservasController extends AppController {
                     "style" =>'danger',
                     'time' => 5000,
                     'size' => 'sm',
-                    'callback' => 'window.location.reload()',
+                    'callback' => false,
                     'before' => "$('#loading').fadeOut(1000);",
                     //'icon'   => '',
                     'title'  => 'Falha!'
@@ -901,7 +945,7 @@ class ReservasController extends AppController {
                 "style" =>'danger',
                 'time' => 5000,
                 'size' => 'sm',
-                'callback' => 'window.location.reload()',
+                'callback' => false,
                 'before' => "$('#loading').fadeOut(1000);",
                 //'icon'   => '',
                 'title'  => 'Falha no servidor!'
