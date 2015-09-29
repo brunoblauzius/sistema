@@ -50,6 +50,16 @@
                     });
                 });
                 
+                $(document).on('click', '.check-all', function(){
+                    $('.mesas-lista').each(
+                         function(){
+                           if ($(this).prop( "checked")) 
+                           $(this).prop("checked", false);
+                           else $(this).prop("checked", true);               
+                         }
+                    );
+                });
+                
 	});
 	
 	$(document).ready(function () {
@@ -80,6 +90,17 @@
 			$('#diaDeVencimento').show();
 		}
 		
+                $(document).on('click', '.check-all', function(){
+                    $('.mesas-lista').each(
+                         function(){
+                           if ($(this).prop( "checked")) 
+                           $(this).prop("checked", false);
+                           else $(this).prop("checked", true);               
+                         }
+                    );
+                });
+                
+                
 		$(document).on('change', '.Profissional', function(){
                     $('#loading').fadeIn(500);
                     var pessoas_id = $(this).val();
@@ -1166,6 +1187,4 @@
                 }
             });
         }
-        
-        
     });

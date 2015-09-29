@@ -831,6 +831,7 @@ class Reserva extends AppModel {
     
     public function confirmReserva( $token ){
         try {
+                     
             
             if( !empty($token) ){
                 $reserva = $this->find('first',array( 'token' => $token, 'status' => 1 ));
@@ -838,6 +839,15 @@ class Reserva extends AppModel {
 
                 if( !empty($reserva) ){
 
+                    /**
+                     * verifico se ja foi enviado o email para o cliente
+                     */
+                    $enviado = $this->query("select * from emails_enviados where reservas_id = {$reserva[$this->name]['id']};");
+                    
+                    if(count($enviado) <= 0){
+                        throw new Exception("Você não pode confirmar essa reserva, reenvie o email para o cliente antes de confirmar!");
+                    }
+                    
                     $sql = "UPDATE emails_enviados 
                              SET 
                                  confirm = 1,
@@ -845,7 +855,7 @@ class Reserva extends AppModel {
                              WHERE
                                  reservas_id = {$reserva[$this->name]['id']};";
                     return $this->query($sql);
-                }
+                } 
             }
            
         } catch (Exception $ex) {
