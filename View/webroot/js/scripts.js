@@ -50,15 +50,15 @@
                     });
                 });
                 
-                $(document).on('click', '.check-all', function(){
-                    $('.mesas-lista').each(
-                         function(){
-                           if ($(this).prop( "checked")) 
-                           $(this).prop("checked", false);
-                           else $(this).prop("checked", true);               
-                         }
-                    );
-                });
+//                $(document).on('click', '.check-all', function(){
+//                    $('.mesas-lista').each(
+//                         function(){
+//                           if ($(this).prop( "checked")) 
+//                           $(this).prop("checked", false);
+//                           else $(this).prop("checked", true);               
+//                         }
+//                    );
+//                });
                 
 	});
 	
@@ -211,6 +211,12 @@
 				dataType: "html",
 				type    : 'post',
 				success: function(json){
+                                        
+                                        if( $("#ModalFormulario").is(":visible") ){
+                                            
+                                        } else{
+                                           $('#ModalFormulario').modal('show');
+                                        }
                                         
 					$('.append-body').html(json);
                                         $('#loading').fadeOut(500);
@@ -1177,13 +1183,16 @@
                 dataType: 'json',
                 type: 'post',
                 success: function (data) {
-                    
-                    bootsAlert(data);
-                    
-                    $('#dados-cliente').empty();
-                    $('#dados-reserva').empty();
-                    
                     $('#loading').fadeOut(1000);
+                    if( data.style == 'success'){
+                        bootsAlert(data);
+                        $('#dados-cliente').empty();
+                        $('#dados-reserva').empty();
+                    } else {
+                        if(data.erro){
+                            bootsAlert(data);
+                        }
+                    }
                 }
             });
         }
