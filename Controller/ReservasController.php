@@ -135,7 +135,7 @@ class ReservasController extends AppController {
             if( $this->Reserva->deletaCadastroInicio($this->empresas_id, $this->pessoas_id, $data) ) {
                 echo json_encode(array(
                     'style' => 'success',
-                    'icon'  => 'alert',
+                    'icon'  => 'check',
                     'title' => 'Atenção',
                     'message' => 'Esta data está liberada para uma nova reserva!',
                     'button' => 'Fechar',
@@ -146,7 +146,7 @@ class ReservasController extends AppController {
                 echo json_encode(array(
                     'erro'  => 1,
                     'style' => 'warning',
-                    'icon'  => 'alert',
+                    'icon'  => 'warning',
                     'title' => 'ALERTA',
                     'message' => 'Não foi possivel liberar esta data para uma nova reserva, favor alterar o cadastro iniciado!',
                     'button' => 'Fechar',
@@ -160,7 +160,7 @@ class ReservasController extends AppController {
                 echo json_encode(array(
                     'erro'  => 1,
                     'style' => 'danger',
-                    'icon'  => 'alert',
+                    'icon'  => 'times',
                     'title' => 'ALERTA',
                     'message' => $ex->getMessage(),
                     'button' => 'Fechar',
@@ -641,20 +641,39 @@ class ReservasController extends AppController {
                 $this->Reserva->deletaMesas($reservaId);
                 
                 echo json_encode(array(
-                    'funcao' => "sucesso('Registro foi cancelado com sucesso!');"
-                    . "window.location.reload();"
-                ));
+                        'message' => 'Registro cancelado com sucesso!',
+                        "style" =>'success',
+                        'time' => 5000,
+                        'size' => 'sm',
+                        'callback' => 'window.location.reload();',
+                        'before' => "$('#loading').fadeOut(500);",
+                        'icon'   => 'check',
+                        'title'  => 'Sucesso no envio!'
+                    ));
                 
             } else {
-                
                 echo json_encode(array(
-                    'funcao' => "sucesso('Não foi possivel cancelar o registro, tente novamente mais tarde!');"
-                    . "window.location.reload();"
-                ));
-                
+                        'message' => 'Não foi possivel cancelar o registro, tente novamente mais tarde!',
+                        "style" =>'warning',
+                        'time' => 5000,
+                        'size' => 'sm',
+                        'callback' => "window.location.reload();",
+                        'before' => "$('#loading').fadeOut(500);",
+                        'icon'   => 'warning',
+                        'title'  => 'Sucesso no envio!'
+                    ));
             }
         } catch (Exception $ex) {
-            echo $ex->getMessage();
+           echo json_encode(array(
+                        'message' => $ex->getMessage(),
+                        "style" =>'danger',
+                        'time' => 5000,
+                        'size' => 'sm',
+                        'callback' => "window.location.reload();",
+                        'before' => "$('#loading').fadeOut(500);",
+                        'icon'   => 'times',
+                        'title'  => 'Sucesso no envio!'
+                    ));
         }
     }
 
@@ -796,7 +815,7 @@ class ReservasController extends AppController {
                         'size' => 'sm',
                         'callback' => false,
                         'before' => "$('#loading').fadeOut(500);",
-                        'icon'   => '',
+                        'icon'   => 'check',
                         'title'  => 'Sucesso no envio!'
 
                     ));
@@ -818,12 +837,12 @@ class ReservasController extends AppController {
                     echo json_encode(array(
                     
                         'message' => 'Problema no servidor de envio dos emails, contate o suporte.',
-                        "style" =>'danger',
+                        "style" =>'warning',
                         'time' => 5000,
                         'size' => 'sm',
                         'callback' => false,
                         'before' => "$('#loading').fadeOut(500);",
-                        'icon'   => '',
+                        'icon'   => 'times',
                         'title'  => 'Falha no envio!'
 
                     ));
@@ -840,7 +859,7 @@ class ReservasController extends AppController {
                     'size' => 'sm',
                     'callback' => false,
                     'before' => false,
-                    'icon'   => '',
+                    'icon'   => 'times',
                     'title'  => 'Falha no envio!'
                                 
                 ));
@@ -856,7 +875,7 @@ class ReservasController extends AppController {
                 'size' => 'sm',
                 'callback' => false,
                 'before' => false,
-                'icon'   => '',
+                'icon'   => 'times',
                 'title'  => 'Falha no envio!'
                         
             ));
@@ -927,7 +946,7 @@ class ReservasController extends AppController {
                         'size' => 'sm',
                         'callback' => false,
                         'before' => "$('#loading').fadeOut(1000);",
-                        //'icon'   => '',
+                        'icon'   => 'check',
                         'title'  => 'Sucesso!'
 
                     ));
@@ -938,12 +957,12 @@ class ReservasController extends AppController {
                 echo json_encode(array(
                     
                     'message' => 'Não foi possivel cancelar o registro, tente novamente mais tarde!',
-                    "style" =>'danger',
+                    "style" =>'warning',
                     'time' => 5000,
                     'size' => 'sm',
                     'callback' => false,
                     'before' => "$('#loading').fadeOut(1000);",
-                    //'icon'   => '',
+                    'icon'   => 'warning',
                     'title'  => 'Falha!'
                                 
                 ));
@@ -957,7 +976,7 @@ class ReservasController extends AppController {
                 'size' => 'sm',
                 'callback' => false,
                 'before' => "$('#loading').fadeOut(1000);",
-                //'icon'   => '',
+                'icon'   => 'times',
                 'title'  => 'Falha no servidor!'
 
             ));
