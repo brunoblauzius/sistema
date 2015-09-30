@@ -134,7 +134,7 @@ class ReservasController extends AppController {
             
             if( $this->Reserva->deletaCadastroInicio($this->empresas_id, $this->pessoas_id, $data) ) {
                 echo json_encode(array(
-                    'style' => 'info',
+                    'style' => 'success',
                     'icon'  => 'alert',
                     'title' => 'Atenção',
                     'message' => 'Esta data está liberada para uma nova reserva!',
@@ -144,6 +144,7 @@ class ReservasController extends AppController {
                 ));
             } else {
                 echo json_encode(array(
+                    'erro'  => 1,
                     'style' => 'warning',
                     'icon'  => 'alert',
                     'title' => 'ALERTA',
@@ -155,7 +156,9 @@ class ReservasController extends AppController {
             }
             
         } catch (Exception $ex) {
-            echo json_encode(array(
+            if( $ex->getCode() != 123456){
+                echo json_encode(array(
+                    'erro'  => 1,
                     'style' => 'danger',
                     'icon'  => 'alert',
                     'title' => 'ALERTA',
@@ -164,6 +167,12 @@ class ReservasController extends AppController {
                     'time' => 5000,
                     'size' => 'sm',
                 ));
+            } else {
+                echo json_encode(array(
+                    'erro'  => 0,
+                    'style' => 'null',
+                ));
+            }
         }
     }
     
@@ -184,6 +193,7 @@ class ReservasController extends AppController {
             //$registros = $this->Reserva->filtrar($this->empresas_id);
             $ambientes = $Modelambientes->find('all', array('empresas_id' => $this->empresas_id) );
             $mesasRestantes = $this->Reserva->reservasMesasRestantes($this->empresas_id);
+            
             
             $urlPDF = 'http://snappypdf.com.br/gerar.php?url=' . Router::url(array('Reservas', 'imprimir' ));
             
@@ -212,7 +222,7 @@ class ReservasController extends AppController {
             $idReserva 						      = null;
             $_POST[$this->Reserva->name]['id']     = $_SESSION['Form']['reservas_id'];
             
-                    
+                                
             /**
              * recupero o id do meu cliente
              */
@@ -785,7 +795,7 @@ class ReservasController extends AppController {
                         'time' => 5000,
                         'size' => 'sm',
                         'callback' => false,
-                        'before' => false,
+                        'before' => "$('#loading').fadeOut(500);",
                         'icon'   => '',
                         'title'  => 'Sucesso no envio!'
 
@@ -812,7 +822,7 @@ class ReservasController extends AppController {
                         'time' => 5000,
                         'size' => 'sm',
                         'callback' => false,
-                        'before' => false,
+                        'before' => "$('#loading').fadeOut(500);",
                         'icon'   => '',
                         'title'  => 'Falha no envio!'
 

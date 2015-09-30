@@ -762,7 +762,7 @@ class Reserva extends AppModel {
                         (SELECT COUNT(*) FROM reservas_has_mesas AS Res
                                     LEFT JOIN mesas AS Mesa ON Mesa.id = Res.mesas_id
                                     WHERE Mesa.ambientes_id = Reserva.ambientes_id AND DATE(data) = DATE(CURRENT_DATE())) AS mesasReservadas,
-                        (select count(*) FROM mesas WHERE ambientes_id = Reserva.ambientes_id) AS totalMesas,
+                        (select count(*) FROM mesas WHERE ambientes_id = Ambiente.id) AS totalMesas,
                         DATE(CURRENT_DATE()),
                         Ambiente.nome AS ambiente
                     FROM
@@ -770,7 +770,7 @@ class Reserva extends AppModel {
                         left JOIN reservas AS Reserva ON Ambiente.id = Reserva.ambientes_id
                     WHERE
                         Ambiente.empresas_id = $empresaId
-                            GROUP BY Ambiente.id";
+                            GROUP BY Ambiente.id;";
             
             return $this->query($sql);
             
@@ -784,17 +784,26 @@ class Reserva extends AppModel {
     public function deletaCadastroInicio( $empresasId, $pessoasId, $data){
         try {
             
-            $sql = "DELETE FROM reservas 
-                        WHERE
-                            empresas_id = $empresasId 
+            $sql = "SELECT * FROM reservas "
+                    . "WHERE empresas_id = $empresasId 
                             AND pessoas_id = $pessoasId
                             AND clientes_id = 1
                             AND saloes_id = 1
                             AND ambientes_id = 1 
                             AND qtde_pessoas = 1
-                            AND date(start) = date('$data');";
+                            AND date(start) = date('$data') ORDER BY 1 DESC LIMIT 1;";
+            $registro = $this->query($sql);
             
-            return $this->query($sql);
+            if( !empty($registro) ){
+                $sql = "DELETE FROM reservas 
+                            WHERE
+                                id = {$registro[0]['id']};";
+
+                return $this->query($sql);
+            } else {
+                throw new Exception('', 123456);
+            }
+            
             
         } catch (Exception $ex) {
             throw $ex;

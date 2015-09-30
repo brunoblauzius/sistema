@@ -70,7 +70,8 @@ class Mesa extends AppModel{
     
     public function mesasAmbiente( $empresaId, $ambienteId, $dataReserva){
         try {
-            $sql = "SELECT 
+            if( !empty($ambienteId) && !empty($dataReserva) && !empty($empresaId) ){
+                $sql = "SELECT 
                         *
                     FROM
                         reservas.mesas AS Mesa
@@ -85,7 +86,8 @@ class Mesa extends AppModel{
                             AND ambientes_id = $ambienteId; 
                             AND status = 1 ";
             
-            return $this->query($sql);
+                return $this->query($sql);
+            }
         } catch (Exception $ex) {
             throw $ex;
         }
