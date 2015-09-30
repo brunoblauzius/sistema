@@ -189,8 +189,7 @@
                                     dataType: "json",
                                     type    : 'post',
                                     success: function(json){
-                                        tratarJSON(json);
-                                        $('#loading').fadeOut(500);	
+                                        bootsAlert(json);	
                                     }
                             });
                         }

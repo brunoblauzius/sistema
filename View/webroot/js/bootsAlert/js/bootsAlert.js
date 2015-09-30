@@ -40,7 +40,7 @@ function bootsAlert(options)
     html += '   <div class="modal-dialog modal-'+size+'">';
     html += '       <div class="modal-content">';
     html += '           <div class="modal-header text-center">';
-    html += '               <i class="ba-icon-title glyphicon glyphicon-'+icon+'"></i>';
+    html += '               <i class="ba-icon-title fa fa-'+icon+'"></i>';
     html += '           </div>';
     html += '           <div class="modal-body text-'+align+'">';
     html += '               <h4>'+title+'</h4>';
