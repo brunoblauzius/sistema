@@ -148,11 +148,15 @@ class AppController extends Render {
         $lista = $this->ACL->carregarMenu(Session::read('Usuario.roles_id'));
         $newList = array();
         $menu = array();
+        
+        
+        
         foreach ($lista as $valor) {
             if (!in_array($valor['controllers_nome'], array_keys($newList))) {
                 $newList[$valor['controllers_nome']] = array(
                     'controllers_nome' => $valor['controllers_nome'],
                     'link_name' => $valor['link_name'],
+                    'icon' => $valor['icon'],
                 );
             }
         }
@@ -163,8 +167,10 @@ class AppController extends Render {
                 'link_name' => $controller['link_name'],
                 'controller' => $controller['controllers_nome'],
                 'links' => $this->listLinks($lista, $controller['controllers_nome']),
+                'icon' => $controller['icon'],
             );
         }
+                
         return ($menu);
     }
 
