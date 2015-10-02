@@ -647,6 +647,7 @@ class Reserva extends AppModel {
             $sql = "SELECT 
                         UPPER(Salao.nome) AS salao,
                         UPPER(Ambiente.nome) AS ambiente,
+                        Ambiente.capacidade,
                         UPPER(Cliente.nome) AS cliente,
                         Cliente.email
                     FROM

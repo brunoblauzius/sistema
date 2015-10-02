@@ -190,14 +190,35 @@ class ReservasController extends AppController {
             /**
              * 	SE O ROLE ID FOR Usuario ELE PEGA SOMENTE O Usuario SE NãoO OS USUARIOS DA EMPRESA
              */
-            //$registros = $this->Reserva->filtrar($this->empresas_id);
+            $registros = $this->Reserva->filtrar($this->empresas_id, null, date('Y-m-d') );
+            
             $ambientes = $Modelambientes->find('all', array('empresas_id' => $this->empresas_id) );
             $mesasRestantes = $this->Reserva->reservasMesasRestantes($this->empresas_id);
             
             
             $urlPDF = 'http://snappypdf.com.br/gerar.php?url=' . Router::url(array('Reservas', 'imprimir' ));
             
-            //$this->set('registros', $registros);
+            
+            /**
+             * listar as mesas por registro
+             */
+            $newRegistros = array();
+            foreach ($registros as $registro) {
+                   
+                /**
+                * recupero as mesas
+                */
+               $mesaModel = new Mesa();
+               $mesas = $mesaModel->mesasReservas($registro['id']);
+               $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
+               $mesas = $mesaModel->selectIn($mesas);
+               $arrayMesas = array('mesas' => join(', ', $mesas));
+
+               $newRegistros[] = array_merge($registro, $arrayMesas);
+                     
+            }
+            
+            $this->set('registros', $newRegistros);
             
             $this->set('ambientes', $ambientes);
             $this->set('mesasRestantes', $mesasRestantes);
@@ -312,19 +333,26 @@ class ReservasController extends AppController {
                      /**
                       * #faço a troca de siglas para personalizar o email
                       */
-                     $array = array(
-                         '__CLIENTE__' => $cliente[0]['Cliente']['nome'],
-                         '__DATE__' => date('d/m/Y h:i:s'),
-                         '__NOME_FANTASIA__' => Session::read('Empresa.nome_fantasia'),
-                         '__LUGARES__' => $_POST[$this->Reserva->name]['qtde_pessoas'],
-                         '__ENDERECO_EMPRESA__' => $enderecoEmpresa,
-                         '__MESAS__' => join(' - ', array_values($mesas)),
-                         '__DATA_INICIO__' => Utils::convertData( $dataCallendar ),
-                         '__SALAO__'      => $dadoEmailReserva[0]['salao'],
-                         '__AMBIENTE__'   => $dadoEmailReserva[0]['ambiente'],
-                         '__URL_ATIVAR__' => Router::url(array('Reservas', 'confirmReservaEmail', $_POST[$this->Reserva->name]['token'] ))
-                     );
 
+                     $dataMail = explode(' ', Utils::convertData( $dataCallendar ) );
+                
+                     $array = array(
+                        '__CLIENTE__'          => $cliente[0]['Cliente']['nome'],
+                        '__DATE__'             => date('d/m/Y h:i:s'),
+                        '__NOME_FANTASIA__'    => Session::read('Empresa.nome_fantasia'),
+                        '__CONVIDADOS__'       =>  $_POST[$this->Reserva->name]['qtde_pessoas'],
+                        '__LUGARES__'          =>  $_POST[$this->Reserva->name]['assentos'],
+                        '__ENDERECO_EMPRESA__' => $enderecoEmpresa,
+                        '__MESAS__'            => join(' - ', array_values($mesas)),
+                        '__DATA_INICIO__'      => $dataMail[0],
+                        '__HORAS_INICIO__'     => $dataMail[1],
+                        '__SALAO__'            => $dadoEmailReserva[0]['salao'],
+                        '__AMBIENTE__'         => $dadoEmailReserva[0]['ambiente'],
+                        '__CAPACIDADE__'       => $dadoEmailReserva[0]['capacidade'],
+                        '__URL_ATIVAR__'       => Router::url(array('Reservas', 'confirmReservaEmail',  $_POST[$this->Reserva->name]['token'] ))
+                     );
+                     
+                     
                      #envio o email de confirmação para o meu cliente cadastrado
 
                      $objeto = new MailPHPMailer();
@@ -720,7 +748,7 @@ class ReservasController extends AppController {
             * recupero o salão e ambiente da reserva
             */
             $dadoEmailReserva = $this->Reserva->recuperaDadosReservaEmail($reserva['Reserva']['id']);
-            
+            $cliente = $this->Cliente->find('first', array('id' => $reserva['Reserva']['clientes_id']));
             
 
            /**
@@ -756,17 +784,22 @@ class ReservasController extends AppController {
                 /**
                  * #faço a troca de siglas para personalizar o email
                  */
+                $dataMail = explode(' ', Utils::convertData( $reserva['Reserva']['start'] ) );
+                
                 $array = array(
-                    '__CLIENTE__' => $cliente[0]['Cliente']['nome'],
-                    '__DATE__' => date('d/m/Y h:i:s'),
-                    '__NOME_FANTASIA__' => Session::read('Empresa.nome_fantasia'),
-                    '__LUGARES__' => $reserva['Reserva']['qtde_pessoas'],
+                    '__CLIENTE__'          => $cliente[0]['Cliente']['nome'],
+                    '__DATE__'             => date('d/m/Y h:i:s'),
+                    '__NOME_FANTASIA__'    => Session::read('Empresa.nome_fantasia'),
+                    '__CONVIDADOS__'       => $reserva['Reserva']['qtde_pessoas'],
+                    '__LUGARES__'          => $reserva['Reserva']['assentos'],
                     '__ENDERECO_EMPRESA__' => $enderecoEmpresa,
-                    '__MESAS__' => join(' - ', array_values($mesas)),
-                    '__DATA_INICIO__' => Utils::convertData( $reserva['Reserva']['start'] ),
-                    '__SALAO__' => $dadoEmailReserva[0]['salao'],
-                    '__AMBIENTE__' => $dadoEmailReserva[0]['ambiente'],
-                    '__URL_ATIVAR__' => Router::url(array('Reservas', 'confirmReservaEmail', $reserva['Reserva']['token'] ))
+                    '__MESAS__'            => join(' - ', array_values($mesas)),
+                    '__DATA_INICIO__'      => $dataMail[0],
+                    '__HORAS_INICIO__'     => $dataMail[1],
+                    '__SALAO__'            => $dadoEmailReserva[0]['salao'],
+                    '__AMBIENTE__'         => $dadoEmailReserva[0]['ambiente'],
+                    '__CAPACIDADE__'       => $dadoEmailReserva[0]['capacidade'],
+                    '__URL_ATIVAR__'       => Router::url(array('Reservas', 'confirmReservaEmail', $reserva['Reserva']['token'] ))
                 );
 
                 #envio o email de confirmação para o meu cliente cadastrado
