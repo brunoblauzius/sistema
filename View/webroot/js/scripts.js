@@ -2,6 +2,8 @@
 
 	$( document ).ajaxComplete(function( event,request, settings ) {
 		
+                $(".chosen-select").chosen();
+                
 		$('#cpf').mask('000.000.000-00');
                 $('#cnpj').mask('00.000.000/0000-00');
 		$('.money').mask("###0.00", {reverse: true, maxlength: false});
@@ -64,6 +66,8 @@
 	
 	$(document).ready(function () {
 		
+                $(".chosen-select").chosen();
+                
 		$('#cpf').mask('000.000.000-00');
                 $('#cnpj').mask('00.000.000/0000-00');
 		$('.money').mask("###0.00", {reverse: true, maxlength: false});
@@ -217,6 +221,8 @@
                                            $('#ModalFormulario').modal('show');
                                         }
                                         
+                                        $(".chosen-select").chosen();
+                                        
 					$('.append-body').html(json);
                                         $('#loading').fadeOut(500);
 					//$('#viewModal').modal('show');
@@ -330,7 +336,7 @@
 			$(this).parents('form').find('input[name="Agendas[title]"]').val( nomeCliente );
 		});
                 
-                $(document).on('change', '#AmbienteId', function(){
+                $(document).on('change', '#SelectAmbienteId', function(){
                     var id    = $(this).val();
                     var data  = $('#start').val();
                     var url = web_root + 'Mesas/mesasAmbiente';
@@ -368,14 +374,19 @@
 				dataType: 'json',
 				type: 'post',
 				success:function(json){
-					var elemento = "<option value=''> -- Ambientes -- </option>";
+					var elemento = '<small>Ambiente: <strong class="text text-danger ">*</strong></small><br>'+
+                                                       '<select name="Reserva[ambientes_id]" class="form-control chosen-select rounded" id="SelectAmbienteId">' + 
+                                                       "<option value=''> -- Ambientes -- </option>";
                                                  
-					$.each(json,function( key, value ){
-						elemento += "<option value=' " + value.id + "'> " + value.nome + " </option>";
-					});					
-					
+                                                        $.each(json,function( key, value ){
+                                                                elemento += "<option value=' " + value.id + "'> " + value.nome + " </option>";
+                                                        });
+                                                        
+                                                        elemento += '</select>';
+                                                     
 					$('#AmbienteId').empty();
 					$( elemento ).appendTo( '#AmbienteId' );
+                                        $('#AmbienteId').focus();
                                         $('#loading').fadeOut(500);
 				}
 			});	

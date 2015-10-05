@@ -51,6 +51,7 @@ class AppController extends Render {
                 'css/preloader',
                 'js/data-tables/DT_bootstrap',
                 'js/bootsAlert/css/bootsAlert',
+                'js/chosen/chosen',
                 );
             
             $this->js = array(
@@ -73,6 +74,7 @@ class AppController extends Render {
                 'js/permission_js',
                 'js/scripts',
                 'js/bootsAlert/js/bootsAlert',
+                'js/chosen/chosen.jquery.min',
             );
             
             $this->ACL     = new ACL();

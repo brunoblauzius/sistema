@@ -20,6 +20,7 @@ class ReservasController extends AppController {
                 'js/fullcalendar2.0/fullcalendar',
                 'js/fullcalendar2.0/bootstrap-fullcalendar',
                 'js/datatimepicker2.0/bootstrap-datetimepicker.min',
+//                'js/select2/select2',
                 ));
         
         $this->js = array_merge($this->js, array(
@@ -28,6 +29,9 @@ class ReservasController extends AppController {
                 'js/fullcalendar2.0/lang-all',
                 'js/datatimepicker2.0/bootstrap-datetimepicker.min',
                 'js/easypiechart/jquery.easypiechart',
+//                'js/select2/select2',
+//                'js/select-init',
+                
                 ));
         
         
@@ -243,7 +247,7 @@ class ReservasController extends AppController {
             $idReserva 						      = null;
             $_POST[$this->Reserva->name]['id']     = $_SESSION['Form']['reservas_id'];
             
-                                
+            
             /**
              * recupero o id do meu cliente
              */

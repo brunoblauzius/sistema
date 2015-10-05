@@ -13,8 +13,8 @@
 <div class="clearfix"></div>
 <div class="col-sm-6">
     <div class="form-group">
-        <small>Salões: <strong class="text text-danger">*</strong></small>
-        <select name="Reserva[saloes_id]" class="form-control rounded" id="SalaoId">
+        <small>Salões: <strong class="text text-danger">*</strong></small><br>
+        <select name="Reserva[saloes_id]" class="form-control chosen-select rounded" id="SalaoId">
             <option value=""> -- selecione -- </option>
             <?php foreach ($saloes as $salao):?>
                 <option value="<?= $salao['Salao']['id']?>"> <?= $salao['Salao']['nome']?> </option>
@@ -24,9 +24,9 @@
 </div>
 
 <div class="col-sm-6">
-    <div class="form-group">
-        <small>Ambiente: <strong class="text text-danger">*</strong></small>
-        <select name="Reserva[ambientes_id]" class="form-control rounded" id="AmbienteId">
+    <div class="form-group" id="AmbienteId">
+        <small>Ambiente: <strong class="text text-danger ">*</strong></small><br>
+        <select name="Reserva[ambientes_id]" class="form-control chosen-select rounded" id="SelectAmbienteId">
             <option value=""> selecione o salão </option>
         </select>
     </div>

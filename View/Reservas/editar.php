@@ -105,8 +105,9 @@
             <div class="clearfix"></div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <small>Salões: <strong class="text text-danger">*</strong></small>
-                    <select name="Reserva[saloes_id]" class="form-control rounded" id="SalaoId">
+                    <small>Salões: <strong class="text text-danger">*</strong></small><br>
+                    <select name="Reserva[saloes_id]" class="form-control chosen-select rounded" id="SalaoId">
+                        <option value=""> -- selecione -- </option>
                         <?php foreach ($saloes as $salao):?>
                             
                             <?php if($lista['Reserva']['saloes_id'] == $salao['Salao']['id'] ):?>
@@ -120,9 +121,10 @@
             </div>
 
             <div class="col-sm-6">
-                <div class="form-group">
-                    <small>Ambiente: <strong class="text text-danger">*</strong></small>
-                    <select name="Reserva[ambientes_id]" class="form-control rounded" id="AmbienteId">
+                <div class="form-group" id="AmbienteId">
+                    <small>Ambiente: <strong class="text text-danger">*</strong></small><br>
+                    <select name="Reserva[ambientes_id]" class="form-control chosen-select rounded" id="SelectAmbienteId">
+                        
                         <?php foreach ($ambientes as $ambiente):?>
                             
                             <?php if($lista['Reserva']['ambientes_id'] == $ambiente['Ambiente']['id'] ):?>
@@ -194,26 +196,9 @@
         </div>
     
 </form>
-<!--script>
-$(document).ready(function(){
-    
-        var ambientes_id = $('#AmbienteId').val();
-        var data         = $('#start').val();
-        var url          = web_root + 'Mesas/mesasAmbiente';
-    
-        if( ambientes_id != null || ambientes_id != '' ){
-                $.ajax({
-                    url:url,
-                    data:{
-                        id:ambientes_id,
-                        data:data
-                    },
-                    dataType: 'html',
-                    type: 'post',
-                    success:function(html){
-                        $('#mesas-cadastro').html(html);
-                    }
-                });
-        }  
-    });
-</script-->
+<script>
+$(document).ajaxComplete(function(){
+    $('#SalaoId_chosen').attr('style', "width:100%;");
+    $('#SelectAmbienteId_chosen').attr('style', "width:100%;");
+ });
+</script>
