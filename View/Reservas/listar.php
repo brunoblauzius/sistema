@@ -234,7 +234,7 @@
             data_inicio = data_inicio[2] + '-' + data_inicio[1] + '-' + data_inicio[0];
 
             if( data_inicio.length == 10 ){
-                var url = 'http://snappypdf.com.br/gerar.php?url=' + web_root + 'Reservas/relatorio/' + data_inicio + '/' + ambientes_id + '/' + '<?= md5( Session::read('Empresa.empresas_id') ); ?>';
+                var url = 'http://snappypdf.com.br/landscape.php?url=' + web_root + 'Reservas/relatorio/' + data_inicio + '/' + ambientes_id + '/' + '<?= md5( Session::read('Empresa.empresas_id') ); ?>&landscape=1';
                 window.open(url, '_blank');
             }
             
