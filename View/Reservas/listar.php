@@ -58,6 +58,8 @@
                         </span>
                     </div>
                 </div>
+                
+    
                 <!--div class="col-md-3">
                         <small>Data Fim: </small>
                         <div class='input-group date datetimepicker2'>
@@ -170,7 +172,9 @@
 </div>
 
 <script>
+
     $(document).ready(function() {
+        
         $('#filtrar').click(function() {
             
             var ambientes_id = $('#ambientes_id').val();
