@@ -6,7 +6,7 @@
 </div>
 <div class="col-sm-6">
     <div class="form-group">
-        <small>Assentos: <strong class="text text-danger">*</strong></small>
+        <small>Lugares: <strong class="text text-danger">*</strong></small>
         <input type='text' class="form-control" name="Reserva[assentos]" id="assentos"/>
     </div>
 </div>

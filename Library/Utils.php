@@ -141,6 +141,25 @@ class Utils {
 		return $data;
     }
     
+    
+    /**
+     * @author Bruno Blauzius
+     * @todo metodo para conversão de datas view/data base
+     * @param string $data
+     * @return styring
+     * @throws Exception
+     * 
+     */
+    public static function returnHours( $data = null ){
+		if( !empty($data) ){				
+			$exData = explode(' ', $data);
+			
+			$data = $exData[1];
+		}
+		return $data;
+    }
+    
+    
     /**
      * @author Bruno Blauzius
      * @todo metodo para conversão de datas view/data base

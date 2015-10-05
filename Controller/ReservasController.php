@@ -1069,4 +1069,82 @@ class ReservasController extends AppController {
     }
     
     
+    final public function disponibilidadeMesas(){
+        try {
+            $this->layout = 'null';
+            
+            $data = Utils::convertData($_POST['data']);
+            
+            $mesasRestantes = $this->Reserva->reservasMesasRestantes($this->empresas_id, $data );
+            
+            $this->set('mesasRestantes', $mesasRestantes);
+            $this->render();
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+    
+    
+    final public function relatorio(){
+        try {
+            
+            $Modelambientes = new Ambiente();
+            
+            $this->layout = 'imprimir';
+            
+            $parametros = explode('/', $_GET['param']);
+            $dataFiltro = $parametros[0];
+            $ambienteId = $parametros[1];
+            $empresasId = $parametros[2];
+            
+            $usuariosEmpresa = array();
+            $condicao = array();
+            
+            /**
+             * 	SE O ROLE ID FOR Usuario ELE PEGA SOMENTE O Usuario SE NãoO OS USUARIOS DA EMPRESA
+             */
+            $empresasId = $this->Empresa->find('first', array('md5(id)' => $empresasId));
+            
+            $empresasId = array_shift(array_shift($empresasId));
+            
+            $registros = $this->Reserva->filtrar($empresasId['id'], $ambienteId, $dataFiltro );
+            
+            
+            /**
+             * listar as mesas por registro
+             */
+            $newRegistros = array();
+            foreach ($registros as $registro) {
+                   
+                /**
+                * recupero as mesas
+                */
+               $mesaModel = new Mesa();
+               $mesas = $mesaModel->mesasReservas($registro['id']);
+               $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
+               $mesas = $mesaModel->selectIn($mesas);
+               $arrayMesas = array('mesas' => join(', ', $mesas));
+
+               $newRegistros[] = array_merge($registro, $arrayMesas);
+                     
+            }
+            
+            $this->set('registros', $newRegistros);
+            
+            $this->set('title_layout', 'Reservas -  Página Inicial');
+            $this->render();
+            
+        } catch( Exception $ex ){
+            
+            if( $ex->getCode() == 2015 ){
+                $this->set( 'mensagem', $ex->getMessage() );
+                die( $this->render(array('controller' => 'Erros', 'view' => 'sessaoEmpresa')) );
+            } else {
+                echo $ex->getMessage();
+            }
+            
+        }
+    }
+    
+    
 }
