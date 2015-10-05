@@ -1019,6 +1019,36 @@
         }
     });
     
+    
+    $(document).on('keypress', "#cliente", function(e){
+        if(e.which == 13 ){
+            var url   = web_root + 'Clientes/procurarCliente';
+            var busca = $('#BuscarPor').val();
+            var valor = $('#cliente').val();
+
+            if( valor != null || valor != '' ){
+                $('#loading').fadeIn(500);
+                // iniciar o loader
+                $.ajax({
+                    url: url,
+                    data:{
+                        busca: busca,
+                        valor: valor,
+                    },
+                    dataType: 'html',
+                    type: 'post',
+                    success: function (html) {
+                        // encerrar loader
+                        $('#loading').fadeOut(500);
+                        // dados
+                        $('#dados-cliente').html(html);
+                        $('#dados-reserva').empty();
+                    }
+                });
+            }
+        }
+    })
+    
     $(document).on('change', '#BuscarPor', function(){
         if( $('#BuscarPor').val() == 'telefone' ){
             $('#cliente').addClass('telefone');

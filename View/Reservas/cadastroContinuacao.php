@@ -1,7 +1,13 @@
 <div class="col-sm-6">
     <div class="form-group">
         <small>Número Pessoas: <strong class="text text-danger">*</strong></small>
-        <input type='text' class="form-control" name="Reserva[qtde_pessoas]" id="cliente"/>
+        <input type='text' class="form-control" name="Reserva[qtde_pessoas]" id="qtde_pessoas"/>
+    </div>
+</div>
+<div class="col-sm-6">
+    <div class="form-group">
+        <small>Lugares: <strong class="text text-danger">*</strong></small>
+        <input type='text' class="form-control" name="Reserva[assentos]" id="assentos"/>
     </div>
 </div>
 <div class="clearfix"></div>

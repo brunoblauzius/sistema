@@ -163,6 +163,8 @@
                                 <li><a href="<?= Router::url('Usuarios/mudarSenha') ?>"><i class="fa fa-key"></i> Alterar Senha</a></li>
                                 <li><a href="<?= Router::url('Usuarios/editar') ?>"><i class="fa fa-user"></i> Config. Usuário</a></li>
                                 <li><a href="<?= Router::url(array('Usuarios', 'logout')) ?>"><i class="fa fa-power-off"></i> Sair</a></li>
+                                <div class="divider"></div>
+                                <li><a style="font-size:10px;" class="text text-success">Versao do sistema 1.0</a></li>
                             </ul>
 
                         </li>
@@ -208,11 +210,11 @@
                                 <li class="sub-menu">
                                     <a href="javascript:;">
                                         <!--<i class="fa fa-users"></i>-->
-                                        <span><?= ucfirst($menu['link_name']) ?></span>
+                                        <span><i class="fa <?= $menu['icon']?>"></i> <?= ucfirst($menu['link_name']) ?></span>
                                     </a>
                                     <ul class="sub">
                                         <?php foreach ($menu['links'] as $subMenu): ?>
-                                            <li><a href="<?= Router::url($menu['controller'] . '/' . $subMenu['action']) ?>"> <?= $subMenu['nome_link'] ?></a></li>
+                                        <li><a href="<?= Router::url($menu['controller'] . '/' . $subMenu['action']) ?>"><i class="fa fa-circle" style="font-size:10px;"></i> <?= $subMenu['nome_link'] ?></a></li>
                                         <?php endforeach; ?>
                                     </ul>
                                 </li>

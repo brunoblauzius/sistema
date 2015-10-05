@@ -400,12 +400,17 @@ class Reserva extends AppModel {
                     Calendar . start, 
                     Calendar . end, 
                     Calendar . token, 
+                    Calendar . qtde_pessoas, 
+                    Calendar . descricao_cliente, 
+                    Calendar . descricao_interna, 
+                    Calendar . assentos, 
                     Ambiente . nome as ambiente,
                     Pessoa.nome as funcionario,
                     Cliente.nome as cliente,
                     Cliente.telefone,
                     Cliente.email,
                     EmailEnviado.status,
+                    EmailEnviado.created as data_envio,
                     EmailEnviado.total_enviado,
                     EmailEnviado.confirm
             from
@@ -647,6 +652,7 @@ class Reserva extends AppModel {
             $sql = "SELECT 
                         UPPER(Salao.nome) AS salao,
                         UPPER(Ambiente.nome) AS ambiente,
+                        Ambiente.capacidade,
                         UPPER(Cliente.nome) AS cliente,
                         Cliente.email
                     FROM
@@ -755,15 +761,19 @@ class Reserva extends AppModel {
     }
     
     
-    public function reservasMesasRestantes( $empresaId ){
+    public function reservasMesasRestantes( $empresaId, $data = null ){
         try {
+            
+            if(is_null($data)){
+                $data = 'CURRENT_DATE()';
+            }
             
             $sql = "SELECT 
                         (SELECT COUNT(*) FROM reservas_has_mesas AS Res
                                     LEFT JOIN mesas AS Mesa ON Mesa.id = Res.mesas_id
-                                    WHERE Mesa.ambientes_id = Reserva.ambientes_id AND DATE(data) = DATE(CURRENT_DATE())) AS mesasReservadas,
+                                    WHERE Mesa.ambientes_id = Reserva.ambientes_id AND DATE(data) = DATE('{$data}')) AS mesasReservadas,
                         (select count(*) FROM mesas WHERE ambientes_id = Ambiente.id) AS totalMesas,
-                        DATE(CURRENT_DATE()),
+                        DATE('{$data}'),
                         Ambiente.nome AS ambiente
                     FROM
                         ambientes AS Ambiente
