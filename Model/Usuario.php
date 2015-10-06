@@ -213,10 +213,12 @@ class Usuario extends AppModel {
                     WHERE
                         login = '{$login}' AND senha = '{$senha}';";
             $retorno = $this->query($sql);
-
-
-            if (!$retorno[0]['status']) {
-                throw new Exception('Usuário se encontra inativo no momento, caso nã tenha recebido o e-mail para ativar sua conta, envie um e-mail para o suporte!', 002);
+            
+            if( empty($retorno) ){
+                throw new Exception('Usuário e senha não conferem!', 002);
+            }
+             else if (!$retorno[0]['status']) {
+                throw new Exception('Usuário se encontra inativo no momento, caso não tenha recebido o e-mail para ativar sua conta, envie um e-mail para o suporte!', 002);
             }
 
             return $retorno[0];
