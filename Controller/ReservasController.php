@@ -1093,7 +1093,7 @@ class ReservasController extends AppController {
         try {
             
             $Modelambientes = new Ambiente();
-            
+            $ModelJuridica  = new Juridica();
             $this->layout = 'imprimir';
             
             $parametros = explode('/', $_GET['param']);
@@ -1111,8 +1111,9 @@ class ReservasController extends AppController {
             
             $empresasId = array_shift(array_shift($empresasId));
             
-            $registros = $this->Reserva->filtrar($empresasId['id'], $ambienteId, $dataFiltro );
-            
+            $registros         = $this->Reserva->filtrar($empresasId['id'], $ambienteId, $dataFiltro );
+            $empresaJuridica   = $ModelJuridica->find('first', array('id' => $empresasId['pessoaJuridica_id']));
+            $empresaJuridica   = array_merge($empresaJuridica[0]['Juridica'], $empresasId);
             
             /**
              * listar as mesas por registro
@@ -1134,6 +1135,8 @@ class ReservasController extends AppController {
             }
             
             $this->set('registros', $newRegistros);
+            $this->set('empresaJuridica', $empresaJuridica);
+            $this->set('dataReserva', Utils::convertDataSemHora($parametros[0]));
             
             $this->set('title_layout', 'Reservas -  Página Inicial');
             $this->render();

@@ -498,8 +498,6 @@ class UsuariosController extends AppController {
             $this->User->data = $_POST[$this->User->name];
 
 
-
-
             if ($this->User->validates()) {
 
                 $this->User->data['senha'] = Authentication::password($this->User->data['senha']);
@@ -511,46 +509,44 @@ class UsuariosController extends AppController {
                  */
                 $usuario[$this->User->name] = $this->User->logar($this->User->data['email'], $this->User->data['senha']);
 
+                /**
+                 * recuperar a empresa do funcionario
+                 */
+                unset($_SESSION['Empresa']);
+                unset($_SESSION['Usuario']);
 
-                if (( count($usuario[$this->User->name]) > 0)) {
+                Session::initAuth();
+                Session::createSession($usuario);
 
-                    /**
-                     * recuperar a empresa do funcionario
-                     */
-                    
-                    Session::initAuth();
-                    Session::createSession($usuario);
-                    
-                    
-                    if (in_array($usuario[$this->User->name]['roles_id'], array(2))) {
-                        $modelFuncionario = new Funcionario();
-                        $modelEmpresa     = new Empresa();
-                        $funcionario      = $modelFuncionario->find('first', array('pessoas_id' => $usuario[$this->User->name]['pessoas_id']) );
-                        
-                        if( count($funcionario) > 0 ){
-                            $_SESSION[$modelFuncionario->name] = $funcionario[0][$modelFuncionario->name];
-                        }
-                        
-                        $empresa     =  $modelEmpresa->findEmpresa($funcionario[0][$modelFuncionario->name]['empresas_id']);
-                        
-                        
-                        if( count($empresa) > 0 ){
-                            //$empresa[0]['empresas_id'] = $empresa[0]['id'];
-                            $_SESSION[$modelEmpresa->name] = $empresa[0];
-                        }
+                /**
+                 * Usuario operador logar com a empresa já na session
+                 */
+                if (in_array($usuario[$this->User->name]['roles_id'], array(2))) {
+                    $modelFuncionario = new Funcionario();
+                    $modelEmpresa     = new Empresa();
+                    $funcionario      = $modelFuncionario->find('first', array('pessoas_id' => $usuario[$this->User->name]['pessoas_id']) );
+
+                    if( count($funcionario) > 0 ){
+                        $_SESSION[$modelFuncionario->name] = $funcionario[0][$modelFuncionario->name];
                     }
 
-                    
+                    $empresa     =  $modelEmpresa->findEmpresa($funcionario[0][$modelFuncionario->name]['empresas_id']);
 
-                    $url = Router::url(array('Usuarios', 'painel'));
-                    echo json_encode(array(
-                        'funcao' => "sucessoForm( 'login efetuado com sucesso!', '#UsuarioLoginForm' ); redirect('{$url}');",
-                    ));
-                } else {
-                    echo json_encode(array(
-                        'funcao' => "infoErro('Não foi possivel logar, verifique usuário e senha, ou verifique seu e-mail para ativar sua conta!', '#UsuarioLoginForm');",
-                    ));
+
+                    if( count($empresa) > 0 ){
+                        //$empresa[0]['empresas_id'] = $empresa[0]['id'];
+                        $_SESSION[$modelEmpresa->name] = $empresa[0];
+                    }
                 }
+
+
+
+                $url = Router::url(array('Usuarios', 'painel'));
+                echo json_encode(array(
+                    'funcao' => "sucessoForm( 'login efetuado com sucesso!', '#UsuarioLoginForm' ); redirect('{$url}');",
+                ));
+                
+                        
             } else {
                 echo json_encode(array(
                     'erros' => $this->User->validateErros,
@@ -558,7 +554,7 @@ class UsuariosController extends AppController {
                 ));
             }
         } catch (Exception $ex) {
-            $msg = utf8_encode($ex->getMessage());
+            $msg = $ex->getMessage();
             echo json_encode(array(
                 'funcao' => "infoErro('{$msg}', '#UsuarioLoginForm');",
             ));
