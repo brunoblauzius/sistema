@@ -975,8 +975,12 @@
      */
     $(document).on('click', 'form button', function(){
         var id = $(this).parents('form').attr('id');
+        var button = $(this).parent('.form-group');
         //pre loader
             $('#loading').fadeIn(500);
+            if( !$('#loading').is(':visible') ){
+                $('<div class="row text-center"  id="gif-loader"><img src="'+web_root+'View/webroot/img/ajax-loader.gif"/></div>').appendTo( button );
+            }
             $('form button').hide();	
 		
         // bind form using ajaxForm 
@@ -988,6 +992,7 @@
             success:   function (data){
                 $('#loading').fadeOut(500);
                 $('form button').show();
+                $('#gif-loader').remove();
                 tratarJSON(data);
             }
         }); 
@@ -995,6 +1000,7 @@
         $(document).ajaxError(function() {
             $('#loading').fadeOut(500);
             $('form button').show();
+            $('#gif-loader').remove();
         });
         
         $.ajaxSetup({

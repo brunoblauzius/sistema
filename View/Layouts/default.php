@@ -38,6 +38,9 @@
     <script src='<?= $this->urlRoot()?>View/webroot/js/fullcalendar2.0/lib/moment.min.js'></script>
     <script src='<?= $this->urlRoot()?>View/webroot/js/datatimepicker2.0/bootstrap-datetimepicker.min.js'></script>
     <script>
+        
+        var web_root = '<?= Router::url() ?>';
+        
         $(document).ready(function () {
             
             $('#tipo_pessoa').change(function(){
