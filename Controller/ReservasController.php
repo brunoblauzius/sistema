@@ -296,6 +296,12 @@ class ReservasController extends AppController {
                $this->Reserva->genericUpdate( $_POST[$this->Reserva->name] );
                $idReserva = $_SESSION['Form']['reservas_id'];
                unset($_SESSION['Form']['reservas_id']);
+               
+               /**
+                * INSERIR UM CONVIDADO NESSE CASO É O PROPRIO CLIENTE QUE ESTA SENDO FEITO A RESERVA
+                */
+               $this->Reserva->inserirConvidado( $_POST[$this->Reserva->name]['clientes_id'], $idReserva );
+               
                /**
                 * gravar mesas
                 */
@@ -1051,7 +1057,7 @@ class ReservasController extends AppController {
            $enderecoEmpresa = $endereco[0]['logradouro'] .', '.$endereco[0]['numero'] .' | '. $endereco[0]['cidade'] . ' - ' . $endereco[0]['bairro'] . ' - ' . $endereco[0]['uf'];
 
                 
-           
+           $convidados = $this->Reserva->convidados($reserva['Reserva']['id']);
            
             /**
              * validação de tempo 
@@ -1059,11 +1065,14 @@ class ReservasController extends AppController {
             $this->Reserva->confirmReserva( $token );
             
             $this->set('reserva', $reserva);
+            $this->set('convidados', $convidados);
             $this->set('cliente', array_shift($cliente));
             $this->set('empresa', array_shift($empresa));
             $this->set('mesas', join(', ',$mesas));
             $this->set('dadoEmailReserva', $dadoEmailReserva);
             $this->set('enderecoEmpresa', $enderecoEmpresa);
+            
+            
             $this->set('title_layout', 'Reservas -  Cliente');
             $this->render(array('controller' => 'Clientes','view' => 'minhaReserva'), 'cliente');
             

@@ -882,5 +882,38 @@ class Reserva extends AppModel {
         }
     }
     
+    final public function convidados( $reservaID ){
+        try {
+            
+            $sql = "SELECT 
+                        Cliente.*
+                    FROM
+                        clientes AS Cliente
+                            INNER JOIN
+                        clientes_convidados AS Convidados ON Convidados.clientes_id = Cliente.id
+                    WHERE
+                        Convidados.reservas_id = $reservaID;";
+            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    
+    final public function inserirConvidado( $clienteId, $reservaID ){
+        try {
+            
+            $sql = "INSERT INTO clientes_convidados ( clientes_id, reservas_id , created) VALUES( $clienteId, $reservaID , NOW() );";
+            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
     
 }
