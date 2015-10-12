@@ -1195,6 +1195,80 @@ class ReservasController extends AppController {
                  */
                 $this->Reserva->inserirConvidado($clienteId, $reservaId);
 
+                /**
+                * recupero o salão e ambiente da reserva
+                */
+                $dadoEmailReserva = $this->Reserva->recuperaDadosReservaEmail($reserva['Reserva']['id']);
+                
+                if( !empty($dadoEmailReserva[0]['email']) ){
+                    /**
+                     * envio o email para o cliente cadastrado para inserir na lista os dados das pessoas relacionadas
+                     */
+                     $email = new Email();
+                     $email->useTable = 'emails_sistema';
+                     $registro = $email->find('first', array('tag' => 'convidados'));
+
+                     /**
+                      * recupero o endereço da empresa
+                      */
+                     $endereco = $this->Endereco->findEnderecosEmpresa( $reserva['Reserva']['empresas_id'] );
+                     $enderecoEmpresa = $endereco[0]['logradouro'] .', '.$endereco[0]['numero'] .' | '. $endereco[0]['cidade'] . ' - ' . $endereco[0]['bairro'] . ' - ' . $endereco[0]['uf'];
+
+
+
+
+                     /**
+                      * recupero as mesas
+                      */
+                     $mesaModel = new Mesa();
+                     $mesas = $mesaModel->mesasReservas($reserva['Reserva']['id']);
+                     $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
+                     $mesas = $mesaModel->selectIn($mesas);
+
+
+                     /**
+                      * #faço a troca de siglas para personalizar o email
+                      */
+                     $dataMail = explode(' ', Utils::convertData( $reserva['Reserva']['start'] ) );
+
+                     $array = array(
+                         '__CLIENTE__'          => $cliente[0]['Cliente']['nome'],
+                         '__DATE__'             => date('d/m/Y h:i:s'),
+                         '__NOME_FANTASIA__'    => Session::read('Empresa.nome_fantasia'),
+                         '__CONVIDADOS__'       => $reserva['Reserva']['qtde_pessoas'],
+                         '__LUGARES__'          => $reserva['Reserva']['assentos'],
+                         '__ENDERECO_EMPRESA__' => $enderecoEmpresa,
+                         '__MESAS__'            => join(' - ', array_values($mesas)),
+                         '__DATA_INICIO__'      => $dataMail[0],
+                         '__HORAS_INICIO__'     => $dataMail[1],
+                         '__SALAO__'            => $dadoEmailReserva[0]['salao'],
+                         '__AMBIENTE__'         => $dadoEmailReserva[0]['ambiente'],
+                         '__CAPACIDADE__'       => $dadoEmailReserva[0]['capacidade'],
+                         //'__URL_ATIVAR__'       => Router::url(array('Reservas', 'confirmReservaEmail', $reserva['Reserva']['token'] ))
+                     );
+
+                     #envio o email de confirmação para o meu cliente cadastrado
+
+                     $objeto = new MailPHPMailer();
+
+                     $objeto->setAssunto( 'Você recebeu um convite de(a) '. $cliente[0]['Cliente']['nome'] );
+
+                     //$objeto->setRemetente();
+
+                     /**
+                      *   CORPO DO EMAIL
+                      */
+                     $objeto->setBody(str_replace(array_keys($array), array_values($array), $registro[0]['Email']['corpo_mail']));
+
+                     /**
+                      *   DESTINO PARA QUEM VAI O EMAIL - CLIENTE
+                      */
+                     $objeto->setDestinatario( $dadoEmailReserva[0]['email'], $dadoEmailReserva[0]['cliente'] );
+                     $emailEnvio = $objeto->sendMail();
+                }
+                
+                
+                
                 echo json_encode(array(
 
                             'message' => 'Seu convidado foi registrado com sucesso',
@@ -1213,6 +1287,66 @@ class ReservasController extends AppController {
                     'form' => 'ClienteAddForm',
                 ));
             }
+            
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                    
+                'message' => $ex->getMessage(),
+                "style" =>'danger',
+                'time' => 5000,
+                'size' => 'sm',
+                'callback' => false,
+                'before' => "$('#loading').fadeOut(1000);",
+                'icon'   => 'times',
+                'title'  => 'Atenção!'
+
+            ));
+        }
+    }
+    
+    
+    public function desvincularConvidado(){
+        try {
+            /**
+             * hash
+             */
+            $token     = $_POST['token'];
+            $clienteId = $_POST['clienteId'];
+            
+            /**
+             * recupero a minha reserva
+             */
+            
+            $reserva = $this->Reserva->find('first', array('token' => $token));
+            $reserva = array_shift($reserva);
+            /**
+             * recupero meu cliente
+             */
+            $cliente = $this->Cliente->find('first', array('md5(id)' => $clienteId));
+            $cliente = array_shift($cliente);
+            
+            if( !empty($cliente) && !empty($reserva)){
+                
+                /**
+                 * desvincular o cliente da reserva.
+                 */
+                
+                $this->Reserva->desvincularConvidado($cliente[$this->Cliente->name]['id'], $reserva[$this->Reserva->name]['id']);
+                
+                echo json_encode(array(
+
+                            'message' => 'Seu convidado desvinculado com sucesso',
+                            "style" =>'success',
+                            'time' => 5000,
+                            'size' => 'sm',
+                            'callback' => "window.location.reload();",
+                            'before' => "$('#loading').fadeOut(1000);",
+                            'icon'   => 'check',
+                            'title'  => 'Sucesso!'
+
+                        ));
+            }
+            
             
         } catch (Exception $ex) {
             echo json_encode(array(

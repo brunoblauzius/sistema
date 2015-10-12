@@ -100,7 +100,7 @@
                                 </td>
                                 <td>
                                     <div class="btn-group-xs">
-                                        <a data-id='<?= md5($registro['id'])?>' class="btn btn-danger btn-xs"><i class="fa fa-times-circle"></i> Excluir</a>
+                                        <a data-clienteId='<?= md5($registro['id'])?>' data-token="<?= $reserva['Reserva']['token']?>" class="btn btn-danger btn-xs excluir-convidado"><i class="fa fa-times-circle"></i> Excluir</a>
                                     </div> 
                                 </td>
                             </tr>
@@ -153,5 +153,4 @@
 
         </div>
     </div>
-    
 </div>

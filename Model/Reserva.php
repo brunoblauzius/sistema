@@ -922,6 +922,17 @@ class Reserva extends AppModel {
     }
     
     
+    final public function desvincularConvidado( $clienteId, $reservaID ){
+        try {
+            
+            $sql = "DELETE FROM clientes_convidados WHERE clientes_id = $clienteId AND reservas_id = $reservaID;";
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
     public function verificarLimiteDeConvidados( $reservaId ){
         try {
             

@@ -86,6 +86,29 @@
                         });
 		});
 		
+                $('.excluir-convidado').click(function(){
+                    var clienteId = $(this).data('clienteid');
+                    var token     = $(this).data('token');
+                    var url       = web_root + 'Reservas/desvincularConvidado';
+                    
+                    $.ajax({
+                        url :  url,
+                        data:{
+                            clienteId:clienteId,
+                            token:token,
+                        },
+                        type: 'post',
+                        dataType: 'json',
+                        cache: false,
+                        success: function (data, textStatus, jqXHR) {
+                            bootsAlert(data);
+                        }
+                    });
+                    
+                    
+                });
+                
+                
 		if( $('#despesa_fixa').val() == 0 ){
 			$('#dataVencimento').show();
 			$('#diaDeVencimento').hide();
