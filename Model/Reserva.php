@@ -906,10 +906,16 @@ class Reserva extends AppModel {
     final public function inserirConvidado( $clienteId, $reservaID ){
         try {
             
-            $sql = "INSERT INTO clientes_convidados ( clientes_id, reservas_id , created) VALUES( $clienteId, $reservaID , NOW() );";
+            $sql = "SELECT * FROM clientes_convidados WHERE clientes_id = $clienteId AND reservas_id = $reservaID;";
+            $clienteReserva = $this->query($sql);
             
-            return $this->query($sql);
-            
+            if(count($clienteReserva) <= 0 ){
+                $sql = "INSERT INTO clientes_convidados ( clientes_id, reservas_id , created) VALUES( $clienteId, $reservaID , NOW() );";
+                return $this->query($sql);
+            } else {
+                throw new Exception('Este cliente já foi cadastrado para essa reserva!');
+            }
+                        
         } catch (Exception $ex) {
             throw $ex;
         }

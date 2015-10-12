@@ -58,6 +58,8 @@ class Cliente extends AppModel {
     );
     
     
+    
+    
     public function verificaEmail($email) {
         $verificaMail = $this->find('first', array('email' => $email, 'empresas_id' => $this->data['empresas_id'] ));
         return ( count($verificaMail) > 0 );
@@ -189,9 +191,9 @@ class Cliente extends AppModel {
                         FROM
                             clientes
                         WHERE
-                            (nome = '{$cliente['nome']}')
-                                OR (telefone = '{$cliente['telefone']}')
-                                OR (rg = '{$cliente['rg']}' AND (rg != '' OR rg != NULL));";
+                            (email = '{$cliente['email']}')
+                                AND (telefone = '{$cliente['telefone']}')
+                                OR (rg = '{$cliente['rg']}' AND (rg != '' OR rg != NULL)) LIMIT 1;";
                                 
                 $totalRegistros = $this->query($sql);
                 
@@ -202,8 +204,8 @@ class Cliente extends AppModel {
                     
                     $clienteId = $this->genericInsert( $cliente );
                     
-                    $this->clientesEmpresas($clientesId, $cliente['empresas_id']);
-                    
+                    $this->clientesEmpresas($clienteId, $cliente['empresas_id']);
+                    Utils::pre($total);return;
                     
                 } else {
                     /**
@@ -211,14 +213,16 @@ class Cliente extends AppModel {
                      */
                     
                     $clienteId = $totalRegistros[0]['id'];
+                    
                     $sql = "select * from clientes_empresas where clientes_id = {$clienteId} and empresas_id = {$cliente['empresas_id']};";
+                    
                     $total = $this->query($sql);
                     
+                    
+                    
                     if( count($total) <= 0 ){
-                        $this->clientesEmpresas($clientesId, $cliente['empresas_id']);
-                    } else {
-                        throw new Exception('Cliente já cadastro para esta empresa!');
-                    }
+                        $this->clientesEmpresas($clienteId, $cliente['empresas_id']);
+                    } 
                 }
                 
                 return $clienteId;

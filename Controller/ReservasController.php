@@ -1167,10 +1167,11 @@ class ReservasController extends AppController {
         }
     }
     
-     final public function adicionarConvidados(){
+    public function adicionarConvidados(){
         try {
             
-            
+            $cliente[$this->Cliente->name] = $_POST[$this->Cliente->name];
+            $cliente[$this->Cliente->name]['telefone'] = Utils::returnNumeric($cliente[$this->Cliente->name]['telefone']);
             
             $reserva = $this->Reserva->find('first', array('token' => $_POST['Reserva']['token']));
             $reserva = array_shift($reserva);
@@ -1178,35 +1179,40 @@ class ReservasController extends AppController {
             
             $cliente[$this->Cliente->name]['empresas_id'] = $reserva['Reserva']['empresas_id'];
             
-            /**
-             * verificar a quantidade de vagas e se excedeu o limit
-             */
+            $this->Cliente->data = $cliente[$this->Cliente->name];
             
-            $this->Reserva->verificarLimiteDeConvidados($reservaId);
-            
-            /**
-             * cadastro o meu cliente
-             */
-            $clienteId = $this->Cliente->cadastroDeClientes( $cliente[$this->Cliente->name] );
-            
-            /**
-             * vincular o cliente a reserva
-             */
-            
-            $this->Reserva->inserirConvidado($clienteId, $reservaId);
-            
-            echo json_encode(array(
+            if( $this->Cliente->validates() ){
+                /**
+                 * verificar a quantidade de vagas e se excedeu o limit
+                 */
+                $this->Reserva->verificarLimiteDeConvidados($reservaId);
+                /**
+                 * cadastro o meu cliente
+                 */
+                $clienteId = $this->Cliente->cadastroDeClientes( $cliente[$this->Cliente->name] );
+                /**
+                 * vincular o cliente a reserva
+                 */
+                $this->Reserva->inserirConvidado($clienteId, $reservaId);
 
-                        'message' => 'Seu convidado foi registrado com sucesso',
-                        "style" =>'success',
-                        'time' => 5000,
-                        'size' => 'sm',
-                        'callback' => false,
-                        'before' => "$('#loading').fadeOut(1000);",
-                        'icon'   => 'check',
-                        'title'  => 'Sucesso!'
+                echo json_encode(array(
 
-                    ));
+                            'message' => 'Seu convidado foi registrado com sucesso',
+                            "style" =>'success',
+                            'time' => 5000,
+                            'size' => 'sm',
+                            'callback' => "window.location.reload();",
+                            'before' => "$('#loading').fadeOut(1000);",
+                            'icon'   => 'check',
+                            'title'  => 'Sucesso!'
+
+                        ));
+            } else {
+                echo json_encode(array(
+                    'erros' => $this->Cliente->validateErros,
+                    'form' => 'ClienteAddForm',
+                ));
+            }
             
         } catch (Exception $ex) {
             echo json_encode(array(
@@ -1218,7 +1224,7 @@ class ReservasController extends AppController {
                 'callback' => false,
                 'before' => "$('#loading').fadeOut(1000);",
                 'icon'   => 'times',
-                'title'  => 'Falha no servidor!'
+                'title'  => 'Atenção!'
 
             ));
         }
