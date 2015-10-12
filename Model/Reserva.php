@@ -916,4 +916,32 @@ class Reserva extends AppModel {
     }
     
     
+    public function verificarLimiteDeConvidados( $reservaId ){
+        try {
+            
+            $sql = " SELECT 
+                        Reserva.qtde_pessoas - (SELECT 
+                                COUNT(*)
+                            FROM
+                                clientes_convidados
+                            WHERE
+                                reservas_id = Reserva.id) AS total
+                    FROM
+                        reservas AS Reserva
+                    WHERE
+                        Reserva.id = $reservaId;";
+            
+            $reserva = $this->query($sql);
+           
+            if( $reserva[0]['total'] <= 0){
+                throw new Exception('Limite de convidados excedidos!');
+            }
+            
+            return $reserva[0]['total'];
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
 }

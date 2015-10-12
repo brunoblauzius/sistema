@@ -1031,6 +1031,11 @@ class ReservasController extends AppController {
         try {
             $token = $_GET['param'];
             
+            /**
+             *  VERIFICAR SE O TEMPO DECORRIDO ESTÁ EM PRAZO PARA CADASTRO DE CONVIDADOS NA DATA CORRENTE
+             */
+            
+            
             $reserva = $this->Reserva->find('all', array('token' => $token, 'status' => 1));
             $reserva = array_shift($reserva);
             
@@ -1162,5 +1167,61 @@ class ReservasController extends AppController {
         }
     }
     
+     final public function adicionarConvidados(){
+        try {
+            
+            
+            
+            $reserva = $this->Reserva->find('first', array('token' => $_POST['Reserva']['token']));
+            $reserva = array_shift($reserva);
+            $reservaId = $reserva['Reserva']['id'];
+            
+            $cliente[$this->Cliente->name]['empresas_id'] = $reserva['Reserva']['empresas_id'];
+            
+            /**
+             * verificar a quantidade de vagas e se excedeu o limit
+             */
+            
+            $this->Reserva->verificarLimiteDeConvidados($reservaId);
+            
+            /**
+             * cadastro o meu cliente
+             */
+            $clienteId = $this->Cliente->cadastroDeClientes( $cliente[$this->Cliente->name] );
+            
+            /**
+             * vincular o cliente a reserva
+             */
+            
+            $this->Reserva->inserirConvidado($clienteId, $reservaId);
+            
+            echo json_encode(array(
+
+                        'message' => 'Seu convidado foi registrado com sucesso',
+                        "style" =>'success',
+                        'time' => 5000,
+                        'size' => 'sm',
+                        'callback' => false,
+                        'before' => "$('#loading').fadeOut(1000);",
+                        'icon'   => 'check',
+                        'title'  => 'Sucesso!'
+
+                    ));
+            
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                    
+                'message' => $ex->getMessage(),
+                "style" =>'danger',
+                'time' => 5000,
+                'size' => 'sm',
+                'callback' => false,
+                'before' => "$('#loading').fadeOut(1000);",
+                'icon'   => 'times',
+                'title'  => 'Falha no servidor!'
+
+            ));
+        }
+    }
     
 }

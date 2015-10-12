@@ -107,7 +107,11 @@ class ClientesController extends AppController {
                         
             if( $this->Cliente->validates() ){
                 
-                if( $this->Cliente->genericInsert( $this->Cliente->data ) ){
+                $clientesId = $this->Cliente->genericInsert( $this->Cliente->data );
+                
+                $this->Cliente->clientesEmpresas($clientesId, $this->empresas_id);
+                
+                if( $clientesId ){
                     echo json_encode(array(
                                         'funcao' => "sucessoForm( 'Cadastro efetuado com sucesso!', '#ClienteAddForm' );"
                                                   . "window.location.reload();",
@@ -181,11 +185,14 @@ class ClientesController extends AppController {
                         
             if( $this->Cliente->validates() ){
                 
-                $id = $this->Cliente->genericInsert( $this->Cliente->data );
+                $clientesId = $this->Cliente->genericInsert( $this->Cliente->data );
                 
-                if( $id ){
+                $this->Cliente->clientesEmpresas($clientesId, $this->empresas_id);
+                
+                
+                if( $clientesId ){
                     
-                    $_POST[$this->Cliente->name]['id'] = md5($id);
+                    $_POST[$this->Cliente->name]['id'] = md5($clientesId);
                     $json = json_encode($_POST[$this->Cliente->name]);
                     
                     echo json_encode(array(
@@ -205,5 +212,5 @@ class ClientesController extends AppController {
             echo $ex->getMessage();
         }
     }
-    
+        
 }

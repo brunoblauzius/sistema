@@ -138,6 +138,7 @@
                                 <div class="form-group col-md-12">
                                     <small>Telefone: <strong class="text text-danger">*</strong></small>
                                     <input type="text" name="Cliente[telefone]" class="form-control input-sm  rounded telefone" placeholder="Telefone:">
+                                    <input type="hidden" name="Reserva[token]" value="<?= ($reserva['Reserva']['token'])?>">
                                 </div>
                             </div>
                             <div class="row">

@@ -166,4 +166,67 @@ class Cliente extends AppModel {
         }
     }
     
+    
+    public function clientesEmpresas( $clientesId, $empresasID ){
+        try {
+            $sql = "INSERT INTO clientes_empresas (clientes_id, empresas_id) VALUES ($clientesId, $empresasID);";
+            return $this->query($sql);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    final public function cadastroDeClientes( array $cliente ){
+        try {
+            if(is_array($cliente)){
+                
+                /**
+                 * verificar se o cliente ja esta cadastrado
+                 */
+                $sql = "SELECT 
+                            *
+                        FROM
+                            clientes
+                        WHERE
+                            (nome = '{$cliente['nome']}')
+                                OR (telefone = '{$cliente['telefone']}')
+                                OR (rg = '{$cliente['rg']}' AND (rg != '' OR rg != NULL));";
+                                
+                $totalRegistros = $this->query($sql);
+                
+                if( count($totalRegistros) <= 0 ){
+                    /**
+                     * CLIENTE NAO EXISTE CADASTRAR CLIENTE
+                     */
+                    
+                    $clienteId = $this->genericInsert( $cliente );
+                    
+                    $this->clientesEmpresas($clientesId, $cliente['empresas_id']);
+                    
+                    
+                } else {
+                    /**
+                     * CLIENTE JA EXISTE ADICIONAR A UMA EMPRESA se ele Ja estiver relacionado retornar uma exception
+                     */
+                    
+                    $clienteId = $totalRegistros[0]['id'];
+                    $sql = "select * from clientes_empresas where clientes_id = {$clienteId} and empresas_id = {$cliente['empresas_id']};";
+                    $total = $this->query($sql);
+                    
+                    if( count($total) <= 0 ){
+                        $this->clientesEmpresas($clientesId, $cliente['empresas_id']);
+                    } else {
+                        throw new Exception('Cliente já cadastro para esta empresa!');
+                    }
+                }
+                
+                return $clienteId;
+                
+            }
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
 }
