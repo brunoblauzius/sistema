@@ -137,7 +137,7 @@
                                     Ações <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu" style="font-size:11px; margin-left:-95px">
-                                    <!--li><a class="" href="<?= Router::url(array('Reservas', 'listaConvidados', $registro['token'] )) ?>"><i class="fa fa-users"></i> Convidados</a></li-->
+                                    <li><a class="lista-convidados" style="cursor:pointer" data-url="<?= Router::url(array('Reservas', 'listarConvidados', $registro['token'] )) ?>"><i class="fa fa-users"></i> Convidados</a></li>
                                     <li><a class="" target="_blank" href="<?= $urlPDF .DS.md5($registro['id']) ?>"><i class="fa fa-print"></i> Gerar PDF</a></li>
                                     <li><a class="editarRegistro" style="cursor: pointer" data-idregistro="<?= ($registro['id']) ?>" data-href="<?= Router::url(array('Reservas', 'editar')) ?>" > <i class="fa fa-edit"></i> Editar</a></li>
                                     <li><a class="cancelarRegistro" style="cursor: pointer" data-idregistro="<?= ($registro['token']) ?>" data-href="<?= Router::url(array('Reservas', 'cancelarRegistro')) ?>"> <i class="fa fa-times"></i> Cancelar Registro</a></li>
@@ -170,6 +170,22 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="Modal-lista-convidados" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Convidados</h4>
+            </div>
+            <div class="modal-body append-body" id="body-lista-convidados"> 
+            </div>  
+        </div>
+    </div>
+</div>
+
+
 
 <script>
 
@@ -267,7 +283,6 @@
     });
 
     $(document).on('click', '#cadastro-reserva', function() {
-        //$('#loading').fadeIn(500);
         var url = $(this).data('url');
         var ambientes_id = $("#ambientes_id").val();
         var data_inicio = $("#data_inicio").val();
@@ -319,5 +334,21 @@
         $(document).on('keyup', '#qtde_pessoas', function(){
             $('#assentos').val( $('#qtde_pessoas').val() ) ;
         });
+        
+        $(document).on('click', '.lista-convidados', function(){
+            var url = $(this).data('url');
+            
+            $.ajax({
+                url: url,
+                data:{},
+                type: "get",
+                dataType: 'html',
+                success: function (json) {
+                    $('#Modal-lista-convidados').modal('show');
+                    $('#body-lista-convidados').html(json);
+                }
+            });
+        });
+        
 </script>  
 

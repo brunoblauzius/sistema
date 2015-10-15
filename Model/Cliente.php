@@ -57,7 +57,40 @@ class Cliente extends AppModel {
         ),
     );
     
-    
+    public $validate_convidados = array(
+        'nome' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO
+            ),
+        ),
+        'telefone' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO
+            ),
+        ),
+        /*'rg' => array(
+			'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO
+            ),
+            //'verificaRG' => array(
+            //    'rule' => array('verificaRG'),
+            //    'mensagem' => 'Já cadastrado para esta empresa favor utilizar outro!'
+            //),
+        ),*/
+        'email' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO
+            ),
+            'email' => array(
+                'rule' => array('email'),
+                'mensagem' => Enum::EMAIL_INVALIDO
+            ),
+        ),
+    );
     
     
     public function verificaEmail($email) {

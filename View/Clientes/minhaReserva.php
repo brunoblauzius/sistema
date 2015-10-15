@@ -99,9 +99,18 @@
                                     <?= Utils::formatarTelefone($registro['telefone'])?>
                                 </td>
                                 <td>
-                                    <div class="btn-group-xs">
-                                        <a data-clienteId='<?= md5($registro['id'])?>' data-token="<?= $reserva['Reserva']['token']?>" class="btn btn-danger btn-xs excluir-convidado"><i class="fa fa-times-circle"></i> Excluir</a>
-                                    </div> 
+                                        <?php if($registro['id'] != $reserva['Reserva']['clientes_id']):?>
+                                        <div class="btn-group btn-group-xs" >
+                                                <button class="btn btn-primary dropdown-toggle btn-xs" type="button" data-toggle="dropdown">
+                                                        Ações <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu" style="font-size:11px;">
+                                                        <li><a data-clienteId='<?= md5($registro['id'])?>' style="cursor:pointer" data-token="<?= $reserva['Reserva']['token']?>" class="excluir-convidado"><i class="fa fa-times-circle"></i> Excluir</a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a data-clienteId='<?= md5($registro['id'])?>' style="cursor:pointer" data-token="<?= $reserva['Reserva']['token']?>" class="email-convidado"><i class="fa fa-envelope"></i> Enviar E-mail</a></li>
+                                                </ul>
+                                        </div>
+                                        <?php endif;?>
                                 </td>
                             </tr>
                             <?php endforeach;?>

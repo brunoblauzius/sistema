@@ -882,24 +882,7 @@ class Reserva extends AppModel {
         }
     }
     
-    final public function convidados( $reservaID ){
-        try {
-            
-            $sql = "SELECT 
-                        Cliente.*
-                    FROM
-                        clientes AS Cliente
-                            INNER JOIN
-                        clientes_convidados AS Convidados ON Convidados.clientes_id = Cliente.id
-                    WHERE
-                        Convidados.reservas_id = $reservaID;";
-            
-            return $this->query($sql);
-            
-        } catch (Exception $ex) {
-            throw $ex;
-        }
-    }
+    
     
     
     
@@ -955,6 +938,50 @@ class Reserva extends AppModel {
             }
             
             return $reserva[0]['total'];
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    final public function convidados( $reservaID ){
+        try {
+            
+            $sql = "SELECT 
+                        Cliente.*
+                    FROM
+                        clientes AS Cliente
+                            INNER JOIN
+                        clientes_convidados AS Convidados ON Convidados.clientes_id = Cliente.id
+                    WHERE
+                        Convidados.reservas_id = $reservaID
+                             ORDER BY Cliente.nome ASC ;";
+            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function listaConvidados( $token ){
+        try {
+            
+            $sql = "SELECT 
+                        Cliente.*, 
+                        Convidados.created AS data_convite
+                    FROM
+                        reservas AS Reserva
+                            INNER JOIN
+                        clientes_convidados AS Convidados ON Convidados.reservas_id = Reserva.id
+                            INNER JOIN
+                        clientes AS Cliente ON Convidados.clientes_id = Cliente.id
+                    WHERE
+                        Reserva.token = '{$token}'"
+                        . " ORDER BY Cliente.nome ASC;";
+            
+            return $this->query($sql);
             
         } catch (Exception $ex) {
             throw $ex;
