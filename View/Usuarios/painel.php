@@ -201,10 +201,10 @@
                 Morris.Donut({
                     element: 'graph-donut',
                     data: [
-                        {value: 70, label: 'Shed', formatted: 'acima de 70%' },
-                        {value: 15, label: 'Mãe Joana', formatted: 'approx. 15%' },
-                        {value: 10, label: 'Deboras Bar', formatted: 'approx. 10%' },
-                        {value: 5, label: 'Vazio', formatted: 'abaixo 5%' }
+                        {value: 70, label: 'Empresa 1', formatted: 'acima de 70%' },
+                        {value: 15, label: 'Empresa 2', formatted: 'approx. 15%' },
+                        {value: 10, label: 'Empresa 3', formatted: 'approx. 10%' },
+                        {value: 5, label: 'TESTE', formatted: 'abaixo 5%' }
                     ],
                     backgroundColor: '#fff',
                     labelColor: '#1fb5ac',
