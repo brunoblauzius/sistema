@@ -200,19 +200,19 @@ function cadastroClienteHtml( json ){
     var elemento = '';
     
     elemento += '<div class="col-sm-12 form-group-sm">'+
-    '<table class="table table-condensed">'+
-        '<tbody> <tr> <td> <small>Nome:</small>'+
-                    '<input type="text"  class="form-control" value="'+json.nome+'" disabled="true">'+
-                '</td> <td> <small>E-mail:</small>'+
-                    '<input type="text" class="form-control" value="'+json.email+'" disabled="true">'+
-                '</td>  </tr> <tr> <td> <small>Rg:</small>'+
-                    '<input type="text"  class="form-control" value="'+json.rg+'" disabled="true">'+
-                '</td> <td> <small>Telefone:</small>'+
-                   ' <input type="text"  class="form-control" value="'+json.telefone+'" disabled="true">'+
-                '</td> </tr> </tbody> </table> <div>' +
-        '<a class="btn btn-primary btn-xs pull-right" id="continuar-reserva" > Continuar a reserva </a>'+
-        '<input type="hidden" name="Reserva[clientes_id]" class="form-control" value="'+json.id+'">'+
-    '</div></div>';
+                    '<table class="table table-condensed">'+
+                        '<tbody> <tr> <td> <small>Nome:</small>'+
+                                    '<input type="text"  class="form-control" value="'+json.nome+'" disabled="true">'+
+                                '</td> <td> <small>E-mail:</small>'+
+                                    '<input type="text" class="form-control" value="'+json.email+'" disabled="true">'+
+                                '</td>  </tr> <tr> <td> <small>Rg:</small>'+
+                                    '<input type="text"  class="form-control" value="'+json.rg+'" disabled="true">'+
+                                '</td> <td> <small>Telefone:</small>'+
+                                   ' <input type="text"  class="form-control" value="'+json.telefone+'" disabled="true">'+
+                                '</td> </tr> </tbody> </table> <div>' +
+                        '<a class="btn btn-primary btn-xs pull-right" id="continuar-reserva" > Continuar a reserva </a>'+
+                        '<input type="hidden" name="Reserva[clientes_id]" class="form-control" value="'+json.id+'">'+
+                    '</div></div>';
     
     $('#dados-cliente').html(elemento);
     

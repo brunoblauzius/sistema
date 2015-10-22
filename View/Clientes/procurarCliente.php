@@ -116,7 +116,8 @@
 <script>
     $('.encontratId').click(function(){
         var url   = web_root + 'Clientes/procurarCliente/' + $(this).data('id');
-        $('#loading').fadeIn(500);
+        $('#dados-cliente').empty();
+        loadingElement('<br>Carregando Informações...', '#dados-cliente');
         // iniciar o loader
         $.ajax({
             url: url,
@@ -125,7 +126,7 @@
             type: 'get',
             success: function (html) {
                 // encerrar loader
-                $('#loading').fadeOut(500);  
+                //$('#loading').fadeOut(500);  
                 // dados
                 $('#dados-cliente').html(html);
                 $('#dados-reserva').empty();

@@ -35,8 +35,10 @@
                 
                 $('#continuar-reserva').click(function(){
                     var url   = web_root + 'Reservas/cadastroContinuacao';
-                    $('#loading').fadeIn(500);
+                    //$('#loading').fadeIn(500);
                     // iniciar o loader
+                    $('#dados-reserva').empty();
+                    loadingElement('<br>Carregando Informações...','#dados-reserva' );
                     $.ajax({
                         url: url,
                         data:{},
@@ -44,7 +46,7 @@
                         type: 'get',
                         success: function (html) {
                             // encerrar loader
-                            $('#loading').fadeOut(500);  
+                            //$('#loading').fadeOut(500);  
                             // dados
                             $('#dados-reserva').html(html);
                             $('#continuar-reserva').remove();
@@ -365,7 +367,11 @@
                     var url = web_root + 'Mesas/mesasAmbiente';
 
                     if( id != null || id != '' ){
-                        $('#loading').fadeIn(500);
+                        //$('#loading').fadeIn(500);
+                        
+                        $('#mesas-cadastro').empty();
+                        loadingElement('<br>Carregando mesas disponíveis...', '#mesas-cadastro');
+                        
                         $.ajax({
                             url:url,
                             data:{
@@ -376,7 +382,7 @@
                             type: 'post',
                             success:function(html){
                                 $('#mesas-cadastro').html(html);
-                                $('#loading').fadeOut(500);
+                                //$('#loading').fadeOut(500);
                             }
                         });
                     }   
@@ -384,11 +390,14 @@
 		
                 
 		$(document).on('change', '#SalaoId', function(){
-			$('#loading').fadeIn(500);
+			//$('#loading').fadeIn(500);
                         var id  = $(this).val();
 			var url = web_root + 'Ambientes/saloesAmbientes'; 
 			$this   = $(this);
-						
+			
+                        loadingElement('', '#AmbienteId');
+                        $('#SelectAmbienteId_chosen').parent('#AmbienteId').children('small').hide(100);
+                        $('#SelectAmbienteId_chosen').hide(100);
 			$.ajax({
 				url:url,
 				data:{
@@ -408,9 +417,11 @@
                                                         elemento += '</select>';
                                                      
 					$('#AmbienteId').empty();
+					$('#gif-loader').remove();
 					$( elemento ).appendTo( '#AmbienteId' );
                                         $('#AmbienteId').focus();
-                                        $('#loading').fadeOut(500);
+                                        $('#SelectAmbienteId_chosen').parent('#AmbienteId').children('small').show(100);
+                                        $('#SelectAmbienteId_chosen').show(100);
 				}
 			});	
 		});
@@ -1038,7 +1049,10 @@
         var valor = $('#cliente').val();
         
         if( valor != null || valor != '' ){
-            $('#loading').fadeIn(500);
+            //$('#loading').fadeIn(500);
+            //
+            $('#dados-cliente').empty();
+            loadingElement('<br>Carregando Informações...', '#dados-cliente');
             // iniciar o loader
             $.ajax({
                 url: url,
@@ -1050,7 +1064,7 @@
                 type: 'post',
                 success: function (html) {
                     // encerrar loader
-                    $('#loading').fadeOut(500);
+                    //$('#loading').fadeOut(500);
                     // dados
                     $('#dados-cliente').html(html);
                     $('#dados-reserva').empty();
@@ -1062,12 +1076,17 @@
     
     $(document).on('keypress', "#cliente", function(e){
         if(e.which == 13 ){
+            $('#dados-cliente').empty();
+            $('#dados-reserva').empty();
+            
             var url   = web_root + 'Clientes/procurarCliente';
             var busca = $('#BuscarPor').val();
             var valor = $('#cliente').val();
 
             if( valor != null || valor != '' ){
-                $('#loading').fadeIn(500);
+                
+                loadingElement('<br>Carregando Informações...', '#dados-cliente');
+                
                 // iniciar o loader
                 $.ajax({
                     url: url,
@@ -1079,7 +1098,7 @@
                     type: 'post',
                     success: function (html) {
                         // encerrar loader
-                        $('#loading').fadeOut(500);
+                        //$('#loading').fadeOut(500);
                         // dados
                         $('#dados-cliente').html(html);
                         $('#dados-reserva').empty();
