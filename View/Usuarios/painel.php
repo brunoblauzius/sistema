@@ -134,7 +134,9 @@
         var roles_id    = '<?= Session::read('Usuario.roles_id')?>';
         
         if( empresas_id > 0 ){
-            $('#empresa-reservas-mes').html('<span>Aguarde...</span>');
+            $('#empresa-reservas-mes').html( null );
+            loadingElement('Carregando...', '#empresa-reservas-mes');
+                        
             $.ajax({
                 url: web_root + 'Reservas/reservasMes',
                 data: { empresas_id:empresas_id},
@@ -150,7 +152,8 @@
             });
             
             
-            $('#empresa-relacionadas').html('<span>Aguarde...</span>');
+            $('#empresa-relacionadas').html( null );
+            loadingElement('Carregando...', '#empresa-relacionadas');
             $.ajax({
                 url: web_root + 'Empresas/totalEmpresas',
                 data: { empresas_id:empresas_id },
@@ -167,7 +170,9 @@
             
             
             if( (roles_id == 4 || roles_id == 3) ){
-                $('#graph-area').html('<span>Carregando gráfico...</span>');
+                //$('#graph-area').html('<span>Carregando gráfico...</span>');
+                
+                loadingElement('Carregando Gráfico...', '#graph-area');
                 $.ajax({
                     url: web_root + 'Reservas/graficoCasas',
                     data: { empresas_id:empresas_id},

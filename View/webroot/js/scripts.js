@@ -1002,7 +1002,7 @@
         //pre loader
             $('#loading').fadeIn(500);
             if( !$('#loading').is(':visible') ){
-                $('<div class="row text-center"  id="gif-loader"><img src="'+web_root+'View/webroot/img/ajax-loader.gif"/></div>').appendTo( button );
+                loadingElement('Carregando...', button);
             }
             $('form button').hide();	
 		

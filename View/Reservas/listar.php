@@ -204,7 +204,8 @@
 
             if( data_inicio.length == 10 ){
                 $('#panel-body').empty();
-                $('<div class="alert alert-info"><p>Filtrando Reservas ' + fraseLoading + ' ...</p></div>').appendTo('#panel-body');
+                //$('<div class="alert alert-info"><p>Filtrando Reservas ' + fraseLoading + ' ...</p></div>').appendTo('#panel-body');
+                loadingElement('<br>Filtrando Reservas ' + fraseLoading,'#panel-body' );
                 $.ajax({
                     url: web_root + 'Reservas/filtrar',
                     data: {
@@ -222,7 +223,8 @@
             if( data_inicio.length == 10 ){
                 
                 $('#disponibilidadeMesas').empty();
-                $('<div class="alert alert-info"><p>Verificando a disponibilidade de mesas para a data <b>'+data_inicio+'</b></p></div>').appendTo('#disponibilidadeMesas');
+                //$('<div class="alert alert-info"><p>Verificando a disponibilidade de mesas para a data <b>'+data_inicio+'</b></p></div>').appendTo('#disponibilidadeMesas');
+                loadingElement('<br>Verificando a disponibilidade de mesas para a data <b>'+data_inicio,'#disponibilidadeMesas' );
                 $.ajax({
                     url: web_root + 'Reservas/disponibilidadeMesas',
                     data: {

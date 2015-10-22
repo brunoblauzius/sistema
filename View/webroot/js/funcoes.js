@@ -218,3 +218,6 @@ function cadastroClienteHtml( json ){
     
 }
 
+function loadingElement(frase, elemento){
+    $('<div class="row text-center"  id="gif-loader"><img src="'+web_root+'View/webroot/img/ajax-loader.gif"/><br>'+ frase +'</div>').appendTo( elemento );
+}
