@@ -131,7 +131,8 @@ class Email extends AppModel{
                 unset($lista['empresas_id']);
                 
                 $coluna = key($lista);
-                $valor  = addslashes($lista[$coluna]);
+                //$valor  = addslashes($lista[$coluna]);
+                $valor  = Utils::htmlEntityEncode($lista[$coluna]);
                 
                 $sql = " UPDATE {$this->useTable} SET "
                             . " {$coluna} = '{$valor}' "
@@ -147,14 +148,15 @@ class Email extends AppModel{
         }
     }
     
-    
-    
-    final public function ajusteEmailConfirmacao($corpoEmail, $parametrosEmpresa ){
+	
+	final public function ajusteEmailConfirmacao($corpoEmail, $parametrosEmpresa ){
         
         $replace  = array('__CORPO_EMAIL__', '__RODAPE_EMAIL__');
-        $conteudo = array($parametrosEmpresa['corpo_email'], $parametrosEmpresa['rodape_email']);
+        $conteudo = array($parametrosEmpresa['corpo_email'],$parametrosEmpresa['rodape_email']);
         
-        return str_replace($replace, $conteudo, $corpoEmail);
+        $corpoEmail = str_replace($replace, $conteudo, $corpoEmail);
+		
+		return Utils::htmlEntityDecode($corpoEmail);
         
     }
     

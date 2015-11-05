@@ -443,4 +443,13 @@ class Utils {
         echo '</pre>';
     }
     
+    public final static function htmlEntityDecode( $html ){
+        return html_entity_decode($html, ENT_QUOTES, 'UTF-8');
+    }
+
+    public final static function htmlEntityEncode( $html ){
+        return htmlentities($html, ENT_QUOTES, 'ISO-8859-1', true);
+    }
+    
+    
 }

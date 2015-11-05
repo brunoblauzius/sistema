@@ -37,7 +37,7 @@ class EmailsController extends AppController {
             $obejct[] = new EmailEntity(
                     $registro[$this->Email->name]['id'], 
                     $registro[$this->Email->name]['tag'], 
-                    $registro[$this->Email->name]['corpo_mail'], 
+                    Utils::htmlEntityDecode($registro[$this->Email->name]['corpo_mail']), 
                     $registro[$this->Email->name]['ativo']
                     );
         }
@@ -63,6 +63,8 @@ class EmailsController extends AppController {
     
     public function add(){
         try{
+		
+            $_POST[$this->Email->name]['corpo_mail'] = Utils::htmlEntityEncode(str_replace(array('\\'), null, $_POST[$this->Email->name]['corpo_mail']));
             
             $this->Email->data =  $_POST[$this->Email->name] ;
             
@@ -103,7 +105,7 @@ class EmailsController extends AppController {
             $objeto = new EmailEntity(
                     $registro[$this->Email->name]['id'], 
                     $registro[$this->Email->name]['tag'], 
-                    $registro[$this->Email->name]['corpo_mail'], 
+                    Utils::htmlEntityDecode($registro[$this->Email->name]['corpo_mail']), 
                     $registro[$this->Email->name]['ativo']
                     );
             
@@ -125,7 +127,10 @@ class EmailsController extends AppController {
             if( isset($_SESSION['EmailsForm'])){
                $_POST[$this->Email->name]['id'] = $_SESSION['EmailsForm']['id'];
             }
-            
+			
+            $_POST[$this->Email->name]['corpo_mail'] = Utils::htmlEntityEncode(str_replace(array('\\'), null, $_POST[$this->Email->name]['corpo_mail']));
+			
+			
             $this->Email->data =  $_POST[$this->Email->name] ;
             
             //$this->Email->validate = $this->MetEmailodo->validate_edit;
@@ -248,11 +253,10 @@ class EmailsController extends AppController {
         } else {
             $htmlDoEmail    = $_POST[$this->Email->name]['rodape_email'];
         }
-        
-        
-        $this->Email->data[$colunaDaTabela]        = $htmlDoEmail; 
+                
+        $this->Email->data[$colunaDaTabela]        =  $htmlDoEmail;
         $this->Email->data['empresas_id']           = $this->empresas_id; 
-        $this->Email->data['emails_sistema_id']    = $_POST[$this->Email->name]['emails_sistema_id']; 
+        $this->Email->data['emails_sistema_id']    = 5; 
         
         try {
             
