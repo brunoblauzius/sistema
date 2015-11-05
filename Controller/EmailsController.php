@@ -198,4 +198,86 @@ class EmailsController extends AppController {
        }
     }
 
+    /**
+     * @todo metodo que renderiza a pagina para o usuario empresa editar os parametros dos emails de envio para confirmacao de reserva
+     * 
+     */
+    final public function parametrosEmail(){
+        try {
+            
+            $this->checaEmpresa();
+            
+            $email_confirmacao = $this->Email->find('first', array('tag' => 'email_confirmacao'));
+            //$email_confirmacao = $this->Email->find('first', array('tag' => 'cadastro_reserva'));
+            
+            $this->Email->useTable = 'empresas_email_parametros';
+            $email_parametros  = $this->Email->find('first', array(
+                //'emails_sistema_id' => $email_confirmacao[0][$this->Email->name]['id'],
+                'emails_sistema_id' => 5,
+                'empresas_id'       => $this->empresas_id,
+            ));
+            
+            $corpoEmailConfirmacao = $this->Email->ajusteEmailConfirmacao( 
+                    $email_confirmacao[0][$this->Email->name]['corpo_mail'], 
+                    $email_parametros[0][$this->Email->name]
+                    );
+            
+            $this->set('title_layout', 'Parâmetros de e-mail: Empresa');
+            $this->set('emailConfirmacao', $corpoEmailConfirmacao);
+            $this->set('emailParametros', $email_parametros[0][$this->Email->name]);
+            $this->render();
+            
+        } catch (Exception $ex) {
+            if( $ex->getCode() == 2015 ){
+                $this->set( 'mensagem', $ex->getMessage() );
+                die( $this->render(array('controller' => 'Erros', 'view' => 'sessaoEmpresa')) );
+            } else {
+                echo $ex->getMessage();
+            }
+        }
+    }
+    
+    
+    final public function cadastraCorpoErodape(){
+        
+        
+        $colunaDaTabela = $_POST[$this->Email->name]['coluna'];
+        
+        if( $colunaDaTabela == 'corpo_email'){
+            $htmlDoEmail    = $_POST[$this->Email->name]['corpo_email'];
+        } else {
+            $htmlDoEmail    = $_POST[$this->Email->name]['rodape_email'];
+        }
+        
+        
+        $this->Email->data[$colunaDaTabela]        = $htmlDoEmail; 
+        $this->Email->data['empresas_id']           = $this->empresas_id; 
+        $this->Email->data['emails_sistema_id']    = $_POST[$this->Email->name]['emails_sistema_id']; 
+        
+        try {
+            
+            if( $this->Email->cadastraCorpoErodape( $this->Email->data ) ){
+                
+                $json = json_encode(array(
+                    'style' => 'success',
+                    'title' => 'Sucesso',
+                    "time" => 5000,
+                    'size' => 'md',
+                    'callback' => NULL,
+                    'before' => 'window.location.reload();',
+                    'icon'   => 'ok'
+                ));
+                
+            }
+            
+            echo json_encode(array(
+                    'funcao' => "bootsAlert( $json );"
+                )); 
+            
+            
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+    
 }

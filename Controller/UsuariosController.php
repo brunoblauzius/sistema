@@ -525,7 +525,10 @@ class UsuariosController extends AppController {
                     $modelFuncionario = new Funcionario();
                     $modelEmpresa     = new Empresa();
                     $funcionario      = $modelFuncionario->find('first', array('pessoas_id' => $usuario[$this->User->name]['pessoas_id']) );
-
+                    
+                    /**
+                     * 
+                     */
                     if( count($funcionario) > 0 ){
                         $_SESSION[$modelFuncionario->name] = $funcionario[0][$modelFuncionario->name];
                     }
@@ -537,6 +540,20 @@ class UsuariosController extends AppController {
                         //$empresa[0]['empresas_id'] = $empresa[0]['id'];
                         $_SESSION[$modelEmpresa->name] = $empresa[0];
                     }
+                } 
+                else if( $usuario[$this->User->name]['roles_id'] == 3 ) {
+                    
+                    /**
+                     * VERIFICO SE EXISTE APENAS UMA EMPRESA VINCULADA
+                     */
+                    
+                    $modelEmpresa     = new Empresa();
+                    $empresas = $modelEmpresa->empresasRelacionadas(md5($usuario[$this->User->name]['pessoas_id']), $usuario[$this->User->name]['roles_id']); 
+                    
+                    if ( count($empresas) == 1 ) {
+                        $_SESSION[$modelEmpresa->name] = $empresas[0];
+                    }
+                    
                 }
 
 
