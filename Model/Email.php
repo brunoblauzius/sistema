@@ -108,4 +108,55 @@ class Email extends AppModel{
         }
     }
     
+    
+    final public function cadastraCorpoErodape( array $lista ){
+        try {
+            $this->useTable = 'empresas_email_parametros';
+            
+            $sql = "SELECT * FROM {$this->useTable} "
+                    . " WHERE emails_sistema_id = {$lista['emails_sistema_id']} "
+                    . " AND empresas_id = {$lista['empresas_id']};";
+                    
+            $count = $this->query($sql);
+            
+            if(count($count) <= 0 ){
+                
+               return $this->genericInsert($lista);
+                
+            } else {
+                
+                $empresaId       = $lista['empresas_id'];
+                $emailsSistemaId = $lista['emails_sistema_id'];
+                unset($lista['emails_sistema_id']);
+                unset($lista['empresas_id']);
+                
+                $coluna = key($lista);
+                $valor  = addslashes($lista[$coluna]);
+                
+                $sql = " UPDATE {$this->useTable} SET "
+                            . " {$coluna} = '{$valor}' "
+                            . " WHERE empresas_id = $empresaId "
+                                    . " AND emails_sistema_id = $emailsSistemaId;";
+                            
+                return $this->query($sql);
+            }
+            
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    
+    final public function ajusteEmailConfirmacao($corpoEmail, $parametrosEmpresa ){
+        
+        $replace  = array('__CORPO_EMAIL__', '__RODAPE_EMAIL__');
+        $conteudo = array($parametrosEmpresa['corpo_email'], $parametrosEmpresa['rodape_email']);
+        
+        return str_replace($replace, $conteudo, $corpoEmail);
+        
+    }
+    
+    
 }

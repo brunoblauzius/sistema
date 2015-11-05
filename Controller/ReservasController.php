@@ -346,6 +346,19 @@ class ReservasController extends AppController {
 
                      $dataMail = explode(' ', Utils::convertData( $dataCallendar ) );
                 
+                     
+                    $email->useTable = 'empresas_email_parametros';
+                    $email_parametros  = $email->find('first', array(
+                        'emails_sistema_id' => 5,
+                        'empresas_id'       => $this->empresas_id,
+                    ));
+
+                    $corpoEmailConfirmacao = $email->ajusteEmailConfirmacao( 
+                            $registro[0]['Email']['corpo_mail'], 
+                            $email_parametros[0][$email->name]
+                            );
+                     
+                     
                      $array = array(
                         '__CLIENTE__'          => $cliente[0]['Cliente']['nome'],
                         '__DATE__'             => date('d/m/Y h:i:s'),
@@ -374,7 +387,10 @@ class ReservasController extends AppController {
                      /**
                       *   CORPO DO EMAIL
                       */
-                     $objeto->setBody(str_replace(array_keys($array), array_values($array), $registro[0]['Email']['corpo_mail']));
+                    $corpoEmailConfirmacao = str_replace(array_keys($array), array_values($array), $corpoEmailConfirmacao);
+                    
+                     
+                     $objeto->setBody( $corpoEmailConfirmacao );
 
                      /**
                       *   DESTINO PARA QUEM VAI O EMAIL - CLIENTE
@@ -796,6 +812,20 @@ class ReservasController extends AppController {
                  */
                 $dataMail = explode(' ', Utils::convertData( $reserva['Reserva']['start'] ) );
                 
+                
+                $email->useTable = 'empresas_email_parametros';
+                $email_parametros  = $email->find('first', array(
+                    'emails_sistema_id' => 5,
+                    'empresas_id'       => $this->empresas_id,
+                ));
+
+                $corpoEmailConfirmacao = $email->ajusteEmailConfirmacao( 
+                        $registro[0]['Email']['corpo_mail'], 
+                        $email_parametros[0][$email->name]
+                        );
+                
+                
+                
                 $array = array(
                     '__CLIENTE__'          => $cliente[0]['Cliente']['nome'],
                     '__DATE__'             => date('d/m/Y h:i:s'),
@@ -823,7 +853,12 @@ class ReservasController extends AppController {
                 /**
                  *   CORPO DO EMAIL
                  */
-                $objeto->setBody(str_replace(array_keys($array), array_values($array), $registro[0]['Email']['corpo_mail']));
+                
+                $corpoEmailConfirmacao = str_replace(array_keys($array), array_values($array), $corpoEmailConfirmacao);
+                    
+                
+                
+                $objeto->setBody( $corpoEmailConfirmacao );
 
                 /**
                  *   DESTINO PARA QUEM VAI O EMAIL - CLIENTE
