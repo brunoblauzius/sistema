@@ -47,7 +47,8 @@
                             <li><a class="editarRegistro" style="cursor: pointer" data-idregistro="<?= ($registro['id']) ?>" data-href="<?= Router::url(array('Reservas', 'editar')) ?>" > <i class="fa fa-edit"></i> Editar</a></li>
                             <li><a class="cancelarRegistro" style="cursor: pointer" data-idregistro="<?= ($registro['token']) ?>" data-href="<?= Router::url(array('Reservas', 'cancelarRegistro')) ?>"> <i class="fa fa-times"></i> Cancelar Registro</a></li>
                             <li class="divider"></li>
-                            <li><a class="envioEmail" style="cursor:pointer" data-url="<?= Router::url(array('Reservas', 'envioEmail', $registro['token'])) ?>"><i class="fa fa-envelope"></i> Enviar E-mail</a></li>
+                            <!--li><a class="envioEmail" style="cursor:pointer" data-url="<?= Router::url(array('Reservas', 'envioEmail', $registro['token'])) ?>"><i class="fa fa-envelope"></i> Enviar E-mail</a></li-->
+                            <li><a href="mailto:<?= $registro['email'];?>" style="cursor:pointer" ><i class="fa fa-envelope"></i> Enviar E-mail</a></li>
                         </ul>
                     </div>
                 </td>

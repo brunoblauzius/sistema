@@ -197,7 +197,7 @@ class ReservasController extends AppController {
             $registros = $this->Reserva->filtrar($this->empresas_id, null, date('Y-m-d') );
             
             $ambientes = $Modelambientes->find('all', array('empresas_id' => $this->empresas_id) );
-            $mesasRestantes = $this->Reserva->reservasMesasRestantes($this->empresas_id);
+            $mesasRestantes = $this->Reserva->reservasMesasRestantes($this->empresas_id, date('Y-m-d') );
             
             
             $urlPDF = 'http://snappypdf.com.br/gerar.php?url=' . Router::url(array('Reservas', 'imprimir' ));

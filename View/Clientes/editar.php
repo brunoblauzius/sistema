@@ -23,11 +23,24 @@
         <div class="form-group col-md-12">
             <small>Sexo: <strong class="text text-danger">*</strong></small>
             <select type="text" name="Cliente[sexo]" class="form-control rounded">
-                <?php if( $registro['sexo'] == 1 ):?>
-                    <option value="1"> MASCULINO </option>
-                <?php elseif( $registro['sexo'] == 0 ):?>
-                    <option value="0"> FEMININO </option>
-                <?php endif;?>
+                
+                <?php 
+                
+                    $arrayMasc = array( 0  => "FEMININO", 1 => "MASCULINO" );
+
+                    foreach ($arrayMasc as $key => $value):
+                        
+                       $select = NULL;
+                    
+                       if( $registro['sexo'] == $key ):
+                           $select = 'selected="selected"';
+                       endif;
+                         
+                ?>
+                <option value="<?= $key?>" <?php echo $select?> > <?= $value?> </option>
+                <?php 
+                    endforeach;
+                ?>
             </select>
         </div>
     </div>
