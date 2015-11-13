@@ -7,7 +7,7 @@
 		$('#cpf').mask('000.000.000-00');
                 $('#cnpj').mask('00.000.000/0000-00');
 		$('.money').mask("###0.00", {reverse: true, maxlength: false});
-		$('.telefone').mask('(00) 0000-0000'); 
+		$('.telefone').mask('(41) 0000-0000'); 
                 $('.date2').mask('00/00/0000'); 
 		$('.data_time').mask('00:00');
                 
@@ -73,7 +73,7 @@
 		$('#cpf').mask('000.000.000-00');
                 $('#cnpj').mask('00.000.000/0000-00');
 		$('.money').mask("###0.00", {reverse: true, maxlength: false});
-		$('.telefone').mask('(00) 0000-0000'); 
+                $('.telefone').mask('(41) 0000-0000');                
 		$('.date2').mask('00/00/0000'); 
 		$('.data_time').mask('00:00'); 
 		
@@ -1110,13 +1110,15 @@
     
     $(document).on('change', '#BuscarPor', function(){
         if( $('#BuscarPor').val() == 'telefone' ){
-            $('#cliente').addClass('telefone');
-            $('.telefone').mask('(00) 0000-0000');
+            //$('#cliente').addClass('telefone');
+            //$('.telefone').mask('(00) 0000-0000');
+            $('#cliente').attr('placeholder', 'DDD e Telefone sem separação');
         } else {
             $('#cliente').removeClass('telefone');
             $('#cliente').removeAttr('autocomplete');
             $('#cliente').removeAttr('maxlength');
             $('#cliente').removeAttr('value');
+            $('#cliente').attr('placeholder', 'Digite aqui o valor');
         }
     });
     

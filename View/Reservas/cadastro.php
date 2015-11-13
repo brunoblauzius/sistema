@@ -29,7 +29,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <small>Cliente: <strong class="text text-danger">*</strong></small>
-                    <input type='text' class="form-control" name="Busca[cliente]" id="cliente"/>
+                    <input type='text' class="form-control" name="Busca[cliente]" id="cliente" placeholder="DDD e Telefone sem separação"/>
                 </div>
             </div>
 
@@ -37,9 +37,9 @@
                 <div class="form-group">
                     <small>Burcar cliente por: <strong class="text text-danger">*</strong></small>
                     <select name="Busca[buscaPor]" class="form-control" id="BuscarPor">
+                        <option value="telefone"> TELEFONE </option>
                         <option value="nome"> NOME </option>
                         <option value="rg"> RG </option>
-                        <option value="telefone"> TELEFONE </option>
                         <option value="email"> E-MAIL </option>
                     </select>
                 </div>

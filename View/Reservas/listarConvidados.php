@@ -3,8 +3,8 @@
     <thead>
          <tr>
             <th><strong>Nome:</strong></th>
-            <th><strong>E-mail:</strong></th>
-            <th><strong>Telefone:</strong></th>
+            <!--th><strong>E-mail:</strong></th>
+            <th><strong>Telefone:</strong></th-->
         </tr>
     </thead>
     <tbody>
@@ -13,12 +13,12 @@
         <td>
             <?= $registro['nome']?>
         </td>
-        <td>
+        <!--td>
             <?= strtoupper($registro['email'])?>
         </td>
         <td>
             <?= Utils::formatarTelefone($registro['telefone'])?>
-        </td>
+        </td-->
     </tr>
     <?php endforeach;?>
 
