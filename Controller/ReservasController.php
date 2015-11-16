@@ -380,7 +380,7 @@ class ReservasController extends AppController {
 
                      $objeto = new MailPHPMailer();
 
-                     $objeto->setAssunto( 'Reserva de Camarote: ' . Session::read('Empresa.nome_fantasia') );
+                     $objeto->setAssunto( 'Reserva: ' . Session::read('Empresa.nome_fantasia') );
 
                      //$objeto->setRemetente();
 
@@ -846,7 +846,7 @@ class ReservasController extends AppController {
 
                 $objeto = new MailPHPMailer();
 
-                $objeto->setAssunto( 'Confirmação de reserva: ' . Session::read('Empresa.nome_fantasia') );
+                $objeto->setAssunto( 'Confirmação : ' . Session::read('Empresa.nome_fantasia') );
 
                 //$objeto->setRemetente();
 
