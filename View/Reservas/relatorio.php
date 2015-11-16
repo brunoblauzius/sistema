@@ -55,7 +55,19 @@
                         <td class="text-center"><?= $registro['funcionario'] ?></td>
                         <td class="text-center"><strong><?= Utils::convertData( $registro['start'] );?></strong></td>
                         <td class="text-center"><?= ($registro['data_envio']) ? Utils::convertData($registro['data_envio']) : '<strong class="text text-danger">E-mail ainda não foi enviado</strong>'; ?></td>
-
+                    </tr>
+                    <tr>
+                        <td colspan="10">
+                            
+                            <?php
+                                $i = 1;
+                                foreach ($registro['lista_convidados'] as $convidado):
+                                    echo $i . ': ' .$convidado['nome'] . '<br>';
+                                $i++;
+                                endforeach;
+                            ?>
+                            
+                        </td>
                     </tr>
             <?php
                 endforeach;

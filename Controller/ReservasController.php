@@ -1161,6 +1161,14 @@ class ReservasController extends AppController {
             $empresasId = array_shift(array_shift($empresasId));
             
             $registros         = $this->Reserva->filtrar($empresasId['id'], $ambienteId, $dataFiltro );
+            
+            $i = 0;
+            foreach ($registros as $value) {
+                $registros[$i]['lista_convidados'] = $this->Reserva->listaConvidados($value['token']);
+                $i++;
+            }
+                        
+            
             $empresaJuridica   = $ModelJuridica->find('first', array('id' => $empresasId['pessoaJuridica_id']));
             $empresaJuridica   = array_merge($empresaJuridica[0]['Juridica'], $empresasId);
             
