@@ -2,56 +2,50 @@
 <div class="col-sm-12 form-group-sm">
     <form method="post" action="<?= Router::url(array('Clientes', 'addReserva'))?>" id="ClienteAddForm">
     <table class="table table-condensed">
-        <tbody>
-            <tr>
-                <td>
+        
+                <div class="col-md-3">
                     <div class="form-group ">
                         <small>Nome: <strong class="text text-danger">*</strong></small>
                         <input type="text" name="Cliente[nome]" class="form-control rounded" placeholder="Nome:">
                     </div>
-                </td>
-                <td>
+                </div>
+                <div class="col-md-3">
                     <div class="form-group ">
                         <small>E-mail: <strong class="text text-danger">*</strong></small>
                         <input type="text" name="Cliente[email]" class="form-control rounded" placeholder="E-mail:">
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                </div>
+            
+                <div class="col-md-3">
                     <div class="form-group ">
                         <small>RG: <strong class="text text-danger"></strong></small>
                         <input type="text" name="Cliente[rg]" class="form-control rounded" placeholder="RG:">
                     </div>
-                </td>
-                <td>
+                </div>
+                <div class="col-md-3">
                     <div class="form-group ">
                         <small>Telefone: <strong class="text text-danger">*</strong></small>
                         <input type="text" name="Cliente[telefone]" class="form-control rounded telefone" placeholder="Telefone:">
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group ">
+                        <small>Data Nascimento: <strong class="text text-danger"></strong></small>
+                        <input type="text" name="Cliente[dt_nascimento]" class="form-control rounded date2" placeholder="Data Nascimento:">
+                    </div>
+                </div>
+                <div class="col-md-3">
                     <small>Sexo: <strong class="text text-danger">*</strong></small>
                     <select type="text" name="Cliente[sexo]" class="form-control rounded">
                         <option value="1"> MASCULINO </option>
                         <option value="0"> FEMININO </option>
                     </select>
-                </td>
-                <td>
-                    <div class="form-group ">
-                        <small>Data Nascimento: <strong class="text text-danger"></strong></small>
-                        <input type="text" name="Cliente[dt_nascimento]" class="form-control rounded date2" placeholder="Data Nascimento:">
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                </div>
         
-         <div>
-            <button class="btn btn-primary btn-xs pull-right" > Cadastrar e incluir na lista </button>
-        </div>
+       
+         <div class="col-md-3">
+             <button class="btn btn-primary btn-sm " style="margin-top: 18px;" > Cadastrar e incluir na lista </button>
+         </div>
         
     </form>
    
@@ -59,31 +53,29 @@
 
 <?php elseif ( count($cliente) == 1 ):?>
 <div class="col-sm-12 form-group-sm">
-    <table class="table table-condensed">
-        <tbody>
-            <tr>
-                <td>
+   
+            
+                <div class="col-md-3">
                     <small>Nome:</small>
                     <input type="text"  class="form-control" value="<?= $cliente[0]['nome']?>" disabled="true">
-                </td>
-                <td>
+                </div>
+                <div class="col-md-3">
                     <small>E-mail:</small>
                     <input type="text" class="form-control" value="<?= $cliente[0]['email']?>" disabled="true">
-                </td>
-            </tr>
-            <tr>
-                <td>
+                </div>
+            
+            
+                <div class="col-md-3">
                     <small>Rg:</small>
                     <input type="text"  class="form-control" value="<?= $cliente[0]['rg']?>" disabled="true">
-                </td>
-                <td>
+                </div>
+                <div class="col-md-3">
                     <small>Telefone:</small>
                     <input type="text"  class="form-control" value="<?= $cliente[0]['telefone']?>" disabled="true">
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div>
+                </div>
+            
+   
+    <div class="col-md-3 pull-right" style="margin-top:15px;">
         <a class="btn btn-primary btn-xs pull-right" id="continuar-reserva" > Continuar a reserva </a>
         <input type="hidden" name="Reserva[clientes_id]" class="form-control" value="<?= md5($cliente[0]['id'])?>">
     </div>

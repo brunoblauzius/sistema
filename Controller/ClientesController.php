@@ -155,7 +155,7 @@ class ClientesController extends AppController {
             $cliente = array();
             
             if( $this->is('POST') ){
-                echo $busca = $_POST['busca'];
+                $busca = $_POST['busca'];
                 $valor = trim($_POST['valor']);
                 $cliente = $this->Cliente->buscarCliente($busca , $valor , $this->pessoas_id, Session::read('Usuario.roles_id'));
             } else if( $this->is('GET') ){
