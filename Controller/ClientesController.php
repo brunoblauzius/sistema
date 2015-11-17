@@ -182,25 +182,25 @@ class ClientesController extends AppController {
             $_POST[$this->Cliente->name]['telefone'] = Utils::returnNumeric($_POST[$this->Cliente->name]['telefone']);
             $_POST[$this->Cliente->name]['rg'] = Utils::returnNumeric($_POST[$this->Cliente->name]['rg']);
             $this->Cliente->data = $_POST[$this->Cliente->name];
-                        
+
             if( $this->Cliente->validates() ){
-                
+
                 $clientesId = $this->Cliente->genericInsert( $this->Cliente->data );
-                
+
                 $this->Cliente->clientesEmpresas($clientesId, $this->empresas_id);
-                
-                
+
+
                 if( $clientesId ){
-                    
+
                     $_POST[$this->Cliente->name]['id'] = md5($clientesId);
                     $json = json_encode($_POST[$this->Cliente->name]);
-                    
+
                     echo json_encode(array(
                                         'funcao' => "sucessoForm( 'Cadastro efetuado com sucesso!', '#ClienteAddForm' );"
                                                   . " cadastroClienteHtml( {$json} ) ",
                                     ));
                 }
-                
+
             } else {
                 echo json_encode(array(
                     'erros' => ($this->Cliente->validateErros),

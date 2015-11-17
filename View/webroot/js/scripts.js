@@ -114,6 +114,8 @@
                 });
                 
                 
+                
+                
 		if( $('#despesa_fixa').val() == 0 ){
 			$('#dataVencimento').show();
 			$('#diaDeVencimento').hide();
@@ -1289,4 +1291,30 @@
                 }
             });
         }
+    });
+    
+    
+    $(document).on('click', '#cadastrar-novo-convidado', function(){
+       
+        var token = $(this).data('token');
+       
+        if( token != null || token != '' ){
+            
+            loadingElement('<br>Aguarde um Momento...', '#body-lista-convidados');
+            
+            $.ajax({
+                url: web_root + 'Reservas/cadastraConvidado',
+                data:{
+                    token: token
+                },
+                dataType: 'html',
+                type: 'post',
+                success: function(data) {
+                    
+                    $('#body-lista-convidados').html(data);
+                }
+            });
+            
+        }
+       
     });
