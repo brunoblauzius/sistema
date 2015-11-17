@@ -1,3 +1,12 @@
+<?php if(Session::check('Usuario')):?>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-sm-12 col-xs-12">
+            <a href="<?= $urlPDF;?>" target="_blank" class="btn btn-xs btn-primary">Gerar PDF</a>
+            <a class="btn btn-xs btn-warning " id="cadastrar-novo-convidado" data-token="<?= $token?>"><i class="fa fa-user"></i> Cadastrar Convidado</a>
+        </div>
+    </div>
+<div class="clearfix"></div>
+<?php endif;?>
 
 <table class="table table-condensed table-striped"  >
     <thead>
@@ -24,11 +33,5 @@
 
     </tbody>
 </table>
-<div class="clearfix"></div>
-<?php if(Session::check('Usuario')):?>
-    <div class="row" style="margin-top: 20px;">
-        <div class="col-sm-12 col-xs-12">
-            <a href="<?= $urlPDF;?>" target="_blank" class="btn btn-xs btn-primary">Gerar PDF</a>
-        </div>
-    </div>
-<?php endif;?>
+
+

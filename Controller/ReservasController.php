@@ -1210,59 +1210,100 @@ class ReservasController extends AppController {
         }
     }
     
-    public function adicionarConvidados(){
+    public function adicionarConvidados( array $Convidado = NULL, $token = NULL ){
         try {
             
-            $cliente[$this->Cliente->name] = $_POST[$this->Cliente->name];
-            $cliente[$this->Cliente->name]['telefone'] = Utils::returnNumeric($cliente[$this->Cliente->name]['telefone']);
-            
-            $reserva = $this->Reserva->find('first', array('token' => $_POST['Reserva']['token']));
-            $reserva = array_shift($reserva);
-            $reservaId = $reserva['Reserva']['id'];
-            
-            $cliente[$this->Cliente->name]['empresas_id'] = $reserva['Reserva']['empresas_id'];
-            
-            $this->Cliente->data = $cliente[$this->Cliente->name];
-            
-			$this->Cliente->validate = $this->Cliente->validate_convidados;
-			
-            if( $this->Cliente->validates() ){
-                /**
-                 * verificar a quantidade de vagas e se excedeu o limit
-                 */
-                $this->Reserva->verificarLimiteDeConvidados($reservaId);
-                /**
-                 * cadastro o meu cliente
-                 */
-                $clienteId = $this->Cliente->cadastroDeClientes( $cliente[$this->Cliente->name] );
-                /**
-                 * vincular o cliente a reserva
-                 */
-                $this->Reserva->inserirConvidado($clienteId, $reservaId);
+            if( $this->is('post') && empty($Convidado)){
+                $cliente[$this->Cliente->name] = $_POST[$this->Cliente->name];
+                $cliente[$this->Cliente->name]['telefone'] = Utils::returnNumeric($cliente[$this->Cliente->name]['telefone']);
 
-                
-                $alert = json_encode(array(
+                $reserva = $this->Reserva->find('first', array('token' => $_POST['Reserva']['token']));
+                $reserva = array_shift($reserva);
+                $reservaId = $reserva['Reserva']['id'];
 
-                            'message' => 'Seu convidado foi registrado com sucesso',
-                            "style" =>'success',
-                            'time' => 5000,
-                            'size' => 'sm',
-                            'callback' => "window.location.reload();",
-                            'before' => "$('#loading').fadeOut(1000);",
-                            'icon'   => 'check',
-                            'title'  => 'Sucesso!'
-                        ));
-			
-				echo json_encode(array(
-                   'funcao' => "bootsAlert( " .$alert. " ); ",
-                ));
-				
-				
+                $cliente[$this->Cliente->name]['empresas_id'] = $reserva['Reserva']['empresas_id'];
+
+                $this->Cliente->data = $cliente[$this->Cliente->name];
+
+                            $this->Cliente->validate = $this->Cliente->validate_convidados;
+
+                if( $this->Cliente->validates() ){
+                    /**
+                     * verificar a quantidade de vagas e se excedeu o limit
+                     */
+                    $this->Reserva->verificarLimiteDeConvidados($reservaId);
+                    /**
+                     * cadastro o meu cliente
+                     */
+                    $clienteId = $this->Cliente->cadastroDeClientes( $cliente[$this->Cliente->name] );
+                    /**
+                     * vincular o cliente a reserva
+                     */
+                    $this->Reserva->inserirConvidado($clienteId, $reservaId);
+
+
+                    $alert = json_encode(array(
+
+                                'message' => 'Seu convidado foi registrado com sucesso',
+                                "style" =>'success',
+                                'time' => 5000,
+                                'size' => 'sm',
+                                'callback' => "window.location.reload();",
+                                'before' => "$('#loading').fadeOut(1000);",
+                                'icon'   => 'check',
+                                'title'  => 'Sucesso!'
+                            ));
+
+                                    echo json_encode(array(
+                       'funcao' => "bootsAlert( " .$alert. " ); ",
+                    ));
+
+
+                } else {
+                    echo json_encode(array(
+                        'erros' => $this->Cliente->validateErros,
+                        'form' => 'ClienteAddForm',
+                    ));
+                }
             } else {
-                echo json_encode(array(
-                    'erros' => $this->Cliente->validateErros,
-                    'form' => 'ClienteAddForm',
-                ));
+                
+                /**
+                 * foi chamada a ação
+                 */
+                $this->Cliente->data = null;
+                
+                $cliente[$this->Cliente->name] = $Convidado;
+                $cliente[$this->Cliente->name]['telefone'] = Utils::returnNumeric($cliente[$this->Cliente->name]['celular']);
+                
+                unset($cliente[$this->Cliente->name]['celular']);
+                
+                $reserva = $this->Reserva->find('first', array('token' => $token));
+                $reserva = array_shift($reserva);
+                $reservaId = $reserva['Reserva']['id'];
+
+                $cliente[$this->Cliente->name]['empresas_id'] = $reserva['Reserva']['empresas_id'];
+
+                $this->Cliente->data = $cliente[$this->Cliente->name];
+                
+                Utils::pre($this->Cliente->data);
+                
+                try {
+                    
+                    /**
+                     * cadastro o meu cliente
+                     */
+                    $clienteId = $this->Cliente->cadastroDeClientes( $cliente[$this->Cliente->name] );
+                    /**
+                     * vincular o cliente a reserva
+                     */
+                    $this->Reserva->inserirConvidado($clienteId, $reservaId);
+                    
+                    
+                    return $clienteId;
+                    
+                } catch (Exception $ex) {
+                    throw $ex;
+                } 
             }
             
         } catch (Exception $ex) {
@@ -1361,9 +1402,98 @@ class ReservasController extends AppController {
         $urlPDF = 'http://snappypdf.com.br/landscape.php?url=' . Router::url(array('Reservas', 'listarConvidados', $token )) . '&landscape=1';
         
         $this->set('convidados', $convidados);
+        $this->set('token', $token);
         $this->set('urlPDF', $urlPDF);
         $this->render();
     }
+    
+    
+    public function adicionarListaConvidados(){
+        try {
+            
+            $name = $_FILES['arquivo']['name'];
+            $token = $_POST['token'];
+            
+            
+            if( $_FILES['arquivo']['type'] !== 'application/vnd.ms-excel' ){
+                throw new Exception('Apenas arquivos com o tipo .CSV são permitidos');
+            }
+            if( $_FILES['arquivo']['error'] > 0 ){
+                throw new Exception('Houve algum erro inesperado no envio do arquivo para o servidor');
+            }
+            
+            /**
+             * caminho do servidor
+             */
+            $path = ROOT . '/View/webroot/arquivos';
+            /**
+             * crio a pasta da empresa
+             */
+            
+            $pasta = 'empresa_' . $this->empresas_id;
+            
+            /**
+             * caminho completo 
+             */
+            $path = $path . DS . $pasta;
+            
+            /**
+             * crio a pasta em arquivos se ela não existir
+             */
+            if(!file_exists($path)){
+                echo $path;
+                mkdir($path, 0777);
+            }
+            
+            if( move_uploaded_file($_FILES['arquivo']['tmp_name'], $path.DS.$name) ){ 
+                $readFile = new File($name, $path);
+                
+                /**
+                 * VERIFICAR A DISPONIBILIDADE DE VAGAS SE ELA EXCEDEU A QUANTIDADE E RETORNAR O QUANTO AINDA RESTA
+                 */
+                
+                
+                
+                foreach ($readFile->getArquivo() as $convidado) {
+                
+                    $array[] = $this->adicionarConvidados($convidado, $token);
+                    
+                }
+                
+                Utils::pre($array);
+            }
+            
+            
+        } catch (Exception $ex) {
+            $json = json_encode(array(
+                'message' => $ex->getMessage(),
+                "style" =>'danger',
+                'time' => 5000,
+                'size' => 'md',
+                'callback' => false,
+                'before' => "$('#loading').fadeOut(1000);",
+                'icon'   => 'times',
+                'title'  => 'Atenção!'
+            ));
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json )",
+            ));
+        }
+    }
+    
+    
+    public function cadastraConvidado(){
+        try {
+            
+            $this->layout = 'null';
+            $this->set('token', $_POST['token']);
+            $this->render();
+            
+        } catch (Exception $ex) {
+            
+        }
+    }
+    
     
     
 }
