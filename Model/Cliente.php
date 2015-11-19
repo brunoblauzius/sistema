@@ -230,15 +230,16 @@ class Cliente extends AppModel {
                                 
                 $totalRegistros = $this->query($sql);
                 
+                
                 if( count($totalRegistros) <= 0 ){
                     /**
                      * CLIENTE NAO EXISTE CADASTRAR CLIENTE
                      */
-                    
+                                        
                     $clienteId = $this->genericInsert( $cliente );
                     
                     $this->clientesEmpresas($clienteId, $cliente['empresas_id']);
-                    Utils::pre($total);return;
+                    
                     
                 } else {
                     /**

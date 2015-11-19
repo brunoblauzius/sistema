@@ -895,9 +895,10 @@ class Reserva extends AppModel {
             if(count($clienteReserva) <= 0 ){
                 $sql = "INSERT INTO clientes_convidados ( clientes_id, reservas_id , created) VALUES( $clienteId, $reservaID , NOW() );";
                 return $this->query($sql);
-            } else {
-                throw new Exception('Este cliente já foi cadastrado para essa reserva!');
-            }
+            } 
+//            else {
+//                throw new Exception('Este cliente já foi cadastrado para essa reserva!');
+//            }
                         
         } catch (Exception $ex) {
             throw $ex;
