@@ -340,17 +340,7 @@
         
         $(document).on('click', '.lista-convidados', function(){
             var url = $(this).data('url');
-            
-            $.ajax({
-                url: url,
-                data:{},
-                type: "get",
-                dataType: 'html',
-                success: function (json) {
-                    $('#Modal-lista-convidados').modal('show');
-                    $('#body-lista-convidados').html(json);
-                }
-            });
+            chamaListaDeConvidadosAdminEpdf( url );
         });
         
 </script>  

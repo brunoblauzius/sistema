@@ -1216,6 +1216,7 @@ class ReservasController extends AppController {
             if( $this->is('post') && empty($Convidado)){
                 $cliente[$this->Cliente->name] = $_POST[$this->Cliente->name];
                 $cliente[$this->Cliente->name]['telefone'] = Utils::returnNumeric($cliente[$this->Cliente->name]['telefone']);
+                
 
                 $reserva = $this->Reserva->find('first', array('token' => $_POST['Reserva']['token']));
                 $reserva = array_shift($reserva);
@@ -1248,13 +1249,14 @@ class ReservasController extends AppController {
                                 "style" =>'success',
                                 'time' => 5000,
                                 'size' => 'sm',
-                                'callback' => "window.location.reload();",
+                                //'callback' => "window.location.reload();",
+                                'callback' => "chamaListaDeConvidadosAdminEpdf( '".Router::url(array( 'Reservas', 'listarConvidados' , $_POST['Reserva']['token']))."' ); $('#body-lista-convidados').empty(); loadingElement('<br><b>Carregando a lista de Convidados</b>', '#body-lista-convidados');",
                                 'before' => "$('#loading').fadeOut(1000);",
                                 'icon'   => 'check',
                                 'title'  => 'Sucesso!'
                             ));
 
-                                    echo json_encode(array(
+                    echo json_encode(array(
                        'funcao' => "bootsAlert( " .$alert. " ); ",
                     ));
 
@@ -1273,7 +1275,10 @@ class ReservasController extends AppController {
                 $this->Cliente->data = null;
                 
                 $cliente[$this->Cliente->name] = $Convidado;
-                $cliente[$this->Cliente->name]['telefone'] = Utils::returnNumeric($cliente[$this->Cliente->name]['celular']);
+                $cliente[$this->Cliente->name]['telefone'] = Utils::returnNumeric( trim($cliente[$this->Cliente->name]['celular']) );
+                $cliente[$this->Cliente->name]['nome']     = utf8_encode(trim($cliente[$this->Cliente->name]['nome']));
+                $cliente[$this->Cliente->name]['email']    = trim($cliente[$this->Cliente->name]['email']);
+                $cliente[$this->Cliente->name]['dt_nascimento']    = utf8_encode(trim($cliente[$this->Cliente->name]['dt_nascimento']));
                 
                 unset($cliente[$this->Cliente->name]['celular']);
                 
@@ -1285,7 +1290,6 @@ class ReservasController extends AppController {
 
                 $this->Cliente->data = $cliente[$this->Cliente->name];
                 
-                Utils::pre($this->Cliente->data);
                 
                 try {
                     
@@ -1297,7 +1301,6 @@ class ReservasController extends AppController {
                      * vincular o cliente a reserva
                      */
                     $this->Reserva->inserirConvidado($clienteId, $reservaId);
-                    
                     
                     return $clienteId;
                     
@@ -1362,7 +1365,8 @@ class ReservasController extends AppController {
                             "style" =>'success',
                             'time' => 5000,
                             'size' => 'sm',
-                            'callback' => "window.location.reload();",
+                            //'callback' => "window.location.reload();",
+                            'callback' => "chamaListaDeConvidadosAdminEpdf( '".Router::url(array( 'Reservas', 'listarConvidados' , $token ))."' ); $('#body-lista-convidados').empty(); loadingElement('<br><b>Carregando a lista de Convidados</b>', '#body-lista-convidados');",
                             'before' => "$('#loading').fadeOut(1000);",
                             'icon'   => 'check',
                             'title'  => 'Sucesso!'
@@ -1414,7 +1418,9 @@ class ReservasController extends AppController {
             $name = $_FILES['arquivo']['name'];
             $token = $_POST['token'];
             
-            
+            if( empty($_FILES) ){
+                throw new Exception('Por favor insira um arquivo válido!');
+            }
             if( $_FILES['arquivo']['type'] !== 'application/vnd.ms-excel' ){
                 throw new Exception('Apenas arquivos com o tipo .CSV são permitidos');
             }
@@ -1452,17 +1458,29 @@ class ReservasController extends AppController {
                  * VERIFICAR A DISPONIBILIDADE DE VAGAS SE ELA EXCEDEU A QUANTIDADE E RETORNAR O QUANTO AINDA RESTA
                  */
                 
-                
-                
                 foreach ($readFile->getArquivo() as $convidado) {
                 
                     $array[] = $this->adicionarConvidados($convidado, $token);
                     
                 }
                 
-                Utils::pre($array);
+                
+                $json = json_encode(array(
+                    'message' => 'Parabéns sua lista de convidados foi inserida com sucesso!',
+                    "style" =>'success',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => "chamaListaDeConvidadosAdminEpdf( '".Router::url(array( 'Reservas', 'listarConvidados' , $token))."' ); $('#body-lista-convidados').empty(); loadingElement('<br><b>Carregando a lista de Convidados</b>', '#body-lista-convidados');",
+                    'before' => "$('#loading').fadeOut(1000);",
+                    'icon'   => 'check',
+                    'title'  => 'Sucesso no cadastro de convidados'
+                ));
+                echo json_encode(array(
+                    'funcao' => "bootsAlert( $json );",
+                ));
+                
+                
             }
-            
             
         } catch (Exception $ex) {
             $json = json_encode(array(

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <form method="post" action="<?= Router::url(array('Reservas', 'adicionarListaConvidados'))?>" id="ClienteAddForm">
+        <form method="post" action="<?= Router::url(array('Reservas', 'adicionarListaConvidados'))?>" id="ArquivoAddForm">
             <div class="row">
                 
                 <div class="form-group col-md-8">
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-12 ">
                     <button class="btn btn-s-md btn-primary btn-rounded btn-block">Cadastrar</button>
                 </div>
             </div>

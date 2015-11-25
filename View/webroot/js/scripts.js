@@ -1266,6 +1266,24 @@
            $(elemento).appendTo( 'body' ).delay(1000).fadeOut(1000);
     }
 
+    function chamaListaDeConvidadosAdminEpdf( url ){
+        $.ajax({
+                url: url,
+                data:{},
+                type: "get",
+                dataType: 'html',
+                success: function (json) {
+                    
+                    if( $('#Modal-lista-convidados').is(':visible') == false ){
+                        $('#Modal-lista-convidados').modal('show');
+                    }
+                    
+                    $('#body-lista-convidados').html(json);
+                }
+            });
+    }
+
+
     $(document).on('hidden.bs.modal', '#ModalFormulario', function () {
         
         var data_inicio  = $("#start").val();
@@ -1299,7 +1317,7 @@
         var token = $(this).data('token');
        
         if( token != null || token != '' ){
-            
+            $('#body-lista-convidados').empty();
             loadingElement('<br>Aguarde um Momento...', '#body-lista-convidados');
             
             $.ajax({

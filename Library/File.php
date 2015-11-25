@@ -103,15 +103,4 @@ class File {
         return $data;
     }
     
-    
-    public function printArq(){
-        echo '<pre>';
-            print_r( $this->arquivo );
-        echo '</pre>';
-    }
-    
 }
-
-//$arquivo = new Read( 'teste_exportacao2.csv' );
-//$arquivo->printArq();
-

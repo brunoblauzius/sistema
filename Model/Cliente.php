@@ -64,12 +64,12 @@ class Cliente extends AppModel {
                 'mensagem' => Enum::VAZIO
             ),
         ),
-        'telefone' => array(
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                'mensagem' => Enum::VAZIO
-            ),
-        ),
+//        'telefone' => array(
+//            'notEmpty' => array(
+//                'rule' => array('notEmpty'),
+//                'mensagem' => Enum::VAZIO
+//            ),
+//        ),
         /*'rg' => array(
 			'notEmpty' => array(
                 'rule' => array('notEmpty'),
@@ -230,15 +230,16 @@ class Cliente extends AppModel {
                                 
                 $totalRegistros = $this->query($sql);
                 
+                
                 if( count($totalRegistros) <= 0 ){
                     /**
                      * CLIENTE NAO EXISTE CADASTRAR CLIENTE
                      */
-                    
+                                        
                     $clienteId = $this->genericInsert( $cliente );
                     
                     $this->clientesEmpresas($clienteId, $cliente['empresas_id']);
-                    Utils::pre($total);return;
+                    
                     
                 } else {
                     /**
