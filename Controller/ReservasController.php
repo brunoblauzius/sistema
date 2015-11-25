@@ -1249,13 +1249,14 @@ class ReservasController extends AppController {
                                 "style" =>'success',
                                 'time' => 5000,
                                 'size' => 'sm',
-                                'callback' => "window.location.reload();",
+                                //'callback' => "window.location.reload();",
+                                'callback' => "chamaListaDeConvidadosAdminEpdf( '".Router::url(array( 'Reservas', 'listarConvidados' , $_POST['Reserva']['token']))."' ); $('#body-lista-convidados').empty(); loadingElement('<br><b>Carregando a lista de Convidados</b>', '#body-lista-convidados');",
                                 'before' => "$('#loading').fadeOut(1000);",
                                 'icon'   => 'check',
                                 'title'  => 'Sucesso!'
                             ));
 
-                                    echo json_encode(array(
+                    echo json_encode(array(
                        'funcao' => "bootsAlert( " .$alert. " ); ",
                     ));
 
@@ -1364,7 +1365,8 @@ class ReservasController extends AppController {
                             "style" =>'success',
                             'time' => 5000,
                             'size' => 'sm',
-                            'callback' => "window.location.reload();",
+                            //'callback' => "window.location.reload();",
+                            'callback' => "chamaListaDeConvidadosAdminEpdf( '".Router::url(array( 'Reservas', 'listarConvidados' , $token ))."' ); $('#body-lista-convidados').empty(); loadingElement('<br><b>Carregando a lista de Convidados</b>', '#body-lista-convidados');",
                             'before' => "$('#loading').fadeOut(1000);",
                             'icon'   => 'check',
                             'title'  => 'Sucesso!'
@@ -1470,7 +1472,7 @@ class ReservasController extends AppController {
                     'size' => 'md',
                     'callback' => "chamaListaDeConvidadosAdminEpdf( '".Router::url(array( 'Reservas', 'listarConvidados' , $token))."' ); $('#body-lista-convidados').empty(); loadingElement('<br><b>Carregando a lista de Convidados</b>', '#body-lista-convidados');",
                     'before' => "$('#loading').fadeOut(1000);",
-                    'icon'   => 'times',
+                    'icon'   => 'check',
                     'title'  => 'Sucesso no cadastro de convidados'
                 ));
                 echo json_encode(array(

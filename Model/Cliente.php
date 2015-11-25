@@ -64,12 +64,12 @@ class Cliente extends AppModel {
                 'mensagem' => Enum::VAZIO
             ),
         ),
-        'telefone' => array(
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                'mensagem' => Enum::VAZIO
-            ),
-        ),
+//        'telefone' => array(
+//            'notEmpty' => array(
+//                'rule' => array('notEmpty'),
+//                'mensagem' => Enum::VAZIO
+//            ),
+//        ),
         /*'rg' => array(
 			'notEmpty' => array(
                 'rule' => array('notEmpty'),

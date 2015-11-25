@@ -17,6 +17,7 @@
                     <th><strong>Nome:</strong></th>
                     <!--th><strong>E-mail:</strong></th>
                     <th><strong>Telefone:</strong></th-->
+                    <th style="width:10%"></th>
                 </tr>
             </thead>
             <tbody>
@@ -31,6 +32,11 @@
                 <td>
                     <?= Utils::formatarTelefone($registro['telefone'])?>
                 </td-->
+                <td>
+                    <div class="btn-group btn-group-xs">
+                        <a data-clienteId='<?= md5($registro['id'])?>' style="cursor:pointer" data-token="<?= $token?>" class="excluir-convidado"><i class="fa fa-times-circle"></i> Excluir</a>
+                    </div>
+                </td>
             </tr>
             <?php endforeach;?>
 
