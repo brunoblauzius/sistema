@@ -6,7 +6,7 @@
 </div>
 <div class="col-sm-2">
     <div class="form-group">
-        <small>Lugares: <strong class="text text-danger">*</strong></small>
+        <small>Lugares Sentados: <strong class="text text-danger">*</strong></small>
         <input type='text' class="form-control input-sm" name="Reserva[assentos]" id="assentos"/>
     </div>
 </div>
@@ -33,9 +33,9 @@
 
 <div class="col-sm-12" id="mesas-cadastro">
     <h5>Mesas Livre:</h5>
-    
-    <div class="clearfix"></div>
-    <hr>
+    <section class="alert alert-info">
+        <i class="fa fa-warning"></i> ATENÇÃO: Selecione o Salão e Ambiente...
+    </section>
 </div>
 
 <div class="form-group">

@@ -318,7 +318,26 @@ class Empresa extends AppModel {
         }
     }
 
-    
+    public function contatosEmpresa($empresasId ){
+        try {
+            
+            $sql = "SELECT 
+                        id,
+                        telefone,
+                        tipo
+                    FROM
+                        contatos AS Contato
+                            INNER JOIN
+                        empresas_has_contatos AS EmpresaContato ON EmpresaContato.contatos_id = Contato.id
+                    WHERE
+                        EmpresaContato.empresas_id = $empresasId;";
+            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
     
     
 }

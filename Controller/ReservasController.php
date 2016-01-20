@@ -668,9 +668,6 @@ class ReservasController extends AppController {
                      
             }
             
-            
-            
-            
             $this->set('registros', $newRegistros);
             $this->set('urlPDF', $urlPDF);
             $this->render();

@@ -6,7 +6,7 @@
 		$('#cpf').mask('000.000.000-00');
                 $('#cnpj').mask('00.000.000/0000-00');
 		$('.money').mask("###0.00", {reverse: true, maxlength: false});
-		$('.telefones').mask('(41) 0000-0000'); 
+		$('.telefones').mask('(00) 000000000'); 
                 $('.telefone').attr('placeholder','ex. 4199665588');
 		$('.telefone').val('41'); 
                 $('.date2').mask('00/00/0000'); 
@@ -74,7 +74,7 @@
 		$('#cpf').mask('000.000.000-00');
                 $('#cnpj').mask('00.000.000/0000-00');
 		$('.money').mask("###0.00", {reverse: true, maxlength: false});
-                $('.telefones').mask('(41) 0000-0000');
+                $('.telefones').mask('(00) 000000000');
                 $('.telefone').val('41');
                 $('.telefone').attr('placeholder','ex. 4199665588');
 		$('.date2').mask('00/00/0000'); 
