@@ -394,9 +394,12 @@ class UsuariosController extends AppController {
     public function edit() {
         try {
 
-            
-            
             $telefones = $_POST['Contato'];
+            
+            foreach ($telefones['telefone'] as $tel) {
+                $fone[] = Utils::returnNumeric($tel);
+            }
+            $telefones['telefone'] = $fone;
             
             $senha = null;
             $_POST[$this->Juridica->name]['id']         = Session::read('Usuario.juridicas_id');
@@ -491,13 +494,12 @@ class UsuariosController extends AppController {
     public function login() {
         try {
             
-            
 
             $this->User->validate = $this->User->validate_login;
             $_POST = Utils::sanitazeArray($_POST);
             $this->User->data = $_POST[$this->User->name];
-
-
+            $_SESSION = NULL;
+            
             if ($this->User->validates()) {
 
                 $this->User->data['senha'] = Authentication::password($this->User->data['senha']);
@@ -512,8 +514,7 @@ class UsuariosController extends AppController {
                 /**
                  * recuperar a empresa do funcionario
                  */
-                unset($_SESSION['Empresa']);
-                unset($_SESSION['Usuario']);
+                
 
                 Session::initAuth();
                 Session::createSession($usuario);

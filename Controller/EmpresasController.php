@@ -231,16 +231,16 @@ class EmpresasController extends AppController {
             $empresasId = $_POST['empresas_id'];
         
             $empresa = $this->Empresa->findEmpresa($empresasId);
+            $contatos = $this->Empresa->contatosEmpresa($empresasId);
+            
             
             if(count($empresa) > 0 ){
-                
                 $_SESSION['Empresa'] = $empresa[0];
-                
+                $_SESSION['Contato'] = $contatos;
                 if( Session::check('Form') ) {
                     $_SESSION['Form'] = NULL;
                     unset($_SESSION['Form']);
-                }
-                
+                } 
             }
             
             echo json_encode(array( 'funcao' => "window.location.reload();" ));

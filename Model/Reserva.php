@@ -851,28 +851,56 @@ class Reserva extends AppModel {
     public function confirmReserva( $token ){
         try {
                      
-            
             if( !empty($token) ){
-                $reserva = $this->find('first',array( 'token' => $token, 'status' => 1 ));
+                
+                $reserva = $this->query("SELECT * FROM reservas where token = '{$token}' and status = 1;");
                 $reserva = array_shift($reserva); 
-
+                
+                
                 if( !empty($reserva) ){
-
                     /**
                      * verifico se ja foi enviado o email para o cliente
                      */
-                    $enviado = $this->query("select * from emails_enviados where reservas_id = {$reserva[$this->name]['id']};");
+                    $enviado = $this->query("select * from emails_enviados where reservas_id = {$reserva['id']};");
                     
-                    if(count($enviado) <= 0){
-                        throw new Exception("Você não pode confirmar essa reserva, reenvie o email para o cliente antes de confirmar!");
+//                    if(count($enviado) <= 0){
+//                        throw new Exception("Você não pode confirmar essa reserva, reenvie o email para o cliente antes de confirmar!");
+//                    }
+                    
+                    if( count($enviado) > 0 )
+                    {
+                        $sql = "UPDATE emails_enviados 
+                                 SET 
+                                     confirm = 1,
+                                     status  = 1
+                                 WHERE
+                                     reservas_id = {$reserva['id']};";
+                    } 
+                    else 
+                    {
+                        $sql = "INSERT INTO `emails_enviados`
+                                    (
+                                        `reservas_id`,
+                                        `empresas_id`,
+                                        `pessoas_id`,
+                                        `clientes_id`,
+                                        `created`,
+                                        `status`,
+                                        `confirm`,
+                                        `total_enviado`
+                                    )
+                                        VALUES
+                                    (
+                                        {$reserva['id']},
+                                        {$reserva['empresas_id']},
+                                        {$reserva['pessoas_id']},
+                                        {$reserva['clientes_id']},
+                                        now(),
+                                        1,
+                                        1,
+                                        1
+                                    );";
                     }
-                    
-                    $sql = "UPDATE emails_enviados 
-                             SET 
-                                 confirm = 1,
-                                 status  = 1
-                             WHERE
-                                 reservas_id = {$reserva[$this->name]['id']};";
                     return $this->query($sql);
                 } 
             }
