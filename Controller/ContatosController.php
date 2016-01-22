@@ -72,4 +72,49 @@ class ContatosController extends AppController{
         }
     }
     
+    
+    public function edit() {
+        try {
+                        
+            foreach ($_POST['Contato']['telefone'] as $key => $value) {
+                $_POST['Contato']['telefone'][$key] = Utils::returnNumeric($value);
+            }
+            
+            $this->Contato->AlterarContatosEmpresa($this->empresas_id, $_POST['Contato']);
+            
+            $json = json_encode(array(
+                    'style' => 'success',
+                    'icon'  => 'check',
+                    'title' => 'Atenção',
+                    'message' => 'Alteração efetuada com sucesso',
+                    'button' => 'Fechar',
+                    'time' => 5000,
+                    'size' => 'sm',
+                ));
+            
+            
+            $sql = "SELECT 
+                        id,
+                        telefone,
+                        tipo
+                    FROM
+                        contatos AS Contato
+                            INNER JOIN
+                        empresas_has_contatos AS EmpresaContato ON EmpresaContato.contatos_id = Contato.id
+                    WHERE
+                        EmpresaContato.empresas_id = $this->empresas_id;";
+            
+            $_SESSION['Contato'] = $this->Contato->query($sql);
+                        
+            echo json_encode(array(
+                'funcao' => "bootsAlert({$json})",
+            ));
+                
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                'funcao' => "infoErro('".utf8_encode($ex->getMessage())."', '#ContatoEditForm');",
+            ));
+        }
+    }
+    
 }

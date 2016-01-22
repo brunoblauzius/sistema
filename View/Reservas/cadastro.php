@@ -31,7 +31,7 @@
                 <div class="col-md-9" style="padding-left:5px; padding-right:5px;">
                     <div class="form-group">
                         <small>Cliente: <strong class="text text-danger">*</strong></small>
-                        <input type='text' class="form-control" name="Busca[cliente]" id="cliente" placeholder="DDD e Telefone sem separação"/>
+                        <input type='text' class="form-control" name="Busca[cliente]" id="cliente" placeholder="Telefone sem separação"/>
                     </div>
                 </div>
             </div>

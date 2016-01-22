@@ -6,7 +6,8 @@
 		$('#cpf').mask('000.000.000-00');
                 $('#cnpj').mask('00.000.000/0000-00');
 		$('.money').mask("###0.00", {reverse: true, maxlength: false});
-		$('.telefones').mask('(00) 000000000'); 
+		$('.telefones').mask('(00) 000000000');
+                $('.fone').mask('(00) 000000000');
                 $('.telefone').attr('placeholder','ex. 4199665588');
                 $('.date2').mask('00/00/0000'); 
 		$('.data_time').mask('00:00');
@@ -74,6 +75,8 @@
                 $('#cnpj').mask('00.000.000/0000-00');
 		$('.money').mask("###0.00", {reverse: true, maxlength: false});
                 $('.telefone').attr('placeholder','ex. 4199665588');
+                $('.fone').mask('(00) 000000000');
+                $('.telefones').mask('(00) 000000000');
 		$('.date2').mask('00/00/0000'); 
 		$('.data_time').mask('00:00'); 
 		
@@ -1077,7 +1080,9 @@
                     // encerrar loader
                     //$('#loading').fadeOut(500);
                     // dados
+                    
                     $('#dados-cliente').html(html);
+                    $('input[name$="['+busca+']"]').val(valor);
                     $('#dados-reserva').empty();
                 }
             });
@@ -1117,7 +1122,9 @@
                         // encerrar loader
                         //$('#loading').fadeOut(500);
                         // dados
+                        
                         $('#dados-cliente').html(html);
+                        $('input[name$="['+busca+']"]').val(valor);
                         $('#dados-reserva').empty();
                     }
                 });
