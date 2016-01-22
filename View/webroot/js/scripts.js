@@ -8,7 +8,6 @@
 		$('.money').mask("###0.00", {reverse: true, maxlength: false});
 		$('.telefones').mask('(00) 000000000'); 
                 $('.telefone').attr('placeholder','ex. 4199665588');
-		$('.telefone').val('41'); 
                 $('.date2').mask('00/00/0000'); 
 		$('.data_time').mask('00:00');
                 
@@ -74,8 +73,6 @@
 		$('#cpf').mask('000.000.000-00');
                 $('#cnpj').mask('00.000.000/0000-00');
 		$('.money').mask("###0.00", {reverse: true, maxlength: false});
-                $('.telefones').mask('(00) 000000000');
-                $('.telefone').val('41');
                 $('.telefone').attr('placeholder','ex. 4199665588');
 		$('.date2').mask('00/00/0000'); 
 		$('.data_time').mask('00:00'); 
@@ -1049,13 +1046,22 @@
     
     
     $(document).on('click', '#procurar-cliente', function(){
+        
         var url   = web_root + 'Clientes/procurarCliente';
         var busca = $('#BuscarPor').val();
         var valor = $('#cliente').val();
         
+        
+        if( busca === 'telefone' ){
+            var ddd = $('#ddd').val();
+            valor = ddd + valor;
+        }
+        
         if( valor != null || valor != '' ){
             //$('#loading').fadeIn(500);
             //
+            $('#dados-cliente').empty();
+            $('#dados-reserva').empty();
             $('#dados-cliente').empty();
             loadingElement('<br>Carregando Informações...', '#dados-cliente');
             // iniciar o loader
@@ -1088,6 +1094,12 @@
             var busca = $('#BuscarPor').val();
             var valor = $('#cliente').val();
 
+            if( busca === 'telefone' ){
+                var ddd = $('#ddd').val();
+                valor = ddd + valor;
+            }
+
+
             if( valor != null || valor != '' ){
                 
                 loadingElement('<br>Carregando Informações...', '#dados-cliente');
@@ -1115,16 +1127,22 @@
     
     $(document).on('change', '#BuscarPor', function(){
         if( $('#BuscarPor').val() == 'telefone' ){
-            //$('#cliente').addClass('telefone');
-            //$('.telefone').mask('(00) 0000-0000');
-            $('#cliente').attr('placeholder', 'DDD e Telefone sem separação');
+            $('#cliente').parent('div').parent('div').addClass('col-md-9');
+            $('#cliente').parent('div').parent('div').removeClass('col-md-12');
+            $('#ddd').attr('disabled', false);
+            $('#ddd').parent('div').parent('div').show(300);
+            $('#cliente').attr('placeholder', 'Telefone sem separação');
         } else {
+            $('#ddd').parent('div').parent('div').hide();
+            $('#ddd').attr('disabled', true);
+            $('#cliente').parent('div').parent('div').removeClass('col-md-9');
+            $('#cliente').parent('div').parent('div').addClass('col-md-12');
             $('#cliente').removeClass('telefone');
             $('#cliente').removeAttr('autocomplete');
             $('#cliente').removeAttr('maxlength');
-            $('#cliente').removeAttr('value');
             $('#cliente').attr('placeholder', 'Digite aqui o valor');
         }
+        $('#cliente').val(null);
     });
     
 
