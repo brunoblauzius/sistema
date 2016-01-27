@@ -152,6 +152,17 @@ class UsuariosController extends AppController {
         try {
             $this->layout = 'painel';
             
+            $this->css = array_merge($this->css, array(
+                'css/bootstrap-switch',
+            ));
+
+            $this->js = array_merge($this->js, array(
+                'js/bootstrap-switch',
+                'js/toggle-init',
+            ));
+            
+            
+            
             $this->checaEmpresa();
             
             $modelEmpresa  = new Empresa();

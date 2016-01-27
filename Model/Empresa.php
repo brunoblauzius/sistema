@@ -301,6 +301,8 @@ class Empresa extends AppModel {
                         SituacaoEmpresa.nome as situacao_empresas,
                         Empresa.status,
                         Empresa.logo,
+                        Empresa.envio_outlook,
+                        Empresa.envio_sistema,
                         Empresa.created
                     FROM
                         reservas.pessoaJuridica AS Juridica

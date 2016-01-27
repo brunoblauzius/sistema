@@ -9,29 +9,29 @@
                     <h5><?= $mesaRestante['ambiente'] ?></h5>
                         <!--p><small>Total de mesas:</small> <br>
                     <?php if ($mesaRestante['totalMesas'] == 0): ?>
-                                    <label class="text text-warning"><i class="fa fa-warning"></i> Nenhuma mesa cadastrada!</label>
+                                        <label class="text text-warning"><i class="fa fa-warning"></i> Nenhuma mesa cadastrada!</label>
                     <?php else: ?>
-                                    <label class="text text-primary"><?= $mesaRestante['totalMesas'] ?> Mesas cadastradas</label>
-    <?php endif; ?>
+                                        <label class="text text-primary"><?= $mesaRestante['totalMesas'] ?> Mesas cadastradas</label>
+                    <?php endif; ?>
                         </p-->
 
-    <!--p style="margin-top: -15px"><small>Mesas reservadas hoje:</small> <br>
+        <!--p style="margin-top: -15px"><small>Mesas reservadas hoje:</small> <br>
                     <?php if ($mesaRestante['mesasReservadas'] == 0): ?>
-                <label class="text text-info">Nenhuma mesa reservada</label>
+                        <label class="text text-info">Nenhuma mesa reservada</label>
                     <?php else: ?>
-                <label class="text text-primary"><?= $mesaRestante['mesasReservadas'] ?> mesas reservadas</label>
-    <?php endif; ?>
-    </p-->
+                        <label class="text text-primary"><?= $mesaRestante['mesasReservadas'] ?> mesas reservadas</label>
+                    <?php endif; ?>
+        </p-->
 
                     <p style="margin-top: -10px"><small>Mesas disponíveis:</small> <br>
                         <?php if ($mesasDisponiveis == 0): ?>
                             <label class="label label-danger">Indisponivel para cadastro</label>
                         <?php else: ?>
                             <label class="label label-primary"><?= $mesasDisponiveis ?> mesas disponiveis</label>
-    <?php endif; ?>
+                        <?php endif; ?>
                     </p>
                 </div>
-<?php endforeach; ?>
+            <?php endforeach; ?>
         </div>
 
         <div class="clearfix"></div><hr>
@@ -52,13 +52,13 @@
                 <div class="col-sm-3">
                     <small>Escolha a data: </small>
                     <div class='input-group input-group-sm date datetimepicker2'>
-                        <input type="text" class="form-control date_time" name="data_inicio" id="data_inicio" placeholder="DD/MM/AAAA" value="<?= date('d/m/Y')?>">
+                        <input type="text" class="form-control date_time" name="data_inicio" id="data_inicio" placeholder="DD/MM/AAAA" value="<?= date('d/m/Y') ?>">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
                 </div>
-                
-    
+
+
                 <!--div class="col-md-3">
                         <small>Data Fim: </small>
                         <div class='input-group date datetimepicker2'>
@@ -91,7 +91,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">Lista de Reservas.</div>
     <div class="panel-body" id="panel-body">
-        
+
         <table class="table table-condensed " id="dynamic-table">
             <thead>
                 <tr>
@@ -107,55 +107,59 @@
                 </tr>
             </thead>
             <tbody>
-            <?php
-            if (!empty($registros)):
-                foreach ($registros as $registro):
-            ?>
-                    <tr>
-                        <td ><?= $registro['cliente'] ?></td>
-                        <td ><strong><?= $registro['telefone'] ?></strong></td>
-                        <td ><?= $registro['ambiente'] ?></td>
-                        <td ><?= $registro['qtde_pessoas'] ?></td>
-                        <td ><small><?= $registro['mesas'] ?></small></td>
-                        <td ><?= Utils::convertData($registro['start']) ?></td>
-                        <td class="text-center">
-                            <?php if($registro['status']):?>
-                                <strong class="text text-success"><i class="fa fa-check"></i> Sim</strong>
-                            <?php else:?>
-                                <strong class="text text-danger"><i class="fa fa-times"></i> Não</strong>
-                            <?php endif;?>
-                        </td>
-                        <td class="text-center">
-                            <?php if($registro['confirm']):?>
-                                <a class="label label-success"><i class="fa fa-check"></i></a>
-                            <?php else:?>
-                                <a class="label label-danger confirm-envio-email" data-token="<?= $registro['token'];?>"><i class="fa fa-times"></i></a>
-                            <?php endif;?>
-                        </td>
-                        <td >
-                            <div class="btn-group btn-group-xs" >
-                                <button class="btn btn-primary dropdown-toggle btn-xs" type="button" data-toggle="dropdown">
-                                    Ações <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu" style="font-size:11px; margin-left:-95px">
-                                    <li><a class="lista-convidados" style="cursor:pointer" data-url="<?= Router::url(array('Reservas', 'listarConvidados', $registro['token'] )) ?>"><i class="fa fa-users"></i> Convidados</a></li>
-                                    <li><a class="" target="_blank" href="<?= $urlPDF .DS.md5($registro['id']) ?>"><i class="fa fa-print"></i> Gerar PDF</a></li>
-                                    <li><a class="editarRegistro" style="cursor: pointer" data-idregistro="<?= ($registro['id']) ?>" data-href="<?= Router::url(array('Reservas', 'editar')) ?>" > <i class="fa fa-edit"></i> Editar</a></li>
-                                    <li><a class="cancelarRegistro" style="cursor: pointer" data-idregistro="<?= ($registro['token']) ?>" data-href="<?= Router::url(array('Reservas', 'cancelarRegistro')) ?>"> <i class="fa fa-times"></i> Cancelar Registro</a></li>
-                                    <li class="divider"></li>
-                                    <!--li><a class="envioEmail" style="cursor:pointer" data-url="<?= Router::url(array('Reservas', 'envioEmail', $registro['token'])) ?>"><i class="fa fa-envelope"></i> Enviar E-mail</a></li-->
-                                    <li><a href="mailto:<?= $registro['email'];?>" style="cursor:pointer" ><i class="fa fa-envelope"></i> Enviar E-mail</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-            <?php
-                endforeach;
-            endif;
-            ?>
+                <?php
+                if (!empty($registros)):
+                    foreach ($registros as $registro):
+                        ?>
+                        <tr>
+                            <td ><?= $registro['cliente'] ?></td>
+                            <td ><strong><?= $registro['telefone'] ?></strong></td>
+                            <td ><?= $registro['ambiente'] ?></td>
+                            <td ><?= $registro['qtde_pessoas'] ?></td>
+                            <td ><small><?= $registro['mesas'] ?></small></td>
+                            <td ><?= Utils::convertData($registro['start']) ?></td>
+                            <td class="text-center">
+                                <?php if ($registro['status']): ?>
+                                    <strong class="text text-success"><i class="fa fa-check"></i> Sim</strong>
+                                <?php else: ?>
+                                    <strong class="text text-danger"><i class="fa fa-times"></i> Não</strong>
+                                <?php endif; ?>
+                            </td>
+                            <td class="text-center">
+                                <?php if ($registro['confirm']): ?>
+                                    <a class="label label-success"><i class="fa fa-check"></i></a>
+                                <?php else: ?>
+                                    <a class="label label-danger confirm-envio-email" data-token="<?= $registro['token']; ?>"><i class="fa fa-times"></i></a>
+                                <?php endif; ?>
+                            </td>
+                            <td >
+                                <div class="btn-group btn-group-xs" >
+                                    <button class="btn btn-primary dropdown-toggle btn-xs" type="button" data-toggle="dropdown">
+                                        Ações <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" style="font-size:11px; margin-left:-95px">
+                                        <li><a class="lista-convidados" style="cursor:pointer" data-url="<?= Router::url(array('Reservas', 'listarConvidados', $registro['token'])) ?>"><i class="fa fa-users"></i> Convidados</a></li>
+                                        <li><a class="" target="_blank" href="<?= $urlPDF . DS . md5($registro['id']) ?>"><i class="fa fa-print"></i> Gerar PDF</a></li>
+                                        <li><a class="editarRegistro" style="cursor: pointer" data-idregistro="<?= ($registro['id']) ?>" data-href="<?= Router::url(array('Reservas', 'editar')) ?>" > <i class="fa fa-edit"></i> Editar</a></li>
+                                        <li><a class="cancelarRegistro" style="cursor: pointer" data-idregistro="<?= ($registro['token']) ?>" data-href="<?= Router::url(array('Reservas', 'cancelarRegistro')) ?>"> <i class="fa fa-times"></i> Cancelar Registro</a></li>
+                                        <li class="divider"></li>
+                                        <?php if($_SESSION['Empresa']['envio_sistema'] == 1):?>
+                                            <li><a class="envioEmail" style="cursor:pointer" data-url="<?= Router::url(array('Reservas', 'envioEmail', $registro['token'])) ?>"><i class="fa fa-envelope"></i> Enviar E-mail (Sistema)</a></li-->
+                                        <?php endif;?>
+                                        <?php if($_SESSION['Empresa']['envio_outlook'] == 1):?>
+                                            <li><a href="mailto:<?= $registro['email']; ?>" style="cursor:pointer" ><i class="fa fa-envelope"></i> Enviar E-mail (Outlook)</a></li>
+                                        <?php endif;?>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                    endforeach;
+                endif;
+                ?>
             </tbody>
         </table>
-        
+
     </div>
 </div>
 
@@ -192,9 +196,9 @@
 <script>
 
     $(document).ready(function() {
-        
+
         $('#filtrar').click(function() {
-            
+
             var ambientes_id = $('#ambientes_id').val();
             var data_inicio = $('#data_inicio').val();
             var data_fim = $('#data_fim').val();
@@ -204,10 +208,10 @@
             }
 
 
-            if( data_inicio.length == 10 ){
+            if (data_inicio.length == 10) {
                 $('#panel-body').empty();
                 //$('<div class="alert alert-info"><p>Filtrando Reservas ' + fraseLoading + ' ...</p></div>').appendTo('#panel-body');
-                loadingElement('<br>Filtrando Reservas ' + fraseLoading,'#panel-body' );
+                loadingElement('<br>Filtrando Reservas ' + fraseLoading, '#panel-body');
                 $.ajax({
                     url: web_root + 'Reservas/filtrar',
                     data: {
@@ -222,11 +226,11 @@
                     }
                 });
             }
-            if( data_inicio.length == 10 ){
-                
+            if (data_inicio.length == 10) {
+
                 $('#disponibilidadeMesas').empty();
                 //$('<div class="alert alert-info"><p>Verificando a disponibilidade de mesas para a data <b>'+data_inicio+'</b></p></div>').appendTo('#disponibilidadeMesas');
-                loadingElement('<br>Verificando a disponibilidade de mesas para a data <b>'+data_inicio,'#disponibilidadeMesas' );
+                loadingElement('<br>Verificando a disponibilidade de mesas para a data <b>' + data_inicio, '#disponibilidadeMesas');
                 $.ajax({
                     url: web_root + 'Reservas/disponibilidadeMesas',
                     data: {
@@ -244,20 +248,20 @@
 
 
     $('#imprimir-relatorio').click(function() {
-            
-            var ambientes_id = $('#ambientes_id').val();
-            var data_inicio  = $('#data_inicio').val();
-            var data_fim     = $('#data_fim').val();
 
-            data_inicio = data_inicio.split('/');
+        var ambientes_id = $('#ambientes_id').val();
+        var data_inicio = $('#data_inicio').val();
+        var data_fim = $('#data_fim').val();
 
-            data_inicio = data_inicio[2] + '-' + data_inicio[1] + '-' + data_inicio[0];
+        data_inicio = data_inicio.split('/');
 
-            if( data_inicio.length == 10 ){
-                var url = 'http://snappypdf.com.br/landscape.php?url=' + web_root + 'Reservas/relatorio/' + data_inicio + '/' + ambientes_id + '/' + '<?= md5( Session::read('Empresa.empresas_id') ); ?>&landscape=1';
-                window.open(url, '_blank');
-            }
-            
+        data_inicio = data_inicio[2] + '-' + data_inicio[1] + '-' + data_inicio[0];
+
+        if (data_inicio.length == 10) {
+            var url = 'http://snappypdf.com.br/landscape.php?url=' + web_root + 'Reservas/relatorio/' + data_inicio + '/' + ambientes_id + '/' + '<?= md5(Session::read('Empresa.empresas_id')); ?>&landscape=1';
+            window.open(url, '_blank');
+        }
+
     });
 
 
@@ -309,40 +313,40 @@
     });
 
 
-    $(document).on('click', '.confirm-envio-email', function(){
-          var token = $(this).data('token'); 
-          $this     = $(this);
-                    
-          if( token.length > 0 ){
+    $(document).on('click', '.confirm-envio-email', function() {
+        var token = $(this).data('token');
+        $this = $(this);
+
+        if (token.length > 0) {
             $('#loading').fadeIn(500);
             $.ajax({
                 url: web_root + 'Reservas/confirmReserva/',
-                data:{ token: token},
+                data: {token: token},
                 dataType: 'json',
                 type: 'post',
-                success: function (data) {
-                    
-                    if( data.style == 'success' ){
+                success: function(data) {
+
+                    if (data.style == 'success') {
                         $($this).addClass('label-success');
                         $($this).removeClass('label-danger');
                         $($this).find('i').removeClass('fa-times');
                         $($this).find('i').addClass('fa-check');
                     }
                     bootsAlert(data);
-                    
+
                 }
             });
-        }  
-       });
-       
-        $(document).on('keyup', '#qtde_pessoas', function(){
-            $('#assentos').val( $('#qtde_pessoas').val() ) ;
-        });
-        
-        $(document).on('click', '.lista-convidados', function(){
-            var url = $(this).data('url');
-            chamaListaDeConvidadosAdminEpdf( url );
-        });
-        
+        }
+    });
+
+    $(document).on('keyup', '#qtde_pessoas', function() {
+        $('#assentos').val($('#qtde_pessoas').val());
+    });
+
+    $(document).on('click', '.lista-convidados', function() {
+        var url = $(this).data('url');
+        chamaListaDeConvidadosAdminEpdf(url);
+    });
+
 </script>  
 

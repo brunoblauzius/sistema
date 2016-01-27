@@ -49,8 +49,12 @@
                             <li><a class="editarRegistro" style="cursor: pointer" data-idregistro="<?= ($registro['id']) ?>" data-href="<?= Router::url(array('Reservas', 'editar')) ?>" > <i class="fa fa-edit"></i> Editar</a></li>
                             <li><a class="cancelarRegistro" style="cursor: pointer" data-idregistro="<?= ($registro['token']) ?>" data-href="<?= Router::url(array('Reservas', 'cancelarRegistro')) ?>"> <i class="fa fa-times"></i> Cancelar Registro</a></li>
                             <li class="divider"></li>
-                            <!--li><a class="envioEmail" style="cursor:pointer" data-url="<?= Router::url(array('Reservas', 'envioEmail', $registro['token'])) ?>"><i class="fa fa-envelope"></i> Enviar E-mail</a></li-->
-                            <li><a href="mailto:<?= $registro['email'];?>" style="cursor:pointer" ><i class="fa fa-envelope"></i> Enviar E-mail</a></li>
+                            <?php if($_SESSION['Empresa']['envio_sistema'] == 1):?>
+                                <li><a class="envioEmail" style="cursor:pointer" data-url="<?= Router::url(array('Reservas', 'envioEmail', $registro['token'])) ?>"><i class="fa fa-envelope"></i> Enviar E-mail (Sistema)</a></li-->
+                            <?php endif;?>
+                            <?php if($_SESSION['Empresa']['envio_outlook'] == 1):?>
+                                <li><a href="mailto:<?= $registro['email']; ?>" style="cursor:pointer" ><i class="fa fa-envelope"></i> Enviar E-mail (Outlook)</a></li>
+                            <?php endif;?>
                         </ul>
                     </div>
                 </td>

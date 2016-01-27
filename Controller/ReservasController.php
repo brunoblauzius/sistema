@@ -767,6 +767,7 @@ class ReservasController extends AppController {
             $reserva = $this->Reserva->find('first', array('token' => $token ));
             $reserva = array_shift($reserva);
 
+            
             /**
             * recupero o salão e ambiente da reserva
             */

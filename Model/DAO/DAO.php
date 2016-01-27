@@ -199,9 +199,12 @@ class DAO extends AbstractDAO{
                     $condition = array();
                     foreach( $condicoes as $key => $value ) {
                         
-                        if( is_numeric($value) && !is_null($value) ) {
+                        if(is_int($value) && !is_null($value) ) {
                             $condition[] = "{$key} = {$value} ";
-                        } else {
+                        }else if(is_float($value) && !is_null($value) ) {
+                            $condition[] = "{$key} = {$value} ";
+                        }
+                        else {
                             $condition[] = "{$key} = '$value' "; 
                         } 
                         
