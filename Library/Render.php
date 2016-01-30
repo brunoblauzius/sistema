@@ -146,113 +146,41 @@ class Render {
     /**
      * @todo metodo que renderiza a url padrão do sistema
      */
-    public function urlRoot( ) {
-        $baseDir = null;
-        $Patch = getcwd();
-	
-		if( PHP_OS === 'WINNT' ){
-            $barra = '\\';
-        } else {
-            $barra = '/';
-        }
 
-        $Patch = explode( $barra , $Patch );
-
-        if(is_array($Patch)){
-            //$Patch = array_reverse($Patch); 
-			$Patch2 = $Patch; 
-            $baseDir = array_shift($Patch);
-            $baseDir = array_shift($Patch);
-
-            
-            //if(!is_null($baseDir) && $baseDir != 'www' || $baseDir != 'php' || $baseDir != 'C:' || $baseDir != NULL  ){
-                
-				return   WWW . '/bruno.blauzius/sistema/';
-            //}
-        }
-        return WWW . '/' ; 
-    }
-    
     public static function root( ) {
         $baseDir = null;
         $Patch = getcwd();
-	
-		if( PHP_OS === 'WINNT' ){
-            $barra = '\\';
-        } else {
-            $barra = '/';
-        }
-
-        $Patch = explode( $barra , $Patch );
-
-        if(is_array($Patch)){
-            //$Patch = array_reverse($Patch); 
-			$Patch2 = $Patch; 
-            $baseDir = array_shift($Patch);
-            $baseDir = array_shift($Patch);
-
-            
-            //if(!is_null($baseDir) && $baseDir != 'www' || $baseDir != 'php' || $baseDir != 'C:' || $baseDir != NULL ){
-                
-				return   WWW . '/bruno.blauzius/sistema/';
-           // }
-        }
-        return WWW . '/' ; 
-    }
-     
-    /**
-     * @todo metodo que renderiza a url padrão do sistema
-     
-    public function urlRoot( ) {
-        $baseDir = null;
-        $Patch = getcwd();
-	
-		if( PHP_OS === 'WINNT' ){
-            $barra = '\\';
-        } else {
-            $barra = '/';
-        }
-
-        $Patch = explode( $barra , $Patch );
-
-        if(is_array($Patch)){
-			
-            $Patch = array_reverse($Patch); 
-			
-            $baseDir = array_shift($Patch);
-
-            if(!is_null($baseDir) && $baseDir != 'www' || $baseDir != 'php' || $baseDir != 'C:' || $baseDir != NULL ){
-                
-				return   WWW . '/' . $baseDir . '/';
-            }
-        }
-        return WWW . '/' ; 
-    }
-    
-    public static function root( ) {
-        $baseDir = null;
-        $Patch = getcwd();
-
+        $arrayExcludes = array('www', '', 'var', 'home', 'public_html', 'agentus', 'mynight', 'C:', 'xampp', 'htdocs');
+        
         if( PHP_OS === 'WINNT' ){
             $barra = '\\';
         } else {
             $barra = '/';
         }
 
-
         $Patch = explode( $barra , $Patch );
-
+		
         if(is_array($Patch)){
-            $Patch = array_reverse($Patch);
-            $baseDir = array_shift($Patch);
-
-            if(!is_null($baseDir) && $baseDir != 'www' || $baseDir != 'php' || $baseDir != 'C:' || $baseDir != NULL ){
-                return   WWW . '/' . $baseDir . '/';
+             
+            
+            foreach ( $Patch as $keyEx => $exclude ){
+                if(in_array($exclude, $arrayExcludes)){
+                        unset($Patch[$keyEx]);
+                }
             }
+            
+	    return   WWW . '/' . join('/', $Patch) . '/';
         }
         return WWW . '/' ; 
-    }*/
-    
+    }
+   
+    /**
+     * @todo metodo que renderiza a url padrão do sistema
+      */
+    public function urlRoot() {
+        return self::root();
+    }
+     
     public static function url( $url = NULL ) {
         if( !empty($url) && is_array($url) ){
            return self::root() . join('/', $url);

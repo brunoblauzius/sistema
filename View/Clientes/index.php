@@ -77,7 +77,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <small>Telefone: <strong class="text text-danger">*</strong></small>
-                                <input type="text" name="Cliente[telefone]" class="form-control rounded telefone" placeholder="Telefone:">
+                                <input type="text" name="Cliente[telefone]" class="form-control rounded telefone" placeholder="Telefone:" value="<?= substr($_SESSION['Contato'][0]['telefone'], 0,2)?>">
                             </div>
                             <div class="form-group col-md-12">
                                 <small>Data Nascimento: <strong class="text text-danger"></strong></small>

@@ -152,19 +152,33 @@ class UsuariosController extends AppController {
         try {
             $this->layout = 'painel';
             
+            $this->css = array_merge($this->css, array(
+                'css/bootstrap-switch',
+            ));
+
+            $this->js = array_merge($this->js, array(
+                'js/bootstrap-switch',
+                'js/toggle-init',
+            ));
+            
+            
+            
             $this->checaEmpresa();
             
             $modelEmpresa  = new Empresa();
             $modelEndereco = new Endereco();
             
             $empresa  = $modelEmpresa->findEmpresa( $this->empresas_id );
+            $contatos = $modelEmpresa->contatosEmpresa( $this->empresas_id );
             $endereco = $modelEndereco->findEnderecosEmpresa( $this->empresas_id );
+                        
             
             $_SESSION['Form']['enderecos_id'] = $endereco[0]['enderecos_id'];
             
             $this->set('title_layout', 'Painel de configurações do sistema');
             $this->set('empresa', array_shift($empresa));
             $this->set('endereco', array_shift($endereco));
+            $this->set('contatos', $contatos);
             $this->render();
         } catch (Exception $ex) {
             

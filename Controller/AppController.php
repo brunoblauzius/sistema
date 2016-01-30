@@ -39,8 +39,9 @@ class AppController extends Render {
             $this->pessoas_id  = Session::read('Usuario.pessoas_id'); /* PEGAR O ID DA EMPRESA NA SEÇÃO */
 
             $this->css = array(
-                'css/bootstrap', 
-                'css/bootstrap_papper', 
+                'css/bootstrap',
+                'bs3/css/bootstrap.min',
+                'css/bootstrap_papper',
                 'css/bootstrap-reset', 
                 'font-awesome/css/font-awesome',
                 'css/style',
@@ -56,10 +57,10 @@ class AppController extends Render {
             
             $this->js = array(
                 'js/jquery-1.11.1.min',
+                'bs3/js/bootstrap.min',
                 'js/jquery-ui-1.9.2.custom.min',
                 'js/ajaxForm',
                 'js/ckeditor/ckeditor',
-                'bs3/js/bootstrap.min',
                 'js/jquery.scrollTo.min',
                 'js/jQuery-slimScroll-1.3.0/jquery.slimscroll',
                 'js/jquery.nicescroll',

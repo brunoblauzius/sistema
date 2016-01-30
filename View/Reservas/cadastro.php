@@ -16,22 +16,27 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <small>Hora: <strong class="text text-danger">*</strong></small>
-                    <!--div class='input-group' id=''>
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-time"></span>
-                        </span-->
-                        <input type='text' class="form-control data_time " id="hora" name="Reserva[hora]" placeholder="ex. 20:00"/>
-                    <!--/div-->                               
+                        <input type='text' class="form-control data_time " id="hora" name="Reserva[hora]" placeholder="ex. 20:00"/>                              
                 </div>
             </div>
             
             
             <div class="col-md-4">
-                <div class="form-group">
-                    <small>Cliente: <strong class="text text-danger">*</strong></small>
-                    <input type='text' class="form-control" name="Busca[cliente]" id="cliente" placeholder="DDD e Telefone sem separação"/>
+                <div class="col-md-3" style="padding-left:5px; padding-right:5px;">
+                    <div class="form-group">
+                        <small>DDD:</small>
+                        <input type='text' class="form-control" name="Busca[ddd]" id="ddd" value="<?= substr($_SESSION['Contato'][0]['telefone'], 0,2)?>"/>
+                    </div>
+                </div>
+                <div class="col-md-9" style="padding-left:5px; padding-right:5px;">
+                    <div class="form-group">
+                        <small>Cliente: <strong class="text text-danger">*</strong></small>
+                        <input type='text' class="form-control" name="Busca[cliente]" id="cliente" placeholder="Telefone sem separação"/>
+                    </div>
                 </div>
             </div>
+            
+            
 
             <div class="col-md-3">
                 <div class="form-group">
