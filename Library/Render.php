@@ -165,10 +165,10 @@ class Render {
             $baseDir = array_shift($Patch);
 
             
-            if(!is_null($baseDir) && $baseDir != 'www' || $baseDir != 'php' || $baseDir != 'C:' || $baseDir != NULL ){
+            //if(!is_null($baseDir) && $baseDir != 'www' || $baseDir != 'php' || $baseDir != 'C:' || $baseDir != NULL  ){
                 
-				return   WWW . '/' . join( $barra, $Patch) . '/';
-            }
+				return   WWW . '/bruno.blauzius/sistema/';
+            //}
         }
         return WWW . '/' ; 
     }
@@ -192,10 +192,10 @@ class Render {
             $baseDir = array_shift($Patch);
 
             
-            if(!is_null($baseDir) && $baseDir != 'www' || $baseDir != 'php' || $baseDir != 'C:' || $baseDir != NULL ){
+            //if(!is_null($baseDir) && $baseDir != 'www' || $baseDir != 'php' || $baseDir != 'C:' || $baseDir != NULL ){
                 
-				return   WWW . '/' . join( $barra, $Patch) . '/';
-            }
+				return   WWW . '/bruno.blauzius/sistema/';
+           // }
         }
         return WWW . '/' ; 
     }
