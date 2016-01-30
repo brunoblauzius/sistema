@@ -149,6 +149,46 @@ class Contato extends AppModel {
     }
 
     
+    public function AlterarContatosEmpresa( $empresasId, array $contatos ){
+        $contatoId = 0;
+
+        if (is_array($contatos) && !empty($contatos)) {
+            
+            $i = 0;
+            
+            foreach ($contatos['telefone'] as $telefone) {
+
+                $tipo = $contatos['tipo_telefone'][$i];
+
+                if( isset($contatos['id'][$i]) && !empty($contatos['id'][$i]) ){
+                    
+                    $id   = $contatos['id'][$i];
+                    
+                    $this->genericUpdate(array(
+                        'id'       => $id,
+                        'telefone' => $telefone,
+                        'tipo'     => $tipo,
+                    ));
+                    
+                    
+                } else {
+                    
+                    $contatoId = $this->genericInsert(array(
+                        'telefone' => $telefone,
+                        'tipo' => $tipo,
+                    ));
+                    
+                    $sql = "INSERT INTO empresas_has_contatos ( empresas_id, contatos_id ) VALUES ( $empresasId, $contatoId ); ";
+                    $this->query($sql);
+                    
+                }
+                 $i++;
+            }
+        }
+    }
+    
+    
+    
     public function findPessoaContatos( $pessoaId = null ){
         try {
             

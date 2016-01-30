@@ -146,37 +146,11 @@ class Render {
     /**
      * @todo metodo que renderiza a url padrão do sistema
      */
-    public function urlRoot( ) {
-        $baseDir = null;
-        $Patch = getcwd();
-	
-		if( PHP_OS === 'WINNT' ){
-            $barra = '\\';
-        } else {
-            $barra = '/';
-        }
-
-        $Patch = explode( $barra , $Patch );
-
-        if(is_array($Patch)){
-            //$Patch = array_reverse($Patch); 
-			$Patch2 = $Patch; 
-            $baseDir = array_shift($Patch);
-            $baseDir = array_shift($Patch);
-
-            
-            if(!is_null($baseDir) && $baseDir != 'www' || $baseDir != 'php' || $baseDir != 'C:' || $baseDir != NULL ){
-                
-				return   WWW . '/' . join( $barra, $Patch) . '/';
-            }
-        }
-        return WWW . '/' ; 
-    }
-    
     public static function root( ) {
         $baseDir = null;
         $Patch = getcwd();
-	
+		$arrayExcludes = array('www', '', 'var', 'home', 'public_html', 'agentus', 'mynight');
+        
 		if( PHP_OS === 'WINNT' ){
             $barra = '\\';
         } else {
@@ -184,20 +158,25 @@ class Render {
         }
 
         $Patch = explode( $barra , $Patch );
-
+		
         if(is_array($Patch)){
-            //$Patch = array_reverse($Patch); 
-			$Patch2 = $Patch; 
-            $baseDir = array_shift($Patch);
-            $baseDir = array_shift($Patch);
-
-            
-            if(!is_null($baseDir) && $baseDir != 'www' || $baseDir != 'php' || $baseDir != 'C:' || $baseDir != NULL ){
-                
-				return   WWW . '/' . join( $barra, $Patch) . '/';
+            $Patch = array_reverse($Patch);
+            foreach ( $Patch as $keyEx => $exclude ){
+				if(in_array($exclude, $arrayExcludes)){
+					unset($Patch[$keyEx]);
+				}
             }
+            $baseDir = array_reverse($Patch);
+			return   WWW . '/' . join('/', $baseDir) . '/';
         }
         return WWW . '/' ; 
+    }
+   
+    /**
+     * @todo metodo que renderiza a url padrão do sistema
+      */
+    public function urlRoot() {
+        return self::root();
     }
      
     /**

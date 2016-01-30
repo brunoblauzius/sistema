@@ -326,4 +326,67 @@ class EmpresasController extends AppController {
         }
     }
     
+    
+    public function configEnvioEmail(){
+        try {
+            
+            $_POST['Empresa']['id'] = $this->empresas_id;
+            
+            if( isset($_POST['Empresa']['envio_outlook']) ){
+                $_POST['Empresa']['envio_outlook'] = 1;
+            } else {
+                $_POST['Empresa']['envio_outlook'] = 0;
+            }
+            
+            if( isset($_POST['Empresa']['envio_sistema']) ){
+                $_POST['Empresa']['envio_sistema'] = 1;
+            } else {
+                $_POST['Empresa']['envio_sistema'] = 0;
+            }
+            
+            
+            
+            if( $this->Empresa->genericUpdate($_POST['Empresa'])){
+                
+                $empresa = $this->Empresa->findEmpresa($this->empresas_id);
+                
+                $_SESSION[$this->Empresa->name] = $empresa[0];
+                
+                $json = json_encode(array(
+                    'message' => 'Sua alteração foi efetuada com sucesso!',
+                    "style" =>'success',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => "window.location.reload();",
+                    'before' => "$('#loading').fadeOut(500);",
+                    'icon'   => '',
+                    'title'  => 'Sucesso!'
+                ));
+                
+                echo json_encode(array(
+                    'funcao' => "bootsAlert( $json );",
+                ));
+                
+            }
+            
+            
+        } catch (Exception $ex) {
+           
+            $json = json_encode(array(
+                    'message' => $ex->getMessage(),
+                    "style" =>'danger',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => null,
+                    'before' => "$('#loading').fadeOut(500);",
+                    'icon'   => '',
+                    'title'  => 'ERRO'
+                ));
+                
+                echo json_encode(array(
+                    'funcao' => "bootsAlert( $json );",
+                ));
+        }
+    }
+    
 }
