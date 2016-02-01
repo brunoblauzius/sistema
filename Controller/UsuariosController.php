@@ -508,7 +508,6 @@ class UsuariosController extends AppController {
     public function login() {
         try {
             
-
             $this->User->validate = $this->User->validate_login;
             $_POST = Utils::sanitazeArray($_POST);
             $this->User->data = $_POST[$this->User->name];

@@ -88,6 +88,7 @@ class ReservasController extends AppController {
         try {
             
             $this->checaEmpresa();
+            $this->verificaCadastrosReservas();
             //$this->verificaContaEmpresa();
             
             /**
@@ -109,8 +110,7 @@ class ReservasController extends AppController {
             
             
         } catch (BusinessException $buEx) {
-            $this->set( 'mensagem', $buEx->getMessage() );
-            die( $this->render(array('controller' => 'Erros', 'view' => 'notPermisson')) );
+            $buEx->getBusinessMessage( $this, 'null' );
         } catch( Exception $ex ){
             
             if( $ex->getCode() == 2015 ){
@@ -185,6 +185,7 @@ class ReservasController extends AppController {
         try {
             
             $this->checaEmpresa();
+            $this->verificaContaEmpresa();
             $Modelambientes = new Ambiente();
             
             
@@ -227,15 +228,27 @@ class ReservasController extends AppController {
             $this->set('ambientes', $ambientes);
             $this->set('mesasRestantes', $mesasRestantes);
             $this->set('urlPDF', $urlPDF);
+            //$this->set('qtdeReservas', $this->Reserva->countReservasExcedido( $this->empresas_id ) );
             $this->set('title_layout', 'Reservas -  Página Inicial');
             $this->render();
             
-        } catch( Exception $ex ){
+        } 
+        catch (BusinessException $buEx) {
+            $buEx->getBusinessMessage($this);
+        } 
+        catch( Exception $ex ){
             
             if( $ex->getCode() == 2015 ){
+                
                 $this->set( 'mensagem', $ex->getMessage() );
                 die( $this->render(array('controller' => 'Erros', 'view' => 'sessaoEmpresa')) );
-            } else {
+                
+            } else if( $ex->getCode() == 2018 ){
+                $this->layout = 'null';
+                $this->set( 'mensagem', $ex->getMessage() );
+                die( $this->render(array('controller' => 'Erros', 'view' => 'cadastroBloqueado')) );
+                
+            }else {
                 echo $ex->getMessage();
             }
             
@@ -318,7 +331,7 @@ class ReservasController extends AppController {
                  * VERIFICO SE O CLIENTE TEM EMAIL CADASTRADO
                  */
                 
-                if( !empty($dadoEmailReserva[0]['email']) ){
+                if( !empty($dadoEmailReserva[0]['email']) && (Session::read('Empresa.envio_sistema') == 1) ){
                     /**
                      * envio o email para o cliente cadastrado para inserir na lista os dados das pessoas relacionadas
                      */
@@ -779,14 +792,17 @@ class ReservasController extends AppController {
             * VERIFICO SE O CLIENTE TEM EMAIL CADASTRADO
             */
 
-           if( !empty($dadoEmailReserva[0]['email']) ){
+           if( !empty($dadoEmailReserva[0]['email']) && (Session::read('Empresa.envio_sistema') == 1) ){
                /**
                 * envio o email para o cliente cadastrado para inserir na lista os dados das pessoas relacionadas
                 */
                 $email = new Email();
                 $email->useTable = 'emails_sistema';
-                $registro = $email->find('first', array('tag' => 'email_confirmacao'));
-
+                if( in_array(Session::read('ContaEmpresa.contas_empresas_tipos_id'), array(1,3,5) ) ){
+                    $registro = $email->find('first', array('tag' => 'email_confirmacao'));
+                } else {
+                    $registro = $email->find('first', array('tag' => 'email_confirmacao'));
+                }
                 /**
                  * recupero o endereço da empresa
                  */
@@ -1064,17 +1080,22 @@ class ReservasController extends AppController {
         try {
             $token = $_GET['param'];
             
+            
+            /**
+             * validação de tempo 
+             */
+            $this->Reserva->confirmReserva( $token );
+            
             /**
              *  VERIFICAR SE O TEMPO DECORRIDO ESTÁ EM PRAZO PARA CADASTRO DE CONVIDADOS NA DATA CORRENTE
              */
-            
-            
             $reserva = $this->Reserva->find('all', array('token' => $token, 'status' => 1));
             $reserva = array_shift($reserva);
             
             
-            $cliente  = $this->Cliente->find('first', array('id' => $reserva['Reserva']['clientes_id']));
-            $empresa = $this->Empresa->findEmpresa($reserva['Reserva']['empresas_id']);
+            $cliente      = $this->Cliente->find('first', array('id' => $reserva['Reserva']['clientes_id']));
+            $empresa      = $this->Empresa->findEmpresa($reserva['Reserva']['empresas_id']);
+            $contaEmpresa = $this->Empresa->contaEmpresa(md5($reserva['Reserva']['empresas_id']));
             
             /**
             * recupero as mesas
@@ -1094,16 +1115,17 @@ class ReservasController extends AppController {
            $endereco = $this->Endereco->findEnderecosEmpresa( $reserva['Reserva']['empresas_id'] );
            $enderecoEmpresa = $endereco[0]['logradouro'] .', '.$endereco[0]['numero'] .' | '. $endereco[0]['cidade'] . ' - ' . $endereco[0]['bairro'] . ' - ' . $endereco[0]['uf'];
 
-                
-           $convidados = $this->Reserva->convidados($reserva['Reserva']['id']);
            
-            /**
-             * validação de tempo 
-             */
-            $this->Reserva->confirmReserva( $token );
+           
+           
+           if(in_array($contaEmpresa[0]['contas_empresas_tipos_id'], array(1,3,5))){  
+                $convidados = $this->Reserva->convidados($reserva['Reserva']['id']);
+                $this->set('convidados', $convidados);
+           }
+            
             
             $this->set('reserva', $reserva);
-            $this->set('convidados', $convidados);
+            $this->set('contaEmpresa', $contaEmpresa[0]);
             $this->set('cliente', array_shift($cliente));
             $this->set('empresa', array_shift($empresa));
             $this->set('mesas', join(', ',$mesas));

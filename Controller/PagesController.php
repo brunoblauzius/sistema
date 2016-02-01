@@ -6,7 +6,7 @@
  */
 class PagesController extends AppController{
     
-    public $ClasseAllow = false;
+    public $ClasseAllow = array('index', 'login', 'ativarConta', 'cadastroSucesso');
     
     public $User = null;
     
@@ -16,15 +16,14 @@ class PagesController extends AppController{
     }
     
     public function index() {
-        
         if( Session::check('Usuario')){
             header('Location: ' . Router::url(array('Usuarios', 'painel')));
-            exit();
+            die();
+        } else {
+            $this->layout = 'default';       
+            $this->set('title_layout', ' Logar no sistema' . $this->systemName );
+            $this->render();
         }
-        
-        $this->layout = 'default';       
-        $this->set('title_layout', ' Logar no sistema' . $this->systemName );
-        $this->render();	
     }
     
     
@@ -33,11 +32,11 @@ class PagesController extends AppController{
         if( Session::check('Usuario')){
             header('Location: ' . Router::url(array('Usuarios', 'painel')));
             exit();
+        } else {
+            $this->layout = 'default';
+            $this->set('title_layout', ' Logar no sistema' . $this->systemName);
+            $this->render();
         }
-        
-        $this->layout = 'default';
-        $this->set('title_layout', ' Logar no sistema' . $this->systemName);
-        $this->render();	
     }
     
     

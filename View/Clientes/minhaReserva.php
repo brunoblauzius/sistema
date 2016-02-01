@@ -67,7 +67,7 @@
             </div>
         </section>
 </div>
-    
+    <?php if( in_array($contaEmpresa['contas_empresas_tipos_id'], array(1,3,5)) ):?>
     <div class="row">
         <div class="col-sm-8 col-md-8">
             <section class="panel">
@@ -162,4 +162,5 @@
 
         </div>
     </div>
+    <?php endif;?>
 </div>
