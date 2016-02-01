@@ -1037,4 +1037,21 @@ class Reserva extends AppModel {
         }
     }
     
+    
+    public function confirmPresencaConvite( $clienteId, $reservasId ){
+        try {
+            
+            $sql = "UPDATE clientes_convidados 
+                    SET 
+                        confirmado = 1
+                    WHERE
+                        reservas_id = {$reservasId} AND clientes_id = {$clienteId};";
+                        
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
 }

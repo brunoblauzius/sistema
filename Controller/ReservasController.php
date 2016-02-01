@@ -1533,5 +1533,58 @@ class ReservasController extends AppController {
     }
     
     
+    public function confirmPresencaConvite(){
+        try {
+            
+            if( $this->Reserva->confirmPresencaConvite(intval($_POST['clientes_id']), intval($_POST['reservas_id'])) )
+            {
+                $json = json_encode(array(
+                    'message' => 'Confirmação efetuada com sucesso',
+                    "style" =>'success',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => NULL,
+                    'before' => "$('#loading').fadeOut(1000);",
+                    'icon'   => 'check',
+                    'title'  => 'Sucesso no cadastro de convidados'
+                ));
+                echo json_encode(array(
+                    'funcao' => "bootsAlert( $json );",
+                ));
+            } 
+            else
+            {
+                $json = json_encode(array(
+                    'message' => 'Houve algum erro no processo!',
+                    "style" =>'warning',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => NULL,
+                    'before' => "$('#loading').fadeOut(1000);",
+                    'icon'   => 'check',
+                    'title'  => 'Atenção!'
+                ));
+                echo json_encode(array(
+                    'funcao' => "bootsAlert( $json );",
+                ));
+            }
+            
+        } catch (Exception $ex) {
+            $json = json_encode(array(
+                'message' => $ex->getMessage(),
+                "style" =>'danger',
+                'time' => 5000,
+                'size' => 'md',
+                'callback' => false,
+                'before' => "$('#loading').fadeOut(1000);",
+                'icon'   => 'times',
+                'title'  => 'Atenção!'
+            ));
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json )",
+            ));
+        }
+        
+    }
     
 }

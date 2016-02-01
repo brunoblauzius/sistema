@@ -117,7 +117,7 @@ class Cliente extends AppModel {
         $RG = null;
         $EMAIL = null;
         
-        if ( $roleId < 4 ){
+        if ( $roleId < 4 || $roleId == 6 ){
             $modelEmpresa = new Empresa();
             $proprietarioId = $modelEmpresa->proprietario(md5($pessoasId));
             $proprietarioId = (int) $proprietarioId[0]['pessoas_id'];
@@ -167,7 +167,7 @@ class Cliente extends AppModel {
     public function clientesProprietario( $pessoasId, $roleId ){
         try {
             
-            if ( $roleId < 4 ){
+            if ( in_array($roleId, array(2,3,6)) ){
                 $modelEmpresa = new Empresa();
                 $proprietarioId = $modelEmpresa->proprietario(md5($pessoasId));
                 $proprietarioId = (int) $proprietarioId[0]['pessoas_id'];

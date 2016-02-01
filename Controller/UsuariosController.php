@@ -12,6 +12,9 @@
  */
 class UsuariosController extends AppController {
 
+    
+    public $ClasseAllow = array('logout', 'login');
+    
     public $User = null;
     public $Pessoa = null;
     public $Endereco = null;
@@ -535,7 +538,7 @@ class UsuariosController extends AppController {
                 /**
                  * Usuario operador logar com a empresa já na session
                  */
-                if (in_array($usuario[$this->User->name]['roles_id'], array(2))) {
+                if (in_array($usuario[$this->User->name]['roles_id'], array(2,6))) {
                     $modelFuncionario = new Funcionario();
                     $modelEmpresa     = new Empresa();
                     $funcionario      = $modelFuncionario->find('first', array('pessoas_id' => $usuario[$this->User->name]['pessoas_id']) );
@@ -547,12 +550,17 @@ class UsuariosController extends AppController {
                         $_SESSION[$modelFuncionario->name] = $funcionario[0][$modelFuncionario->name];
                     }
 
-                    $empresa     =  $modelEmpresa->findEmpresa($funcionario[0][$modelFuncionario->name]['empresas_id']);
-
+                    $empresa      =  $modelEmpresa->findEmpresa($funcionario[0][$modelFuncionario->name]['empresas_id']);
+                    
 
                     if( count($empresa) > 0 ){
-                        //$empresa[0]['empresas_id'] = $empresa[0]['id'];
+                        /**
+                         * recuperando a conta empresa e guardando na sessao
+                         */
+                        $contaEmpresa = $modelEmpresa->contaEmpresa(md5($funcionario[0][$modelFuncionario->name]['empresas_id']));
+                        
                         $_SESSION[$modelEmpresa->name] = $empresa[0];
+                        $_SESSION['ContaEmpresa'] = $contaEmpresa[0];
                     }
                 } 
                 else if( $usuario[$this->User->name]['roles_id'] == 3 ) {
