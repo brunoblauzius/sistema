@@ -1,0 +1,119 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 29/12/2015, 14:56:30
+    Author     : bruno.blauzius
+*/
+
+.pddnull {
+    padding: 0px;
+}
+
+.marginNull {
+    margin: 0px;
+}
+
+.form-custom p{
+    padding: 3px 0px;
+    margin: 0px;
+}
+.buttom-icon{
+    padding-top:27px; 
+    font-size:20px;
+    padding-left:10px;
+}
+
+.title-style{
+    font-size: 16px;
+    border-bottom: 3px;
+    color: #1FB5AD;
+}
+
+.hr{
+    margin-top: 0px;
+}
+
+.bg-primary-theme{
+    background-color: #eaf7f6;
+    color: #1FB5AD;
+}
+
+.bg-header-primary{
+    background-color: #1FB5AD;
+    color: #FFF;
+    text-transform:uppercase;
+}
+
+.bg-warning{
+    background-color: #FFA000;
+    color: #fff3d1;
+    font-size:14px;
+}
+
+i{
+    margin-right: 7px;
+}
+.span-bold{
+    font-weight:600; 
+    color:#808080;
+}
+
+.btn-grey-light{
+    background-color: #eaf7f6;
+    color: #666;
+}
+
+.btn-grey-light:hover{
+    background-color: #d2e0df;
+}
+
+.size12{
+    font-size: 12px;
+}
+
+.size10{
+    font-size: 10px;
+}
+
+.size20{
+    font-size: 20px;
+}
+
+.size30{
+    font-size: 30px;
+}
+
+.dia-expirar{
+    padding: 5px;
+    margin-left: 15px;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+.margin20{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.timeline-desk .btn{
+    color: #FFF;
+    margin-top:15px;
+}
+
+
+
+.timeline-desk h1 {
+    font-weight: 600;
+}
+
+.text-green{
+    color:#1fb5ac;
+}
+
+.brand{
+    background:#2C3E50;
+}

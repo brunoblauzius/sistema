@@ -188,7 +188,33 @@ class Funcionario extends AppModel{
         }
     }
     
-    
+    public function quantidadeFuncionariosEmpresa( $empresaId ){
+            try {
+                
+                $sql = "SELECT 
+                            (select count(*) from funcionarios where empresas_id = Empresa.id ) as funcionarios,
+                            ContaEmpresa.qtde_funcionarios,
+                            TipoContaEmpresa.nome
+                        FROM
+                            empresas as Empresa
+                            inner join contas_empresas as ContaEmpresa on ContaEmpresa.empresas_id = Empresa.id
+                            inner join contas_empresas_tipos as TipoContaEmpresa ON TipoContaEmpresa.id = ContaEmpresa.contas_empresas_tipos_id
+                        WHERE
+                            Empresa.id = $empresaId;";
+                
+                $retorno = $this->query($sql);
+                
+                if( !empty($retorno)){
+                    $retorno = array_shift($retorno);
+                    
+                    $retorno['total_restante'] = $retorno['qtde_funcionarios'] - $retorno['funcionarios'];
+                }
+                return $retorno;
+                
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+        }
         
     
 }

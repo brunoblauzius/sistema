@@ -1017,4 +1017,24 @@ class Reserva extends AppModel {
         }
     }
     
+    
+    public function countReservasExcedido( $empresasId = NULl ){
+        try {
+            $sql = "SELECT 
+                            COUNT(*) AS total
+                        FROM
+                            reservas
+                        WHERE
+                            empresas_id = $empresasId
+                                AND CONCAT(MONTH(start), '-', YEAR(start)) = CONCAT(MONTH(NOW()), '-', YEAR(NOW()));";
+            $retorno = $this->query($sql);
+            $totalCadastrado = array_shift($retorno[0]);
+            
+            return Session::read('ContaEmpresa.reservas_mes') - $totalCadastrado; 
+                        
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
 }

@@ -19,8 +19,18 @@ class BusinessException extends Exception {
     }
     
     
-    public function getBusinessMessage(){
+    public function getBusinessMessage( Render $class, $layout = NULL ){
         
+        if( $layout == 'null'){
+            $class->layout = $layout;
+        }
+        
+        $class->set( 'mensagem', $this->getMessage() );
+        if( $this->getCode() == 112){
+            die( $class->render(array('controller' => 'Erros', 'view' => 'notPermisson')) );
+        } else if( $this->getCode() == 113 ){
+            die( $class->render(array('controller' => 'Erros', 'view' => 'notPermisson')) );
+        }
     }
     
     public function getBusinessCode(){
@@ -28,6 +38,11 @@ class BusinessException extends Exception {
     }
     
     public function getNotPermission(){       
+    }
+    
+    public function getNotLimitEmployees( $class ){
+        $class->set( 'mensagem', $this->getMessage() );
+        die( $class->render(array('controller' => 'Erros', 'view' => 'notLimitEmployee')) );
     }
     
 }

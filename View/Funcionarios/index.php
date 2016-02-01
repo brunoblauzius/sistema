@@ -12,6 +12,57 @@
     </div>
 </div>
 
+<div class="row">
+    
+    <?php if($quantidadeFuncionarios['total_restante'] == 0): ?>
+    <div class="col-md-12">
+        <section class="mini-stat clearfix bg-warning">
+            <span class="mini-stat-icon" style="background-color:#FFF; color:#ffa000">
+                <i class="fa fa-warning" style="margin-right: 0px;"></i>
+            </span>
+            <section class="mini-stat-info">
+                <span style="font-size:16px;">Atenção: limite de cadastro excedido.</span>
+                não fique sem cadastrar seus funcionários faça já uma compra de funcionários adicionais para seu plano.<br><br>
+                <!--a href="<?//= Router::url(array('Funcionarios','cadastro'))?>" class="btn btn-primary btn-sm">Adicionar <i class="fa fa-plus"></i></a-->
+            </section>
+        </section>
+    </div>
+    <?php endif; ?>
+    
+    
+    <div class="col-md-4">
+        <section class="mini-stat clearfix">
+            <span class="mini-stat-icon tar">
+                <i class="fa fa-users marginNull"></i>
+            </span>
+            <section class="mini-stat-info">
+                <span><?= $quantidadeFuncionarios['qtde_funcionarios'] ?></span>
+                Quantidade de funcionários do plano. 
+            </section>
+        </section>
+    </div>
+    <div class="col-md-4">
+        <section class="mini-stat clearfix">
+            <span class="mini-stat-icon tar">
+                <i class="fa fa-user marginNull"></i>
+            </span>
+            <section class="mini-stat-info">
+                <span><?= $quantidadeFuncionarios['total_restante'] ?></span>
+                Quantidade de funcionários para cadastrar.
+            </section>
+        </section>
+    </div>
+    <div class="col-md-4">
+        <section class="mini-stat clearfix">
+            
+            <section class="mini-stat-info">
+                <span style="font-size:16px;"><?= $quantidadeFuncionarios['nome'] ?></span>
+                Nome do plano contratado.
+            </section>
+        </section>
+    </div>
+</div>
+
 <section class="panel">
     <header class="panel-heading">
         Funcionarios
@@ -28,8 +79,7 @@
     <thead>
     <tr>
         <th style="width: 10%"></th>
-        <th>Nome</th>
-        <th>Nivel</th>
+        <th>Nome/Nível</th>
         <th>Login</th>
         <th>Cpf</th>
         <th class="col-md-1">Ação</th>
@@ -48,8 +98,10 @@
                         <img src="<?= Router::url('View/webroot/img/icone.png')?>" class="img-circle img-rounded img-thumbnail" style="height:60px">
                     <?php endif;?>
                 </td>
-                <td colspan=""><?= $usuario['nome'];?></td>
-                <td colspan=""><?= $usuario['nivel_usuario'];?></td>
+                <td colspan="">
+                    <strong><?= $usuario['nome'];?></strong>
+                    <p class="text text-green"><?= $usuario['nivel_usuario'];?></p>
+                </td>
                 <td colspan=""><?= $usuario['email'];?></td>
                 <td colspan=""><?= Utils::formatarCPFCNPJ($usuario['cpf']);?></td>
                 <td> 

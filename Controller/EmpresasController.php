@@ -232,11 +232,13 @@ class EmpresasController extends AppController {
         
             $empresa = $this->Empresa->findEmpresa($empresasId);
             $contatos = $this->Empresa->contatosEmpresa($empresasId);
+            $contaEmpresa = $this->Empresa->contaEmpresa(md5($empresasId));
             
             
             if(count($empresa) > 0 ){
                 $_SESSION['Empresa'] = $empresa[0];
                 $_SESSION['Contato'] = $contatos;
+                $_SESSION['ContaEmpresa'] = $contaEmpresa[0];
                 if( Session::check('Form') ) {
                     $_SESSION['Form'] = NULL;
                     unset($_SESSION['Form']);
