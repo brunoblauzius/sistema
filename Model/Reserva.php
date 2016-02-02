@@ -1059,8 +1059,8 @@ class Reserva extends AppModel {
             
             $sql = "SELECT 
                         COUNT(*) total_pessoas_lista,
-                        IF(confirmado = 1, COUNT(confirmado), 0) confirmado,
-                        IF(confirmado = 0, COUNT(confirmado), 0) nao_confirmado
+                        SUM(confirmado) confirmado,
+                        SUM(IF(confirmado = 0, 1, 0)) nao_confirmado
                     FROM
                         clientes_convidados
                     WHERE
