@@ -1054,4 +1054,43 @@ class Reserva extends AppModel {
         }
     }
     
+    public function confirmadosParaEvento($ReservasId){
+        try {
+            
+            $sql = "SELECT 
+                        COUNT(*) total_pessoas_lista,
+                        IF(confirmado = 1, COUNT(confirmado), 0) confirmado,
+                        IF(confirmado = 0, COUNT(confirmado), 0) nao_confirmado
+                    FROM
+                        clientes_convidados
+                    WHERE
+                        reservas_id = {$ReservasId};";
+            
+            $retorno = $this->query($sql);
+            
+            return $retorno[0];
+                        
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function listarConvidadosHostess( $token ){
+        try {
+            
+            $sql = "SELECT 
+                        *
+                    FROM
+                        vw_listaConvidados
+                    WHERE
+                        token = '{$token}';";
+            
+            return $this->query($sql);
+                                    
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
 }

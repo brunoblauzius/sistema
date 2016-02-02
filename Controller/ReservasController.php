@@ -1587,4 +1587,152 @@ class ReservasController extends AppController {
         
     }
     
+    
+    public function reservasDoDia(){
+        try {
+            
+            $this->checaEmpresa();
+            $this->verificaContaEmpresa();
+            $Modelambientes = new Ambiente();
+                        
+            /**
+             * 	SE O ROLE ID FOR Usuario ELE PEGA SOMENTE O Usuario SE NãoO OS USUARIOS DA EMPRESA
+             */
+            $registros = $this->Reserva->filtrar($this->empresas_id, null, date('Y-m-d') );
+            
+           
+                        
+            /**
+             * listar as mesas por registro
+             */
+            $newRegistros = array();
+            foreach ($registros as $registro) {
+                   
+                /**
+                * recupero as mesas
+                */
+               $mesaModel = new Mesa();
+               $mesas = $mesaModel->mesasReservas($registro['id']);
+               $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
+               $mesas = $mesaModel->selectIn($mesas);
+               $arrayMesas = array('mesas' => join(', ', $mesas));
+
+               $arrayMesas = array_merge($arrayMesas, $this->Reserva->confirmadosParaEvento( $registro['id'] ));
+               $newRegistros[] = array_merge($registro, $arrayMesas);
+                     
+            }
+            
+            $this->set('registros', $newRegistros);
+            $this->set('title_layout', 'Reservas -  Página Inicial');
+            $this->render();
+            
+        } 
+        catch (BusinessException $buEx) {
+            $buEx->getBusinessMessage($this);
+        } 
+        catch( Exception $ex ){
+            
+            if( $ex->getCode() == 2015 ){
+                
+                $this->set( 'mensagem', $ex->getMessage() );
+                die( $this->render(array('controller' => 'Erros', 'view' => 'sessaoEmpresa')) );
+                
+            } else if( $ex->getCode() == 2018 ){
+                $this->layout = 'null';
+                $this->set( 'mensagem', $ex->getMessage() );
+                die( $this->render(array('controller' => 'Erros', 'view' => 'cadastroBloqueado')) );
+                
+            }else {
+                echo $ex->getMessage();
+            }
+            
+        }
+    }
+    
+    
+    public function listarConvidadosHostess(){
+        try {
+            
+            if( $this->is('post'))
+            {
+                
+                if( $this->Reserva->confirmPresencaConvite(intval($_POST['clientes_id']), intval($_POST['reservas_id'])))
+                {
+                    $json = json_encode(array(
+                        'message' => 'Confirmação efetuada com sucesso',
+                        "style" =>'success',
+                        'time' => 5000,
+                        'size' => 'md',
+                        'callback' => NULL,
+                        'before' => "$('#loader-painel').empty();$('#tabela-dinamica').show();",
+                        'icon'   => 'check',
+                        'title'  => 'Sucesso no cadastro de convidados'
+                    ));
+                    echo json_encode(array(
+                        'funcao' => "bootsAlert( $json );",
+                    ));
+                } 
+                else
+                {
+                    $json = json_encode(array(
+                        'message' => 'Houve algum erro no processo!',
+                        "style" =>'warning',
+                        'time' => 5000,
+                        'size' => 'md',
+                        'callback' => NULL,
+                        'before' => "$('#loader-painel').empty();$('#tabela-dinamica').show();",
+                        'icon'   => 'check',
+                        'title'  => 'Atenção!'
+                    ));
+                    echo json_encode(array(
+                        'funcao' => "bootsAlert( $json );",
+                    ));
+                }
+                
+            } 
+            else
+            { 
+                $this->css = array_merge($this->css, array(
+                    'css/bootstrap-switch',
+                ));
+
+                $this->js = array_merge($this->js, array(
+                    'js/bootstrap-switch',
+                    'js/toggle-init',
+                ));
+
+                $token = $_GET['param'];
+
+                $listaDeConvidados = $this->Reserva->listarConvidadosHostess($token);
+
+                $this->set('listaDeConvidados', $listaDeConvidados);
+                $this->set('title_layout', 'Reservas -  Lista de Convidados');
+                $this->render();
+            }
+            
+        } 
+        catch (BusinessException $buEx) 
+        {
+            $buEx->getBusinessMessage($this);
+        } 
+        catch( Exception $ex )
+        {
+            
+            if( $ex->getCode() == 2015 ){
+                
+                $this->set( 'mensagem', $ex->getMessage() );
+                die( $this->render(array('controller' => 'Erros', 'view' => 'sessaoEmpresa')) );
+                
+            } else if( $ex->getCode() == 2018 ){
+                $this->layout = 'null';
+                $this->set( 'mensagem', $ex->getMessage() );
+                die( $this->render(array('controller' => 'Erros', 'view' => 'cadastroBloqueado')) );
+                
+            }else {
+                echo $ex->getMessage();
+            }
+            
+        }
+    }
+    
 }
