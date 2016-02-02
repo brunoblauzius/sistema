@@ -14,6 +14,8 @@
 class EmpresasController extends AppController {
     //put your code here
     
+    public $ClasseAllow = array('alterarDadosConta');
+    
     public $Empresa = null;
     private $Juridica = null;
     private $ContaEmpresa = null;
@@ -257,16 +259,26 @@ class EmpresasController extends AppController {
     public function contaEmpresa(){
         try {
             
+            $this->css = array_merge($this->css, array(
+                'css/bootstrap-switch',
+            ));
+
+            $this->js = array_merge($this->js, array(
+                'js/bootstrap-switch',
+                'js/toggle-init',
+            ));
+            
             $contaEmpresa = array();
             
             $this->layout = 'painel';
             
             $contaEmpresa = $this->Empresa->contaEmpresa( $_GET['param'] );
-            
+                        
             $_SESSION['Form']['empresas_id'] = $contaEmpresa[0]['empresas_id'];
+            $_SESSION['Form']['contas_empresas_id'] = $contaEmpresa[0]['id'];
             
             $empresa      = $this->Empresa->findEmpresa($contaEmpresa[0]['empresas_id']);
-            $situacaoEmpresas = $this->SituacaoEmpresa->find('all', array('status' => true ));
+            $situacaoEmpresas = $this->SituacaoEmpresa->find('all', array('status' => true ));            
             $situacaoContas = $this->SituacaoConta->find('all');
             $tiposPagamentos = $this->TiposPagamento->find('all');
             $TipoContas = $this->TipoConta->find('all');
@@ -388,6 +400,46 @@ class EmpresasController extends AppController {
                 echo json_encode(array(
                     'funcao' => "bootsAlert( $json );",
                 ));
+        }
+    }
+    
+    
+    public function alterarDadosConta(){
+        try {
+            $_POST['Conta']['id'] = Session::read('Form.contas_empresas_id');
+         
+            if( $this->ContaEmpresa->genericUpdate($_POST['Conta']) )
+            {
+                 $json = json_encode(array(
+                    'message' => 'Sua alteração foi efetuada com sucesso!',
+                    "style" =>'success',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => "window.location.reload();",
+                    'before' => "$('#loading').fadeOut(500);",
+                    'icon'   => '',
+                    'title'  => 'Sucesso!'
+                ));
+                
+            } else {
+                 $json = json_encode(array(
+                    'message' => 'Houve um erro ao alterar os dados',
+                    "style" =>'warning',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => "window.location.reload();",
+                    'before' => "$('#loading').fadeOut(500);",
+                    'icon'   => '',
+                    'title'  => 'Sucesso!'
+                ));
+            }
+            
+            echo json_encode(array(
+                    'funcao' => "bootsAlert( $json );",
+                ));
+            
+        } catch (Exception $ex) {
+            print_r($ex->getMessage());
         }
     }
     
