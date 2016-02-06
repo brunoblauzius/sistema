@@ -1017,4 +1017,80 @@ class Reserva extends AppModel {
         }
     }
     
+    
+    public function countReservasExcedido( $empresasId = NULl ){
+        try {
+            $sql = "SELECT 
+                            COUNT(*) AS total
+                        FROM
+                            reservas
+                        WHERE
+                            empresas_id = $empresasId
+                                AND CONCAT(MONTH(start), '-', YEAR(start)) = CONCAT(MONTH(NOW()), '-', YEAR(NOW()));";
+            $retorno = $this->query($sql);
+            $totalCadastrado = array_shift($retorno[0]);
+            
+            return Session::read('ContaEmpresa.reservas_mes') - $totalCadastrado; 
+                        
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function confirmPresencaConvite( $clienteId, $reservasId ){
+        try {
+            
+            $sql = "UPDATE clientes_convidados 
+                    SET 
+                        confirmado = 1
+                    WHERE
+                        reservas_id = {$reservasId} AND clientes_id = {$clienteId};";
+                        
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    public function confirmadosParaEvento($ReservasId){
+        try {
+            
+            $sql = "SELECT 
+                        COUNT(*) total_pessoas_lista,
+                        SUM(confirmado) confirmado,
+                        SUM(IF(confirmado = 0, 1, 0)) nao_confirmado
+                    FROM
+                        clientes_convidados
+                    WHERE
+                        reservas_id = {$ReservasId};";
+            
+            $retorno = $this->query($sql);
+            
+            return $retorno[0];
+                        
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function listarConvidadosHostess( $token ){
+        try {
+            
+            $sql = "SELECT 
+                        *
+                    FROM
+                        vw_listaConvidados
+                    WHERE
+                        token = '{$token}';";
+            
+            return $this->query($sql);
+                                    
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
 }

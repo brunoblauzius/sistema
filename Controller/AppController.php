@@ -12,7 +12,7 @@
  */
 class AppController extends Render {
 
-    public $ClasseAllow = true;
+    public $ClasseAllow = null;
     public $ACL = null;
     public $Util = null;
     public $Empresa = null;
@@ -46,6 +46,7 @@ class AppController extends Render {
                 'font-awesome/css/font-awesome',
                 'css/style',
                 'css/style-responsive',
+                'css/custom',
                 'js/advanced-datatable/css/demo_page',
                 'js/advanced-datatable/css/demo_table',
                 'css/Icomoon/style',
@@ -86,33 +87,32 @@ class AppController extends Render {
              * definindo a data hora local
              */
             date_default_timezone_set('America/Sao_Paulo');
-
+     
             
-            /**
-             * fazendo minha verificação de permissões para niveis de usuarios
-             */
-            if (Session::check('Auth') && Session::check('Usuario')) {
-
-                if ($this->ACL->authenticacaoUser($this->controller, $this->view, Session::read('Usuario.roles_id'))) {
-                    Session::isLogged();
-                } else {
-                    //verifica se é um metodo ou pagina
-                    if ($this->autoRender == true) {
-                        throw new PageException("Pagina $this->view.php não encontrada", 405);
+            if( !in_array($this->view, $this->ClasseAllow ) ) {
+                
+                if( (Session::check('Auth') && Session::check('Usuario')) ){
+                    if( $this->ACL->authenticacaoUser( $this->controller, $this->view, Session::read('Usuario.roles_id') ) ) {
+                        Session::isLogged();
+                    } else {
+                        //verifica se é um metodo ou pagina
+                        if( $this->autoRender == true ){
+                            throw new PageException( "Pagina $this->view.php não encontrada", 405 );
+                        }
                     }
-                }
-            } else {
-                //logica para o usuario publico
-                if ($this->ACL->authenticacaoUser($this->controller, $this->view, 1)) {
-                    //header('Location: ' . Router::url() . 'Erros/areaRestrita' );
                 } else {
-                    //verifica se é um metodo ou pagina
-                    if ($this->autoRender) {
-                        //redireciona para a pagina de area restrita
-                        throw new PageException("Pagina $this->view.php não encontrada", 405);
+                    //logica para o usuario publico
+                    if( $this->ACL->authenticacaoUser( $this->controller, $this->view, 1 ) ) {
+                        //header('Location: ' . Router::url() . 'Erros/areaRestrita' );
+                    } else {
+                        //verifica se é um metodo ou pagina
+                        if( $this->autoRender ){
+                            //redireciona para a pagina de area restrita
+                            throw new PageException( "Pagina $this->view.php não encontrada", 405 );
+                        }
                     }
-                }
-            }
+                }              
+            } 
             
             /**
              * variaveis pora todas as areas do sistema
@@ -219,31 +219,16 @@ class AppController extends Render {
         $tempoMes = null;
 
         try {
-
             /**
              * recupero os dados da empresa logada
              */
             $empresa = new Empresa();
-            $contaEmpresa = $empresa->contaEmpresa($this->empresas_id);
-
-            /**
-             * VERIFICO SE É MEU PERFIL TESTE
-             */
-            if ($contaEmpresa['contas_empresas_tipos'] == 1) {
-                $tempoMes = 1;
-            } else {
-                $tempoMes = 1;
-            }
-
-            /**
-             * recupero os dias que restam para espirar a conta
-             */
-            $diferencaDias = DateUtils::calculoDiferencaData(date('Y-m-d'), Utils::adicionaMes($tempoMes, $contaEmpresa['created']));
+            $contaEmpresa = $empresa->contaEmpresa($this->empresas_id);            
 
             /**
              * verifico se ja experiou a conta
              */
-            if ($diferencaDias <= 0) {
+            if ( strtotime( Session::read('ContaEmpresa.expirar')) <= strtotime(date('Y-m-d H:i:s')) ) {
                 throw new BusinessException('Fora do periodo de utilização, desculpe pelo transtorno. Para continuar utilizando normalmente o sistema clique no link abaixo!', 112);
             }
         } catch (BusinessException $ex) {
@@ -261,4 +246,15 @@ class AppController extends Render {
         }
     }
 
+    public function verificaCadastrosReservas( ){
+        try {
+            $reservas = new Reserva();
+            if( $reservas->countReservasExcedido($this->empresas_id) <= 0 ){
+                throw new BusinessException('Limite de cadastros de reservas atingido, desculpe pelo transtorno. Para continuar utilizando normalmente o sistema clique no link abaixo!', 113);
+            }
+        } catch (BusinessException $ex) {
+            throw $ex;
+        }
+    }
+    
 }

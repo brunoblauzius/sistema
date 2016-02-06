@@ -123,16 +123,13 @@ class Empresa extends AppModel {
         try {
             
             $sql = "SELECT 
-                    Conta.id,
-                    Conta.empresas_id,
-                    Conta.created,
+                    Conta.*,
                     SituacaoConta.nome as situacao_conta,
                     SituacaoConta.id as situacao_contas_id,
                     TipoPagamento.nome as tipo_pagamento,
                     TipoPagamento.id as tipos_pagamentos_id,
                     TipoConta.nome as tipo_conta,
                     TipoConta.id as contas_empresas_tipos_id,
-                    TipoConta.valor,
                     TipoConta.duracao_contrato
                 FROM
                     reservas.contas_empresas AS Conta

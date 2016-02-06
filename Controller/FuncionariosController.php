@@ -44,6 +44,10 @@ class FuncionariosController extends AppController{
             $objeto = array();
             $funcionarios = array();
             $funcionarios = $this->Funcionario->funcionariosEmpresa( $this->empresas_id );
+            $quantidadeFuncionarios = $this->Funcionario->quantidadeFuncionariosEmpresa($this->empresas_id);
+            
+            
+            $this->set('quantidadeFuncionarios',$quantidadeFuncionarios);
             
             $this->set('usuarios', $funcionarios );
             $this->set('title_layout', 'Funcionários: Lista de Funcionários ' . Session::read('Empresa.nome_fantasia') );
@@ -131,7 +135,15 @@ class FuncionariosController extends AppController{
     public function cadastro() {
         try{
             $this->checaEmpresa();
-            //$this->verificaContaEmpresa();
+            /**
+             * verificando a quantidade de funcionarios restante
+             * se for 0 ou menor ele renderiza uma pagina de erro
+             */
+            $quantidadeFuncionarios = $this->Funcionario->quantidadeFuncionariosEmpresa($this->empresas_id);
+            if( $quantidadeFuncionarios['total_restante'] == 0 ){
+                throw new BusinessException('Limite de funcioários excedido!');
+            }
+            
             
             $listGrupo = NULL;
             /**
@@ -152,8 +164,7 @@ class FuncionariosController extends AppController{
             $this->render();
         } catch (BusinessException $buEx) {
             
-            $this->set( 'mensagem', $buEx->getMessage() );
-            die( $this->render(array('controller' => 'Erros', 'view' => 'notPermisson')) );
+            $buEx->getNotLimitEmployees($this);
             
         } catch( Exception $ex ){
             
