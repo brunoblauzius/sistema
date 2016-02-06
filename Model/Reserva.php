@@ -1084,7 +1084,7 @@ class Reserva extends AppModel {
                     FROM
                         vw_listaConvidados
                     WHERE
-                        token = '{$token}';";
+                        token = '{$token}' ORDER BY confirmado, nome ASC;";
             
             return $this->query($sql);
                                     

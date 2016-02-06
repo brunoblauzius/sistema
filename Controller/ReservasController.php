@@ -1664,7 +1664,8 @@ class ReservasController extends AppController {
                         'time' => 5000,
                         'size' => 'md',
                         'callback' => NULL,
-                        'before' => "$('#loader-painel').empty();$('#tabela-dinamica').show();",
+                        //'before' => "$('#loader-painel').empty();$('#tabela-dinamica').show();",
+                        'before' => "window.location.reload();",
                         'icon'   => 'check',
                         'title'  => 'Sucesso no cadastro de convidados'
                     ));
