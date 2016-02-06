@@ -83,7 +83,7 @@
     </section>
 </div>
 
-<div class="col-md-12">
+<div class="col-md-6">
     <section class="panel panel-success">
         <header class="panel-heading">
            Alterar dados da Conta.
@@ -93,10 +93,10 @@
             <form action="<?= Router::url(array('Empresas', 'alterarConta'))?>" method="post" accept-charset="utf-8" id="EmpresaAlterarContaForm">
                 
                 <section class="row" style="margin-bottom: 20px;" > 
-                    <div class="col-sm-2" style="padding-top:5px;">
+                    <div class="col-sm-4" style="padding-top:5px;">
                         Tipo de Conta:
                     </div>
-                    <div class="col-sm-4 form-group form-group-sm">
+                    <div class="col-sm-8 form-group form-group-sm">
                         <select name="TipoConta[id]" class="form-control ">
                             <?php foreach ($TipoContas as $TipoConta) :?>
                                 <?php if( $TipoConta['TipoConta']['id'] == $contaEmpresa['contas_empresas_tipos_id'] ):?>
@@ -109,10 +109,10 @@
                     </div>
                 </section>
                 <section class="row" style="margin-bottom: 20px;" > 
-                    <div class="col-sm-2" style="padding-top:5px;">
+                    <div class="col-sm-4" style="padding-top:5px;">
                         Situação da Empresa:
                     </div>
-                    <div class="col-sm-4 form-group form-group-sm">
+                    <div class="col-sm-8 form-group form-group-sm">
                         <select name="SituacaoEmpresa[id]" class="form-control ">
                             <?php foreach ($situacaoEmpresas as $situacao) :?>
                                 <?php if( $situacao['SituacaoEmpresa']['id'] == $empresa['situacao_empresas_id'] ):?>
@@ -125,10 +125,10 @@
                     </div>
                 </section>
                 <section class="row" style="margin-bottom: 20px;" > 
-                    <div class="col-sm-2" style="padding-top:5px;">
+                    <div class="col-sm-4" style="padding-top:5px;">
                         Situação da Conta:
                     </div>
-                    <div class="col-sm-4 form-group form-group-sm">
+                    <div class="col-sm-8 form-group form-group-sm">
                         <select name="SituacaoConta[id]" class="form-control ">
                             <?php foreach ($situacaoContas as $situacaoConta) :?>
                                 <?php if( $situacaoConta['SituacaoConta']['id'] == $contaEmpresa['situacao_contas_id'] ):?>
@@ -141,10 +141,10 @@
                     </div>
                 </section>
                 <section class="row" style="margin-bottom: 20px;" > 
-                    <div class="col-sm-2" style="padding-top:5px;">
+                    <div class="col-sm-4" style="padding-top:5px;">
                         Tipo de Pagamento:
                     </div>
-                    <div class="col-sm-4 form-group form-group-sm">
+                    <div class="col-sm-8 form-group form-group-sm">
                         <select name="TiposPagamento[id]" class="form-control ">
                             <?php foreach ($tiposPagamentos as $tiposPagamento) :?>
                                 <?php if( $tiposPagamento['TiposPagamento']['id'] == $contaEmpresa['tipos_pagamentos_id'] ):?>
@@ -158,13 +158,239 @@
                 </section>
                 
                 <section class="row" style="margin-bottom: 20px;" > 
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                         <button class="btn btn-primary">Atualizar Conta</button>
                     </div>
                 </section>
                 
                 
             </form>
+        </div>
+    </section>
+</div>
+
+
+<div class="col-md-6">
+    <section class="panel panel-success">
+        <header class="panel-heading">
+           Configurações da minha conta.
+        </header>
+        <div class="panel-body ">
+            
+            
+            <form action="<?= Router::url(array('Empresas', 'alterarDadosConta'))?>" method="post" accept-charset="utf-8" id="AlterarDadosContaForm">
+                
+                <section class="col-sm-6 marginNull" style="" > 
+                    <div class="col-sm-12">
+                        <small>Funcionários adicionais:</small>
+                        <div class="form-group form-group-sm">
+                            <input type="text" name="Conta[qtde_funcionarios]" class="form-control"value="<?= $contaEmpresa['qtde_funcionarios']?>">
+                        </div>
+                    </div>
+                </section>
+                <section class="col-sm-6 marginNull" style="" > 
+                    <div class="col-sm-12 ">
+                        <small>Valor Adicional:</small>
+                        <div class="form-group form-group-sm ">
+                            <input type="text" name="Conta[valor_funcionario_adicional]" class="form-control money" value="<?= $contaEmpresa['valor_funcionario_adicional']?>"> 
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="col-sm-6" style="" > 
+                    <div class="col-sm-12">
+                        <small>Duração do contrato:</small>
+                        <div class="form-group form-group-sm ">
+                            <input type="text" name="Conta[duracao_contrato]" class="form-control"value="<?= $contaEmpresa['duracao_contrato']?>"> 
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="col-sm-6" style="" > 
+                    <div class="col-sm-12">
+                        <small>Quantidade de Empresas:</small>
+                        <div class="form-group form-group-sm ">
+                            <input type="text" name="Conta[qtde_empresas_conta]" class="form-control"value="<?= $contaEmpresa['qtde_empresas_conta']?>"> 
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="col-sm-6" style="" > 
+                    <div class="col-sm-12">
+                        <small>Limite de reserva no mês:</small>
+                        <div class="form-group form-group-sm ">
+                            <input type="text" name="Conta[reservas_mes]" class="form-control"value="<?= $contaEmpresa['reservas_mes']?>"> 
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="col-sm-6" style="" > 
+                    <div class="col-sm-12">
+                        <small>Valor mensalidade:</small>
+                        <div class="form-group form-group-sm ">
+                            <input type="text" name="Conta[valor]" class="form-control money"value="<?= $contaEmpresa['valor']?>"> 
+                        </div>
+                    </div>
+                </section>
+                
+                <div class="clearfix"></div>
+                
+                <section class="col-sm-12" style="" > 
+                    <div class="col-sm-6">
+                        <small>Avisos de e-mail com dados da reserva:</small>
+                        <?php 
+                            $envio_email_dados_reserva = NULL;
+                            if($contaEmpresa['envio_email_dados_reserva'] == 1){
+                                $envio_email_dados_reserva = 'checked';
+                            }
+                        ?>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="hidden" name="Conta[envio_email_dados_reserva]" value="0" > 
+                                <input type="checkbox" name="Conta[envio_email_dados_reserva]" <?= $envio_email_dados_reserva?> value="1" > 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <small>Lembrete da reserva:</small>
+                        <?php 
+                            $lembrete_reserva = NULL;
+                            if($contaEmpresa['lembrete_reserva'] == 1){
+                                $lembrete_reserva = 'checked';
+                            }
+                        ?>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="hidden" name="Conta[lembrete_reserva]" value="0" > 
+                                <input type="checkbox" name="Conta[lembrete_reserva]" <?= $lembrete_reserva?> value="1"> 
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="col-sm-12" style="" > 
+                    <div class="col-sm-6">
+                        <small>Controle de presença na portario (Hostess):</small>
+                        <?php 
+                            $controle_presencao_portaria = NULL;
+                            if($contaEmpresa['controle_presencao_portaria'] == 1){
+                                $controle_presencao_portaria = 'checked';
+                            }
+                        ?>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="hidden" name="Conta[controle_presencao_portaria]" value="0" > 
+                                <input type="checkbox" name="Conta[controle_presencao_portaria]" <?= $controle_presencao_portaria?> value="1"> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <small>Gerenciamento de ingressos:</small>
+                        <?php 
+                            $gerenciamento_ingressos = NULL;
+                            if($contaEmpresa['gerenciamento_ingressos'] == 1){
+                                $gerenciamento_ingressos = 'checked';
+                            }
+                        ?>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="hidden" name="Conta[gerenciamento_ingressos]" value="0" > 
+                                <input type="checkbox" name="Conta[gerenciamento_ingressos]" <?= $gerenciamento_ingressos?> value="1"> 
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="col-sm-12" style="" > 
+                    <div class="col-sm-6">
+                        <small>Lista de convidados para o cliente:</small>
+                        <?php 
+                            $lista_convidados_cliente = NULL;
+                            if($contaEmpresa['lista_convidados_cliente'] == 1){
+                                $lista_convidados_cliente = 'checked';
+                            }
+                        ?>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="hidden" name="Conta[lista_convidados_cliente]" value="0" > 
+                                <input type="checkbox" name="Conta[lista_convidados_cliente]" <?= $lista_convidados_cliente?> value="1"> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <small>Personalização de e-mails:</small>
+                        <?php 
+                            $emails_personalizados = NULL;
+                            if($contaEmpresa['emails_personalizados'] == 1){
+                                $emails_personalizados = 'checked';
+                            }
+                        ?>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="hidden" name="Conta[emails_personalizados]" value="0" > 
+                                <input type="checkbox" name="Conta[emails_personalizados]" <?= $emails_personalizados?> value="1"> 
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="col-sm-12" style="" > 
+                    <div class="col-sm-6">
+                        <small>Midias Sociais:</small>
+                        <?php 
+                            $integracao_midias_sociais = NULL;
+                            if($contaEmpresa['integracao_midias_sociais'] == 1){
+                                $integracao_midias_sociais = 'checked';
+                            }
+                        ?>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="hidden" name="Conta[integracao_midias_sociais]" value="0" > 
+                                <input type="checkbox" name="Conta[integracao_midias_sociais]" <?= $integracao_midias_sociais?> value="1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <small>Gestão de Eventos:</small>
+                        <?php 
+                            $gestao_de_eventos = NULL;
+                            if($contaEmpresa['gestao_de_eventos'] == 1){
+                                $gestao_de_eventos = 'checked';
+                            }
+                        ?>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="hidden" name="Conta[gestao_de_eventos]" value="0" > 
+                                <input type="checkbox" name="Conta[gestao_de_eventos]" <?= $gestao_de_eventos?> value="1"> 
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="col-sm-12" style="" > 
+                    <div class="col-sm-6">
+                        <small>Gestão de Ordens de Serviço:</small>
+                        <?php 
+                            $gestao_ordens_servico = NULL;
+                            if($contaEmpresa['gestao_ordens_servico'] == 1){
+                                $gestao_ordens_servico = 'checked';
+                            }
+                        ?>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <input type="hidden" name="Conta[gestao_ordens_servico]" value="0" > 
+                                <input type="checkbox" name="Conta[gestao_ordens_servico]" <?= $gestao_ordens_servico?> value="1"> 
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                
+                <div class="clearfix"></div>
+                <section class="row" style="margin-bottom: 20px;" > 
+                    <div class="col-sm-4">
+                        <button class="btn btn-primary">Atualizar Dados</button>
+                    </div>
+                </section>
+            </form>
+            
         </div>
     </section>
 </div>

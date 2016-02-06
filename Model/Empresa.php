@@ -130,7 +130,6 @@ class Empresa extends AppModel {
                     TipoPagamento.id as tipos_pagamentos_id,
                     TipoConta.nome as tipo_conta,
                     TipoConta.id as contas_empresas_tipos_id,
-                    TipoConta.valor,
                     TipoConta.duracao_contrato
                 FROM
                     reservas.contas_empresas AS Conta
