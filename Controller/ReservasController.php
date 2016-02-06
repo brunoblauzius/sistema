@@ -1693,14 +1693,7 @@ class ReservasController extends AppController {
             } 
             else
             { 
-                $this->css = array_merge($this->css, array(
-                    'css/bootstrap-switch',
-                ));
-
-                $this->js = array_merge($this->js, array(
-                    'js/bootstrap-switch',
-                    'js/toggle-init',
-                ));
+                $this->layout = 'null';
 
                 $token = $_GET['param'];
 

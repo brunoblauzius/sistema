@@ -37,37 +37,4 @@
     </div>
 </div>
 
-<script>
-$(document).ready(function(){
-    $('.confirma-presenca-hostess').click(function(){
-        var reservas_id = $(this).data('reservasid');
-        var clientes_id = $(this).data('clientesid');
-        
-        $this = $(this);
-        
-        var url = web_root + 'Reservas/listarConvidadosHostess';
-        $('#tabela-dinamica').hide();
-        loadingElement('<br>Aguarde um momento, estamos guardando suas informações...', '#loader-painel');
-        
-        $.ajax({
-           url: url,
-           data:{
-               reservas_id: reservas_id,
-               clientes_id: clientes_id
-           },
-           dataType: 'json',
-           type: 'post',
-           success: function (json) {
-                
-                    //$this.addClass('btn-success').removeClass('btn-danger');
-                    //$this.find('span').addClass('fa-check').removeClass('fa-times');
-                    tratarJSON(json);
-                        
-           }
-        });
-          
-       
-    });
-});
-</script>
 

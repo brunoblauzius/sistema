@@ -221,3 +221,24 @@ function cadastroClienteHtml( json ){
 function loadingElement(frase, elemento){
     $('<div class="row text-center"  id="gif-loader"><img src="'+web_root+'View/webroot/img/ajax-loader.gif"/><br>'+ frase +'</div>').appendTo( elemento );
 }
+
+function chamaListaConvidadosHostess( url ){
+    if( url !== '' || url!== null ){
+        
+          $('#modal-convidados').find('#contend').empty();
+          $('#modal-convidados').modal('show');
+          loadingElement('<br>Aguarde um momento, estamos guardando suas informações...', '#contend');
+        
+          $.ajax({
+              url: url,
+              data:{},
+              dataType: 'html',
+              type: 'get',
+              success: function (data) {
+                  
+                  $('#modal-convidados').find('#contend').html(data);
+                  
+              }
+          }); 
+    }
+}
