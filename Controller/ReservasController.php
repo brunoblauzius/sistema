@@ -1630,14 +1630,15 @@ class ReservasController extends AppController {
             $nome = Utils::sanitazeString($_POST['nome']);
             
             $registros = $this->Reserva->buscaConvidadoHostess( $nome, date('Y-m-d'), $this->empresas_id );
-                
+            
             /**
              * listar as mesas por registro
              */
             
             $newRegistros = array();
-            foreach ($registros as $registro) {
-                   
+            
+            foreach ($registros as $registro) 
+            {
                 /**
                 * recupero as mesas
                 */
@@ -1645,12 +1646,11 @@ class ReservasController extends AppController {
                $mesas = $mesaModel->mesasReservas($registro['reservas_id']);
                $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
                $mesas = $mesaModel->selectIn($mesas);
-               $arrayMesas = array('mesas' => join(', ', $mesas));
-
-               $arrayMesas = array_merge($arrayMesas, $this->Reserva->confirmadosParaEvento( $registro['reservas_id'] ));
+               $arrayMesas = array('mesas' => join(', ', $mesas));              
+               
+               $arrayMesas     = array_merge($arrayMesas, $this->Reserva->confirmadosParaEvento( $registro['reservas_id'] ));
                $newRegistros[] = array_merge($registro, $arrayMesas);
             }
-            
             
             $this->set('registros',$newRegistros);
             $this->render();

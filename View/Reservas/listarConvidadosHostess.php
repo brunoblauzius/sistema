@@ -18,9 +18,9 @@
                             <tr>
                                 <td>
                                     <?php if($registro['confirmado'] == 0): ?>
-                                        <a data-clientesid="<?= $registro['clientes_id']?>" data-reservasid="<?= $registro['reservas_id']?>" class="confirma-presenca-hostess btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
+                                        <a data-clientesid="<?= $registro['id']?>" data-reservasid="<?= $registro['reservas_id']?>" class="confirma-presenca-hostess btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
                                     <?php else:?>
-                                        <a data-clientesid="<?= $registro['clientes_id']?>" data-reservasid="<?= $registro['reservas_id']?>" class="btn btn-xs btn-success"><span class="fa fa-check"></span></a>
+                                        <a data-clientesid="<?= $registro['id']?>" data-reservasid="<?= $registro['reservas_id']?>" class="btn btn-xs btn-success"><span class="fa fa-check"></span></a>
                                     <?php endif;?>
                                 </td>
                                 <td>

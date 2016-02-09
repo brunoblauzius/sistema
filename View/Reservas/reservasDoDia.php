@@ -57,7 +57,7 @@
 
     $('#nome-convidado').on('keypress',  function( event ) {
         var nome = $(this).val();
-        if( nome.length >= 5 ){
+        if( event.which === 13 &&  nome.length >= 3 ){
             filtrarListaDeConvidadosHostess( nome );
         }
     });
