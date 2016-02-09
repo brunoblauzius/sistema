@@ -2,48 +2,23 @@
     <div class="panel-heading">Lista de Reservas.</div>
     <div class="panel-body" id="panel-body">
 
-        <table class="table table-condensed " id="dynamic-table">
-            <thead>
-                <tr>
-                    <th style="width:15%">Cliente</th>
-                    <th style="width:10%">Ambiente</th>
-                    <th style="width:3%">PAX</th>
-                    <th style="width:10%">Mesas</th>
-                    <th style="width:5%">Total lista</th>
-                    <th style="width:5%">Não Confirmados</th>
-                    <th style="width:5%">Confirmados</th>
-                    <th style="width:5%"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if (!empty($registros)):
-                    foreach ($registros as $registro):
-                        ?>
-                        <tr>
-                            <td ><?= $registro['cliente'] ?></td>
-                            <td ><?= $registro['ambiente'] ?></td>
-                            <td ><?= $registro['qtde_pessoas'] ?></td>
-                            <td ><small><?= $registro['mesas'] ?></small></td>
-                            <td class="text-center">
-                                <?= $registro['total_pessoas_lista'] ?>
-                            </td>
-                            <td class="text-center">
-                                <?= $registro['nao_confirmado'] ?>
-                            </td>
-                            <td class="text-center">
-                                <?= $registro['confirmado'] ?>
-                            </td>
-                            <td >
-                                <a data-url="<?= Router::url(array('Reservas', 'listarConvidadosHostess', $registro['token'])) ?>" class="lista-convidados-hostess"><i class="fa fa-users"></i> Convidados</a></li>
-                            </td>
-                        </tr>
-                        <?php
-                    endforeach;
-                endif;
-                ?>
-            </tbody>
-        </table>
+        <div class="col-md-12 " style="margin-bottom: 20px;">
+            <div class="col-md-6 pull-right">
+                <div class="col-md-8">
+                    <input type="text" placeholder="Nome do convidado" class="form-control input-sm" id="nome-convidado">
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary btn-sm btn-block" id="btn-filtrar">Filtrar</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="clearfix"></div>
+        
+        <div id="filtro-resultados">
+            
+        </div>
+        
     </div>
 </div>
 
@@ -73,6 +48,18 @@
     $(document).on('click', '.lista-convidados-hostess', function() {
         var url = $(this).data('url');
         chamaListaConvidadosHostess( url );
+    });
+
+    $(document).on('click', '#btn-filtrar', function() {
+        var nome = $('#nome-convidado').val();
+        filtrarListaDeConvidadosHostess( nome );
+    });
+
+    $('#nome-convidado').on('keypress',  function( event ) {
+        var nome = $(this).val();
+        if( nome.length >= 5 ){
+            filtrarListaDeConvidadosHostess( nome );
+        }
     });
 
     $(document).on('click', '.confirma-presenca-hostess',function(){

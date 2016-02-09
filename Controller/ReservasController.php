@@ -2,6 +2,8 @@
 
 class ReservasController extends AppController {
 
+    public $ClasseAllow = array('filtrarConvidados');
+    
     private $Reserva = null;
     private $Funcionario = null;
     private $Usuario = null;
@@ -1593,36 +1595,7 @@ class ReservasController extends AppController {
             
             $this->checaEmpresa();
             $this->verificaContaEmpresa();
-            $Modelambientes = new Ambiente();
-                        
-            /**
-             * 	SE O ROLE ID FOR Usuario ELE PEGA SOMENTE O Usuario SE NãoO OS USUARIOS DA EMPRESA
-             */
-            $registros = $this->Reserva->filtrar($this->empresas_id, null, date('Y-m-d') );
             
-           
-                        
-            /**
-             * listar as mesas por registro
-             */
-            $newRegistros = array();
-            foreach ($registros as $registro) {
-                   
-                /**
-                * recupero as mesas
-                */
-               $mesaModel = new Mesa();
-               $mesas = $mesaModel->mesasReservas($registro['id']);
-               $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
-               $mesas = $mesaModel->selectIn($mesas);
-               $arrayMesas = array('mesas' => join(', ', $mesas));
-
-               $arrayMesas = array_merge($arrayMesas, $this->Reserva->confirmadosParaEvento( $registro['id'] ));
-               $newRegistros[] = array_merge($registro, $arrayMesas);
-                     
-            }
-            
-            $this->set('registros', $newRegistros);
             $this->set('title_layout', 'Reservas -  Página Inicial');
             $this->render();
             
@@ -1646,6 +1619,44 @@ class ReservasController extends AppController {
                 echo $ex->getMessage();
             }
             
+        }
+    }
+    
+    public function filtrarConvidados(){
+        try {
+         
+            $this->layout = 'null';
+            
+            $nome = Utils::sanitazeString($_POST['nome']);
+            
+            $registros = $this->Reserva->buscaConvidadoHostess( $nome, date('Y-m-d'), $this->empresas_id );
+                
+            /**
+             * listar as mesas por registro
+             */
+            
+            $newRegistros = array();
+            foreach ($registros as $registro) {
+                   
+                /**
+                * recupero as mesas
+                */
+               $mesaModel = new Mesa();
+               $mesas = $mesaModel->mesasReservas($registro['reservas_id']);
+               $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
+               $mesas = $mesaModel->selectIn($mesas);
+               $arrayMesas = array('mesas' => join(', ', $mesas));
+
+               $arrayMesas = array_merge($arrayMesas, $this->Reserva->confirmadosParaEvento( $registro['reservas_id'] ));
+               $newRegistros[] = array_merge($registro, $arrayMesas);
+            }
+            
+            
+            $this->set('registros',$newRegistros);
+            $this->render();
+            
+        } catch (Exception $ex) {
+            print_r($ex->getTrace());
         }
     }
     

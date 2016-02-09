@@ -242,3 +242,25 @@ function chamaListaConvidadosHostess( url ){
           }); 
     }
 }
+
+function filtrarListaDeConvidadosHostess( nome ){
+    if( nome !== '' || nome !== null ){
+        
+          $('#filtro-resultados').empty();
+          loadingElement('<br>Aguarde um momento, estamos guardando suas informações...', '#filtro-resultados');
+        
+          $.ajax({
+              url: web_root + 'Reservas/filtrarConvidados',
+              data:{
+                  nome: nome,
+              },
+              dataType: 'html',
+              type: 'post',
+              success: function (data) {
+                  
+                  $('#filtro-resultados').html(data);
+                  
+              }
+          }); 
+    }
+}

@@ -1093,4 +1093,29 @@ class Reserva extends AppModel {
         }
     }
     
+    public function buscaConvidadoHostess( $nome, $date = NULL, $empresasId = null ){
+        try {
+        
+            if( $date === null ){
+                $date = date('Y-m-d');
+            }
+            
+            $sql = "SELECT 
+                        *
+                    FROM
+                        reservas.vw_listaConvidados
+                    WHERE
+                        empresas_id = $empresasId 
+                            AND DATE(start) = DATE('{$date}')
+                            AND nome LIKE '%{$nome}%' "
+                    . " ORDER BY nome, confirmado ASC;";
+                            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
 }
