@@ -221,12 +221,37 @@ class Usuario extends AppModel {
                 throw new Exception('Usuário se encontra inativo no momento, caso não tenha recebido o e-mail para ativar sua conta, envie um e-mail para o suporte!', 002);
             }
 
+            $this->logsLogar($retorno[0]['usuarios_id']);
+            
             return $retorno[0];
         } catch (Exception $ex) {
             throw $ex;
         }
     }
 
+    public function logsLogar( $usuariosId ){
+        try {
+            
+            $sql = "select ip from logs where usuarios_id = {$usuariosId} limit 1; ";
+            $registro = $this->query($sql);
+            
+            if( count($registro) <= 0 )
+            {
+                $sql = "INSERT INTO logs ( ip, usuarios_id, date ) VALUES ( '{$_SERVER['REMOTE_ADDR']}', {$usuariosId}, NOW()  );";
+            } 
+            else
+            {
+                $sql = "UPDATE logs SET "
+                        . " ip = '{$_SERVER['REMOTE_ADDR']}' WHERE usuarios_id = {$usuariosId};";
+            }
+            
+            return $this->query($sql);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
     public function verificaContaTeste($email, $senha) {
         try {
             #15 é a quantidade de dias que o perfil teste fica valido
