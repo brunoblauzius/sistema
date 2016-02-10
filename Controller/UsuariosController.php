@@ -28,9 +28,7 @@ class UsuariosController extends AppController {
 
     public function __construct() {
         parent::__construct();
-        
-        //js/morris-chart/morris.css
-        
+                
         $this->css = array_merge($this->css, array(
             'js/morris-chart/morris',
         ));
