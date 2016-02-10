@@ -1,6 +1,6 @@
 
 <div class="row">
-    <div class="col-sm-8 col-sm-offset-2">
+    <div class="col-sm-12">
         <div class="panel panel-primary">
             <div class="panel-heading">Lista de Convidados.</div>
             <div class="panel-body" id="panel-body">
@@ -17,15 +17,11 @@
                         <?php foreach ($listaDeConvidados as $registro):?>
                             <tr>
                                 <td>
-                                    <?php 
-                                        $confirmado = NULL;
-                                        if($registro['confirmado'] == 1){
-                                            $confirmado = 'checked';
-                                        }
-                                    ?>
-                                    <div class="form-group">
-                                        <input type="checkbox" name="confirmado" <?= $confirmado?> data-clientesid="<?= $registro['clientes_id']?>" data-reservasid="<?= $registro['reservas_id']?>" class="confirma-presenca-hostess">
-                                    </div>
+                                    <?php if($registro['confirmado'] == 0): ?>
+                                        <a data-clientesid="<?= $registro['id']?>" data-reservasid="<?= $registro['reservas_id']?>" class="confirma-presenca-hostess btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
+                                    <?php else:?>
+                                        <a data-clientesid="<?= $registro['id']?>" data-reservasid="<?= $registro['reservas_id']?>" class="btn btn-xs btn-success"><span class="fa fa-check"></span></a>
+                                    <?php endif;?>
                                 </td>
                                 <td>
                                     <?= $registro['nome']?>
@@ -41,31 +37,4 @@
     </div>
 </div>
 
-<script>
-$(document).ready(function(){
-    $('.has-switch').click(function(){
-        var reservas_id = $(this).find('.confirma-presenca-hostess').data('reservasid');
-        var clientes_id = $(this).find('.confirma-presenca-hostess').data('clientesid');
-        
-        var url = web_root + 'Reservas/listarConvidadosHostess';
-        $('#tabela-dinamica').hide();
-        loadingElement('<br>Aguarde um momento, estamos guardando suas informações...', '#loader-painel');
-        
-        $.ajax({
-           url: url,
-           data:{
-               reservas_id: reservas_id,
-               clientes_id: clientes_id
-           },
-           dataType: 'json',
-           type: 'post',
-           success: function (json) {
-               tratarJSON(json);     
-           }
-        });
-          
-       
-    });
-});
-</script>
 

@@ -1059,8 +1059,8 @@ class Reserva extends AppModel {
             
             $sql = "SELECT 
                         COUNT(*) total_pessoas_lista,
-                        SUM(confirmado) confirmado,
-                        SUM(IF(confirmado = 0, 1, 0)) nao_confirmado
+                        SUM(confirmado) confirmados,
+                        SUM(IF(confirmado = 0, 1, 0)) nao_confirmados
                     FROM
                         clientes_convidados
                     WHERE
@@ -1084,7 +1084,7 @@ class Reserva extends AppModel {
                     FROM
                         vw_listaConvidados
                     WHERE
-                        token = '{$token}';";
+                        token = '{$token}' ORDER BY confirmado, nome ASC;";
             
             return $this->query($sql);
                                     
@@ -1092,5 +1092,30 @@ class Reserva extends AppModel {
             throw $ex;
         }
     }
+    
+    public function buscaConvidadoHostess( $nome, $date = NULL, $empresasId = null ){
+        try {
+        
+            if( $date === null ){
+                $date = date('Y-m-d');
+            }
+            
+            $sql = "SELECT 
+                        *
+                    FROM
+                        reservas.vw_listaConvidados
+                    WHERE
+                        empresas_id = $empresasId 
+                            AND DATE(start) = DATE('{$date}')
+                            AND nome LIKE '%{$nome}%' "
+                    . " ORDER BY nome, confirmado ASC;";
+                            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
     
 }
