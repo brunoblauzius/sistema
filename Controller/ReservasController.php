@@ -185,7 +185,7 @@ class ReservasController extends AppController {
     
     public function listar(){
         try {
-            
+                        
             $this->checaEmpresa();
             $this->verificaContaEmpresa();
             $Modelambientes = new Ambiente();

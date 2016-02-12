@@ -25,36 +25,36 @@ class Cliente extends AppModel {
                 'mensagem' => Enum::VAZIO
             ),
         ),
-        'telefone' => array(
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                'mensagem' => Enum::VAZIO
-            ),
-            'verificaTelefone' => array(
-                'rule' => array('verificaTelefone'),
-                'mensagem' => 'Já cadastrado para esta empresa favor utilizar outro!'
-            ),
-        ),
-        'rg' => array(
-            'verificaRG' => array(
-                'rule' => array('verificaRG'),
-                'mensagem' => 'Já cadastrado para esta empresa favor utilizar outro!'
-            ),
-        ),
-        'email' => array(
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                'mensagem' => Enum::VAZIO
-            ),
-            'verificaEmail' => array(
-                'rule' => array('verificaEmail'),
-                'mensagem' => 'Já cadastrado para esta empresa favor utilizar outro!'
-            ),
-            'email' => array(
-                'rule' => array('email'),
-                'mensagem' => Enum::EMAIL_INVALIDO
-            ),
-        ),
+//        'telefone' => array(
+//            'notEmpty' => array(
+//                'rule' => array('notEmpty'),
+//                'mensagem' => Enum::VAZIO
+//            ),
+//            'verificaTelefone' => array(
+//                'rule' => array('verificaTelefone'),
+//                'mensagem' => 'Já cadastrado para esta empresa favor utilizar outro!'
+//            ),
+//        ),
+//        'rg' => array(
+//            'verificaRG' => array(
+//                'rule' => array('verificaRG'),
+//                'mensagem' => 'Já cadastrado para esta empresa favor utilizar outro!'
+//            ),
+//        ),
+//        'email' => array(
+//            'notEmpty' => array(
+//                'rule' => array('notEmpty'),
+//                'mensagem' => Enum::VAZIO
+//            ),
+//            'verificaEmail' => array(
+//                'rule' => array('verificaEmail'),
+//                'mensagem' => 'Já cadastrado para esta empresa favor utilizar outro!'
+//            ),
+//            'email' => array(
+//                'rule' => array('email'),
+//                'mensagem' => Enum::EMAIL_INVALIDO
+//            ),
+//        ),
     );
     
     public $validate_convidados = array(
@@ -80,16 +80,16 @@ class Cliente extends AppModel {
             //    'mensagem' => 'Já cadastrado para esta empresa favor utilizar outro!'
             //),
         ),*/
-        'email' => array(
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                'mensagem' => Enum::VAZIO
-            ),
-            'email' => array(
-                'rule' => array('email'),
-                'mensagem' => Enum::EMAIL_INVALIDO
-            ),
-        ),
+//        'email' => array(
+//            'notEmpty' => array(
+//                'rule' => array('notEmpty'),
+//                'mensagem' => Enum::VAZIO
+//            ),
+//            'email' => array(
+//                'rule' => array('email'),
+//                'mensagem' => Enum::EMAIL_INVALIDO
+//            ),
+//        ),
     );
     
     

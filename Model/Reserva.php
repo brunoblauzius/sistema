@@ -428,7 +428,7 @@ class Reserva extends AppModel {
                             " . $FUNC . "
                             " . $AMBIENTE . "
                             and Calendar.status = TRUE
-                    " . $DATE . ";";
+                    " . $DATE . " ORDER BY Cliente.nome ASC;";
 
 
 
