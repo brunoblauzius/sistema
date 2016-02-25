@@ -205,6 +205,11 @@ class UsuariosController extends AppController {
             $clientes     = 0;
             $funcionarios = 0;
             
+            $this->addCss(array(
+                'js/chart-js/Chart',
+                'js/chartjs.init',
+            ));
+            
             $this->layout = 'painel';
             $this->Utils = new Utils();
             $endereco = null;
@@ -221,8 +226,6 @@ class UsuariosController extends AppController {
                 $endereco = $endereco[0];
             }
             
-            
-
             $this->set('title_layout', 'Painel Administrativo');
             $this->set('endereco', $endereco);
             $this->set('clientes', $clientes);

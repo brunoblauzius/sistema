@@ -10,6 +10,8 @@
 
         <script>
             var web_root = '<?= Router::url() ?>';
+            var empresas_id = '<?= Session::read('Empresa.empresas_id')?>';
+            var roles_id    = '<?= Session::read('Usuario.roles_id')?>';
         </script>
 
         <title><?= $title_layout; ?></title>

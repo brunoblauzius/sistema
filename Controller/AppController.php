@@ -133,6 +133,11 @@ class AppController extends Render {
         }
     }
 
+    
+    public function addCss( array $js ){
+        $this->js = array_merge($this->js, $js);
+    }
+    
     public function AclCheck($controller, $metodo, $roleId) {
         try {
             $lista = $this->ACL->carregarPermissoes($roleId);
