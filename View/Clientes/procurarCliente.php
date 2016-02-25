@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group ">
-                        <small>E-mail: <strong class="text text-danger">*</strong></small>
+                        <small>E-mail: <strong class="text text-danger"></strong></small>
                         <input type="text" name="Cliente[email]" class="form-control rounded" placeholder="E-mail:">
                     </div>
                 </div>

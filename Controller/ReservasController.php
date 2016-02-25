@@ -2,7 +2,7 @@
 
 class ReservasController extends AppController {
 
-    public $ClasseAllow = array('filtrarConvidados');
+    public $ClasseAllow = array('filtrarConvidados', 'graficoReservasConvidados');
     
     private $Reserva = null;
     private $Funcionario = null;
@@ -185,7 +185,7 @@ class ReservasController extends AppController {
     
     public function listar(){
         try {
-            
+                        
             $this->checaEmpresa();
             $this->verificaContaEmpresa();
             $Modelambientes = new Ambiente();
@@ -1738,6 +1738,11 @@ class ReservasController extends AppController {
             }
             
         }
+    }
+    
+    public function graficoReservasConvidados(){
+        $retorno = $this->Reserva->graficoReservasConvidados($this->empresas_id);
+        echo json_encode($retorno);
     }
     
 }

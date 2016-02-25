@@ -205,6 +205,11 @@ class UsuariosController extends AppController {
             $clientes     = 0;
             $funcionarios = 0;
             
+            $this->addCss(array(
+                'js/chart-js/Chart',
+                'js/chartjs.init',
+            ));
+            
             $this->layout = 'painel';
             $this->Utils = new Utils();
             $endereco = null;
@@ -221,8 +226,6 @@ class UsuariosController extends AppController {
                 $endereco = $endereco[0];
             }
             
-            
-
             $this->set('title_layout', 'Painel Administrativo');
             $this->set('endereco', $endereco);
             $this->set('clientes', $clientes);
@@ -555,10 +558,10 @@ class UsuariosController extends AppController {
                         /**
                          * recuperando a conta empresa e guardando na sessao
                          */
-                        $contaEmpresa = $modelEmpresa->contaEmpresa(md5($funcionario[0][$modelFuncionario->name]['empresas_id']));
+                        $contaEmpresa = $modelEmpresa->contaEmpresa(md5($empresa[0][$modelEmpresa->name]['empresas_id']));
                         
                         $_SESSION[$modelEmpresa->name] = $empresa[0];
-                        $_SESSION['ContaEmpresa'] = $contaEmpresa[0];
+                        
                     }
                 } 
                 else if( $usuario[$this->User->name]['roles_id'] == 3 ) {
@@ -571,7 +574,14 @@ class UsuariosController extends AppController {
                     $empresas = $modelEmpresa->empresasRelacionadas(md5($usuario[$this->User->name]['pessoas_id']), $usuario[$this->User->name]['roles_id']); 
                     
                     if ( count($empresas) == 1 ) {
+                        
                         $_SESSION[$modelEmpresa->name] = $empresas[0];
+                        /**
+                         * recuperando a conta empresa e guardando na sessao
+                         */
+                        $contaEmpresa = $modelEmpresa->contaEmpresa(md5($_SESSION[$modelEmpresa->name]['empresas_id']));
+                                                
+                        $_SESSION['ContaEmpresa'] = $contaEmpresa[0];
                     }
                     
                 }

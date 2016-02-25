@@ -428,7 +428,7 @@ class Reserva extends AppModel {
                             " . $FUNC . "
                             " . $AMBIENTE . "
                             and Calendar.status = TRUE
-                    " . $DATE . ";";
+                    " . $DATE . " ORDER BY Cliente.nome ASC;";
 
 
 
@@ -1112,6 +1112,76 @@ class Reserva extends AppModel {
                             
             return $this->query($sql);
             
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function graficoReservasConvidados( $empresasId ){
+        try {
+            
+            $sql = " SELECT 
+                        COUNT(Reserva.id) total,
+                        CONCAT(YEAR(Reserva.start),
+                                '-',
+                                MONTH(Reserva.start)) AS date,
+                        MONTHNAME(Reserva.start) month_name,
+                        MONTH(Reserva.start) month,
+                        SUM(IF(ReservaClientes.confirmado = 1, 1, 0)) AS confirm,
+                        SUM(IF(ReservaClientes.confirmado = 0, 1, 0)) AS not_confirm
+                    FROM
+                        reservas AS Reserva
+                            INNER JOIN
+                        clientes_convidados AS ReservaClientes ON ReservaClientes.reservas_id = Reserva.id
+                    WHERE
+                        DATE(Reserva.start) BETWEEN DATE_SUB(DATE(CURRENT_DATE()),
+                            INTERVAL 2 MONTH) AND DATE(CURRENT_DATE())
+                            AND Reserva.empresas_id = {$empresasId}
+                    GROUP BY MONTH(Reserva.start)
+                    ORDER BY 1 DESC;";
+            
+            $retorno = $this->query($sql);
+            
+            /**
+             * fazer os ajustes para a view
+             */
+            foreach ( $retorno as $node ){
+                $labels[] = $node['month_name'];
+                
+                $datasets = array(
+                    /*CONFIRM*/
+                     array(
+                         'fillColor' => "#E67A77",
+                         'strokeColor' => "#E67A77",
+                         'data' => array(56,55,40)
+                     ),
+                    /*NOT CONFIRM*/
+                         array(
+                         'fillColor' => "#79D1CF",
+                         'strokeColor' => "#79D1CF",
+                         'data' => array(56,55,40)
+                     )
+                 );
+                
+                $confirm[] = intval($node['confirm']);
+                $notConfirm[] = intval($node['not_confirm']);
+                
+            }
+            
+            
+            $datasets[0]['data'] = $notConfirm; 
+            $datasets[1]['data'] = $confirm; 
+            
+            
+            $dados['labels'] = $labels;
+            $dados['datasets'] = $datasets;
+            
+            
+            return $dados;   
+            
+        } catch (PDOException $ex) {
+            throw $ex;
         } catch (Exception $ex) {
             throw $ex;
         }

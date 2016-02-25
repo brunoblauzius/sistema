@@ -54,17 +54,38 @@
 
     <?php if(in_array(Session::read('Usuario.roles_id'), array(3,4)) ):?>
         <div class="row">
-            <div class="col-sm-9">
+            <div class="col-sm-6">
                 <section class="panel">
                     <header class="panel-heading">
-                       Reservas da(s) empresa(s) cadastrada(s)
+                       Reservas da(s) empresa(s) cadastrada(s).
                     </header>
                     <div class="panel-body">
                         <div id="graph-area"></div>
                     </div>
                 </section>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-6">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Listas de Convidados.
+                    </header>
+                    <div class="panel-body">
+                        <div class="chartJS">
+                            <canvas id="bar-chart-js" height="250" width="800" ></canvas>
+                        </div>
+                        <div class="col-md-12" style="margin-top:68px; ">
+                            <div class="col-md-5">
+                                <section style="background-color: #E67A77; width:20px; height:20px; float:left; margin-right:15px;"></section> Convidados na lista
+                            </div>
+                            <div class="col-md-7">
+                                <section style="background-color: #79D1CF; width:20px; height:20px; float:left; margin-right:15px;"></section> Convidados que compareceram
+                            </div>
+                        </div>
+                    </div>
+                    
+                </section>
+            </div>
+            <!--div class="col-sm-3">
                 <section class="panel">
                     <header class="panel-heading">
                        IDEIA
@@ -73,7 +94,7 @@
                         <div id="graph-donut"></div>
                     </div>
                 </section>
-            </div>
+            </div-->
         </div>
     <?php endif;?>
 
@@ -130,8 +151,7 @@
 <script>
     $(document).ready(function() {
         //DraggablePortlet.init();
-        var empresas_id = '<?= Session::read('Empresa.empresas_id')?>';
-        var roles_id    = '<?= Session::read('Usuario.roles_id')?>';
+        
         
         if( empresas_id > 0 ){
             $('#empresa-reservas-mes').html( null );
@@ -218,11 +238,15 @@
                     ],
                     formatter: function (x, data) { return data.formatted; }
                 });
+                
+                
+               
+                
+                
             }
             
         }
-        
-        
+          
         
     });
 </script>

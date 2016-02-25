@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/W:/bruno.blauzius/sistema/View/webroot/js/chartjs.init.js</file>
+            <file>file:/W:/bruno.blauzius/sistema/Controller/ReservasController.php</file>
+            <file>file:/W:/bruno.blauzius/sistema/Controller/UsuariosController.php</file>
+            <file>file:/W:/bruno.blauzius/sistema/Model/Reserva.php</file>
+            <file>file:/W:/bruno.blauzius/sistema/View/Usuarios/painel.php</file>
+        </group>
     </open-files>
 </project-private>

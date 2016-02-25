@@ -5,7 +5,7 @@
             <input type="text" name="Cliente[nome]" class="form-control rounded" placeholder="Nome:" value="<?= $registro['nome']?>">
         </div>
         <div class="form-group col-md-12">
-            <small>E-mail: <strong class="text text-danger">*</strong></small>
+            <small>E-mail: <strong class="text text-danger"></strong></small>
             <input type="text" name="Cliente[email]" class="form-control rounded" placeholder="E-mail:" value="<?= $registro['email']?>">
         </div>
         <div class="form-group col-md-12">
