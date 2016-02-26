@@ -134,9 +134,14 @@ class AppController extends Render {
     }
 
     
-    public function addCss( array $js ){
-        $this->js = array_merge($this->js, $js);
+    public function addJs( array $array ){
+        $this->js = array_merge($this->js, $array);
     }
+    
+    public function addCss( array $array ){
+        $this->css = array_merge($this->css, $array);
+    }
+    
     
     public function AclCheck($controller, $metodo, $roleId) {
         try {
