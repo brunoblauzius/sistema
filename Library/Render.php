@@ -92,7 +92,7 @@ class Render {
             $this->controller = $_GET['controller'];
         }
         if( isset( $_GET['action'] ) ){
-            $this->method     = $_GET['action'];
+            $this->method     = $this->RemoveUnderscoreAction($_GET['action']);
             $this->view       = $this->method;
         } else {
             $this->method = 'index'; 
@@ -106,6 +106,27 @@ class Render {
 
     }
     
+    
+    public function RemoveUnderscoreAction( $action, $haystack = '-' ){
+        
+        if(stripos( $haystack, $action ) === FALSE ){
+            $explode = explode($haystack, $action);
+            $i= 0;
+            $newString = '';
+            foreach ($explode as $string ){
+                if( $i == 0 ){
+                    $newString = $string;
+                } else {
+                    $newString .= ucfirst($string);
+                }
+                $i++;
+                
+            }
+            return $newString;
+        }
+        return $action;
+        
+    }
     
     
     public function set($atributo = null, $valor = null ){

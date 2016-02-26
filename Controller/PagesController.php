@@ -6,7 +6,7 @@
  */
 class PagesController extends AppController{
     
-    public $ClasseAllow = array('index', 'login', 'ativarConta', 'cadastroSucesso');
+    public $ClasseAllow = array('index', 'login', 'ativarConta', 'cadastroSucesso', 'criarConta');
     
     public $User = null;
     
@@ -53,7 +53,6 @@ class PagesController extends AppController{
             '3dParty/fontello/css/fontello',
         ));
         
-        
         $this->layout = 'layout_site';       
         $this->set('title_layout', ' Sistemas de reservas para bares, restaurantes e casas noturnas ' . $this->systemName );
         $this->render();
@@ -74,6 +73,48 @@ class PagesController extends AppController{
     }
     
     
+    public function criarConta(){
+        
+        $this->addJs(array(
+            '3dParty/jquery-1.11.0.min',
+            '3dParty/bootstrap/js/bootstrap.min',
+            '3dParty/jquery.touchSwipe.min',
+            '3dParty/gauge.min',
+            '3dParty/rs-plugin/js/jquery.themepunch.tools.min',
+            '3dParty/rs-plugin/js/jquery.themepunch.revolution.min',
+            '3dParty/requestAnimationFramePolyfill.min',
+            '3dParty/jquery.scrollTo.min',
+            '3dParty/colorbox/jquery.colorbox-min',
+            'scripts/pi.global.min',
+            'scripts/pi.slider',
+            'scripts/pi.init.slider',
+            '3dParty/jquery.easing.1.3',
+            'scripts/pi.counter',
+            'scripts/pi.init.counter',
+            'scripts/pi.parallax',
+            'scripts/pi.init.parallax',
+            'scripts/pi.init.revolutionSlider',
+        ));
+        
+        $this->addCss(array(
+            '3dParty/bootstrap/css/bootstrap.min',
+            'css/global',
+            '3dParty/rs-plugin/css/pi.settings',
+            'css/typo',
+            '3dParty/colorbox/colorbox',
+            'css/portfolio',
+            'css/slider',
+            'css/counters',
+            'css/social',
+            '3dParty/fontello/css/fontello',
+        ));
+        
+        $this->layout = 'layout_site';          
+        $this->set('title_layout', ' Crie sua conta com a my night ' . $this->systemName );
+        $this->render();
+    }
+
+
     /*public function addUsuario(){
         try{
             
