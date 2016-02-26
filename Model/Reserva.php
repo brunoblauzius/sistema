@@ -1152,8 +1152,8 @@ class Reserva extends AppModel {
                 $datasets = array(
                     /*CONFIRM*/
                      array(
-                         'fillColor' => "#E67A77",
-                         'strokeColor' => "#E67A77",
+                         'fillColor' => "#f7aa04",
+                         'strokeColor' => "#f7aa04",
                          'data' => array(56,55,40)
                      ),
                     /*NOT CONFIRM*/

@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-md-12" style="margin-top:68px; ">
                             <div class="col-md-5">
-                                <section style="background-color: #E67A77; width:20px; height:20px; float:left; margin-right:15px;"></section> Convidados na lista
+                                <section style="background-color: #f7aa04; width:20px; height:20px; float:left; margin-right:15px;"></section> Convidados na lista
                             </div>
                             <div class="col-md-7">
                                 <section style="background-color: #79D1CF; width:20px; height:20px; float:left; margin-right:15px;"></section> Convidados que compareceram

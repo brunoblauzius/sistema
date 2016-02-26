@@ -306,4 +306,32 @@ class Render {
         $this->getViewContent();
         return $this->content;
     } 
+    
+    /**
+     * 
+     * @param string $element
+     * @param string $mode
+     * @return string
+     * @throws Exception
+     */
+    public static function element( $element = 'index', array $vars = null )
+    {
+        try{
+            ob_start();
+            extract($vars);
+            
+            require_once('View' . DS . 'Elements' . DS .  $element . '.php' );
+            
+            $content = ob_get_contents();
+            
+            ob_end_clean();
+            return $content;
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+        
+    } 
+    
+    
 }
