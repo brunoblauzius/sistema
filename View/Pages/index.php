@@ -2,9 +2,9 @@
     <div class="pi-texture" style="background: rgba(24, 28, 32, 0.7);"></div>
     <div class="pi-section pi-text-center">
 
-        <h2 class="h1 pi-text-shadow pi-weight-700 pi-uppercase" style="font-size: 60px;">
+        <h1 class="h1 pi-text-shadow pi-weight-700 pi-uppercase" style="font-size: 60px;">
             My<span class="pi-text-pink">Nyght</span>
-        </h2>
+        </h1>
 
         <p class="lead-20 pi-weight-300 pi-margin-bottom-30">
             Nemo enim ipsam voluptatem quia voluptas sit aspernatur <br>aut odit aut fugit, sed quia consequuntur
@@ -12,7 +12,7 @@
 
         <p>
             <a href="<?= Router::url(array('Pages', 'login')); ?>" class="btn pi-btn-contur-3 pi-btn-big">
-                Logar no sistema
+                Ir para o sistema
             </a>
             <span class="pi-clearfix pi-visible-sm"></span>
             <span class="pi-or">ou</span>
@@ -243,12 +243,12 @@ Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cu
 
         <!-- Row -->
         <div class="pi-row">
+            <div class="pi-margin-bottom-15 pi-col-xs-12 pi-col-sm-5">
+                <img src="<?= Router::url('View/webroot/site/img/shutterstock_107906300.jpg') ?>">
+            </div>
             <div class="pi-margin-bottom-15 pi-col-xs-12 pi-col-sm-7">
                 Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus autem
 Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo facilis est et expedita distinctio minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem cum soluta nobis est eligendi quibusdam et aut officiis debitis autem cum soluta nobis est aut optio cumque nihil.
-            </div>
-            <div class="pi-margin-bottom-15 pi-col-xs-12 pi-col-sm-5">
-                <img src="<?= Router::url('View/webroot/site/img/shutterstock_107906300.jpg') ?>">
             </div>
         </div>
     </div>
@@ -269,7 +269,7 @@ Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cu
                     </h2>
 
                     <!-- Contact form -->
-                    <form role="form" action="handlers/formContact.php" class="pi-contact-form">
+                    <form role="form" action="handlers/formContact.php" method="post" class="pi-contact-form">
 
                         <div class="pi-error-container"></div>
 
