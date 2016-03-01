@@ -1,99 +1,92 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-class Funcionario extends AppModel{
-    
+class Funcionario extends AppModel {
+
     public $useTable = 'funcionarios';
-    
     public $name = 'Funcionario';
-    
     public $primaryKey = 'id';
-    
     public $validate = array(
         'roles_id' => array(
-          'notEmpty' => array(
-              'rule' => array('notEmpty'),
-              'mensagem' => Enum::VAZIO,
-          )  
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            )
         ),
         'nome' => array(
-          'notEmpty' => array(
-              'rule' => array('notEmpty'),
-              'mensagem' => Enum::VAZIO,
-          )  
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            )
         ),
         'email' => array(
-          'notEmpty' => array(
-              'rule' => array('notEmpty'),
-              'mensagem' => Enum::VAZIO,
-          ),
-          'email' => array(
-              'rule' => array('email'),
-              'mensagem' => Enum::EMAIL_INVALIDO,
-          ),
-          /*'verificaEmail' => array(
-              'rule' => array('verificaEmail'),
-              'mensagem' => Enum::USUARIO_CADASTRADO,
-          )*/
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+            'email' => array(
+                'rule' => array('email'),
+                'mensagem' => Enum::EMAIL_INVALIDO,
+            ),
+        /* 'verificaEmail' => array(
+          'rule' => array('verificaEmail'),
+          'mensagem' => Enum::USUARIO_CADASTRADO,
+          ) */
         ),
         'cpf' => array(
-          'notEmpty' => array(
-              'rule' => array('notEmpty'),
-              'mensagem' => Enum::VAZIO,
-          ),
-          'isValidCPF' => array(
-              'rule' => array('isValidCPF'),
-              'mensagem' => 'CPF inválido',
-          ) 
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+            'isValidCPF' => array(
+                'rule' => array('isValidCPF'),
+                'mensagem' => 'CPF inválido',
+            )
         ),
         'login' => array(
-          'notEmpty' => array(
-              'rule' => array('notEmpty'),
-              'mensagem' => Enum::VAZIO,
-          )  
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            )
         ),
         'senha' => array(
-          'notEmpty' => array(
-              'rule' => array('notEmpty'),
-              'mensagem' => Enum::VAZIO,
-          ),
-          'minLenght' => array(
-              'rule' => array('minLenght', 6),
-              'mensagem' => 'Este campo deve conter no minimo 6 digitos',
-          ),
-          'equalsPassword' => array(
-              'rule' => array('equalsPassword'),
-              'mensagem' => Enum::SENHA_NAO_CONFERE
-          ),
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+            'minLenght' => array(
+                'rule' => array('minLenght', 6),
+                'mensagem' => 'Este campo deve conter no minimo 6 digitos',
+            ),
+            'equalsPassword' => array(
+                'rule' => array('equalsPassword'),
+                'mensagem' => Enum::SENHA_NAO_CONFERE
+            ),
         ),
         'confirm_senha' => array(
-          'notEmpty' => array(
-              'rule' => array('notEmpty'),
-              'mensagem' => Enum::VAZIO,
-          ), 
-          'minLenght' => array(
-              'rule' => array('minLenght', 6),
-              'mensagem' => 'Este campo deve conter no minimo 6 digitos',
-          )
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+            'minLenght' => array(
+                'rule' => array('minLenght', 6),
+                'mensagem' => 'Este campo deve conter no minimo 6 digitos',
+            )
         ),
     );
-	
-	
-    
-       
-    
-    public function findFuncionarios( $empresaId, $pessoaId = NULL ){
-        try{
+
+    public function findFuncionarios($empresaId, $pessoaId = NULL) {
+        try {
             $PESSOA = null;
-            if( !is_null($pessoaId) ){
+            if (!is_null($pessoaId)) {
                 $PESSOA = " AND md5(Pessoa.id) = '{$pessoaId}'; ";
             }
-            
+
             $sql = "SELECT 
                         Pessoa.id as pessoas_id,
                         Pessoa.tipo_pessoa,
@@ -129,20 +122,18 @@ class Funcionario extends AppModel{
                     WHERE
                         (Empresa.id = {$empresaId}
                             OR Funcionario.empresas_id = {$empresaId}) " . $PESSOA;
-                            
+
             $retorno = $this->query($sql);
             return $retorno;
-            
         } catch (Exception $ex) {
             throw $ex;
         }
     }
-     
-    
-    public final function funcionariosEmpresa( $empresaId ){
-        try{
-            
-            
+
+    public final function funcionariosEmpresa($empresaId) {
+        try {
+
+
             $sql = "SELECT 
                         Pessoa.id as pessoas_id,
                         Pessoa.tipo_pessoa,
@@ -178,20 +169,19 @@ class Funcionario extends AppModel{
                         reservas.funcionarios AS Funcionario ON Funcionario.pessoas_id = Pessoa.id
                     WHERE
                         (Empresa.id = {$empresaId}
-                            OR Funcionario.empresas_id = {$empresaId}) ORDER BY Fisica.nome ASC"; 
-                            
+                            OR Funcionario.empresas_id = {$empresaId}) ORDER BY Fisica.nome ASC";
+
             $retorno = $this->query($sql);
             return $retorno;
-            
         } catch (Exception $ex) {
             throw $ex;
         }
     }
-    
-    public function quantidadeFuncionariosEmpresa( $empresaId ){
-            try {
-                
-                $sql = "SELECT 
+
+    public function quantidadeFuncionariosEmpresa($empresaId) {
+        try {
+
+            $sql = "SELECT 
                             (select count(*) from funcionarios where empresas_id = Empresa.id ) as funcionarios,
                             ContaEmpresa.qtde_funcionarios,
                             TipoContaEmpresa.nome
@@ -201,20 +191,18 @@ class Funcionario extends AppModel{
                             inner join contas_empresas_tipos as TipoContaEmpresa ON TipoContaEmpresa.id = ContaEmpresa.contas_empresas_tipos_id
                         WHERE
                             Empresa.id = $empresaId;";
-                
-                $retorno = $this->query($sql);
-                
-                if( !empty($retorno)){
-                    $retorno = array_shift($retorno);
-                    
-                    $retorno['total_restante'] = $retorno['qtde_funcionarios'] - $retorno['funcionarios'];
-                }
-                return $retorno;
-                
-            } catch (Exception $ex) {
-                throw $ex;
+
+            $retorno = $this->query($sql);
+
+            if (!empty($retorno)) {
+                $retorno = array_shift($retorno);
+
+                $retorno['total_restante'] = $retorno['qtde_funcionarios'] - $retorno['funcionarios'];
             }
+            return $retorno;
+        } catch (Exception $ex) {
+            throw $ex;
         }
-        
-    
+    }
+
 }
