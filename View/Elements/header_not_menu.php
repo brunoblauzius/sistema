@@ -14,7 +14,7 @@
                 <!-- End text -->
                 <!-- Menu -->
                 <div class="pi-row-block pi-pull-right">
-                    <ul class="pi-simple-menu pi-has-hover-border pi-full-height pi-hidden-sm">
+                    <!--ul class="pi-simple-menu pi-has-hover-border pi-full-height pi-hidden-sm">
 
                         <li class="active"><a href="#inicio" data-scroll-to="#inicio"><span>Início</span></a></li>
                         <li class=""><a href="#quem-somos" data-scroll-to="#quem-somos"><span>Sobre o Sistema</span></a></li>
@@ -22,7 +22,7 @@
                         <li class=""><a href="#cliente" data-scroll-to="#cliente"><span>Cliente</span></a></li>
                         <li class=""><a href="#contato" data-scroll-to="#contato"><span>Contato</span></a></li>
 
-                    </ul>
+                    </ul-->
                 </div>
                 <!-- End menu -->
             </div>

@@ -46,7 +46,7 @@
                     </h6>
 
                     <p>
-                        +55.41. 9999.9999
+                        +55. 41 4063-9936
                         <br>
                         <a href="#">contato@mynight.com.br</a>
                     </p>
@@ -72,8 +72,6 @@
                     <ul class="pi-social-icons pi-colored-bg pi-round pi-jump pi-clearfix">
                         <li><a href="#" class="pi-social-icon-facebook"><i class="icon-facebook"></i></a></li>
                         <li><a href="#" class="pi-social-icon-twitter"><i class="icon-twitter"></i></a></li>
-                        <li><a href="#" class="pi-social-icon-gplus"><i class="icon-gplus"></i></a></li>
-                        <li><a href="#" class="pi-social-icon-linkedin"><i class="icon-linkedin"></i></a></li>
                     </ul>
 
                 </div>
@@ -134,7 +132,7 @@
                     <a href="<?= Router::url(array('Pages', 'faq')); ?>"><span>F.A.Q.</span></a>
                 </li>
                 <li>
-                    <a href="<?= Router::url(array('Pages', 'contato')); ?>"><span>Contato</span></a>
+                    <a href="<?= Router::url(array('Pages', 'index')); ?>"><span>Contato</span></a>
                 </li>
 
             </ul>
