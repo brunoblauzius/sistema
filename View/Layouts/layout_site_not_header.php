@@ -51,7 +51,7 @@
                 <!-- - - - - - - - - - END SECTION - - - - - - - - - -->
 
 
-        <?= Router::element('footer'); ?>
+        <?= Router::element('footer_slim'); ?>
 
 
         <!--Core js-->

@@ -3,11 +3,11 @@
 	<div class="pi-section pi-padding-bottom-60">
 		
 		<div class="pi-text-center pi-margin-bottom-50">
-			<h1 class="pi-uppercase pi-weight-700 pi-text-pink pi-has-border pi-has-tall-border pi-has-short-border">
+			<h1 class="pi-uppercase pi-weight-700 pi-has-border pi-has-tall-border pi-has-short-border">
 				Entrar no sistema
 			</h1>
 		</div>
-		
+
 		<!-- Row -->
 		<div class="pi-row">
 			
@@ -15,7 +15,7 @@
 			<div class="pi-col-md-4 pi-col-md-offset-4 pi-col-sm-6 pi-col-sm-offset-3 pi-col-xs-8 pi-col-xs-offset-2">
 			
 				<!-- Box -->
-				<div class="pi-box pi-round pi-shadow-15">
+                                <div class="pi-box pi-round pi-shadow-15">
                                     <form class="form-signin" action="<?= Router::url( array('Usuarios','login' ) ); ?>" method="post" id="UsuarioLoginForm">
                                         <!-- Email form -->
                                         <div class="form-group">
@@ -27,7 +27,7 @@
                                         <!-- End email form -->
 
                                         <!-- Password form -->
-                                        <div class="form-group">
+                                        <div class="form-group ">
                                                 <div class="pi-input-with-icon">
                                                         <div class="pi-input-icon"><i class="icon-lock"></i></div>
                                                         <input type="password" name="Usuario[senha]" class="form-control" id="exampleInputPassword" placeholder="Senha:">
@@ -48,7 +48,7 @@
                                         <!-- End checkbox -->
 
                                         <!-- Submit button -->
-                                        <p>
+                                        <p class="form-group">
                                                 <button type="submit" class="btn pi-btn-base pi-btn-wide pi-weight-600">
                                                         Logar se
                                                 </button>
@@ -59,7 +59,7 @@
 				<!-- End box -->
 				
 				<p class="pi-text-center">
-                                    <span style="color:#FFF">Não tenho uma conta?</span> <a href="<?= Router::url(array('Pages', 'criar-conta'))?>" class="pi-weight-700">Criar Conta</a>
+                                    <span style="color:#FFF">Você ainda não tem conta?</span> <a href="<?= Router::url(array('Pages', 'criar-conta'))?>" class="pi-weight-700">Criar Conta</a>
 				</p>
 				
 			</div>
