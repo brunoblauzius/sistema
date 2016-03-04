@@ -205,7 +205,7 @@ class UsuariosController extends AppController {
             $clientes     = 0;
             $funcionarios = 0;
             
-            $this->addCss(array(
+            $this->addJs(array(
                 'js/chart-js/Chart',
                 'js/chartjs.init',
             ));

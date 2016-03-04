@@ -62,11 +62,34 @@ class PagesController extends AppController{
     
     public function login() {
         
+        $this->addJs(array(
+            '3dParty/jquery-1.11.0.min',
+            '3dParty/bootstrap/js/bootstrap.min',
+            '3dParty/requestAnimationFramePolyfill.min',
+            '3dParty/jquery.scrollTo.min',
+            '3dParty/colorbox/jquery.colorbox-min',
+            'scripts/pi.global.min',
+            '3dParty/jquery.easing.1.3',
+            'scripts/pi.parallax',
+            'scripts/pi.init.parallax',            
+            'scripts/pi.init.revolutionSlider',
+        ));
+        
+        $this->addCss(array(
+            '3dParty/bootstrap/css/bootstrap.min',
+            'css/global',
+            '3dParty/rs-plugin/css/pi.settings',
+            'css/typo',
+            'css/boxes',
+            'css/social',
+            '3dParty/fontello/css/fontello',
+        ));
+        
         if( Session::check('Usuario')){
             header('Location: ' . Router::url(array('Usuarios', 'painel')));
             exit();
         } else {
-            $this->layout = 'default';
+            $this->layout = 'layout_site_not_header';
             $this->set('title_layout', ' Logar no sistema' . $this->systemName);
             $this->render();
         }

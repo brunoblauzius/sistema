@@ -1129,7 +1129,7 @@ class Reserva extends AppModel {
                         MONTHNAME(Reserva.start) month_name,
                         MONTH(Reserva.start) month,
                         SUM(IF(ReservaClientes.confirmado = 1, 1, 0)) AS confirm,
-                        SUM(IF(ReservaClientes.confirmado = 0, 1, 0)) AS not_confirm
+                        SUM(ReservaClientes.status) AS not_confirm
                     FROM
                         reservas AS Reserva
                             INNER JOIN
