@@ -984,7 +984,7 @@
         $.each(erros,function( key, value ) {
              var item = $('#'+form+' input[name$="['+key+']"], textarea[name$="['+key+']"], select[name$="['+key+']"]').parent('.form-group, label, div');
              $('#'+form+' input[name$="['+key+']"], textarea[name$="['+key+']"], select[name$="['+key+']"]').parents('.form-group').addClass('has-error');
-             $('<span class="text-danger alert-error" for="inputError"><i class="fa fa-times-circle-o"></i> '+value+' </span>').appendTo( item );
+             $('<span class="text-danger pi-text-red alert-error" for="inputError"><i class="fa fa-times-circle-o icon-cancel"></i> '+value+' </span>').appendTo( item );
         });  
     }
     
@@ -1156,9 +1156,9 @@
     function infoErro( mensagem, elementoDiv ) {
         $(elementoDiv).find('.msgError').remove();
         var elemento = '';
-        elemento = '<div class="row msgError"><div class="col-md-12">'
+        elemento = '<div class="row pi-row msgError"><div class="col-md-12">'
                            + '<!-- msgError box -->'
-                           + '<div class="alert alert-danger">'
+                           + '<div class="alert alert-danger pi-alert-danger">'
                              //+   '<h4>Erro: </h4>'
                              +   '<a class="close" data-dismiss="alert">×</a>'
                              +   "<p style='color:#fff;'> NOTIFICAÇÃO: " +  mensagem  +  '</p>'
@@ -1174,9 +1174,9 @@
         $(elementoDiv).find('.sucesso').remove();
 		$(elementoDiv).find('.msgError').remove();
         var elemento = '';
-        elemento = '<div class="row sucesso"><div class="col-md-12">'
+        elemento = '<div class="row pi-row sucesso"><div class="col-md-12">'
                            + '<!-- Success box -->'
-                           + '<div class="alert alert-success">'
+                           + '<div class="alert alert-success pi-alert-success">'
                              //+   '<h4 class="box-title">Sucesso na sua operação</h4>'
                              +   "<p style='color:#fff;'> " +  mensagem  +  '</p>'
                             +'</div><!-- /.box -->'

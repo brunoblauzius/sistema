@@ -9292,9 +9292,8 @@ button.pi-close {
   color: #9ea2a7;
 }
 .pi-alert-success {
-  background: #b8ffaf;
-  border-color: #9bf29d;
-  color: #428956;
+  background: #55E01C;
+  color: #FFF;
 }
 .pi-alert-success h1,
 .pi-alert-success h2,
@@ -9346,9 +9345,8 @@ button.pi-close {
   color: #5F96BB;
 }
 .pi-alert-danger {
-  background: #feead3;
-  border-color: #ffd9c0;
-  color: #c5635e;
+  background: #E01C2E;
+  color: #FFF;
 }
 .pi-alert-danger h1,
 .pi-alert-danger h2,
