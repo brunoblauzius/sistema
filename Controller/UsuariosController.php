@@ -558,9 +558,9 @@ class UsuariosController extends AppController {
                         /**
                          * recuperando a conta empresa e guardando na sessao
                          */
-                        $contaEmpresa = $modelEmpresa->contaEmpresa(md5($empresa[0][$modelEmpresa->name]['empresas_id']));
-                        
+                        $contaEmpresa = $modelEmpresa->contaEmpresa(md5($funcionario[0][$modelFuncionario->name]['empresas_id']));
                         $_SESSION[$modelEmpresa->name] = $empresa[0];
+                        $_SESSION['ContaEmpresa'] = $contaEmpresa[0];
                         
                     }
                 } 

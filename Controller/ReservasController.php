@@ -210,6 +210,8 @@ class ReservasController extends AppController {
              * listar as mesas por registro
              */
             $newRegistros = array();
+            
+            
             foreach ($registros as $registro) {
                    
                 /**
@@ -224,6 +226,8 @@ class ReservasController extends AppController {
                $newRegistros[] = array_merge($registro, $arrayMesas);
                      
             }
+            
+            
             
             $this->set('registros', $newRegistros);
             

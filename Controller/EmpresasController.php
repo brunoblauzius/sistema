@@ -159,6 +159,7 @@ class EmpresasController extends AppController {
                     'contas_empresas_tipos_id'     => 1,
                     'tipos_pagamentos_id'          => 1,
                     'created'                      => $created,
+                    'expirar'                      => Utils::adicionaMes( 1 , $created),
                 ));
                 
                 /**
