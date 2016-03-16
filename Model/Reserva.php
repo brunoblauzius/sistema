@@ -1139,7 +1139,7 @@ class Reserva extends AppModel {
                             INTERVAL 2 MONTH) AND DATE(CURRENT_DATE())
                             AND Reserva.empresas_id = {$empresasId}
                     GROUP BY MONTH(Reserva.start)
-                    ORDER BY 1 DESC;";
+                    ORDER BY MONTH(Reserva.start) ASC;";
             
             $retorno = $this->query($sql);
             
