@@ -227,7 +227,7 @@ class ReservasController extends AppController {
                      
             }
             
-            
+            //Utils::pre($newRegistros);
             
             $this->set('registros', $newRegistros);
             

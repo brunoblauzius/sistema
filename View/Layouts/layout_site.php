@@ -18,7 +18,8 @@
         <?php foreach ($this->css as $style): ?>
             <link href="<?= Router::url('View/webroot/site/') ?><?= $style ?>.css" rel="stylesheet">
         <?php endforeach; ?>
-
+        <link href="<?= Router::url('View/webroot/css/custom') ?>.css" rel="stylesheet">
+        
         <!--Fonts-->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;subset=latin,cyrillic' rel='stylesheet' type='text/css'/>
 
