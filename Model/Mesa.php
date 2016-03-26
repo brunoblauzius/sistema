@@ -152,7 +152,7 @@ class Mesa extends AppModel{
     public function selectIn( array $mesas ){
         try {
             
-            if( !empty($in) ){
+            if( !empty($mesas) ){
                 $in = join(', ', $mesas);
                 $sql = "SELECT * FROM reservas.mesas WHERE id IN ( $in );";
                 $lista = $this->query($sql);

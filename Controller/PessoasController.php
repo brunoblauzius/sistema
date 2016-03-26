@@ -13,6 +13,7 @@
  */
 class PessoasController extends AppController {
     
+    public  $ClasseAllow = array('cadastroSite');
     private $Pessoa = null;
     private $Fisica = null;
     private $Usuario = null;
@@ -21,6 +22,7 @@ class PessoasController extends AppController {
     
     
     public function __construct() {
+        
         parent::__construct();
         $this->Pessoa  = new Pessoa();
         $this->Fisica  = new Fisica();
@@ -190,6 +192,14 @@ class PessoasController extends AppController {
         }
     }
     
-    
+    public function cadastroSite(){
+        try {
+            
+            Utils::pre($_POST);
+            
+        } catch (Exception $ex) {
+            
+        }
+    }
     
 }

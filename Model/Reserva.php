@@ -600,6 +600,7 @@ class Reserva extends AppModel {
                 'end'          => $data,
                 'color'        => '#FFD743',
                 'status'       => 0,
+                'created'      => date('Y-m-d H:i:s'),
             );
 
             return $this->genericInsert($array);

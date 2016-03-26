@@ -122,3 +122,22 @@ i{
     color: #32323A;
 }
 
+.badge-cadastro{
+    padding:10px;
+}
+
+.badge-cadastro-active{
+    background-color: #acfcd8;
+}
+
+.badge-cadastro-off{
+    background-color: #e9e9e9
+}
+
+.badge-cadastro p{
+    font-weight:700;
+    margin-top:10px;
+    color: #2C3E50;
+    margin-bottom:0px;
+}
+

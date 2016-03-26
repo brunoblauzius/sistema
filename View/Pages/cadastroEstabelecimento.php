@@ -3,11 +3,11 @@
         
         <div class="pi-row pi-margin-bottom-50 ">
             <div class="pi-text-center ">
-                <div class="pi-col-md-4 badge-cadastro badge-cadastro-active">
+                <div class="pi-col-md-4 badge-cadastro ">
                     <img src="<?= Router::url('View/webroot/site/img/1458782254_42.Badge.png')?>" width="70">
                     <p>Cadastro</p>
                 </div>
-                <div class="pi-col-md-4 badge-cadastro">
+                <div class="pi-col-md-4 badge-cadastro badge-cadastro-active">
                     <img src="<?= Router::url('View/webroot/site/img/1458782720_03.Office.png')?>" width="70">
                     <p>Estabelecimento</p>
                 </div>

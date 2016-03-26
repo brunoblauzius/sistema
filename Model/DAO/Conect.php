@@ -14,7 +14,7 @@
 class Conect {
     
     const SERVER        = 'mysql';
-    const HOST          = 'localhost';
+    const HOST          = '162.144.49.114';
     const DATA_BASE     = 'reservas';
     const USER          = 'producao';
     const PASS          = 'asx1998';
