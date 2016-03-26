@@ -6,7 +6,7 @@
  */
 class PagesController extends AppController{
     
-    public $ClasseAllow = array('index', 'login', 'ativarConta', 'cadastroSucesso', 'criarConta');
+    public $ClasseAllow = array('index', 'login', 'ativarConta', 'cadastroSucesso', 'criarConta', 'sendContato');
     
     public $User = null;
     
@@ -287,6 +287,21 @@ class PagesController extends AppController{
         } catch (Exception $ex) {
             
         }
+    }
+    
+    
+    public function sendContato(){
+       
+        $parameters = array(
+            'destinatario'      =>  'brunoblauzius@gmail.com',
+            'nome_destinatario' =>  'Administrador my night',
+            'layout'            =>  'contato',
+        );
+        
+        $parameters = array_merge($parameters, $_POST);
+        
+        
+        echo CurlStatic::send($parameters, 'json', 'http://localhost/ServidorDeEmails/', 'POST');
     }
     
 }

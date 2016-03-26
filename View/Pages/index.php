@@ -295,7 +295,7 @@ Toda a comunicação com seu cliente é automática, desde a confirmação da re
                     </h2>
 
                     <!-- Contact form -->
-                    <form role="form" action="handlers/formContact.php" method="post" class="pi-contact-form">
+                    <form role="form" action="<?= Router::url(array('Pages', 'send-contato'));?>" method="post" class="SendContact">
 
                         <div class="pi-error-container"></div>
 
@@ -311,9 +311,19 @@ Toda a comunicação com seu cliente é automática, desde a confirmação da re
                                    placeholder="ex. mail@example.com">
                         </div>
 
-                        <div class="form-group">
-                            <label for="exampleInputPhone">Telefone *</label>
-                            <input type="text" class="form-control form-control-phone" id="exampleInputPhone" name="telefone" placeholder="ex. 55 41.99999999">
+                        <div class="pi-row">
+                            <div class="pi-col-sm-3">
+                                <div class="form-group">
+                                    <label for="exampleInputPhone">DDD *</label>
+                                    <input type="text" class="form-control form-control-phone" id="exampleInputPhone" name="ddd" placeholder="41">
+                                </div>
+                            </div>
+                            <div class="pi-col-sm-9">
+                                <div class="form-group">
+                                    <label for="exampleInputPhone">Telefone *</label>
+                                    <input type="text" class="form-control form-control-phone" id="exampleInputPhone" name="telefone" placeholder="ex. 55 41.99999999">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -323,7 +333,7 @@ Toda a comunicação com seu cliente é automática, desde a confirmação da re
 
                         <div class="form-group">
                             <label for="exampleInputMessage1">Mensagem *</label>
-                            <textarea class="form-control form-control-comments" id="exampleInputMessage1" placeholder="Qual sua mensagem para nós?"
+                            <textarea class="form-control form-control-comments" name="mensagem" id="exampleInputMessage1" placeholder="Qual sua mensagem para nós?"
                                       rows="3"></textarea>
                         </div>
                         <p>

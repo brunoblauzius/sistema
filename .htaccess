@@ -3,6 +3,8 @@
 
     ErrorDocument 404 /page_not_found.html
 
+    Options -Indexes
+    RewriteCond ^(ServidorDeEmails) !-d 
     RewriteCond %{REQUEST_FILENAME} !-d 
     RewriteCond %{REQUEST_FILENAME} !-f 
 
