@@ -32,41 +32,92 @@
                         <div class="pi-box pi-round">
 
                             <!-- First name form -->
-                            <div class="form-group">
-                                <div class="pi-input-with-icon">
-                                    <div class="pi-input-icon"><i class="icon-user"></i></div>
-                                    <input type="text" name="Pessoa[nome]" class="form-control" id="exampleInputUsername" placeholder="Seu Nome:">
+                            <section class="pi-row ">
+                                <div class="pi-col-md-12">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-user"></i></div>
+                                            <input type="text" name="Pessoa[nome]" class="form-control" id="exampleInputUsername" placeholder="Seu Nome:">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </section>
                             <!-- End first name form -->
 
                             <!-- Email form -->
-                            <div class="form-group">
-                                <div class="pi-input-with-icon">
-                                    <div class="pi-input-icon"><i class="icon-mail"></i></div>
-                                    <input type="email" name="Pessoa[email]" class="form-control" id="exampleInputEmail" placeholder="E-mail">
+                            <section class="pi-row ">
+                                <div class="pi-col-md-12">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-mail"></i></div>
+                                            <input type="email" name="Pessoa[email]" class="form-control" id="exampleInputEmail" placeholder="E-mail">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </section>
                             <!-- End email form -->
 
                             <!-- Email form -->
-                            <div class="form-group">
-                                <div class="pi-input-with-icon">
-                                    <div class="pi-input-icon"><i class="icon-phone"></i></div>
-                                    <input type="text" name="Pessoa[telefone]" class="form-control" id="exampleInputPhone" placeholder="Telefone">
+                            <section class="pi-row ">
+                                <div class="pi-col-md-3">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-phone"></i></div>
+                                            <input type="text" name="Pessoa[ddd]" class="form-control" id="exampleInputPhone" placeholder="DDD">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="pi-col-md-9">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-phone"></i></div>
+                                            <input type="text" name="Pessoa[telefone]" class="form-control" id="exampleInputPhone" placeholder="Telefone">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                             <!-- End email form -->
 
+                            <!-- Email form -->
+                            <section class="pi-row ">
+                                <div class="pi-col-md-12">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-key-1"></i></div>
+                                            <input type="password" name="Pessoa[senha]" class="form-control" id="exampleInputEmail" placeholder="Senha:">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- End email form -->
+                            <!-- Email form -->
+                            <section class="pi-row ">
+                                <div class="pi-col-md-12">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-key-1"></i></div>
+                                            <input type="password" name="Pessoa[confirm_senha]" class="form-control" id="exampleInputEmail" placeholder="Confirmação de Senha:">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- End email form -->
 
                             <!-- Checkbox -->
-                            <div class="checkbox pi-margin-bottom-20">
-                                <label class="pi-small-text">
-                                    <input type="checkbox">Veja os  <a href="#">termos do Contrato</a>
-                                </label>
-                            </div>
+                            <section class="pi-row ">
+                                <div class="pi-col-md-12">
+                                    <div class="checkbox pi-margin-bottom-20">
+                                        <label class="pi-small-text">
+                                            <input type="checkbox">Veja os  <a href="#">termos do Contrato</a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </section>
                             <!-- End checkbox -->
 
+                            
+                            
+                            
                             <!-- Submit button -->
                             <p>
                                 <button type="submit" class="btn pi-btn-base pi-btn-wide pi-weight-600">

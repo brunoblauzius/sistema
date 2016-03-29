@@ -20,57 +20,99 @@
         
         <div class="pi-text-center pi-margin-bottom-50 ">
             <h1 class="pi-uppercase pi-weight-700 pi-has-border pi-has-tall-border pi-has-short-border">
-                CADASTRO
+                O Estabelecimento!
             </h1>
             <!-- Row -->
             <div class="pi-row ">
 
                 <!-- Col 4 -->
                 <div class="pi-col-md-6 pi-col-md-offset-3 pi-col-sm-10 pi-col-sm-offset-1 pi-col-xs-10 pi-col-xs-offset-1">
-                    <form action="<?= Router::url(array('Pessoas', 'cadastro-site'));?>" method="post" name="CadastroFrom" id="CadastroFrom">
+                    <form action="<?= Router::url(array('Empresas', 'cadastro-estabelecimento'));?>" method="post" name="CadastroFrom" id="CadastroFrom">
                         <!-- Box -->
                         <div class="pi-box pi-round">
 
                             <!-- First name form -->
-                            <div class="form-group">
-                                <div class="pi-input-with-icon">
-                                    <div class="pi-input-icon"><i class="icon-user"></i></div>
-                                    <input type="text" name="Pessoa[nome]" class="form-control" id="exampleInputUsername" placeholder="Seu Nome:">
+                            <section class="pi-row ">
+                                <div class="pi-col-md-12">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-user"></i></div>
+                                            <input type="text" name="Empresa[nome_fantasia]" class="form-control" id="exampleInputUsername" placeholder="Nome Fantasia:">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </section>
                             <!-- End first name form -->
 
                             <!-- Email form -->
-                            <div class="form-group">
-                                <div class="pi-input-with-icon">
-                                    <div class="pi-input-icon"><i class="icon-mail"></i></div>
-                                    <input type="email" name="Pessoa[email]" class="form-control" id="exampleInputEmail" placeholder="E-mail">
+                            <section class="pi-row ">
+                                <div class="pi-col-md-4">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-mail"></i></div>
+                                            <input type="text" name="Endereco[cep]" class="form-control cep" id="exampleInputEmail" placeholder="CEP:">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="pi-col-md-8">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-mail"></i></div>
+                                            <input type="text" name="Endereco[logradouro]" class="form-control" id="exampleInputEmail" placeholder="Logradouro:">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                             <!-- End email form -->
 
                             <!-- Email form -->
-                            <div class="form-group">
-                                <div class="pi-input-with-icon">
-                                    <div class="pi-input-icon"><i class="icon-phone"></i></div>
-                                    <input type="text" name="Pessoa[telefone]" class="form-control" id="exampleInputPhone" placeholder="Telefone">
+                            <section class="pi-row ">
+                                <div class="pi-col-md-6">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-phone"></i></div>
+                                            <input type="text" name="Endereco[bairro]" class="form-control" id="exampleInputPhone" placeholder="Bairro:">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="pi-col-md-6">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-phone"></i></div>
+                                            <input type="text" name="Endereco[cidade]" class="form-control" id="exampleInputPhone" placeholder="Cidade:">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                             <!-- End email form -->
 
-
-                            <!-- Checkbox -->
-                            <div class="checkbox pi-margin-bottom-20">
-                                <label class="pi-small-text">
-                                    <input type="checkbox">Veja os  <a href="#">termos do Contrato</a>
-                                </label>
-                            </div>
-                            <!-- End checkbox -->
-
+                            <!-- Email form -->
+                            <section class="pi-row ">
+                                <div class="pi-col-md-6">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-phone"></i></div>
+                                            <input type="text" name="Endereco[uf]" class="form-control" id="exampleInputPhone" placeholder="UF:">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pi-col-md-6">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-phone"></i></div>
+                                            <input type="text" name="Endereco[numero]" class="form-control" id="exampleInputPhone" placeholder="Número:">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- End email form -->
+                                                      
+                            
+                            
                             <!-- Submit button -->
                             <p>
                                 <button type="submit" class="btn pi-btn-base pi-btn-wide pi-weight-600">
-                                    Criar uma Conta
+                                    Cadastrar dados do Estabelecimento!
                                 </button>
                             </p>
                             <!-- End submit button -->
@@ -78,10 +120,7 @@
                         </div>
                         <!-- End box -->
                     </form>
-                    <p class="pi-text-center">
-                        Já possui uma Conta? <a href="<?= Router::url(array('Pages', 'login'));?>" class="pi-weight-600">Logar-se</a>
-                    </p>
-
+                    
                 </div>
                 <!-- End col 4 -->
 

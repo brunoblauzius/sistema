@@ -404,6 +404,7 @@ class Reserva extends AppModel {
                     Calendar . descricao_cliente, 
                     Calendar . descricao_interna, 
                     Calendar . assentos, 
+                    Calendar . status as status_reserva, 
                     Ambiente . nome as ambiente,
                     Pessoa.nome as funcionario,
                     Cliente.nome as cliente,
@@ -427,7 +428,7 @@ class Reserva extends AppModel {
                     Calendar.empresas_id = {$empresaId}
                             " . $FUNC . "
                             " . $AMBIENTE . "
-                            and Calendar.status = TRUE
+                            and Calendar.status in (0,1)
                     " . $DATE . " ORDER BY Cliente.nome ASC;";
 
 
@@ -637,12 +638,13 @@ class Reserva extends AppModel {
     
     public function deletaMesas( $reservaId ){
         try {
-            
-            $sql = "DELETE FROM reservas.reservas_has_mesas 
-                    WHERE
-                        reservas_id = $reservaId;";
-            
-            return $this->query($sql);
+            if( !empty($reservaId) ){
+                $sql = "DELETE FROM reservas.reservas_has_mesas 
+                        WHERE
+                            reservas_id = $reservaId;";
+
+                return $this->query($sql);
+            }
         } catch (Exception $ex) {
             throw $ex;
         }

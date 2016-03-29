@@ -355,4 +355,25 @@ class Render {
     } 
     
     
+    public static function redirect( $local = null){
+        
+        $url = NULL;
+        
+        if(is_array($local))
+        {
+            $url = self::url($local);
+        }
+        else if(is_string($local))
+        {
+            $url = $local;
+        }
+        else 
+        {
+             $url = self::url();
+        }
+                
+        header('Location: ' . $url );
+    }
+    
+    
 }

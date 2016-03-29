@@ -108,11 +108,16 @@
             </thead>
             <tbody>
                 <?php
-                if (!empty($registros)):
-                    foreach ($registros as $registro):
-                        ?>
-                        <tr>
-                            <td ><?= $registro['cliente'] ?></td>
+                    if (!empty($registros)):
+                        foreach ($registros as $registro):
+                        
+                                $statusCadastro = NULL;
+                                if( $registro['status_reserva'] == 0 ){
+                                    $statusCadastro = 'background-color:#ffcc66;  color:#1c1c1c;';
+                                }
+                ?>
+                        <tr style="<?= $statusCadastro?>">
+                            <td style="<?= $statusCadastro?>"><?= ( $registro['status_reserva'] > 0 )? $registro['cliente'] : 'Cadastro Iniciado' ?></td>
                             <td ><strong><?= $registro['telefone'] ?></strong></td>
                             <td ><?= $registro['ambiente'] ?></td>
                             <td ><?= $registro['qtde_pessoas'] ?></td>
@@ -258,7 +263,7 @@
         data_inicio = data_inicio[2] + '-' + data_inicio[1] + '-' + data_inicio[0];
 
         if (data_inicio.length == 10) {
-            var url = 'http://snappypdf.com.br/landscape.php?url=' + web_root + 'Reservas/relatorio/' + data_inicio + '/' + ambientes_id + '/' + '<?= md5(Session::read('Empresa.empresas_id')); ?>&landscape=1';
+            var url = 'http://snappypdf.com.br/landscape.php?url=' + web_root + 'Reservas/relatorio/' + data_inicio + '/' + ambientes_id + '/' + '<?= md5(Session::read('Empresa.empresas_id')); ?>&landscape=0';
             window.open(url, '_blank');
         }
 

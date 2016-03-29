@@ -14,7 +14,7 @@
 class EmpresasController extends AppController {
     //put your code here
     
-    public $ClasseAllow = array('alterarDadosConta');
+    public $ClasseAllow = array('alterarDadosConta', 'cadastroEstabelecimento');
     
     public $Empresa = null;
     private $Juridica = null;
@@ -441,6 +441,20 @@ class EmpresasController extends AppController {
             
         } catch (Exception $ex) {
             print_r($ex->getMessage());
+        }
+    }
+    
+    public function cadastroEstabelecimento(){
+        try {
+            
+            $_SESSION['Empresa']  = $_POST['Empresa'];
+            $_SESSION['Endereco'] = $_POST['Endereco'];
+            
+            
+            Utils::pre($_SESSION);
+            
+        } catch (Exception $ex) {
+            echo json_encode($ex->getTrace());
         }
     }
     

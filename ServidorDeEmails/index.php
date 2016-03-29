@@ -1,7 +1,7 @@
 <?php
 
 require_once 'autoload.php';
-
+ date_default_timezone_set('America/Sao_Paulo');
 //error_reporting( E_ALL );
 //ini_set( "display_errors", true );
 
@@ -32,7 +32,7 @@ $model  = new Email();
         )
  */
 
-echo $render->element( 'email_contato' );exit();
+echo $render->element( 'email_cadastro' );exit();
 
 try {
     

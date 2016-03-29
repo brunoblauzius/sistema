@@ -1,8 +1,8 @@
 <form action="<?= Router::url(array('Reservas', 'edit')) ?>" method="post" id="ReservaAddForm" name="ReservaAddForm">
     <div class="modal-body">
-
+        
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div class="form-group">
                     <small>Data: <strong class="text text-danger">*</strong></small>
                     <div class='input-group date datetimepicker2'>
@@ -13,46 +13,50 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="form-group">
                     <small>Hora: <strong class="text text-danger">*</strong></small>
-                    <div class='input-group' id=''>
-                        <span class="input-group-addon">
-                            <div class="glyphicon glyphicon-time"></div>
-                        </span>
-                        <input type='text' class="form-control data_time " id="hora" name="Reserva[hora]" value="<?= $lista['Reserva']['end']?>"/>
-                    </div>                               
+                        <input type='text' class="form-control data_time " id="hora" name="Reserva[hora]" placeholder="ex. 20:00" value="<?= $lista['Reserva']['end']?>"/>                              
                 </div>
             </div>
-        </div>
-        
-        <?php if( $lista['Reserva']['status'] == 0 ):?>
-            <div class="row">
-                <div class="col-md-6">
+            
+            
+            <div class="col-md-4">
+                <div class="col-md-3" style="padding-left:5px; padding-right:5px;">
+                    <div class="form-group">
+                        <small>DDD:</small>
+                        <input type='text' class="form-control" name="Busca[ddd]" id="ddd" value="<?= substr($_SESSION['Contato'][0]['telefone'], 0,2)?>"/>
+                    </div>
+                </div>
+                <div class="col-md-9" style="padding-left:5px; padding-right:5px;">
                     <div class="form-group">
                         <small>Cliente: <strong class="text text-danger">*</strong></small>
-                        <input type='text' class="form-control" name="Busca[cliente]" id="cliente" value="<?= $cliente[0]['Cliente']['nome']?>"/>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <small>Burcar cliente por: <strong class="text text-danger">*</strong></small>
-                        <select name="Busca[buscaPor]" class="form-control" id="BuscarPor">
-                            <option value="nome"> NOME </option>
-                            <option value="rg"> RG </option>
-                            <option value="telefone"> TELEFONE </option>
-                            <option value="email"> E-MAIL </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <a class="btn btn-primary pull-right btn-xs" id="procurar-cliente">Procurar Cliente</a>
+                        <input type='text' class="form-control" name="Busca[cliente]" id="cliente" placeholder="Telefone sem separação" value="<?= $cliente[0]['Cliente']['nome']?>"/>
                     </div>
                 </div>
             </div>
-        <?php endif;?>
+            
+            
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <small>Burcar cliente por: <strong class="text text-danger">*</strong></small>
+                    <select name="Busca[buscaPor]" class="form-control" id="BuscarPor">
+                        <option value="telefone"> TELEFONE </option>
+                        <option value="nome"> NOME </option>
+                        <option value="rg"> RG </option>
+                        <option value="email"> E-MAIL </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <a class="btn btn-primary pull-right btn-xs" id="procurar-cliente">Procurar Cliente</a>
+                </div>
+            </div>
+            
+        </div>
+        
         
         <div class="row" id="dados-cliente"> 
             <div class="col-sm-12 form-group-sm">
@@ -62,16 +66,6 @@
                             <td>
                                 <small>Nome:</small>
                                 <input type="text"  class="form-control" value="<?= $cliente[0]['Cliente']['nome']?>" disabled="true">
-                            </td>
-                            <td>
-                                <small>E-mail:</small>
-                                <input type="text" class="form-control" value="<?= $cliente[0]['Cliente']['email']?>" disabled="true">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <small>Rg:</small>
-                                <input type="text"  class="form-control" value="<?= $cliente[0]['Cliente']['rg']?>" disabled="true">
                             </td>
                             <td>
                                 <small>Telefone:</small>
@@ -90,26 +84,23 @@
 
 
         <div class="row" id="dados-reserva">
-            <div class="col-sm-6">
+            <div class="col-sm-2">
                 <div class="form-group">
                     <small>Número Pessoas: <strong class="text text-danger">*</strong></small>
-                    <input type='text' class="form-control" name="Reserva[qtde_pessoas]" id="qtde_pessoas" value="<?= $lista['Reserva']['qtde_pessoas']?>"/>
+                    <input type='text' class="form-control input-sm" name="Reserva[qtde_pessoas]" id="qtde_pessoas" value="<?= $lista['Reserva']['qtde_pessoas']?>"/>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-2">
                 <div class="form-group">
-                    <small>Lugares: <strong class="text text-danger">*</strong></small>
-                    <input type='text' class="form-control" name="Reserva[assentos]" id="assentos" value="<?= $lista['Reserva']['assentos']?>"/>
+                    <small>Lugares Sentados: <strong class="text text-danger">*</strong></small>
+                    <input type='text' class="form-control input-sm" name="Reserva[assentos]" id="assentos" value="<?= $lista['Reserva']['assentos']?>"/>
                 </div>
             </div>
-            <div class="clearfix"></div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <div class="form-group">
                     <small>Salões: <strong class="text text-danger">*</strong></small><br>
                     <select name="Reserva[saloes_id]" class="form-control chosen-select rounded" id="SalaoId">
-                        <option value=""> -- selecione -- </option>
                         <?php foreach ($saloes as $salao):?>
-                            
                             <?php if($lista['Reserva']['saloes_id'] == $salao['Salao']['id'] ):?>
                                 <option value="<?= $salao['Salao']['id']?>" selected="selected"> <?= $salao['Salao']['nome']?> </option>
                             <?php else:?>
@@ -120,11 +111,10 @@
                 </div>
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <div class="form-group" id="AmbienteId">
                     <small>Ambiente: <strong class="text text-danger">*</strong></small><br>
                     <select name="Reserva[ambientes_id]" class="form-control chosen-select rounded" id="SelectAmbienteId">
-                        
                         <?php foreach ($ambientes as $ambiente):?>
                             
                             <?php if($lista['Reserva']['ambientes_id'] == $ambiente['Ambiente']['id'] ):?>

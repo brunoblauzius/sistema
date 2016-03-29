@@ -127,7 +127,7 @@ i{
 }
 
 .badge-cadastro-active{
-    background-color: #acfcd8;
+    background-color: #f58b3c;
 }
 
 .badge-cadastro-off{
@@ -141,3 +141,6 @@ i{
     margin-bottom:0px;
 }
 
+.tr-warning{
+    background-color:#ffcc66;  color:#1c1c1c;
+}
