@@ -76,6 +76,8 @@ class Mesa extends AppModel{
                     FROM
                         reservas.mesas AS Mesa
                     WHERE
+                        Mesa.status = 1
+                        AND
                         Mesa.id NOT IN (SELECT 
                                 mesas_id
                             FROM
@@ -83,8 +85,7 @@ class Mesa extends AppModel{
                             WHERE
                                 DATE(data) = DATE('{$dataReserva}'))
                             AND empresas_id = $empresaId
-                            AND ambientes_id = $ambienteId; 
-                            AND status = 1 ";
+                            AND ambientes_id = $ambienteId; ";
             
                 return $this->query($sql);
             }

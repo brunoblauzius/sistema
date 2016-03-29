@@ -202,6 +202,7 @@ class PagesController extends AppController{
             'scripts/pi.init.parallax',
             'scripts/pi.init.revolutionSlider',
             'scripts/cep',
+            'scripts/config-primary',
         ));
         
         $this->addCss(array(
