@@ -195,7 +195,20 @@ class PessoasController extends AppController {
     public function cadastroSite(){
         try {
             
-            Utils::pre($_POST);
+            $_SESSION = $_POST;
+            /**
+             * criar uma pessoa 
+             */
+            
+            /**
+             * criar uma Pessoa Fisica
+             */
+            
+            /**
+             * cria um usuario
+             */
+            
+            Router::redirect(array('pages', 'cadastro-estabelecimento'));
             
         } catch (Exception $ex) {
             

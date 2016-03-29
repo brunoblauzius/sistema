@@ -185,7 +185,7 @@ class ReservasController extends AppController {
     
     public function listar(){
         try {
-                        
+                             
             $this->checaEmpresa();
             $this->verificaContaEmpresa();
             $Modelambientes = new Ambiente();
@@ -497,6 +497,7 @@ class ReservasController extends AppController {
             /**
              * recupero as mesas do ambiente cadastrado e recupero as mesas cadastrada para a reserva
              */
+            
             
             $mesas = $modelMesa->mesasReservadasDisponiveis(  (int) $lista[0]['Reserva']['ambientes_id'], (int) $_POST['id'], $data[0] );
             $mesas = $this->montarArray( $mesas );

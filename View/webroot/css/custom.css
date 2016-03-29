@@ -45,6 +45,17 @@ and open the template in the editor.
     background-color: #1FB5AD;
     color: #FFF;
     text-transform:uppercase;
+    font-size:16px;
+}
+
+.label-base{
+    background-color: #1FB5AD;
+    text-transform:uppercase;
+    color: #FFF;
+}
+.label-danger{
+    text-transform:uppercase;
+    color: #FFF;
 }
 
 .bg-warning{
@@ -104,8 +115,6 @@ i{
     margin-top:15px;
 }
 
-
-
 .timeline-desk h1 {
     font-weight: 600;
 }
@@ -127,7 +136,7 @@ i{
 }
 
 .badge-cadastro-active{
-    background-color: #acfcd8;
+    background-color: #f58b3c;
 }
 
 .badge-cadastro-off{
@@ -141,3 +150,6 @@ i{
     margin-bottom:0px;
 }
 
+.tr-warning{
+    background-color:#ffcc66;  color:#1c1c1c;
+}

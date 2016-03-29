@@ -2,7 +2,7 @@
     foreach ($mesasRestantes as $mesaRestante) :
     $mesasDisponiveis = $mesaRestante['totalMesas'] - $mesaRestante['mesasReservadas'];
 ?>
-            <div class="col-sm-3 col-xs-3">
+            <div class="col-xs-12 col-sm-12 col-md-3">
                 <h5><?= $mesaRestante['ambiente'] ?></h5>
                     <!--p><small>Total de mesas:</small> <br>
                 <?php if ($mesaRestante['totalMesas'] == 0): ?>
@@ -20,11 +20,11 @@
             <?php endif; ?>
             </p-->
 
-                <p style="margin-top: -10px"><small>Mesas disponíveis:</small> <br>
+                <p style="margin-top:-5px">
                     <?php if ($mesasDisponiveis == 0): ?>
                         <label class="label label-danger">Indisponivel para cadastro</label>
                     <?php else: ?>
-                        <label class="label label-primary"><?= $mesasDisponiveis ?> mesas disponiveis</label>
+                        <label class="label label-base"><?= $mesasDisponiveis ?> mesas disponiveis</label>
                 <?php endif; ?>
                 </p>
             </div>

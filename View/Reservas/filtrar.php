@@ -14,11 +14,16 @@
     </thead>
     <tbody>
     <?php
-    if (!empty($registros)):
-        foreach ($registros as $registro):
+        if (!empty($registros)):
+            foreach ($registros as $registro):
+
+                    $statusCadastro = NULL;
+                    if( $registro['status_reserva'] == 0 ){
+                        $statusCadastro = 'background-color:#ffcc66;  color:#1c1c1c;';
+                    }
     ?>
-            <tr>
-                <td ><?= $registro['cliente'] ?></td>
+            <tr style="<?= $statusCadastro?>">
+                <td style="<?= $statusCadastro?>"><?= ( $registro['status_reserva'] > 0 )? $registro['cliente'] : 'Cadastro Iniciado' ?></td>
                 <td ><strong><?= $registro['telefone'] ?></strong></td>
                 <td ><?= $registro['ambiente'] ?></td>
                 <td ><?= $registro['qtde_pessoas'] ?></td>
