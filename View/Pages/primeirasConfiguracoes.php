@@ -7,11 +7,11 @@
                     <img src="<?= Router::url('View/webroot/site/img/1458782254_42.Badge.png')?>" width="70">
                     <p>Cadastro</p>
                 </div>
-                <div class="pi-col-md-4 badge-cadastro badge-cadastro-active">
+                <div class="pi-col-md-4 badge-cadastro">
                     <img src="<?= Router::url('View/webroot/site/img/1458782720_03.Office.png')?>" width="70">
                     <p>Estabelecimento</p>
                 </div>
-                <div class="pi-col-md-4 badge-cadastro">
+                <div class="pi-col-md-4 badge-cadastro badge-cadastro-active">
                     <img src="<?= Router::url('View/webroot/site/img/1458782237_12.File.png')?>" width="70">
                     <p>Configurações</p>
                 </div>
@@ -20,7 +20,7 @@
         
         <div class="pi-text-center pi-margin-bottom-50 ">
             <h1 class="pi-uppercase pi-weight-700 pi-has-border pi-has-tall-border pi-has-short-border">
-                O Estabelecimento!
+                Primeiras Configurações!
             </h1>
             <!-- Row -->
             <div class="pi-row ">

@@ -6,7 +6,7 @@
  */
 class PagesController extends AppController{
     
-    public $ClasseAllow = array('index', 'login', 'ativarConta', 'cadastroSucesso', 'criarConta', 'sendContato', 'cadastroEstabelecimento');
+    public $ClasseAllow = array('index', 'login', 'ativarConta', 'cadastroSucesso', 'criarConta', 'sendContato', 'cadastroEstabelecimento', 'primeirasConfiguracoes');
     
     public $User = null;
     
@@ -179,119 +179,49 @@ class PagesController extends AppController{
         $this->set('title_layout', ' Crie sua conta com a my night ' . $this->systemName );
         $this->render();
     }
-
-
-    /*public function addUsuario(){
-        try{
-            
-            $this->User->data = null;
-            $_POST[$this->User->name]['criado'] = date('Y-m-d h:i:s');
-            $this->User->data = $_POST[$this->User->name];
-            
-            if( $this->is('Post') || $this->is('Put') ) {
-               
-               
-                if( $this->User->validates() ) {
-                    
-                                     
-                    $_POST[$this->User->name]['chave'] = md5( strrev($_POST[$this->User->name]['cpf'].$_POST[$this->User->name]['email']) );
-                    $_POST[$this->User->name]['cpf'] = Utils::returnNumeric($_POST[$this->User->name]['cpf']);
-                                        
-                    $_POST = Utils::sanitazeArray( $_POST );
-                    unset($_POST[$this->User->name]['confirm_senha']);
-                    unset($_POST[$this->User->name]['code']);
-                    $_POST[$this->User->name]['senha'] = Authentication::password($_POST[$this->User->name]['senha']);
-                    
-                    if( $this->User->genericInsert( $_POST[$this->User->name] )) {
-                        
-                        $this->User->data['chave']  = md5( $_POST[$this->User->name]['cpf'] );
-                        
-                        $email = new Email( $this->User->data );
-                        $email->assunto = utf8_decode('Cadastro Usuário - JOPACS');
-                        //$email->setDestinatario($this->User->data['email']);
-                        $email->layout = 'cadastro_sucesso';
-                        $email->setVars('usuario', $this->User->data );
-                        $email->setVars('url', $this->urlRoot() );
-                        
-                        if( $email->SendMail() ) {
-                            
-                            $url = $this->urlRoot().'Pages/cadastroSucesso';
-                            echo json_encode(array(
-                                'msg' => 'Cadastro realizado com sucesso',
-                                'funcao' => "redirect('{$url}', '".'#ContatoForm'."')",
-                            ));
-                        }
-                    }
-                    
-                } else {
-                    echo json_encode(array(
-                        'erros' => ($this->User->validateErros),
-                        'form'  => 'UsuarioAddForm',
-                    ));
-                }
-            }
-        } catch (Exception $ex) {
-            echo $ex->getMessage();
-        }
+    
+    public function primeirasConfiguracoes(){
+        
+        $this->addJs(array(
+            '3dParty/jquery-1.11.0.min',
+            '3dParty/bootstrap/js/bootstrap.min',
+            '3dParty/jquery.touchSwipe.min',
+            '3dParty/gauge.min',
+            '3dParty/rs-plugin/js/jquery.themepunch.tools.min',
+            '3dParty/rs-plugin/js/jquery.themepunch.revolution.min',
+            '3dParty/requestAnimationFramePolyfill.min',
+            '3dParty/jquery.scrollTo.min',
+            '3dParty/colorbox/jquery.colorbox-min',
+            'scripts/pi.global.min',
+            'scripts/pi.slider',
+            'scripts/pi.init.slider',
+            '3dParty/jquery.easing.1.3',
+            'scripts/pi.counter',
+            'scripts/pi.init.counter',
+            'scripts/pi.parallax',
+            'scripts/pi.init.parallax',
+            'scripts/pi.init.revolutionSlider',
+            'scripts/cep',
+        ));
+        
+        $this->addCss(array(
+            '3dParty/bootstrap/css/bootstrap.min',
+            'css/global',
+            '3dParty/rs-plugin/css/pi.settings',
+            'css/typo',
+            '3dParty/colorbox/colorbox',
+            'css/portfolio',
+            'css/slider',
+            'css/counters',
+            'css/social',
+            '3dParty/fontello/css/fontello',
+        ));
+        
+        $this->layout = 'layout_site';          
+        $this->set('title_layout', ' Crie sua conta com a my night ' . $this->systemName );
+        $this->render();
     }
-    
-    
-    public function recuperarSenha(){
-        try{
-            $key = $_GET['param'];
-            $this->layout =  'client';
-           
-            if( !is_null($key) ) {
-                $usuario = $this->User->find('all', array('chave' => $key));
-                $usuario = array_shift($usuario);
-                $_SESSION['Usuario']['id'] = $usuario[$this->User->name]['id'];
-                $this->set('title_layout', 'Olá '.$usuario[$this->User->name]['nome']);
-                $this->set('usuario', ($usuario) );
-                $this->render();
-            }
-            
-        } catch (Exception $ex) {
 
-        }
-    }
-    
-    public function sendContato(){
-    	try{
-
-            $_POST = Utils::sanitazeArray($_POST);
-            $this->Contato->data = $_POST[$this->Contato->name];
-
-            if( $this->Contato->validates() ) {
-                
-                unset($this->Contato->data['code']);
-                
-                
-                $email = new Email( $this->Contato->data );
-                $email->assunto = 'Contato do sistema - JOPACS';
-                $email->setDestinatario('jopacs.vacinas@gmail.com');
-                $email->layout = 'contato';
-                $email->setVars('contato', $this->Contato->data );
-                if( $email->SendMail() ) {
-                    
-                    $this->Contato->genericInsert( $this->Contato->data );
-                    
-                    echo json_encode(array(
-                        'funcao' => 'limparForm("ContatoForm");
-                                     sucessoForm( "E-mail enviado com sucesso!", "#ContatoForm" );',
-                    ));
-                }
-
-            } else {
-                echo json_encode(array(
-                    'erros' => ($this->Contato->validateErros),
-                    'form'  => 'ContatoForm',
-                ));
-            }
-    		
-    	} catch (Exception $ex) {
-    		$ex->getMessage();
-        }
-    }*/
 
     public function ativarConta(){
         try{
@@ -343,7 +273,7 @@ class PagesController extends AppController{
         
         $parameters = array_merge($parameters, $_POST);
         
-        echo CurlStatic::send($parameters, 'json', 'http://mynight.com.br/ws/', 'POST');
+        echo CurlStatic::send($parameters, 'json', 'http://mynight.com.br/ws/ServidorDeEmails/', 'POST');
         exit();
     }
     
