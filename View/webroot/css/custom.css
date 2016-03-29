@@ -45,6 +45,17 @@ and open the template in the editor.
     background-color: #1FB5AD;
     color: #FFF;
     text-transform:uppercase;
+    font-size:16px;
+}
+
+.label-base{
+    background-color: #1FB5AD;
+    text-transform:uppercase;
+    color: #FFF;
+}
+.label-danger{
+    text-transform:uppercase;
+    color: #FFF;
 }
 
 .bg-warning{
@@ -103,8 +114,6 @@ i{
     color: #FFF;
     margin-top:15px;
 }
-
-
 
 .timeline-desk h1 {
     font-weight: 600;

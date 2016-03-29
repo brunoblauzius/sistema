@@ -5,7 +5,7 @@
             foreach ($mesasRestantes as $mesaRestante) :
                 $mesasDisponiveis = $mesaRestante['totalMesas'] - $mesaRestante['mesasReservadas'];
                 ?>
-                <div class="col-xs-3 col-sm-3">
+                <div class="col-xs-12 col-sm-12 col-md-3">
                     <h5><?= $mesaRestante['ambiente'] ?></h5>
                         <!--p><small>Total de mesas:</small> <br>
                     <?php if ($mesaRestante['totalMesas'] == 0): ?>
@@ -23,11 +23,11 @@
                     <?php endif; ?>
         </p-->
 
-                    <p style="margin-top: -10px"><small>Mesas disponíveis:</small> <br>
+                    <p style="margin-top: -5px">
                         <?php if ($mesasDisponiveis == 0): ?>
                             <label class="label label-danger">Indisponivel para cadastro</label>
                         <?php else: ?>
-                            <label class="label label-primary"><?= $mesasDisponiveis ?> mesas disponiveis</label>
+                            <label class="label label-base"><?= $mesasDisponiveis ?> mesas disponiveis</label>
                         <?php endif; ?>
                     </p>
                 </div>
@@ -38,8 +38,8 @@
 
         <div class="col-sm-12">
             <div class="form-group form-group-sm">
-                <div class="col-sm-3">
-                    <small>Ambientes: </small>
+                <div class="col-xs-12 col-md-3">
+                    <small>Filtrar por Ambiente: </small>
                     <select name="ambientes_id" id="ambientes_id" class="form-control">
                         <option value="0"> ** Todos ** </option>
                         <?php
@@ -49,38 +49,24 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="col-sm-3">
-                    <small>Escolha a data: </small>
+                <div class="col-xs-12 col-md-3">
+                    <small>Filtrar por Data: </small>
                     <div class='input-group input-group-sm date datetimepicker2'>
                         <input type="text" class="form-control date_time" name="data_inicio" id="data_inicio" placeholder="DD/MM/AAAA" value="<?= date('d/m/Y') ?>">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
                 </div>
-
-
-                <!--div class="col-md-3">
-                        <small>Data Fim: </small>
-                        <div class='input-group date datetimepicker2'>
-                                <input type="text" class="form-control date_time" name="data_fim" id="data_fim" placeholder="DD/MM/AAAA">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-                                </span>
-                        </div>
-                </div-->
             </div>
             <div class="form-group">
-                <div class="col-sm-2">
-                    <button class="btn btn-primary btn-block btn-sm " id="filtrar"> Filtrar</button>
+                <div class="col-xs-12 col-md-2">
+                    <button class="btn btn-primary btn-block btn-sm " id="filtrar"> <i class="fa fa-search"></i> Filtrar</button>
                 </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group">
+                <div class="col-xs-12 col-md-2">
                     <button class="btn btn-primary btn-block btn-sm " id="imprimir-relatorio"><i class="fa fa-print"></i> Imprimir</button>
                 </div>
-            </div>
-            <div class="col-sm-2 pull-right">
-                <div class="form-group">
-                    <button class="btn btn-primary btn-sm btn-block" id="cadastro-reserva"> Cadastrar reserva</button>
+                <div class="col-xs-12 col-md-2">
+                    <button class="btn btn-primary btn-sm btn-block" id="cadastro-reserva"><i class="fa fa-pencil"></i> Cadastrar</button>
                 </div>
             </div>
         </div>
@@ -88,21 +74,21 @@
     </div>
 </div>
 
-<div class="panel panel-primary">
-    <div class="panel-heading">Lista de Reservas.</div>
+<div class="panel">
+    <div class="panel-heading bg-header-primary">Lista de Reservas.</div>
     <div class="panel-body" id="panel-body">
 
         <table class="table table-condensed " id="dynamic-table">
             <thead>
                 <tr>
                     <th style="width:15%">Cliente</th>
-                    <th style="width:8%">Telefone</th>
-                    <th style="width:10%">Ambiente</th>
-                    <th style="width:3%">PAX</th>
-                    <th style="width:10%">Mesas</th>
-                    <th style="width:10%">Data Reserva</th>
-                    <th style="width:5%">Enviado</th>
-                    <th style="width:5%">Confirmado</th>
+                    <th style="width:8%" class="hidden-xs">Telefone</th>
+                    <th style="width:10%" class="hidden-xs">Ambiente</th>
+                    <th style="width:3%" class="hidden-xs">PAX</th>
+                    <th style="width:10%" class="hidden-xs">Mesas</th>
+                    <th style="width:10%" class="hidden-xs hidden-sm">Data Reserva</th>
+                    <th style="width:5%" class="hidden-xs hidden-sm">Enviado</th>
+                    <th style="width:5%" class="hidden-xs hidden-sm">Confirmado</th>
                     <th style="width:5%"></th>
                 </tr>
             </thead>
@@ -117,20 +103,20 @@
                                 }
                 ?>
                         <tr style="<?= $statusCadastro?>">
-                            <td style="<?= $statusCadastro?>"><?= ( $registro['status_reserva'] > 0 )? $registro['cliente'] : 'Cadastro Iniciado' ?></td>
-                            <td ><strong><?= $registro['telefone'] ?></strong></td>
-                            <td ><?= $registro['ambiente'] ?></td>
-                            <td ><?= $registro['qtde_pessoas'] ?></td>
-                            <td ><small><?= $registro['mesas'] ?></small></td>
-                            <td ><?= Utils::convertData($registro['start']) ?></td>
-                            <td class="text-center">
+                            <td style="<?= $statusCadastro?>" ><?= ( $registro['status_reserva'] > 0 )? $registro['cliente'] : 'Cadastro Iniciado' ?></td>
+                            <td class="hidden-xs"><strong><?= $registro['telefone'] ?></strong></td>
+                            <td class="hidden-xs"><?= $registro['ambiente'] ?></td>
+                            <td class="hidden-xs"><?= $registro['qtde_pessoas'] ?></td>
+                            <td class="hidden-xs"><small><?= $registro['mesas'] ?></small></td>
+                            <td class="hidden-xs hidden-sm"><?= Utils::convertData($registro['start']) ?></td>
+                            <td class="text-center hidden-xs hidden-sm">
                                 <?php if ($registro['status']): ?>
                                     <strong class="text text-success"><i class="fa fa-check"></i> Sim</strong>
                                 <?php else: ?>
                                     <strong class="text text-danger"><i class="fa fa-times"></i> Não</strong>
                                 <?php endif; ?>
                             </td>
-                            <td class="text-center">
+                            <td class="text-center hidden-xs hidden-sm">
                                 <?php if ($registro['confirm']): ?>
                                     <a class="label label-success"><i class="fa fa-check"></i></a>
                                 <?php else: ?>
