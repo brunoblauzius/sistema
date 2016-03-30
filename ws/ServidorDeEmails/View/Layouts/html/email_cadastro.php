@@ -10,7 +10,7 @@
             <thead style="background-color:#303030; color:#f7f7f7;">
                 <tr>
                     <td  style="padding: 10px;">
-                        <img src="http://mynight.com.br/ws/View/webroot/image/logo-base.png" height="70" style="margin-right:30px; vertical-align: middle"> <h3 style="color:#FFF; font-size:26px; float: right"> Cadastro de Empresa</h3>
+                        <img src="http://mynight.com.br/ws/ServidorDeEmails/View/webroot/image/logo-base.png" height="70" style="margin-right:30px; vertical-align: middle"> <h3 style="color:#FFF; font-size:26px; float: right"> Cadastro de Empresa</h3>
                     </td>
                 </tr>
             </thead>
@@ -43,7 +43,7 @@
                                     </tr>
                                     <tr>
                                         <td>Nome do Estabelecimento:</td>
-                                        <td><strong><?= $fantasia?></strong></td>
+                                        <td><strong><?= $nome_fantasia?></strong></td>
                                     </tr>
                                     <tr>
                                         <td>Endereço do Estabelecimento:</td>
@@ -75,7 +75,7 @@
             <tfoot>
                 <tr style="background-color:#303030; color:#f7f7f7;">
                     <td style="padding: 10px; text-align:center" >
-                        <img src="http://mynight.com.br/ws/View/webroot/image/logo-base.png" height="50" style="margin-right:15px; vertical-align: middle"> © 2015. <span style="color:#fc9448">Sistema de reservas My Night</span>. Todos os direitos reservados.
+                        <img src="http://mynight.com.br/ws/ServidorDeEmails/View/webroot/image/logo-base.png" height="50" style="margin-right:15px; vertical-align: middle"> © 2015. <span style="color:#fc9448">Sistema de reservas My Night</span>. Todos os direitos reservados.
                     </td>
                 </tr>
             </tfoot>

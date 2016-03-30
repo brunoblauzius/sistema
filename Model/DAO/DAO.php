@@ -1,4 +1,5 @@
 <?php
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,32 +7,33 @@
  */
 require_once 'Conect.php';
 require_once 'AbstractDAO.php';
+
 /**
  * Description of Service
  *
  * @author brunoblauzius
  */
-class DAO extends AbstractDAO{
-    
-    
+class DAO extends AbstractDAO {
+
     /**
      * @version 0.1
      * @var type 
      */
     private $con = null;
-    
+
     /**
      * @version 1.10
      * @todo atributo que gera arrays para cadastro de valores no update
      * @var array; 
      */
-    protected  $valueKeys   = null;
+    protected $valueKeys = null;
+
     /**
      * @version 1.10
      * @todo atributo que gera chave preimaria com clausula where para update
      * @var string; 
      */
-    protected  $valueKeysId = null;
+    protected $valueKeysId = null;
 
     /**
      * @version 0.1
@@ -39,19 +41,15 @@ class DAO extends AbstractDAO{
      * @var string 
      */
     public $useTable = null;
-    
-    
     public $name = null;
-    
-    
+
     /**
      * @version 1.10
      * @todo constante para numerar o tipo do valor
      */
     const ARRAY_NULL = 'O array esta vazio ou não existe!';
     const KEY_IN_ARRAY_NO_EXISTS = 'A chave procurada no array não existe!';
-    
-    
+
     /**
      * @version 0.1
      * @todo metodo construtor usado para gerar a conexão com o banco de dados
@@ -60,61 +58,57 @@ class DAO extends AbstractDAO{
         $this->con = Conect::conecta();
     }
 
-    
     /**
      * @version 1.10
      * @todo metodo que faz a inserção generica no banco de dados 
      * @param array $array preferenciamente o post ja validado
      * @return int id da tranxsação
      */
-    public final function genericInsert( array $array = NULL ){
-        try{
+    public final function genericInsert(array $array = NULL) {
+        try {
             // inicio minha transação
             $this->con->beginTransaction();
-                // preparo meu array com chaves e valores para meu insert no model PDO
-                $values = $this->prepareKeyValues($array);
-                //construo meu sql PDO
-                $sql = "INSERT INTO {$this->useTable} ( ".  implode(',', array_keys($array))." ) VALUES( ".  implode(',', array_keys($values))." )";
-                $stmt = $this->con->prepare($sql);
-                $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-                $stmt->execute($values);
-                $lastId = $this->con->lastInsertId();
+            // preparo meu array com chaves e valores para meu insert no model PDO
+            $values = $this->prepareKeyValues($array);
+            //construo meu sql PDO
+            $sql = "INSERT INTO {$this->useTable} ( " . implode(',', array_keys($array)) . " ) VALUES( " . implode(',', array_keys($values)) . " )";
+            $stmt = $this->con->prepare($sql);
+            $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt->execute($values);
+            $lastId = $this->con->lastInsertId();
             //se houve eu aplico o commit e retorno o ultimo id
             $this->con->commit();
             //recupero o ultimo id inserido
             return (int) $lastId;
-            
-        } catch (PDOException $ex) {
-            $this->con->rollBack();
-            throw  $ex;
-        }
-    }
-    
-    
-    
-    public final function genericUpdate( array $array = null, $primaryKey = 'id' ){
-        try{
-            if( !empty($array) && is_array($array) ){
-                // verifico se minha chave procurada existe
-                $this->checkArrayExists( $primaryKey, $array );
-                $this->prepareKeyValuesUpdateDelete($array);
-                $valuesExecute = $this->prepareKeyValues($array);
-                $this->con->beginTransaction();
-                    $sql = " UPDATE {$this->useTable} SET ".  implode(',', $this->valueKeys). $this->valueKeysId;
-                    $stmt = $this->con->prepare($sql);
-                    $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-                    $stmt->execute($valuesExecute);
-                $this->con->commit();
-                return TRUE;
-            } else {
-                throw new PDOException( self::ARRAY_NULL );
-            } 
         } catch (PDOException $ex) {
             $this->con->rollBack();
             throw $ex;
         }
     }
-    
+
+    public final function genericUpdate(array $array = null, $primaryKey = 'id') {
+        try {
+            if (!empty($array) && is_array($array)) {
+                // verifico se minha chave procurada existe
+                $this->checkArrayExists($primaryKey, $array);
+                $this->prepareKeyValuesUpdateDelete($array);
+                $valuesExecute = $this->prepareKeyValues($array);
+                $this->con->beginTransaction();
+                $sql = " UPDATE {$this->useTable} SET " . implode(',', $this->valueKeys) . $this->valueKeysId;
+                $stmt = $this->con->prepare($sql);
+                $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $stmt->execute($valuesExecute);
+                $this->con->commit();
+                return TRUE;
+            } else {
+                throw new PDOException(self::ARRAY_NULL);
+            }
+        } catch (PDOException $ex) {
+            $this->con->rollBack();
+            throw $ex;
+        }
+    }
+
     /**
      * @version 1.10
      * @todo metodo generico para deletar um indice na tabela
@@ -123,15 +117,15 @@ class DAO extends AbstractDAO{
      * @return boolean
      * @throws Exception
      */
-    public final function genericDelete( $id = null, $primaryKey = 'id' ) {
-        try{
+    public final function genericDelete($id = null, $primaryKey = 'id') {
+        try {
             $this->con->beginTransaction();
-                $sql = "DELETE FROM {$this->useTable} WHERE {$primaryKey} = :{$primaryKey}";
-                $stmt = $this->con->prepare($sql);
-                $stmt->bindParam( ':'.$primaryKey , $id, PDO::PARAM_INT );
-                $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-                $stmt->execute();
-                $this->con->errorCode();
+            $sql = "DELETE FROM {$this->useTable} WHERE {$primaryKey} = :{$primaryKey}";
+            $stmt = $this->con->prepare($sql);
+            $stmt->bindParam(':' . $primaryKey, $id, PDO::PARAM_INT);
+            $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt->execute();
+            $this->con->errorCode();
             $this->con->commit();
             return TRUE;
         } catch (PDOException $ex) {
@@ -139,7 +133,7 @@ class DAO extends AbstractDAO{
             throw $ex;
         }
     }
-    
+
     /**
      * @version 1.10
      * @todo metodo generico para executar metodos call
@@ -149,16 +143,16 @@ class DAO extends AbstractDAO{
      * @return type
      * @throws PDOException
      */
-    public final function genericExecuteCall( $callabeFunction = null, array $array = NULL){
-        try{
+    public final function genericExecuteCall($callabeFunction = null, array $array = NULL) {
+        try {
             $this->con->beginTransaction();
-                $valuesExecute = $this->prepareKeyValues($array);
-                $sql = "CALL {$callabeFunction}( " . implode( ',', array_keys($valuesExecute) ) . " );";
-                $stmt = $this->con->prepare( $sql );
-                $this->con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-                $stmt->execute( $valuesExecute );
-                //trabalhar a exception pelo erro gerado
-                $this->con->errorCode();
+            $valuesExecute = $this->prepareKeyValues($array);
+            $sql = "CALL {$callabeFunction}( " . implode(',', array_keys($valuesExecute)) . " );";
+            $stmt = $this->con->prepare($sql);
+            $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt->execute($valuesExecute);
+            //trabalhar a exception pelo erro gerado
+            $this->con->errorCode();
             $this->con->commit();
             return TRUE;
         } catch (PDOException $ex) {
@@ -167,104 +161,98 @@ class DAO extends AbstractDAO{
         }
     }
 
-
-    public final function find( $type = 'all', $condicoes = null, $fields = null, $limit = null, $order = null ){
-        try{
+    public final function find($type = 'all', $condicoes = null, $fields = null, $limit = null, $order = null) {
+        try {
             $condition = null;
-            if( !is_null( $type ) ) {
-                if( strtolower( $type ) == 'first' ) {
+            if (!is_null($type)) {
+                if (strtolower($type) == 'first') {
                     $limit = ' LIMIT 1 ';
-                } else if( strtolower( $type ) == 'all') {
+                } else if (strtolower($type) == 'all') {
                     $limit = '';
-                } else if(is_array($limit)){
-                    $limit = " LIMIT ".  join( ',', $limit );
+                } else if (is_array($limit)) {
+                    $limit = " LIMIT " . join(',', $limit);
                 }
             } else {
                 $limit = '';
             }
-            
+
             //fields
-            if(is_array($fields)) {
+            if (is_array($fields)) {
                 $fields = join(',', $fields);
             } else {
                 $fields = '*';
             }
-            
-            if( !is_null($order)) {
+
+            if (!is_null($order)) {
                 $order = ' ORDER BY ' . join(', ', $order);
             }
-            
-            if( !is_null( $condicoes ) ) {
-                if( is_array( $condicoes )) {
+
+            if (!is_null($condicoes)) {
+                if (is_array($condicoes)) {
                     $condition = array();
-                    foreach( $condicoes as $key => $value ) {
-                        
-                        if(is_int($value) && !is_null($value) ) {
+                    foreach ($condicoes as $key => $value) {
+
+                        if (is_int($value) && !is_null($value)) {
                             $condition[] = "{$key} = {$value} ";
-                        }else if(is_float($value) && !is_null($value) ) {
+                        } else if (is_float($value) && !is_null($value)) {
                             $condition[] = "{$key} = {$value} ";
+                        } else {
+                            $condition[] = "{$key} = '$value' ";
                         }
-                        else {
-                            $condition[] = "{$key} = '$value' "; 
-                        } 
-                        
                     }
-                    $condition = " WHERE ". join ( ' AND ', $condition );
+                    $condition = " WHERE " . join(' AND ', $condition);
                 } else {
-                    $condition =  " WHERE ".$condicoes ;
+                    $condition = " WHERE " . $condicoes;
                 }
             }
-            
-            
-                
-                $sql = "SELECT {$fields} FROM {$this->useTable} ". $condition . $order. $limit;
-                $stmt = $this->con->prepare($sql);
-                $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-                $stmt->execute();
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $result = $this->findListModel($result);
-                
-                
+
+
+
+            $sql = "SELECT {$fields} FROM {$this->useTable} " . $condition . $order . $limit;
+            $stmt = $this->con->prepare($sql);
+            $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $result = $this->findListModel($result);
+
+
 //                if( strtolower( $type ) == 'first' ) {
 //                    $result = array_shift($result);
 //                }
-                
-                return $result;
-      
+
+            return $result;
         } catch (Exception $ex) {
             $this->con->rollBack();
             throw $ex;
         }
     }
-    
-    
-    public function query( $sql ){
-        try{
+
+    public function query($sql) {
+        try {
             $registro = null;
             //$this->con->beginTransaction();
-                $stmt = $this->con->prepare($sql);
-                $this->con->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE);
-                $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-                $stmt->execute();
+            $stmt = $this->con->prepare($sql);
+            $this->con->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE);
+            $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt->execute();
             //$this->con->commit();
-            
+
             Conect::destroy();
-            if (stripos($sql,'SELECT') !== FALSE) {
+            if (stripos($sql, 'UPDATE') !== FALSE) {
+                return true;
+            } else if (stripos($sql, 'DELETE') !== FALSE) {
+                return true;
+            } else if (stripos($sql, 'INSERT') !== FALSE) {
+                return $this->con->lastInsertId();
+            } 
+            else if (stripos($sql, 'SELECT') !== FALSE) {
                 $registro = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 //$stmt = $stmt->fetchAll();
-                if( !empty($stmt)) {
+                if (!empty($stmt)) {
                     $this->findListModel($registro);
-                } 
-            } 
-			else if (stripos($sql,'UPDATE') !== FALSE) {
-                return true; 
-            } 
-			else if (stripos($sql,'DELETE') !== FALSE) {
-                return true; 
+                }
             }
-			else if (stripos($sql,'INSERT') !== FALSE) {
-                return $this->con->lastInsertId();; 
-            } else {
+            else {
                 $registro = $stmt->fetchAll(PDO::FETCH_NAMED);
             }
             return $registro;
@@ -272,63 +260,58 @@ class DAO extends AbstractDAO{
             throw $ex;
         }
     }
-    
-    
-    
-    public function call( $sql ){
-        try{
+
+    public function call($sql) {
+        try {
             //$this->con->beginTransaction();
-                $stmt = $this->con->prepare($sql);
-                $this->con->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE);
-                $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-                $stmt->execute();
-                
-                $retorno =  $stmt->fetch( PDO::FETCH_NAMED );
+            $stmt = $this->con->prepare($sql);
+            $this->con->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE);
+            $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt->execute();
+
+            $retorno = $stmt->fetch(PDO::FETCH_NAMED);
             //$this->con->commit();
-            
+
             Conect::destroy();
-            
+
             return $retorno;
         } catch (Exception $ex) {
             throw $ex;
         }
     }
-    
-    
+
     /**
      * @metodo que gera um cast no array e identifica o meu model
      * @param array $list
      */
-    public function findListModel( array $list = array() ) {
+    public function findListModel(array $list = array()) {
         $array = array();
         $arrayMaster = array();
-        foreach( $list as $row ) {       
-            if( !is_numeric( key( $row ) )) {
+        foreach ($list as $row) {
+            if (!is_numeric(key($row))) {
                 $array = $row;
             }
-            $arrayMaster[][$this->name] = $array;  
+            $arrayMaster[][$this->name] = $array;
         }
         return $arrayMaster;
     }
-    
-    
+
     /**
      * @metodo que gera um cast no array e identifica o meu model
      * @param array $list
      */
-    public function inList( array $list = array() ) {
+    public function inList(array $list = array()) {
         $array = array();
         $arrayMaster = array();
-        foreach( $list as $row ) {       
-            if( !is_numeric( key( $row ) )) {
+        foreach ($list as $row) {
+            if (!is_numeric(key($row))) {
                 $array = $row;
             }
-            $arrayMaster[] = array_shift($array);  
+            $arrayMaster[] = array_shift($array);
         }
         return $arrayMaster;
     }
-    
-    
+
     /**
      * @metodo que verifica se existe id no array
      * @param string $key
@@ -336,39 +319,39 @@ class DAO extends AbstractDAO{
      * @return boolean
      * @throws Exception
      */
-    private function checkArrayExists( $key = null, array $array = array() ){
-        try{
-             if( in_array( $key, array_keys($array)) ) {
-               return TRUE;
-            }else {
+    private function checkArrayExists($key = null, array $array = array()) {
+        try {
+            if (in_array($key, array_keys($array))) {
+                return TRUE;
+            } else {
                 throw new Exception(self::KEY_IN_ARRAY_NO_EXISTS);
             }
         } catch (Exception $ex) {
             throw $ex;
         }
     }
-    
+
     /**
      * @version 1.10
      * @param array $array
      * @param string $primarykey
      * @throws Exception
      */
-    private function prepareKeyValuesUpdateDelete( array $array = null, $primarykey = 'id' ){
-        try{
-            if( !empty($array) && is_array($array) ){
+    private function prepareKeyValuesUpdateDelete(array $array = null, $primarykey = 'id') {
+        try {
+            if (!empty($array) && is_array($array)) {
                 foreach ($array as $key => $value) {
-                    if( $key == $primarykey ){
+                    if ($key == $primarykey) {
                         $this->valueKeysId = " WHERE {$key} = :{$key}";
                     } else {
                         $this->valueKeys[] = "{$key} = :{$key}";
                     }
                 }
             } else {
-                throw new Exception( self::ARRAY_NULL );
-            } 
+                throw new Exception(self::ARRAY_NULL);
+            }
         } catch (Exception $ex) {
-            throw  $ex;
+            throw $ex;
         }
     }
 
@@ -379,26 +362,24 @@ class DAO extends AbstractDAO{
      * @return array valores das keys alterados
      * @throws Exception
      */
-    private function prepareKeyValues( array $array = null ){
-        try{
-            if( !empty($array) && is_array($array) ){
+    private function prepareKeyValues(array $array = null) {
+        try {
+            if (!empty($array) && is_array($array)) {
                 $values = array();
                 foreach ($array as $key => $value) {
                     $values[':' . $key] = $value;
                 }
                 return $values;
             } else {
-                throw new Exception( self::ARRAY_NULL );
-            } 
+                throw new Exception(self::ARRAY_NULL);
+            }
         } catch (Exception $ex) {
-            throw  $ex;
+            throw $ex;
         }
     }
-    
+
     public function __destruct() {
         Conect::destroy();
     }
 
 }
-
-

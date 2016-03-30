@@ -414,6 +414,8 @@ class EmpresasController extends AppController {
         try {
 
             $_POST = Utils::sanitazeArray($_POST);
+            
+            
             $created = date('Y-m-d h:i:s');
             $token = Authentication::uuid();
             $empresaId = 0;
@@ -447,7 +449,10 @@ class EmpresasController extends AppController {
                 /**
                  * criar uma conta para empresa
                  */
+                
                 $contaEmpresa = $this->ContaEmpresa->inserirContaEmpresa($empresaId);
+                
+                
                 /**
                  * criar um endereco para a empresa
                  */
@@ -472,7 +477,7 @@ class EmpresasController extends AppController {
                 ));
             }
         } catch (Exception $ex) {
-            echo json_encode($ex->getTrace());
+            echo json_encode($ex->getMessage());
         }
     }
 
@@ -532,11 +537,13 @@ class EmpresasController extends AppController {
                 $parameters = array(
                     'destinatario'      =>  $_SESSION['Pessoa']['email'],
                     'nome_destinatario' =>  $_SESSION['Pessoa']['nome'],
+                    'assunto'           =>  'Cadastro de empresa - my night',
                     'layout'            =>  'email_cadastro',
-                    $_SESSION['Pessoa'],
-                    $_SESSION['Empresa'],
-                    $_SESSION['Endereco'],
                 );
+        
+                $parameters = array_merge($parameters,$_SESSION['Pessoa'] );
+                $parameters = array_merge($parameters,$_SESSION['Empresa'] );
+                $parameters = array_merge($parameters,$_SESSION['Endereco'] );
 
                 CurlStatic::send($parameters, 'json', Enum::URL_SERVIDOR_DE_EMAIL , 'POST');
                 

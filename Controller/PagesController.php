@@ -226,7 +226,6 @@ class PagesController extends AppController{
 //
 //            );
         
-        
         if( Session::check('Empresa') ){
             $this->addJs(array(
                 '3dParty/jquery-1.11.0.min',
