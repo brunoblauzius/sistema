@@ -774,8 +774,8 @@ class Reserva extends AppModel {
             $sql = "SELECT 
                         (SELECT COUNT(*) FROM reservas_has_mesas AS Res
                                     LEFT JOIN mesas AS Mesa ON Mesa.id = Res.mesas_id
-                                    WHERE Mesa.ambientes_id = Reserva.ambientes_id AND DATE(data) = DATE('{$data}')) AS mesasReservadas,
-                        (select count(*) FROM mesas WHERE ambientes_id = Ambiente.id) AS totalMesas,
+                                    WHERE Mesa.status = 1 AND Mesa.ambientes_id = Reserva.ambientes_id AND DATE(data) = DATE('{$data}')) AS mesasReservadas,
+                        (select count(*) FROM mesas WHERE status = 1 AND ambientes_id = Ambiente.id) AS totalMesas,
                         DATE('{$data}'),
                         Ambiente.nome AS ambiente
                     FROM
@@ -1190,5 +1190,28 @@ class Reserva extends AppModel {
         }
     }
     
+    
+    public function deletarReserva( $id ){
+        try {
+            
+            if( !empty($id) )
+            {
+                $sql = "DELETE FROM reservas_has_clientes 
+                        WHERE
+                            reservas_id = $id;
+                        DELETE FROM reservas_has_mesas 
+                        WHERE
+                            reservas_id = $id;";
+
+                $this->query($sql);
+
+                return $this->genericDelete($id);
+                
+            }
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
     
 }

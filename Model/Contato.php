@@ -216,4 +216,15 @@ class Contato extends AppModel {
         }
     }
     
+    public function inserirContato( $pessoasId, $contatoId ){
+        try {
+            
+            $sql = "INSERT INTO pessoas_has_contatos ( pessoas_id, contatos_id ) VALUES ( $pessoasId, $contatoId ); ";
+            $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
 }

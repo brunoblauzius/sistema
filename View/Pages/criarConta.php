@@ -50,7 +50,7 @@
                                     <div class="form-group">
                                         <div class="pi-input-with-icon">
                                             <div class="pi-input-icon"><i class="icon-mail"></i></div>
-                                            <input type="email" name="Pessoa[email]" class="form-control" id="exampleInputEmail" placeholder="E-mail">
+                                            <input type="text" name="Pessoa[email]" class="form-control" id="exampleInputEmail" placeholder="E-mail">
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                     <div class="form-group">
                                         <div class="pi-input-with-icon">
                                             <div class="pi-input-icon"><i class="icon-phone"></i></div>
-                                            <input type="text" name="Pessoa[ddd]" class="form-control" id="exampleInputPhone" placeholder="DDD">
+                                            <input type="text" name="Pessoa[ddd]" class="form-control" id="exampleInputPhone" placeholder="DDD" maxlength="3">
                                         </div>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                                     <div class="form-group">
                                         <div class="pi-input-with-icon">
                                             <div class="pi-input-icon"><i class="icon-phone"></i></div>
-                                            <input type="text" name="Pessoa[telefone]" class="form-control" id="exampleInputPhone" placeholder="Telefone">
+                                            <input type="text" name="Pessoa[telefone]" class="form-control" id="exampleInputPhone" placeholder="Telefone" maxlength="9">
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +108,8 @@
                                 <div class="pi-col-md-12">
                                     <div class="checkbox pi-margin-bottom-20">
                                         <label class="pi-small-text">
-                                            <input type="checkbox">Veja os  <a href="#">termos do Contrato</a>
+                                            <input type="hidden" name="Pessoa[termo]" value="0">
+                                            <input type="checkbox" name="Pessoa[termo]" value="1">Veja os  <a href="#">termos do Contrato</a>
                                         </label>
                                     </div>
                                 </div>

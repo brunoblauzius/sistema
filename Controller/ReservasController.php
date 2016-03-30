@@ -2,7 +2,7 @@
 
 class ReservasController extends AppController {
 
-    public $ClasseAllow = array('filtrarConvidados', 'graficoReservasConvidados');
+    public $ClasseAllow = array('filtrarConvidados', 'graficoReservasConvidados', 'deletarRegistro');
     
     private $Reserva = null;
     private $Funcionario = null;
@@ -1745,9 +1745,61 @@ class ReservasController extends AppController {
         }
     }
     
+    /**
+     * @todo metodo que materializa o grafico para a view
+     * 
+     */
     public function graficoReservasConvidados(){
         $retorno = $this->Reserva->graficoReservasConvidados($this->empresas_id);
         echo json_encode($retorno);
     }
     
+    /**
+     * @todo metodo que deleta um registro de reservas
+     */
+    public function deletarRegistro(){
+        try {
+            $id = (int) $_POST['id'];
+            
+            if( $this->Reserva->deletarReserva($id) ){
+                
+                echo json_encode(array(
+                    'message' => 'Registro deletado com sucesso!',
+                    "style" =>'success',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => "window.location.reload();",
+                    'before' => "$('#loading').fadeOut(500);",
+                    'icon'   => 'check',
+                    'title'  => 'Atenção!'
+                ));
+                
+            } else {
+                
+                echo json_encode(array(
+                    'message' => 'Houve algum erro no processo!',
+                    "style" =>'warning',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => NULL,
+                    'before' => "$('#loading').fadeOut(500);",
+                    'icon'   => 'check',
+                    'title'  => 'Atenção!'
+                ));
+                
+            }
+            
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                    'message' => $ex->getMessage(),
+                    "style" =>'danger',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => NULL,
+                    'before' => "$('#loading').fadeOut(500);",
+                    'icon'   => 'check',
+                    'title'  => 'Atenção!'
+                ));
+        }
+    }
 }

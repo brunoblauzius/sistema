@@ -18,6 +18,7 @@ class Empresa extends AppModel {
     public $useTable = 'empresas';
     public $name = 'Empresa';
     public $primaryKey = 'id';
+    
     public $validate = array(
         'razao' => array(
             'notEmpty' => array(
@@ -53,6 +54,78 @@ class Empresa extends AppModel {
             'email' => array(
                 'rule' => array('email'),
                 'mensagem' => 'Favor inserir um email válido',
+            ),
+        ),
+    );
+    
+    public $validate_site = array(
+        'cep' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+        ),
+        'logradouro' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+        ),
+        'bairro' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+        ),
+        'cidade' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+        ),
+        'uf' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+        ),
+        'numero' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+        ),
+        'nome_fantasia' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+        ),
+    );
+    
+    public $validate_primeiras_config = array(
+        'salao' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+        ),
+        'ambiente' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+        ),
+        'capacidade' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
+            ),
+        ),
+        'mesa' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO,
             ),
         ),
     );
