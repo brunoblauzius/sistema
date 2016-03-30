@@ -99,6 +99,67 @@ class Pessoa extends AppModel{
           )
         ),
     );
+    
+    public $validate_site = array(
+        'termo' => array(
+          'isTrue' => array(
+              'rule' => array('isTrue'),
+              'mensagem' => Enum::VERIFICA_TERMO
+          )  
+        ),
+        'nome' => array(
+          'notEmpty' => array(
+              'rule' => array('notEmpty'),
+              'mensagem' => Enum::VAZIO,
+          )  
+        ),
+        'ddd' => array(
+          'notEmpty' => array(
+              'rule' => array('notEmpty'),
+              'mensagem' => Enum::VAZIO,
+          )  
+        ),
+        'telefone' => array(
+          'notEmpty' => array(
+              'rule' => array('notEmpty'),
+              'mensagem' => Enum::VAZIO,
+          )  
+        ),
+        'email' => array(
+          'notEmpty' => array(
+              'rule' => array('notEmpty'),
+              'mensagem' => Enum::VAZIO,
+          ),
+          'email' => array(
+              'rule' => array('email'),
+              'mensagem' => Enum::EMAIL_INVALIDO,
+          ),
+        ),
+        'senha' => array(
+          'notEmpty' => array(
+              'rule' => array('notEmpty'),
+              'mensagem' => Enum::VAZIO,
+          ),
+          'minLenght' => array(
+              'rule' => array('minLenght', 6),
+              'mensagem' => 'Este campo deve conter no minimo 6 digitos',
+          ),
+          'equalsPassword' => array(
+              'rule' => array('equalsPassword'),
+              'mensagem' => Enum::SENHA_NAO_CONFERE
+          ),
+        ),
+        'confirm_senha' => array(
+          'notEmpty' => array(
+              'rule' => array('notEmpty'),
+              'mensagem' => Enum::VAZIO,
+          ), 
+          'minLenght' => array(
+              'rule' => array('minLenght', 6),
+              'mensagem' => 'Este campo deve conter no minimo 6 digitos',
+          )
+        ),
+    );
         
     public $validate_fisica = array(
         'termo' => array(

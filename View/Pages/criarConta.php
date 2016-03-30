@@ -108,7 +108,8 @@
                                 <div class="pi-col-md-12">
                                     <div class="checkbox pi-margin-bottom-20">
                                         <label class="pi-small-text">
-                                            <input type="checkbox">Veja os  <a href="#">termos do Contrato</a>
+                                            <input type="hidden" name="Pessoa[termo]" value="0">
+                                            <input type="checkbox" name="Pessoa[termo]" value="1">Veja os  <a href="#">termos do Contrato</a>
                                         </label>
                                     </div>
                                 </div>

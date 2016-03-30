@@ -1,11 +1,34 @@
-<div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        
-            <h3>Cadastro realizado com sucesso!</h3>
-            <p>
-                Seu cadastro foi realizado com sucesso! <br>
-                Verifique seu e-mail e ative sua conta para utilizar nosso sistema.
-            </p>
-        
+<div class="pi-section-w pi-section-white piICheck piStylishSelect">
+    <div class="pi-section pi-padding-bottom-60">
+
+        <div class="pi-text-center pi-margin-bottom-50 ">
+            <h1 class="pi-uppercase pi-weight-700 pi-has-border pi-has-tall-border pi-has-short-border">
+                Muito obrigado por escolher a Mynight! 
+            </h1>
+            <!-- Row -->
+            <div class="pi-row ">
+
+                <!-- Col 4 -->
+                <div class="pi-col-md-8 pi-col-md-offset-2 pi-col-sm-10 pi-col-sm-offset-1 pi-col-xs-10 pi-col-xs-offset-1">
+                    
+                        <!-- Box -->
+                        <div class="pi-box pi-round" >
+                            
+                            <div >
+                                <p>
+                                   Parabéns, seu cadastro foi completado com sucesso! <br> <a href="<?= Router::url(array('Pages', 'login'))?>">CLIQUE AQUI</a> e faça seu primeiro login para começar a utilizar o software!
+                                </p>
+                            </div>
+                            
+                        </div>
+                        <!-- End box -->
+                    
+                </div>
+                <!-- End col 4 -->
+
+            </div>
+            <!-- End row -->
+        </div>
+                
     </div>
 </div>

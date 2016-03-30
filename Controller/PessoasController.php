@@ -66,7 +66,6 @@ class PessoasController extends AppController {
         }
     }
     
-    
     public function add() {
         try{
             $pessoaId   = 0;
@@ -194,24 +193,84 @@ class PessoasController extends AppController {
     
     public function cadastroSite(){
         try {
+            $_POST = Utils::sanitazeArray($_POST);
             
-            $_SESSION = $_POST;
-            /**
-             * criar uma pessoa 
-             */
+            $created  = date('Y-m-d h:i:s');
+            $token    = Authentication::uuid();
+            $pessoaId = 0;
+            $pessoaFidicaId = 0;
+            $usuarioId = 0;
             
-            /**
-             * criar uma Pessoa Fisica
-             */
+            $this->Pessoa->validate = $this->Pessoa->validate_site;
             
-            /**
-             * cria um usuario
-             */
+            $this->Pessoa->data = $_POST[$this->Pessoa->name];
             
-            Router::redirect(array('pages', 'cadastro-estabelecimento'));
-            
+            if( $this->Pessoa->validates() ){
+                    
+                    /**
+                     * criar uma pessoa 
+                     */
+                    $pessoaId = $this->Pessoa->genericInsert(array(
+                        'created'     => $created,
+                        'tipo_pessoa' => 1
+                    ));
+                    $this->Pessoa->data['pessoas_id'] = $pessoaId;
+
+                    /**
+                     * criar contato do usuario
+                     */
+                    $contatoId = $this->Contato->genericInsert(array(
+                        'telefone'   => $this->Pessoa->data['ddd'].$this->Pessoa->data['telefone'],
+                        'tipo'       => 1,
+                    ));
+                    /**
+                     * Atrelando um contato a uma pessoa
+                     */
+                    $this->Contato->inserirContato($pessoaId, $contatoId);
+
+                    /**
+                     * inserindo um email a pessoa
+                     */
+                    $this->Email->inserirEmailPessoa($pessoaId, $this->Pessoa->data['email']);
+
+                    /**
+                     * criar uma Pessoa Fisica
+                     */
+                    $pessoaFidicaId = $this->Fisica->genericInsert(array(
+                        'pessoas_id' => $pessoaId,
+                        'cpf'        => str_pad('00', 11, '0', STR_PAD_RIGHT),
+                        'nome'       => $this->Pessoa->data['nome']
+                    ));
+                    $this->Pessoa->data['pessoaFisica_id'] = $pessoaFidicaId;
+
+                    /**
+                     * cria um usuario
+                     */
+                    $usuarioId = $this->Usuario->genericInsert(array(
+                        'roles_id'      => 4,
+                        'pessoas_id'    => $pessoaId,
+                        'status'        => 1,
+                        'perfil_teste'  => 1,
+                        'created'       => $created,
+                        'email'         => $this->Pessoa->data['email'],
+                        'login'         => $this->Pessoa->data['email'],
+                        'senha'         => Authentication::password($this->Pessoa->data['senha']),
+                        'chave'         => $token
+                    ));
+                    $this->Pessoa->data['usuarios_id'] = $usuarioId;
+
+                    $_SESSION[$this->Pessoa->name] = $this->Pessoa->data;
+
+                    Router::redirect(array('pages', 'cadastro-estabelecimento'));
+                    
+            } else {
+                echo json_encode(array(
+                    'erros'  => $this->Pessoa->validateErros,
+                    'funcao' => NULL
+                ));
+            }
         } catch (Exception $ex) {
-            
+            echo json_encode($ex->getTrace());
         }
     }
     

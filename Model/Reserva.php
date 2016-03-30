@@ -1191,4 +1191,27 @@ class Reserva extends AppModel {
     }
     
     
+    public function deletarReserva( $id ){
+        try {
+            
+            if( !empty($id) )
+            {
+                $sql = "DELETE FROM reservas_has_clientes 
+                        WHERE
+                            reservas_id = $id;
+                        DELETE FROM reservas_has_mesas 
+                        WHERE
+                            reservas_id = $id;";
+
+                $this->query($sql);
+
+                return $this->genericDelete($id);
+                
+            }
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
 }

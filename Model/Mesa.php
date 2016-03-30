@@ -102,6 +102,8 @@ class Mesa extends AppModel{
                     FROM
                         reservas.mesas AS Mesa
                     WHERE
+                        Mesa.status = 1
+                        AND 
                         Mesa.ambientes_id = $ambienteId
                             AND Mesa.id NOT IN (SELECT 
                                 mesas_id

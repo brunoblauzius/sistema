@@ -27,26 +27,24 @@
 
                 <!-- Col 4 -->
                 <div class="pi-col-md-6 pi-col-md-offset-3 pi-col-sm-10 pi-col-sm-offset-1 pi-col-xs-10 pi-col-xs-offset-1">
-                    <form action="<?= Router::url(array('Empresas', 'cadastro-primeiras-configuracoes'));?>" method="post" name="CadastroFrom" id="CadastroFrom">
+                    
                         <!-- Box -->
-                        <div class="pi-box pi-round" >
-
+                        <div class="pi-box pi-round" id="PrimeiroCadastroForm" >
+                                                        
                             <!-- First name form -->
                             <section class="pi-row " >
                                 <div class="pi-col-md-12" id="salao" >
-                                    
-                                    <section class="alert pi-alert-info">
-                                        <p>
-                                            <i class="icon-info" style="font-size:18px;"></i> Cadastre pelo menos um salão do seu estabelecimento. 
-                                        </p>
-                                    </section>
-                                    
                                     <div class="form-group">
                                         <div class="pi-input-with-icon">
                                             <div class="pi-input-icon"><i class="icon-cog"></i></div>
                                             <input type="text" name="Salao[nome]" class="form-control" id="inputSalao" placeholder="Nome do Salão:">
                                         </div>
                                     </div>
+                                    <section class="alert pi-alert-info">
+                                        <p>
+                                            <i class="icon-info" style="font-size:18px;"></i> Cadastre pelo menos um salão do seu estabelecimento. 
+                                        </p>
+                                    </section>
                                 </div>
                             </section>
                             <!-- End first name form -->
@@ -54,18 +52,24 @@
                             <section class="pi-row ">
                                 <div class="pi-col-md-12" id="ambiente" style="display:none">
                                     
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-cog"></i></div>
+                                            <input type="text" name="Ambiente[nome]" class="form-control" id="inputAmbiente"  placeholder="Nome do Ambiente:">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-cog"></i></div>
+                                            <input type="text" name="Ambiente[capacidade]" class="form-control" id="inputCapacidade" placeholder="Capacidade de pessoas do Ambiente:">
+                                        </div>
+                                    </div>
+                                    
                                     <section class="alert pi-alert-info">
                                         <p>
                                             <i class="icon-info" style="font-size:18px;"></i> Agora que você ja tem um salão, cadastre um ambiente deste salão. 
                                         </p>
                                     </section>
-                                    
-                                    <div class="form-group">
-                                        <div class="pi-input-with-icon">
-                                            <div class="pi-input-icon"><i class="icon-cog"></i></div>
-                                            <input type="text" name="Ambiente[nome]" class="form-control" id="inputAmbiente" placeholder="Nome do Ambiente:">
-                                        </div>
-                                    </div>
                                 </div>
                             </section>
                             <!-- End first name form -->
@@ -73,26 +77,26 @@
                             <section class="pi-row ">
                                 <div class="pi-col-md-12" id="mesa" style="display:none">
                                     
-                                    <section class="alert pi-alert-info">
-                                        <p>
-                                            <i class="icon-info" style="font-size:18px;"></i> As configurações estão quase prontas, agora sa falta cadastrar uma mesa e pronto você pode fazer o teste do sistema! 
-                                        </p>
-                                    </section>
-                                    
                                     <div class="form-group">
                                         <div class="pi-input-with-icon">
                                             <div class="pi-input-icon"><i class="icon-cog"></i></div>
                                             <input type="text" name="Mesa[nome]" class="form-control" id="inputMesa" placeholder="Nome da Mesa:">
                                         </div>
                                     </div>
+                                    
+                                    <section class="alert pi-alert-info">
+                                        <p>
+                                            <i class="icon-info" style="font-size:18px;"></i> As configurações estão quase prontas, agora sa falta cadastrar uma mesa e pronto você pode fazer o teste do sistema! 
+                                        </p>
+                                    </section>
                                 </div>
                             </section>
                             <!-- End first name form -->
                             
                             <!-- Submit button -->
                             <p>
-                                <section id="button" style="display:none">
-                                    <button type="submit" class="btn pi-btn-base pi-btn-wide pi-weight-600">
+                                <section  >
+                                    <button id="send-form" type="submit" data-url="<?= Router::url(array('Empresas', 'cadastro-primeiras-configuracoes'));?>" class="btn pi-btn-base pi-btn-wide pi-weight-600" disabled="true">
                                         Cadastrar suas primeiras configurações!
                                     </button>
                                 </section>
@@ -101,7 +105,7 @@
 
                         </div>
                         <!-- End box -->
-                    </form>
+                    
                     
                 </div>
                 <!-- End col 4 -->

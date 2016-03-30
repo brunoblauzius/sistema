@@ -29,17 +29,17 @@ class EmpresasController extends AppController {
     
     public function __construct(){
         parent::__construct();
-        $this->layout = 'painel';
-        $this->Empresa = new Empresa();
-        $this->Juridica = new Juridica();
-        $this->Contato  = new Contato();
-        $this->Endereco = new Endereco();
-        $this->Email    = new Email();
-        $this->ContaEmpresa    = new ContaEmpresa();
-        $this->SituacaoEmpresa    = new SituacaoEmpresa();
+        $this->layout           = 'painel';
+        $this->Empresa          = new Empresa();
+        $this->Juridica         = new Juridica();
+        $this->Contato          = new Contato();
+        $this->Endereco         = new Endereco();
+        $this->Email            = new Email();
+        $this->ContaEmpresa     = new ContaEmpresa();
+        $this->SituacaoEmpresa  = new SituacaoEmpresa();
         $this->SituacaoConta    = new SituacaoConta();
-        $this->TiposPagamento    = new TiposPagamento();
-        $this->TipoConta    = new TipoConta();
+        $this->TiposPagamento   = new TiposPagamento();
+        $this->TipoConta        = new TipoConta();
     }
     
     public function index(){
@@ -83,7 +83,6 @@ class EmpresasController extends AppController {
         }
     }
     
-    
     public function cadastro(){
         try {
             
@@ -106,7 +105,6 @@ class EmpresasController extends AppController {
             echo $ex->getMessage();
         }
     }
-    
     
     public function add(){
         
@@ -226,8 +224,7 @@ class EmpresasController extends AppController {
             }
         }
     }
-    
-    
+   
     public function recuperaEmpresa(){
         try {
             
@@ -255,7 +252,6 @@ class EmpresasController extends AppController {
         }
         
     }
-    
     
     public function contaEmpresa(){
         try {
@@ -301,14 +297,12 @@ class EmpresasController extends AppController {
         }
     }
     
-    
     public function totalEmpresas(){
          $empresa = $this->Empresa->empresasRelacionadas( md5($this->pessoas_id), Session::read('Usuario.roles_id') );
          echo json_encode(array(
              'qtde' => count($empresa)
          )); 
     }
-    
     
     public function alterarConta(){
         try {
@@ -340,8 +334,7 @@ class EmpresasController extends AppController {
             echo $ex->getMessage();
         }
     }
-    
-    
+     
     public function configEnvioEmail(){
         try {
             
@@ -404,7 +397,6 @@ class EmpresasController extends AppController {
         }
     }
     
-    
     public function alterarDadosConta(){
         try {
             $_POST['Conta']['id'] = Session::read('Form.contas_empresas_id');
@@ -447,29 +439,138 @@ class EmpresasController extends AppController {
     public function cadastroEstabelecimento(){
         try {
             
-            $_SESSION['Empresa']  = $_POST['Empresa'];
-            $_SESSION['Endereco'] = $_POST['Endereco'];
+            $_POST             = Utils::sanitazeArray($_POST);
+            $created           = date('Y-m-d h:i:s');
+            $token             = Authentication::uuid();
+            $empresaId         = 0;
+            $contaEmpresa      = 0;
+            $pessoaJuridica_id = 0;
             
+            $this->Empresa->data = array_merge($this->Empresa->data, $_POST['Empresa']);
+            $this->Empresa->data = array_merge($this->Empresa->data, $_POST['Endereco']);
             
-            Utils::pre($_SESSION);
+            $this->Empresa->validate = $this->Empresa->validate_site;
+                        
+            if( $this->Empresa->validates() ){
+                
+                //Utils::pre($_SESSION); exit();
+                
+                $pessoaJuridica_id = $this->Juridica->genericInsert(array(
+                    'pessoas_id'     => $_SESSION['Pessoa']['pessoas_id'], 
+                    'cnpj'           => str_pad('00', 14, '0', STR_PAD_RIGHT),
+                    'razao'          => $_POST[$this->Empresa->name]['nome_fantasia'],
+                    'nome_fantasia'  => $_POST[$this->Empresa->name]['nome_fantasia']
+                ));
+                
+                /**
+                 * Criar uma empresa
+                 */
+                $empresaId = $this->Empresa->genericInsert(array(
+                    'pessoas_id'           => $_SESSION['Pessoa']['pessoas_id'], 
+                    'pessoaJuridica_id'    => $pessoaJuridica_id,
+                    'situacao_empresas_id' => 1,
+                    'created'              => $created, 
+                ));
+                
+                /**
+                 * criar uma conta para empresa
+                 */
+                $contaEmpresa = $this->ContaEmpresa->inserirContaEmpresa($empresaId);
+                /**
+                 * criar um endereco para a empresa
+                 */
+                $this->Endereco->inserirEnderecosEmpresa($empresaId, $_SESSION['Endereco']);
+                
+                $_SESSION['Empresa']                      = $_POST['Empresa'];
+                $_SESSION['Empresa']['pessoaJuridica_id'] = $pessoaJuridica_id;
+                $_SESSION['Empresa']['empresas_id']       = $empresaId;
+                $_SESSION['Endereco']                     = $_POST['Endereco'];
+
+                Router::redirect(array('pages', 'primeiras-configuracoes'));
+                
+            } else {
+                echo json_encode(array(
+                    'erros'  => $this->Empresa->validateErros,
+                    'funcao' => NULL
+                ));
+            }
             
         } catch (Exception $ex) {
             echo json_encode($ex->getTrace());
         }
     }
     
-    
     public function cadastroPrimeirasConfiguracoes(){
         try {
+            $salaoId     = 0;
+            $ambienteId = 0;
+            $mesaId      = 0;
+            $_POST       = Utils::sanitazeArray($_POST);
             
-            $_SESSION['Empresa']  = $_POST['Empresa'];
-            $_SESSION['Endereco'] = $_POST['Endereco'];
+            $_POST['Salao']['salao']       = $_POST['Salao']['nome'];
+            $_POST['Ambiente']['ambiente'] = $_POST['Ambiente']['nome'];
+            $_POST['Mesa']['mesa']         = $_POST['Mesa']['nome'];
             
+            $this->Empresa->data = array_merge($this->Empresa->data, $_POST['Salao']);
+            $this->Empresa->data = array_merge($this->Empresa->data, $_POST['Ambiente']);
+            $this->Empresa->data = array_merge($this->Empresa->data, $_POST['Mesa']);
             
-            Utils::pre($_SESSION);
+            $this->Empresa->validate = $this->Empresa->validate_primeiras_config;
+            
+            if( $this->Empresa->validates() ){
+               
+                $SalaoModel  = new Salao();
+                $salaoId = $SalaoModel->genericInsert(array(
+                        'empresas_id' => Session::read('Empresa.empresas_id'),
+                        'nome'        => $_POST['Salao']['nome'],
+                        'status'      => TRUE,
+                    ));
+
+                $AmbienteModel = new Ambiente();
+                $ambienteId = $AmbienteModel->genericInsert(array(
+                        'saloes_id'   => (int) $salaoId,
+                        'empresas_id' => (int) Session::read('Empresa.empresas_id'),
+                        'nome'        => $_POST['Ambiente']['nome'],
+                        'capacidade'  => (int) $_POST['Ambiente']['capacidade'],
+                        'status'      => TRUE,
+                    ));
+
+                $MesaModel     = new Mesa();
+                $mesaId = $MesaModel->genericInsert(array(
+                    'ambientes_id' => (int) $ambienteId,
+                    'empresas_id'  => (int) Session::read('Empresa.empresas_id'),
+                    'nome'         => $_POST['Mesa']['nome'],
+                    'status'       => true
+                ));
+
+                $_POST['Salao']['id'] = $salaoId; 
+                $_POST['Ambiente']['id'] = $ambienteId; 
+                $_POST['Mesa']['id'] = $mesaId; 
+
+                $_SESSION = array_merge($_SESSION, $_POST);
+
+                echo json_encode(array(
+                    'erro'     => false,
+                    'mensagem' => 'Seu cadastro foi realizado com sucesso, enviamos um e-mail com os dados agora é só se logar e experimentar o software!',
+                    'div'      => '#PrimeiroCadastroForm',
+                ));
+                
+            } else {
+                                
+                echo json_encode(array(
+                    'erro'     => true,
+                    'mensagem' => $this->Empresa->refactoryError($this->Empresa->validateErros),
+                    'div'      => '#PrimeiroCadastroForm',
+                ));
+                
+            }
             
         } catch (Exception $ex) {
-            echo json_encode($ex->getTrace());
+            echo json_encode(array(
+                    'erro'     => true,
+                    'mensagem' => $ex->getMessage(),
+                    'div'      => '#PrimeiroCadastroForm',
+                ));
         }
     }
     

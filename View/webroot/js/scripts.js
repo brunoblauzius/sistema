@@ -230,7 +230,9 @@
 		});
 		
                 
-		
+		/**
+                 * @todo metodo que faz uma chamada para a edição de uma reserva em listar e filtrar nas reservas
+                 */
 		$(document).on('click', '.editarRegistro', function(){
                         var id  = $(this).data('idregistro');
 			var url = $(this).data('href');
@@ -262,6 +264,34 @@
 			
 		});
 		
+                /**
+                 * @todo metodo que faz uma chamada para a deletar de uma reserva em listar e filtrar nas reservas
+                 */
+		$(document).on('click', '.deletarRegistro', function(){
+                        var id  = $(this).data('idregistro');
+			var url = $(this).data('href');
+			
+			$.ajax({
+                                beforeSend: function (xhr) {
+                                    $('#loading').fadeIn(500);
+                                },
+				url : url,
+				data:{
+                                    id: id
+				},
+				dataType: "json",
+				type    : 'post',
+				success: function(json){
+                                    bootsAlert(json);
+				},
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    $('#loading').fadeOut(500);
+                                }
+			});
+			
+		});
+                
+                
 		$(document).on('click', '.add-item', function(){
                     $('#loading').fadeIn(500);
                     var btn_cancel = '<a class="btn btn-danger btn-xs delete-item" style="margin-top:23px;" title="excluir"> <i class="fa fa-times"></i></a>';

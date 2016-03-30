@@ -238,5 +238,13 @@ class AppModel extends DAO {
         return $newArray;
     }
    
+    public function refactoryError(){
+        $erro = array();
+        
+        foreach ($this->validateErros as $key => $value) {
+            $erro[] = str_replace('_', ' ', strtoupper($key)).": ".$value;
+        }
+        return join('<br>', $erro);
+    }
    
 }
