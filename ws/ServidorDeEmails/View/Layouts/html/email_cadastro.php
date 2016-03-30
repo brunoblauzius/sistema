@@ -18,7 +18,7 @@
                 <tr>
                     <td style="padding: 20px;">
                         
-                        <h4 style="color:#fc9448">Olá Bruno Blauzius,</h4>
+                        <h4 style="color:#fc9448">Olá <?= ucwords($nome)?>,</h4>
                         <p style="text-align: justify; font-size:13px;">
                             Sua empresa foi cadastrada com sucesso em nosso sistema de reservas para casas noturnas, bares e restaurantes!
                         </p>
@@ -31,7 +31,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width:40%">Titular da conta:</td>
-                                        <td><strong><?= $nome?></strong></td>
+                                        <td><strong><?= ucwords($nome)?></strong></td>
                                     </tr>
                                     <tr>
                                         <td>Telefone do titular:</td>

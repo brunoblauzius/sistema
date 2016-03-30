@@ -56,8 +56,8 @@
                                 </div>
                                 <div class="pi-col-md-8">
                                     <div class="form-group">
-                                        <div class="pi-input-with-icon">
-                                            <div class="pi-input-icon"><i class="icon-mail"></i></div>
+                                        <div class="pi-input">
+                                            
                                             <input type="text" name="Endereco[logradouro]" class="form-control" id="logradouro" placeholder="Logradouro:">
                                         </div>
                                     </div>
@@ -69,16 +69,16 @@
                             <section class="pi-row ">
                                 <div class="pi-col-md-6">
                                     <div class="form-group">
-                                        <div class="pi-input-with-icon">
-                                            <div class="pi-input-icon"><i class="icon-phone"></i></div>
+                                        <div class="pi-input">
+                                            
                                             <input type="text" name="Endereco[bairro]" class="form-control" id="bairro" placeholder="Bairro:">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="pi-col-md-6">
                                     <div class="form-group">
-                                        <div class="pi-input-with-icon">
-                                            <div class="pi-input-icon"><i class="icon-phone"></i></div>
+                                        <div class="pi-input">
+                                            
                                             <input type="text" name="Endereco[cidade]" class="form-control" id="cidade" placeholder="Cidade:">
                                         </div>
                                     </div>
@@ -90,16 +90,16 @@
                             <section class="pi-row ">
                                 <div class="pi-col-md-6">
                                     <div class="form-group">
-                                        <div class="pi-input-with-icon">
-                                            <div class="pi-input-icon"><i class="icon-phone"></i></div>
+                                        <div class="pi-input">
+                                            
                                             <input type="text" name="Endereco[uf]" class="form-control" id="uf" placeholder="UF:">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="pi-col-md-6">
                                     <div class="form-group">
-                                        <div class="pi-input-with-icon">
-                                            <div class="pi-input-icon"><i class="icon-phone"></i></div>
+                                        <div class="pi-input">
+                                            
                                             <input type="text" name="Endereco[numero]" class="form-control" id="numero" placeholder="Número:">
                                         </div>
                                     </div>

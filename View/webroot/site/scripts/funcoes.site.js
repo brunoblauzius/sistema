@@ -42,3 +42,14 @@ function hideLoaderForm( div ){
 function redirect( url ){
     $(location).attr('href',url);
 }
+
+/**
+* @todo controladora de dos metodos
+* @param {type} data
+* @returns {undefined}
+*/
+function tratarJSON( data ) {
+   if( data.funcao ){
+       eval(data.funcao);
+   }
+}

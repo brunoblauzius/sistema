@@ -117,6 +117,9 @@ class PagesController extends AppController{
             'scripts/pi.parallax',
             'scripts/pi.init.parallax',
             'scripts/pi.init.revolutionSlider',
+            'scripts/funcoes.site',
+            'scripts/ajaxForm',
+            'scripts/criar.conta',
         ));
         
         $this->addCss(array(
@@ -161,6 +164,9 @@ class PagesController extends AppController{
                 'scripts/pi.init.parallax',
                 'scripts/pi.init.revolutionSlider',
                 'scripts/cep',
+                'scripts/funcoes.site',
+                'scripts/ajaxForm',
+                'scripts/criar.conta',
             ));
 
             $this->addCss(array(
@@ -184,7 +190,43 @@ class PagesController extends AppController{
     }
     
     public function primeirasConfiguracoes(){
-                
+               
+//        $_SESSION = Array
+//            (
+//                'Pessoa' => Array
+//                    (
+//                        'nome' => 'Bruno Blauzius Schuindt',
+//                        'email' => 'brunoblauzius@gmail.com',
+//                        'ddd' => 41,
+//                        'telefone' => 97268858,
+//                        'senha' => 'blauzius02',
+//                        'confirm_senha' => 'blauzius02',
+//                        'termo' => 1,
+//                        'pessoas_id' => 18,
+//                        'pessoaFisica_id' => 17,
+//                        'usuarios_id' => 17,
+//                    ),
+//
+//                'Empresa' => Array
+//                    (
+//                        'nome_fantasia' => 'Minha Empresa Teste',
+//                        'pessoaJuridica_id' => 12,
+//                        'empresas_id' => 12,
+//                    ),
+//
+//                'Endereco' => Array
+//                    (
+//                        'cep' => 83331210,
+//                        'logradouro' => 'Rua Leila Diniz', 
+//                        'bairro' => 'Maria Antonieta' ,
+//                        'cidade' => 'Pinhais',
+//                        'uf' => 'PR',
+//                        'numero' => 5632,
+//                    ),
+//
+//            );
+        
+        
         if( Session::check('Empresa') ){
             $this->addJs(array(
                 '3dParty/jquery-1.11.0.min',
@@ -230,43 +272,7 @@ class PagesController extends AppController{
         } else {
             Render::redirect(array('Pages','cadastro-estabelecimento'));
         }
-        
-//         $_SESSION = Array
-//            (
-//                'Pessoa' => Array
-//                    (
-//                        'nome' => 'Bruno Blauzius Schuindt',
-//                        'email' => 'brunoblauzius@gmail.com',
-//                        'ddd' => 41,
-//                        'telefone' => 97268858,
-//                        'senha' => 'blauzius02',
-//                        'confirm_senha' => 'blauzius02',
-//                        'termo' => 1,
-//                        'pessoas_id' => 18,
-//                        'pessoaFisica_id' => 17,
-//                        'usuarios_id' => 17,
-//                    ),
-//
-//                'Empresa' => Array
-//                    (
-//                        'nome_fantasia' => 'Minha Empresa Teste',
-//                        'pessoaJuridica_id' => 12,
-//                        'empresas_id' => 12,
-//                    ),
-//
-//                'Endereco' => Array
-//                    (
-//                        'cep' => 83331210,
-//                        'logradouro' => 'Rua Leila Diniz', 
-//                        'bairro' => 'Maria Antonieta' ,
-//                        'cidade' => 'Pinhais',
-//                        'uf' => 'PR',
-//                        'numero' => 5632,
-//                    ),
-//
-//            );
-         
-                
+                        
     }
 
 
@@ -349,14 +355,14 @@ class PagesController extends AppController{
     public function sendContato(){
        
         $parameters = array(
-            'destinatario'      =>  'brunoblauzius@gmail.com',
+            'destinatario'      =>  'contato@mynight.com.br',
             'nome_destinatario' =>  'Administrador my night',
             'layout'            =>  'email_contato',
         );
         
         $parameters = array_merge($parameters, $_POST);
         
-        echo CurlStatic::send($parameters, 'json', 'http://mynight.com.br/ws/ServidorDeEmails/', 'POST');
+        echo CurlStatic::send($parameters, 'json', Enum::URL_SERVIDOR_DE_EMAIL , 'POST');
         exit();
     }
     
