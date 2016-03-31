@@ -167,4 +167,28 @@ class Mesa extends AppModel{
         }
     }
     
+    
+    public function inserirMesasCadastroSite( $empresasId, $quantidade, $ambienteId ){
+        try {
+            $mesaId = array();
+            if( !empty($empresasId) && !empty($quantidade) && !empty($ambienteId) )
+            {
+                for ($index = 0; $index < $quantidade; $index++)
+                {
+                    $mesaId[] = $this->genericInsert(array(
+                        'ambientes_id'  => $ambienteId,
+                        'empresas_id'   => $empresasId,
+                        'nome'          => $index,
+                        'status'        => true
+                    ));
+                } 
+            }
+            
+            return $mesaId;
+            
+        } catch (Exception $ex) {
+            
+        }
+    }
+    
 }

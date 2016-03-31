@@ -488,12 +488,6 @@ class EmpresasController extends AppController {
             $mesaId = 0;
             $_POST = Utils::sanitazeArray($_POST);
 
-            $_POST['Salao']['salao'] = $_POST['Salao']['nome'];
-            $_POST['Ambiente']['ambiente'] = $_POST['Ambiente']['nome'];
-            $_POST['Mesa']['mesa'] = $_POST['Mesa']['nome'];
-
-            $this->Empresa->data = array_merge($this->Empresa->data, $_POST['Salao']);
-            $this->Empresa->data = array_merge($this->Empresa->data, $_POST['Ambiente']);
             $this->Empresa->data = array_merge($this->Empresa->data, $_POST['Mesa']);
 
             $this->Empresa->validate = $this->Empresa->validate_primeiras_config;
@@ -503,7 +497,7 @@ class EmpresasController extends AppController {
                 $SalaoModel = new Salao();
                 $salaoId = $SalaoModel->genericInsert(array(
                     'empresas_id' => Session::read('Empresa.empresas_id'),
-                    'nome' => $_POST['Salao']['nome'],
+                    'nome' => 'Salão - (Teste)',
                     'status' => TRUE,
                 ));
 
@@ -511,23 +505,17 @@ class EmpresasController extends AppController {
                 $ambienteId = $AmbienteModel->genericInsert(array(
                     'saloes_id' => (int) $salaoId,
                     'empresas_id' => (int) Session::read('Empresa.empresas_id'),
-                    'nome' => $_POST['Ambiente']['nome'],
-                    'capacidade' => (int) $_POST['Ambiente']['capacidade'],
+                    'nome' => 'Ambiente - (Teste)',
+                    'capacidade' => (int) $_POST['Mesa']['quantidade'] * 2,
                     'status' => TRUE,
                 ));
 
+                /**
+                 * criar um metodo que gerer mesas apartir de um inteiro
+                 */
                 $MesaModel = new Mesa();
-                $mesaId = $MesaModel->genericInsert(array(
-                    'ambientes_id' => (int) $ambienteId,
-                    'empresas_id' => (int) Session::read('Empresa.empresas_id'),
-                    'nome' => $_POST['Mesa']['nome'],
-                    'status' => true
-                ));
-
-                $_POST['Salao']['id'] = $salaoId;
-                $_POST['Ambiente']['id'] = $ambienteId;
-                $_POST['Mesa']['id'] = $mesaId;
-
+                $MesaModel->inserirMesasCadastroSite((int) Session::read('Empresa.empresas_id'), $_POST['Mesa']['quantidade'], (int) $ambienteId);
+                
                 $_SESSION = array_merge($_SESSION, $_POST);
 
                 /**

@@ -217,7 +217,7 @@ class UsuariosController extends AppController {
                 $modelCliente = new Cliente();
                 $modelFuncionario = new Funcionario();
                 
-                $clientes = $modelCliente->find('all', array('empresas_id' => $this->empresas_id));
+                $clientes = $modelCliente->clientesProprietario($this->pessoas_id, session::read('Usuario.roles_id'));
                 $clientes = count($clientes);
                 
                 $funcionarios = $modelFuncionario->find('all', array('empresas_id' => $this->empresas_id));
