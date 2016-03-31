@@ -456,7 +456,7 @@ class EmpresasController extends AppController {
                 /**
                  * criar um endereco para a empresa
                  */
-                $this->Endereco->inserirEnderecosEmpresa($empresaId, $_SESSION['Endereco']);
+                $this->Endereco->inserirEnderecosEmpresa($empresaId, $_POST['Endereco']);
 
                 $_SESSION['Empresa'] = $_POST['Empresa'];
                 $_SESSION['Empresa']['pessoaJuridica_id'] = $pessoaJuridica_id;

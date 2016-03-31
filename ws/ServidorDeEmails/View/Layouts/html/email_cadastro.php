@@ -51,7 +51,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2" style="text-align: center; height: 80px;">
-                                            <a href="#" style="background-color:#fc9448; text-decoration: none; color:#fff; padding:10px; border-radius:5px; ">
+                                            <a href="http://mynight.com.br/Pages/login" target="_blank" style="background-color:#fc9448; text-decoration: none; color:#fff; padding:10px; border-radius:5px; ">
                                                 Clique aqui para ativar seu cadastro
                                             </a>
                                         </td>
