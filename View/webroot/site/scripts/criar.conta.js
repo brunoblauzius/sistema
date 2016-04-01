@@ -1,4 +1,10 @@
-/**
+    $('#exampleInputEmail').change(function(){
+        var login = $(this).val().split('@');
+        $('#exampleInputLogin').val(login[0]);
+    });
+    
+    
+    /**
      * @todo funcao que envia as requisições em ajax do sistema
      */
     $(document).on('click', 'form button', function(){

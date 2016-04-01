@@ -277,14 +277,55 @@ class PagesController extends AppController{
 
     public function ativarConta(){
         try{
-            $this->layout = 'default';
+            
             if( isset($_GET['param']) && !is_null($_GET['param'])){
-                
                 $this->User->ativaConta( trim($_GET['param']) );
+            
+                $this->layout = 'default';
+                $this->addJs(array(
+                    '3dParty/jquery-1.11.0.min',
+                    '3dParty/bootstrap/js/bootstrap.min',
+                    '3dParty/jquery.touchSwipe.min',
+                    '3dParty/gauge.min',
+                    '3dParty/rs-plugin/js/jquery.themepunch.tools.min',
+                    '3dParty/rs-plugin/js/jquery.themepunch.revolution.min',
+                    '3dParty/requestAnimationFramePolyfill.min',
+                    '3dParty/jquery.scrollTo.min',
+                    '3dParty/colorbox/jquery.colorbox-min',
+                    'scripts/pi.global.min',
+                    'scripts/pi.slider',
+                    'scripts/pi.init.slider',
+                    '3dParty/jquery.easing.1.3',
+                    'scripts/pi.counter',
+                    'scripts/pi.init.counter',
+                    'scripts/pi.parallax',
+                    'scripts/pi.init.parallax',
+                    'scripts/pi.init.revolutionSlider',
+                    'scripts/cep',
+                    'scripts/config-primary',
+                    'scripts/funcoes.site',
+                ));
+
+                $this->addCss(array(
+                    '3dParty/bootstrap/css/bootstrap.min',
+                    'css/global',
+                    '3dParty/rs-plugin/css/pi.settings',
+                    'css/typo',
+                    '3dParty/colorbox/colorbox',
+                    'css/portfolio',
+                    'css/slider',
+                    'css/counters',
+                    'css/social',
+                    '3dParty/fontello/css/fontello',
+                ));
+
+                $this->layout = 'layout_site_menu_sem_link';
                 $this->set('title_layout', 'Conta Ativada!');
                 $this->render();
-                
+            } else {
+                Render::redirect();
             }
+            
         } catch (Exception $ex) {
 
         }

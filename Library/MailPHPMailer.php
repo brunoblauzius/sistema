@@ -26,6 +26,8 @@ class MailPHPMailer {
         $this->MAIL = new PHPMailer();
         //Tell PHPMailer to use SMTP
         $this->MAIL->isSMTP();
+        //Whether to use SMTP authentication
+        $this->MAIL->SMTPAuth = true;
         //setando que minha saida é html
         $this->MAIL->isHTML(true); 
         //setando minha linguagem de erro
@@ -45,8 +47,6 @@ class MailPHPMailer {
         $this->MAIL->Host = "mynight.com.br";
         //Set the SMTP port number - likely to be 25, 465 or 587
         $this->MAIL->Port = 587;
-        //Whether to use SMTP authentication
-        $this->MAIL->SMTPAuth = true;
         //Username to use for SMTP authentication
         $this->MAIL->Username = "contato@mynight.com.br";
         //Password to use for SMTP authentication

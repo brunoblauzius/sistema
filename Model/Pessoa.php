@@ -113,6 +113,12 @@ class Pessoa extends AppModel{
               'mensagem' => Enum::VAZIO,
           )  
         ),
+        'login' => array(
+          'notEmpty' => array(
+              'rule' => array('notEmpty'),
+              'mensagem' => Enum::VAZIO,
+          )  
+        ),
         'ddd' => array(
           'notEmpty' => array(
               'rule' => array('notEmpty'),

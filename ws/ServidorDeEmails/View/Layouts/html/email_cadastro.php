@@ -30,8 +30,12 @@
                                         <td colspan="2"><h2 style="color:#fc9448; text-align: center">Dados do cadastro.</h2></td>
                                     </tr>
                                     <tr>
-                                        <td style="width:40%">Titular da conta:</td>
-                                        <td><strong><?= ucwords($nome)?></strong></td>
+                                        <td style="width:40%">Login:</td>
+                                        <td><strong><?= ($login)?></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:40%">Senha:</td>
+                                        <td><strong><?= ($senha)?></strong></td>
                                     </tr>
                                     <tr>
                                         <td>Telefone do titular:</td>
@@ -51,7 +55,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2" style="text-align: center; height: 80px;">
-                                            <a href="http://mynight.com.br/Pages/login" target="_blank" style="background-color:#fc9448; text-decoration: none; color:#fff; padding:10px; border-radius:5px; ">
+                                            <a href="http://mynight.com.br/Pages/ativar-conta/<?=$token?>" target="_blank" style="background-color:#fc9448; text-decoration: none; color:#fff; padding:10px; border-radius:5px; ">
                                                 Clique aqui para ativar seu cadastro
                                             </a>
                                         </td>

@@ -50,7 +50,7 @@
                                     <div class="form-group">
                                         <div class="pi-input-with-icon">
                                             <div class="pi-input-icon"><i class="icon-mail"></i></div>
-                                            <input type="text" name="Pessoa[email]" class="form-control" id="exampleInputEmail" placeholder="E-mail">
+                                            <input type="text" name="Pessoa[email]" class="form-control" id="exampleInputEmail" placeholder="E-mail:">
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                     <div class="form-group">
                                         <div class="pi-input-with-icon">
                                             <div class="pi-input-icon"><i class="icon-phone"></i></div>
-                                            <input type="text" name="Pessoa[ddd]" class="form-control" id="exampleInputPhone" placeholder="DDD" maxlength="3">
+                                            <input type="text" name="Pessoa[ddd]" class="form-control" id="exampleInputPhoneDDD" placeholder="DDD:" maxlength="3">
                                         </div>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                                     <div class="form-group">
                                         <div class="pi-input-with-icon">
                                             <div class="pi-input-icon"><i class="icon-phone"></i></div>
-                                            <input type="text" name="Pessoa[telefone]" class="form-control" id="exampleInputPhone" placeholder="Telefone" maxlength="9">
+                                            <input type="text" name="Pessoa[telefone]" class="form-control" id="exampleInputPhone" placeholder="Telefone:" maxlength="9">
                                         </div>
                                     </div>
                                 </div>
@@ -83,8 +83,8 @@
                                 <div class="pi-col-md-12">
                                     <div class="form-group">
                                         <div class="pi-input-with-icon">
-                                            <div class="pi-input-icon"><i class="icon-key-1"></i></div>
-                                            <input type="password" name="Pessoa[senha]" class="form-control" id="exampleInputEmail" placeholder="Senha:">
+                                            <div class="pi-input-icon"><i class="icon-user"></i></div>
+                                            <input type="text" name="Pessoa[login]" class="form-control" id="exampleInputLogin" placeholder="Login:">
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +96,19 @@
                                     <div class="form-group">
                                         <div class="pi-input-with-icon">
                                             <div class="pi-input-icon"><i class="icon-key-1"></i></div>
-                                            <input type="password" name="Pessoa[confirm_senha]" class="form-control" id="exampleInputEmail" placeholder="Confirmação de Senha:">
+                                            <input type="password" name="Pessoa[senha]" class="form-control" id="exampleInputSenha" placeholder="Senha:">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- End email form -->
+                            <!-- Email form -->
+                            <section class="pi-row ">
+                                <div class="pi-col-md-12">
+                                    <div class="form-group">
+                                        <div class="pi-input-with-icon">
+                                            <div class="pi-input-icon"><i class="icon-key-1"></i></div>
+                                            <input type="password" name="Pessoa[confirm_senha]" class="form-control" id="exampleInputConfirmSenha" placeholder="Confirmação de Senha:">
                                         </div>
                                     </div>
                                 </div>
