@@ -10,7 +10,7 @@
             <thead style="background-color:#303030; color:#f7f7f7;">
                 <tr>
                     <td  style="padding: 10px;">
-                        <img src="http://mynight.com.br/ws/View/webroot/image/logo-base.png" height="70" style="margin-right:30px; vertical-align: middle"> <h3 style="color:#FFF; font-size:26px; float: right"> Cadastro de Empresa</h3>
+                        <img src="http://mynight.com.br/ws/ServidorDeEmails/View/webroot/image/logo-base.png" height="70" style="margin-right:30px; vertical-align: middle"> <h3 style="color:#FFF; font-size:26px; float: right"> Cadastro de Empresa</h3>
                     </td>
                 </tr>
             </thead>
@@ -30,8 +30,12 @@
                                         <td colspan="2"><h2 style="color:#fc9448; text-align: center">Dados do cadastro.</h2></td>
                                     </tr>
                                     <tr>
-                                        <td style="width:40%">Titular da conta:</td>
-                                        <td><strong><?= ucwords($nome)?></strong></td>
+                                        <td style="width:40%">Login:</td>
+                                        <td><strong><?= ($login)?></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:40%">Senha:</td>
+                                        <td><strong><?= ($senha)?></strong></td>
                                     </tr>
                                     <tr>
                                         <td>Telefone do titular:</td>
@@ -43,7 +47,7 @@
                                     </tr>
                                     <tr>
                                         <td>Nome do Estabelecimento:</td>
-                                        <td><strong><?= $fantasia?></strong></td>
+                                        <td><strong><?= $nome_fantasia?></strong></td>
                                     </tr>
                                     <tr>
                                         <td>Endereço do Estabelecimento:</td>
@@ -51,7 +55,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2" style="text-align: center; height: 80px;">
-                                            <a href="#" style="background-color:#fc9448; text-decoration: none; color:#fff; padding:10px; border-radius:5px; ">
+                                            <a href="http://mynight.com.br/Pages/ativar-conta/<?=$token?>" target="_blank" style="background-color:#fc9448; text-decoration: none; color:#fff; padding:10px; border-radius:5px; ">
                                                 Clique aqui para ativar seu cadastro
                                             </a>
                                         </td>
@@ -75,7 +79,7 @@
             <tfoot>
                 <tr style="background-color:#303030; color:#f7f7f7;">
                     <td style="padding: 10px; text-align:center" >
-                        <img src="http://mynight.com.br/ws/View/webroot/image/logo-base.png" height="50" style="margin-right:15px; vertical-align: middle"> © 2015. <span style="color:#fc9448">Sistema de reservas My Night</span>. Todos os direitos reservados.
+                        <img src="http://mynight.com.br/ws/ServidorDeEmails/View/webroot/image/logo-base.png" height="50" style="margin-right:15px; vertical-align: middle"> © 2015. <span style="color:#fc9448">Sistema de reservas My Night</span>. Todos os direitos reservados.
                     </td>
                 </tr>
             </tfoot>

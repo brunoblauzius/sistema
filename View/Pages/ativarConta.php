@@ -3,7 +3,7 @@
 
         <div class="pi-text-center pi-margin-bottom-50 ">
             <h1 class="pi-uppercase pi-weight-700 pi-has-border pi-has-tall-border pi-has-short-border">
-                Muito obrigado por escolher a Mynight! 
+                Sua conta está ativa!
             </h1>
             <!-- Row -->
             <div class="pi-row ">
@@ -16,7 +16,7 @@
                             
                             <div >
                                 <p>
-                                   Parabéns, seu cadastro foi concluido com sucesso! <br> verifique seu e-mail e ative sua conta para utilizar o sistema!
+                                   Parabéns, sua conta foi ativada com sucesso! <br> <a href="<?= Router::url(array('Pages', 'login'))?>">CLIQUE AQUI</a> e faça seu primeiro login para começar a utilizar o software!
                                 </p>
                             </div>
                             

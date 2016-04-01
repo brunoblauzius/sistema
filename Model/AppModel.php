@@ -71,6 +71,13 @@ class AppModel extends DAO {
         return TRUE;
     }
     
+    public function maiorQue($valor){
+        if( ($valor) > $this->paramsValue ){
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
     /**
      * @todo metodo que valida o email 
      * @param string $email

@@ -104,31 +104,23 @@ class Empresa extends AppModel {
     );
     
     public $validate_primeiras_config = array(
-        'salao' => array(
+
+        'quantidade' => array(
             'notEmpty' => array(
                 'rule' => array('notEmpty'),
                 'mensagem' => Enum::VAZIO,
             ),
-        ),
-        'ambiente' => array(
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                'mensagem' => Enum::VAZIO,
+            'numerico' => array(
+                'rule' => array('numerico'),
+                'mensagem' => 'Digite apenas números',
             ),
-        ),
-        'capacidade' => array(
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                'mensagem' => Enum::VAZIO,
-            ),
-        ),
-        'mesa' => array(
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
-                'mensagem' => Enum::VAZIO,
+            'maiorQue' => array(
+                'rule' => array('maiorQue', 50),
+                'mensagem' => 'Limite de mesas permitido é 50!',
             ),
         ),
     );
+    
 
     public function dadosMinhaConta($empresasId) {
         try {

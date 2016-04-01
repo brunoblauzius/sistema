@@ -220,7 +220,7 @@ class Contato extends AppModel {
         try {
             
             $sql = "INSERT INTO pessoas_has_contatos ( pessoas_id, contatos_id ) VALUES ( $pessoasId, $contatoId ); ";
-            $this->query($sql);
+            return $this->query($sql);
             
         } catch (Exception $ex) {
             throw $ex;

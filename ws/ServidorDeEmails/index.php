@@ -32,7 +32,6 @@ $model  = new Email();
         )
  */
 
-echo $render->element( 'email_cadastro' );exit();
 
 try {
     

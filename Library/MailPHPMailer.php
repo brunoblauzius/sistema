@@ -25,12 +25,15 @@ class MailPHPMailer {
         //Create a new PHPMailer instance
         $this->MAIL = new PHPMailer();
         //Tell PHPMailer to use SMTP
-        $this->MAIL->isSMTP();
+        $this->MAIL->isSMTP(true);
+        //Whether to use SMTP authentication
+        $this->MAIL->SMTPAuth = true;
         //setando que minha saida é html
         $this->MAIL->isHTML(true); 
         //setando minha linguagem de erro
         $this->MAIL->setLanguage("br", "Library/language/");
         
+        $this->MAIL->SMTPSecure = 'ssl';
         //encode do email
         $this->MAIL->CharSet = 'UTF-8';
             
@@ -38,19 +41,17 @@ class MailPHPMailer {
         // 0 = off (for production use)
         // 1 = client messages
         // 2 = client and server messages
-        $this->MAIL->SMTPDebug = 0;
+        $this->MAIL->SMTPDebug = 2;
         //Ask for HTML-friendly debug output
         $this->MAIL->Debugoutput = 'html';
         //Set the hostname of the mail server
-        $this->MAIL->Host = "mynight.com.br";
+        $this->MAIL->Host = "smtp.gmail.com";
         //Set the SMTP port number - likely to be 25, 465 or 587
-        $this->MAIL->Port = 587;
-        //Whether to use SMTP authentication
-        $this->MAIL->SMTPAuth = true;
+        $this->MAIL->Port = 465;
         //Username to use for SMTP authentication
-        $this->MAIL->Username = "contato@mynight.com.br";
+        $this->MAIL->Username = "mynight.reservas@gmail.com";
         //Password to use for SMTP authentication
-        $this->MAIL->Password = "contato01";
+        $this->MAIL->Password = "mynight01";
     }
     
     public function setRemetente( $email = null, $nome = null) {
@@ -97,6 +98,10 @@ class MailPHPMailer {
         }        
     }
     
+    
+    public function setFrom( $nome ){
+        $this->MAIL->FromName = $nome ;
+    }
 }
 
 /**

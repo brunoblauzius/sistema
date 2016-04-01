@@ -414,6 +414,8 @@ class EmpresasController extends AppController {
         try {
 
             $_POST = Utils::sanitazeArray($_POST);
+            
+            
             $created = date('Y-m-d h:i:s');
             $token = Authentication::uuid();
             $empresaId = 0;
@@ -447,11 +449,14 @@ class EmpresasController extends AppController {
                 /**
                  * criar uma conta para empresa
                  */
+                
                 $contaEmpresa = $this->ContaEmpresa->inserirContaEmpresa($empresaId);
+                
+                
                 /**
                  * criar um endereco para a empresa
                  */
-                $this->Endereco->inserirEnderecosEmpresa($empresaId, $_SESSION['Endereco']);
+                $this->Endereco->inserirEnderecosEmpresa($empresaId, $_POST['Endereco']);
 
                 $_SESSION['Empresa'] = $_POST['Empresa'];
                 $_SESSION['Empresa']['pessoaJuridica_id'] = $pessoaJuridica_id;
@@ -472,7 +477,7 @@ class EmpresasController extends AppController {
                 ));
             }
         } catch (Exception $ex) {
-            echo json_encode($ex->getTrace());
+            echo json_encode($ex->getMessage());
         }
     }
 
@@ -483,12 +488,6 @@ class EmpresasController extends AppController {
             $mesaId = 0;
             $_POST = Utils::sanitazeArray($_POST);
 
-            $_POST['Salao']['salao'] = $_POST['Salao']['nome'];
-            $_POST['Ambiente']['ambiente'] = $_POST['Ambiente']['nome'];
-            $_POST['Mesa']['mesa'] = $_POST['Mesa']['nome'];
-
-            $this->Empresa->data = array_merge($this->Empresa->data, $_POST['Salao']);
-            $this->Empresa->data = array_merge($this->Empresa->data, $_POST['Ambiente']);
             $this->Empresa->data = array_merge($this->Empresa->data, $_POST['Mesa']);
 
             $this->Empresa->validate = $this->Empresa->validate_primeiras_config;
@@ -498,7 +497,7 @@ class EmpresasController extends AppController {
                 $SalaoModel = new Salao();
                 $salaoId = $SalaoModel->genericInsert(array(
                     'empresas_id' => Session::read('Empresa.empresas_id'),
-                    'nome' => $_POST['Salao']['nome'],
+                    'nome' => 'Salão - (Teste)',
                     'status' => TRUE,
                 ));
 
@@ -506,23 +505,17 @@ class EmpresasController extends AppController {
                 $ambienteId = $AmbienteModel->genericInsert(array(
                     'saloes_id' => (int) $salaoId,
                     'empresas_id' => (int) Session::read('Empresa.empresas_id'),
-                    'nome' => $_POST['Ambiente']['nome'],
-                    'capacidade' => (int) $_POST['Ambiente']['capacidade'],
+                    'nome' => 'Ambiente - (Teste)',
+                    'capacidade' => (int) $_POST['Mesa']['quantidade'] * 2,
                     'status' => TRUE,
                 ));
 
+                /**
+                 * criar um metodo que gerer mesas apartir de um inteiro
+                 */
                 $MesaModel = new Mesa();
-                $mesaId = $MesaModel->genericInsert(array(
-                    'ambientes_id' => (int) $ambienteId,
-                    'empresas_id' => (int) Session::read('Empresa.empresas_id'),
-                    'nome' => $_POST['Mesa']['nome'],
-                    'status' => true
-                ));
-
-                $_POST['Salao']['id'] = $salaoId;
-                $_POST['Ambiente']['id'] = $ambienteId;
-                $_POST['Mesa']['id'] = $mesaId;
-
+                $MesaModel->inserirMesasCadastroSite((int) Session::read('Empresa.empresas_id'), $_POST['Mesa']['quantidade'], (int) $ambienteId);
+                
                 $_SESSION = array_merge($_SESSION, $_POST);
 
                 /**
@@ -532,11 +525,13 @@ class EmpresasController extends AppController {
                 $parameters = array(
                     'destinatario'      =>  $_SESSION['Pessoa']['email'],
                     'nome_destinatario' =>  $_SESSION['Pessoa']['nome'],
+                    'assunto'           =>  'Cadastro de empresa - my night',
                     'layout'            =>  'email_cadastro',
-                    $_SESSION['Pessoa'],
-                    $_SESSION['Empresa'],
-                    $_SESSION['Endereco'],
                 );
+        
+                $parameters = array_merge($parameters,$_SESSION['Pessoa'] );
+                $parameters = array_merge($parameters,$_SESSION['Empresa'] );
+                $parameters = array_merge($parameters,$_SESSION['Endereco'] );
 
                 CurlStatic::send($parameters, 'json', Enum::URL_SERVIDOR_DE_EMAIL , 'POST');
                 

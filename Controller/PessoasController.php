@@ -236,15 +236,16 @@ class PessoasController extends AppController {
                 $usuarioId = $this->Usuario->genericInsert(array(
                     'roles_id' => 4,
                     'pessoas_id' => $pessoaId,
-                    'status' => 1,
+                    'status' => 0,
                     'perfil_teste' => 1,
                     'created' => $created,
                     'email' => $this->Pessoa->data['email'],
-                    'login' => $this->Pessoa->data['email'],
+                    'login' => $this->Pessoa->data['login'],
                     'senha' => Authentication::password($this->Pessoa->data['senha']),
                     'chave' => $token
                 ));
                 $this->Pessoa->data['usuarios_id'] = $usuarioId;
+                $this->Pessoa->data['token']       = $token;
 
                 $_SESSION[$this->Pessoa->name] = $this->Pessoa->data;
 
