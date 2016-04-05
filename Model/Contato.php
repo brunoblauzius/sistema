@@ -216,6 +216,33 @@ class Contato extends AppModel {
         }
     }
     
+    public function findEmpresasContatos( $empresasId = null ){
+        try {
+            
+            $retorno = array();
+            
+            if( !empty($empresasId) ){
+                
+                $sql = "SELECT 
+                            Contato.id,
+                            Contato.telefone,
+                            Contato.tipo
+                        FROM
+                            reservas.empresas_has_contatos AS EmpresaContato
+                                INNER JOIN
+                            reservas.contatos AS Contato ON Contato.id = EmpresaContato.contatos_id
+                        WHERE
+                            (EmpresaContato.empresas_id) = $empresasId;";
+                
+                $retorno = $this->query($sql);
+                
+            }
+            return $retorno;
+        } catch (Exception $ex) {
+            
+        }
+    }
+    
     public function inserirContato( $pessoasId, $contatoId ){
         try {
             

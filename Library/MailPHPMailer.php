@@ -41,7 +41,7 @@ class MailPHPMailer {
         // 0 = off (for production use)
         // 1 = client messages
         // 2 = client and server messages
-        $this->MAIL->SMTPDebug = 2;
+        $this->MAIL->SMTPDebug =  0;
         //Ask for HTML-friendly debug output
         $this->MAIL->Debugoutput = 'html';
         //Set the hostname of the mail server
@@ -55,6 +55,7 @@ class MailPHPMailer {
     }
     
     public function setRemetente( $email = null, $nome = null) {
+        
         if( !empty($email) && !empty($nome) ){
             $this->emailRemetente = $email;
             $this->nomeRemetente  = $nome;
@@ -75,10 +76,21 @@ class MailPHPMailer {
         $this->MAIL->Subject = $assunto;
     }
     
+    public function setCC( $address, $name ){
+        $this->MAIL->addCC($address, $name);
+    }
+    
+    public function setBCC( $address, $name ){
+        $this->MAIL->addBCC($address, $name);
+    }
+    
     public function setBody($corpo) {
         $this->MAIL->Body = $corpo;
     }
     
+    public function getError(){
+        return $this->MAIL->ErrorInfo;
+    }
     
     /**
      * @todo metodo que envia o email 
@@ -91,6 +103,10 @@ class MailPHPMailer {
                 throw new Exception( "Mailer Error: " . $this->MAIL->ErrorInfo );
             }
             
+            $this->MAIL->clearAddresses();
+            $this->MAIL->clearAttachments();
+            $this->MAIL->clearAllRecipients();
+            
             return TRUE;
             
         } catch (Exception $ex) {
@@ -98,10 +114,6 @@ class MailPHPMailer {
         }        
     }
     
-    
-    public function setFrom( $nome ){
-        $this->MAIL->FromName = $nome ;
-    }
 }
 
 /**
