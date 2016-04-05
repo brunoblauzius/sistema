@@ -17,6 +17,10 @@ class Utils {
     const DATA_FORMATO_INVALIDO      = 'data de formato inválido';
     
     public $meses = array( 1 => 'Janeiro', 'Fevereiro', 'Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro' );
+    public static $mesesStatic = array( 1 => 'Janeiro', 'Fevereiro', 'Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro' );
+
+    public $diasDaSemana = array( 'Domingo', 'Segunda-Feira', 'Terça-Feira','Quarta-Feira','Quinta-Feira', 'Sexta-Feira', 'Sábado');
+    public static $diasDaSemanaStatic = array( 'Domingo', 'Segunda-Feira', 'Terça-Feira','Quarta-Feira','Quinta-Feira', 'Sexta-Feira', 'Sábado');
     
     public static $replace = array('\n', '\t');
 
@@ -24,6 +28,18 @@ class Utils {
     private function nomeMes( $mes = null ){
         if( in_array( $mes, array_keys($this->meses) ) ){
             return  $this->meses[$mes];
+        } 
+    } 
+    
+    public static function nomeMesStatic( $mes = null ){
+        if( in_array( $mes, array_keys(self::$mesesStatic) ) ){
+            return  self::$mesesStatic[$mes];
+        } 
+    } 
+    
+    public static function nomeDiaDaSemanaStatic( $dia = null ){
+        if( in_array( $dia, array_keys(self::$diasDaSemanaStatic) ) ){
+            return  self::$diasDaSemanaStatic[$dia];
         } 
     } 
     

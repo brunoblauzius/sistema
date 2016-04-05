@@ -1138,8 +1138,8 @@ class Reserva extends AppModel {
                             INNER JOIN
                         clientes_convidados AS ReservaClientes ON ReservaClientes.reservas_id = Reserva.id
                     WHERE
-                        DATE(Reserva.start) BETWEEN DATE_SUB(DATE(CURRENT_DATE()),
-                            INTERVAL 2 MONTH) AND DATE(CURRENT_DATE())
+                        DATE(Reserva.start) BETWEEN DATE_SUB(DATE_FORMAT(NOW(),'%Y-%m-01'),
+			INTERVAL 2 MONTH) AND DATE(DATE_FORMAT(NOW(),'%Y-%m-%d'))
                             AND Reserva.empresas_id = {$empresasId}
                     GROUP BY MONTH(Reserva.start)
                     ORDER BY MONTH(Reserva.start) ASC;";
@@ -1150,7 +1150,7 @@ class Reserva extends AppModel {
              * fazer os ajustes para a view
              */
             foreach ( $retorno as $node ){
-                $labels[] = $node['month_name'];
+                $labels[] = Utils::nomeMesStatic($node['month']);
                 
                 $datasets = array(
                     /*CONFIRM*/

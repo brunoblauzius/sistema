@@ -7,7 +7,7 @@
                         <table class="table table-condensed" style="border-bottom: 1px #fff0f2;">
                             <tbody>
                                 <tr>
-                                    <td style="width:100px;">
+                                    <td style="width:8%;">
                                         <small>Presença:</small><br>
                                         <?php if( $registro['confirmado'] ):?>
                                             <a class="btn btn-xs btn-success"><span class="fa fa-check"></span></a>
@@ -15,16 +15,15 @@
                                             <a data-clientesid="<?= $registro['id']?>" data-reservasid="<?= $registro['reservas_id']?>" class="confirma-presenca-hostess btn btn-xs btn-danger"><span class="fa fa-times"></span></a>
                                         <?php endif;?>
                                     </td>
-                                    <td></td>
-                                    <td>
+                                    <td style="width:35%;">
                                         <p>
                                             <small>Convidado:</small> <strong><?= $registro['nome'] ?></strong>
                                         </p>
                                         <p>
-                                            <small>Reservado para:</small> <strong class="text text-maroon"><?= $registro['nome_cliente'] ?></strong>
+                                            <small>Reservado para:</small> <strong class="text text-info"><?= $registro['nome_cliente'] ?></strong>
                                         </p>
                                     </td>
-                                    <td>
+                                    <td style="width:35%;">
                                         <p>
                                             <small>Ambiente:</small> <strong><?= $registro['nome_ambiente'] ?></strong>
                                         </p>
