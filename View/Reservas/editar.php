@@ -31,7 +31,7 @@
                 <div class="col-md-9" style="padding-left:5px; padding-right:5px;">
                     <div class="form-group">
                         <small>Cliente: <strong class="text text-danger">*</strong></small>
-                        <input type='text' class="form-control" name="Busca[cliente]" id="cliente" placeholder="Telefone sem separação" value="<?= $cliente[0]['Cliente']['nome']?>"/>
+                        <input type='text' class="form-control" name="Busca[cliente]" id="cliente" placeholder="Telefone sem separação" value=""/>
                     </div>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                     <select name="Reserva[ambientes_id]" class="form-control chosen-select rounded" multiple style="width:300px" id="SelectAmbienteId">
                         <?php foreach ($ambientes as $ambiente):?>
                             
-                            <?php if($lista['Reserva']['ambientes_id'] == $ambiente['Ambiente']['id'] ):?>
+                            <?php if( in_array($ambiente['Ambiente']['id'], array_keys($ambientesLista)) ):?>
                                 <option value="<?= $ambiente['Ambiente']['id']?>" selected="selected"> <?= $ambiente['Ambiente']['nome']?> </option>
                             <?php else:?>
                                 <option value="<?= $ambiente['Ambiente']['id']?>"> <?= $ambiente['Ambiente']['nome']?> </option>

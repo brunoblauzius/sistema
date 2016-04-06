@@ -68,7 +68,7 @@ class Mesa extends AppModel{
     }
     
     
-    public function mesasAmbiente( $empresaId, $ambienteId, $dataReserva){
+    public function mesasAmbiente( $empresaId, $ambienteId, $dataReserva, $reservasId ){
         try {
             
             $AMBIENTE = NULL;
@@ -80,7 +80,7 @@ class Mesa extends AppModel{
             }
             
             if( !empty($ambienteId) && !empty($dataReserva) && !empty($empresaId) ){
-                $sql = "SELECT 
+                echo $sql = "SELECT 
                         *
                     FROM
                         reservas.mesas AS Mesa
@@ -92,7 +92,9 @@ class Mesa extends AppModel{
                             FROM
                                 reservas.reservas_has_mesas
                             WHERE
-                                DATE(data) = DATE('{$dataReserva}'))
+                                DATE(data) = DATE('{$dataReserva}') 
+                                OR reservas_id = $reservasId
+                                )
                             AND empresas_id = $empresaId"
                             .$AMBIENTE;
             
@@ -106,6 +108,14 @@ class Mesa extends AppModel{
     
     public function mesasReservadasDisponiveis( $ambienteId, $reservaId, $data ){
         try {
+            $AMBIENTE = NULL;
+            if( is_array($ambienteId) ){
+                $AMBIENTE = " Mesa.ambientes_id IN ( ".  join(',', $ambienteId)." ) ";
+            }
+            else {
+                $AMBIENTE = " Mesa.ambientes_id = $ambienteId ";
+            }
+            
             $sql = "SELECT 
                         *
                     FROM
@@ -113,7 +123,7 @@ class Mesa extends AppModel{
                     WHERE
                         Mesa.status = 1
                         AND 
-                        Mesa.ambientes_id = $ambienteId
+                        ".$AMBIENTE." 
                             AND Mesa.id NOT IN (SELECT 
                                 mesas_id
                             FROM
@@ -152,6 +162,24 @@ class Mesa extends AppModel{
            $mesas = $this->selectIn($mesas);
            
            return $mesas;
+           
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    public function mesasReservasPure( $reservaId ){
+        try {
+            $sql = "SELECT 
+                        Mesa.id, Mesa.nome
+                    FROM
+                        reservas.reservas_has_mesas AS ReservaMesa
+                            INNER JOIN
+                        reservas.mesas AS Mesa ON Mesa.id = ReservaMesa.mesas_id
+                    WHERE
+                        ReservaMesa.reservas_id = $reservaId;";
+            
+           return  $this->query($sql);
            
         } catch (Exception $ex) {
             throw $ex;

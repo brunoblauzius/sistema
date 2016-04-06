@@ -482,9 +482,8 @@ class ReservasController extends AppController {
              * recupero minha reserva
              */
             $lista = $this->Reserva->find('first', array('empresas_id' => $this->empresas_id, 'id' => $id));
-
-            
-            
+            $ambientesLista = $modelAmbiente->ambientesReservas($id);
+                        
             $data = explode(' ', $lista[0]['Reserva']['start']);
             $lista[0]['Reserva']['start'] = Utils::convertData($data[0]);
             $lista[0]['Reserva']['end']   = ($data[1]);
@@ -508,15 +507,16 @@ class ReservasController extends AppController {
              */
             
             
-            $mesas = $modelMesa->mesasReservadasDisponiveis(  (int) $lista[0]['Reserva']['ambientes_id'], (int) $_POST['id'], $data[0] );
+            $mesas = $modelMesa->mesasReservadasDisponiveis( array_keys($ambientesLista), (int) $id, $data[0] );
             $mesas = $this->montarArray( $mesas );
-            $mesasReservadas = $modelMesa->mesasReservas( (int) $_POST['id'] );
             
-            
+            $mesasReservadas = $modelMesa->mesasReservasPure( (int) $id );
+                        
             $this->set('mesasReservadas',$this->lista($mesasReservadas));
             $this->set('saloes', $salao);
             $this->set('mesas', $mesas);
             $this->set('ambientes', $ambientes);
+            $this->set('ambientesLista', $ambientesLista);
             $this->set('cliente', $cliente);
             $this->set('lista', ($lista[0]) );
             

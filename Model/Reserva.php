@@ -1229,12 +1229,9 @@ class Reserva extends AppModel {
             
             if( !empty($id) )
             {
-                $sql = "DELETE FROM reservas_has_clientes 
-                        WHERE
-                            reservas_id = $id;
-                        DELETE FROM reservas_has_mesas 
-                        WHERE
-                            reservas_id = $id;";
+                $sql = "DELETE FROM reservas_has_clientes WHERE reservas_id = $id;
+                        DELETE FROM reservas_has_mesas WHERE reservas_id = $id;
+                        DELETE FROM reservas_has_ambientes where reservas_id = $id;";
 
                 $this->query($sql);
 

@@ -160,9 +160,15 @@ class MesasController extends AppController {
     public function mesasAmbiente(){
         try {
                         
+            $reservasId = null;
+            
+            if( isset($_SESSION['Form']['reservas_id']) ){
+                $reservasId = intval($_SESSION['Form']['reservas_id']);
+            }
+            
             $this->layout = 'null';
             //$mesas = $this->Mesa->find('all', array('ambientes_id' => $_POST['id'], 'empresas_id' => $this->empresas_id));
-            $mesas = $this->Mesa->mesasAmbiente( $this->empresas_id, $_POST['id'], Utils::revertDate($_POST['data']) );
+            $mesas = $this->Mesa->mesasAmbiente( $this->empresas_id, $_POST['id'], Utils::revertDate($_POST['data']), $reservasId );
             $this->set('mesas', $this->montarArray($mesas));
             $this->render();
         } catch (Exception $ex) {

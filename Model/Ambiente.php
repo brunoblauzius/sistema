@@ -108,7 +108,7 @@ class Ambiente extends AppModel{
                 $registros = $this->query($sql);
                 
                 foreach ( $registros as $ambiente ){
-                   $arraySaida[] = $ambiente['nome']; 
+                   $arraySaida[$ambiente['id']] = $ambiente['nome']; 
                 }
                                 
             }
