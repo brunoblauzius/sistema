@@ -105,7 +105,7 @@
                         <tr style="<?= $statusCadastro?>">
                             <td style="<?= $statusCadastro?>" ><?= ( $registro['status_reserva'] > 0 )? $registro['cliente'] : 'Cadastro Iniciado' ?></td>
                             <td class="hidden-xs"><strong><?= $registro['telefone'] ?></strong></td>
-                            <td class="hidden-xs"><?= $registro['ambiente'] ?></td>
+                            <td class="hidden-xs"><small><?= $registro['ambiente'] ?></small></td>
                             <td class="hidden-xs"><?= $registro['qtde_pessoas'] ?></td>
                             <td class="hidden-xs"><small><?= $registro['mesas'] ?></small></td>
                             <td class="hidden-xs hidden-sm"><?= Utils::convertData($registro['start']) ?></td>

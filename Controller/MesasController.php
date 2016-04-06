@@ -159,6 +159,7 @@ class MesasController extends AppController {
     
     public function mesasAmbiente(){
         try {
+                        
             $this->layout = 'null';
             //$mesas = $this->Mesa->find('all', array('ambientes_id' => $_POST['id'], 'empresas_id' => $this->empresas_id));
             $mesas = $this->Mesa->mesasAmbiente( $this->empresas_id, $_POST['id'], Utils::revertDate($_POST['data']) );

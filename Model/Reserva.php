@@ -335,7 +335,6 @@ class Reserva extends AppModel {
                         Calendar.token,
                         Calendar.pessoas_id,
                         Salao.nome as salao,
-                        Ambiente.nome as ambiente,
                         Fisica.nome as funcionario,
                         Cliente.nome as cliente,
                         Cliente.rg,
@@ -347,7 +346,6 @@ class Reserva extends AppModel {
                         reservas.reservas as Calendar
                         inner join pessoaFisica as Fisica on Fisica.pessoas_id = Calendar.pessoas_id
                         inner join saloes as Salao on Calendar.saloes_id = Salao.id
-                        inner join ambientes as Ambiente on Calendar.ambientes_id = Ambiente.id
                         inner join clientes as Cliente on Cliente.id = Calendar.clientes_id
                     WHERE
                         md5(Calendar.id) = '{$perfilId}'
@@ -554,6 +552,41 @@ class Reserva extends AppModel {
 
                 $sql = "INSERT INTO `reservas`.`reservas_has_mesas`
                         ( `mesas_id`, `reservas_id`, `data` )
+                            VALUES ".  join(',', $joins).";";
+                
+                $sql.= "UPDATE reservas_has_mesas AS ResMes
+                                INNER JOIN
+                            mesas AS Mesa ON ResMes.mesas_id = Mesa.id 
+                        SET 
+                            ResMes.ambientes_id = Mesa.ambientes_id
+                        WHERE
+                            ResMes.reservas_id = $reservaId;";
+                
+                return $this->query($sql);
+                
+            }
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function AmbientesReservas( $ambientes, $reservaId ){
+        try {
+            
+            if(is_array($ambientes) && !empty($ambientes) ){
+                
+                $joins = array();
+                /**
+                 * preparar os joins para o insert
+                 */
+                foreach ( $ambientes as $ambiente ){
+                    $joins[] = "( $ambiente, $reservaId )";
+                }
+
+
+                $sql = "INSERT INTO `reservas_has_ambientes`
+                        ( `ambientes_id`, `reservas_id` )
                             VALUES ".  join(',', $joins).";";
                 
                 return $this->query($sql);
@@ -1139,7 +1172,7 @@ class Reserva extends AppModel {
                         clientes_convidados AS ReservaClientes ON ReservaClientes.reservas_id = Reserva.id
                     WHERE
                         DATE(Reserva.start) BETWEEN DATE_SUB(DATE_FORMAT(NOW(),'%Y-%m-01'),
-			INTERVAL 2 MONTH) AND DATE(DATE_FORMAT(NOW(),'%Y-%m-%d'))
+			INTERVAL 2 MONTH) AND LAST_DAY(DATE_FORMAT(NOW(),'%Y-%m-%d'))
                             AND Reserva.empresas_id = {$empresasId}
                     GROUP BY MONTH(Reserva.start)
                     ORDER BY MONTH(Reserva.start) ASC;";

@@ -70,6 +70,15 @@ class Mesa extends AppModel{
     
     public function mesasAmbiente( $empresaId, $ambienteId, $dataReserva){
         try {
+            
+            $AMBIENTE = NULL;
+            
+            if(is_array($ambienteId)){
+                $AMBIENTE = " AND ambientes_id in ( " . join(',', $ambienteId) . ');';
+            } else {
+                $AMBIENTE = " AND ambientes_id = $ambienteId; ";
+            }
+            
             if( !empty($ambienteId) && !empty($dataReserva) && !empty($empresaId) ){
                 $sql = "SELECT 
                         *
@@ -84,8 +93,8 @@ class Mesa extends AppModel{
                                 reservas.reservas_has_mesas
                             WHERE
                                 DATE(data) = DATE('{$dataReserva}'))
-                            AND empresas_id = $empresaId
-                            AND ambientes_id = $ambienteId; ";
+                            AND empresas_id = $empresaId"
+                            .$AMBIENTE;
             
                 return $this->query($sql);
             }
@@ -136,7 +145,13 @@ class Mesa extends AppModel{
                     WHERE
                         ReservaMesa.reservas_id = $reservaId;";
             
-           return $this->query($sql);
+           $mesas = $this->query($sql);
+           
+           $mesas = $this->mesasReservasList($mesas, 'id');
+           
+           $mesas = $this->selectIn($mesas);
+           
+           return $mesas;
            
         } catch (Exception $ex) {
             throw $ex;
