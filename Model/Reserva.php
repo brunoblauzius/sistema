@@ -67,6 +67,11 @@ class Reserva extends AppModel {
         ),
     );
 
+    /**
+     * 
+     * @param arrays $array
+     * @return arrays
+     */
     public function sanitizeAgenda($array = array()) {
 
         $list = array();
@@ -115,6 +120,12 @@ class Reserva extends AppModel {
         return $list;
     }
 
+    /**
+     * 
+     * @param array $array
+     * @param int $reservasId
+     * @return array
+     */
     public function sanitizeAgendaDespesa($array = array(), $reservasId) {
 
         $list = array();
@@ -149,11 +160,25 @@ class Reserva extends AppModel {
         return $list;
     }
 
+    /**
+     * 
+     * @return array
+     */
     public function getTotalLista() {
 
         return $this->totalLista;
     }
 
+    /**
+     * 
+     * @param array $lista
+     * @param int $clienteId
+     * @param int $empresaId
+     * @param int $pessoaId
+     * @param int $registroId
+     * @return array
+     * @throws Exception
+     */
     public function inserirItensAgenda(array $lista, $clienteId, $empresaId, $pessoaId, $registroId) {
 
         try {
@@ -177,6 +202,15 @@ class Reserva extends AppModel {
         }
     }
 
+    /**
+     * 
+     * @param array $lista
+     * @param int $clienteId
+     * @param int $empresaId
+     * @param int $pessoaId
+     * @return array
+     * @throws Exception
+     */
     public function insertAndUpdateItensAgenda(array $lista, $clienteId, $empresaId, $pessoaId) {
 
         try {
@@ -214,6 +248,13 @@ class Reserva extends AppModel {
         }
     }
 
+    /**
+     * 
+     * @param array $lista
+     * @param int $empresaId
+     * @return array
+     * @throws Exception
+     */
     public function insertAndUpdateItensDespesasAgenda(array $lista, $empresaId) {
 
         try {
@@ -257,9 +298,14 @@ class Reserva extends AppModel {
             throw $e;
         }
     }
-
     
-
+    /**
+     * 
+     * @param int $empresaId
+     * @param int $pessoasId
+     * @return array
+     * @throws Exception
+     */
     public function listAllEmpresas($empresaId, $pessoasId = null) {
 
         try {
@@ -312,6 +358,13 @@ class Reserva extends AppModel {
         }
     }
 
+    /**
+     * 
+     * @param int $perfilId
+     * @param int $empresaId
+     * @return array
+     * @throws Exception
+     */
     public function perfil($perfilId, $empresaId = null) {
 
         try {
@@ -361,8 +414,16 @@ class Reserva extends AppModel {
         }
     }
 
-    
-
+    /**
+     * 
+     * @param int $empresaId
+     * @param int $ambientesId
+     * @param string $dataInicio
+     * @param string $dataFim
+     * @param int $funcionarioId
+     * @return array
+     * @throws Exception
+     */
     public function filtrar($empresaId, $ambientesId = null, $dataInicio = null, $dataFim = NULL, $funcionarioId = null) {
 
         try {
@@ -440,8 +501,12 @@ class Reserva extends AppModel {
         }
     }
 
-    
-
+    /**
+     * 
+     * @param string $token
+     * @return boolean
+     * @throws Exception
+     */
     public function cancelarRegistro($token) {
 
         try {
@@ -461,6 +526,15 @@ class Reserva extends AppModel {
         }
     }
 
+    /**
+     * 
+     * @param type $idFullcalenda
+     * @param type $empresasId
+     * @param type $tipoServicosId
+     * @param type $sevicosId
+     * @return type
+     * @throws Exception
+     */
     public function deleteItenLista($idFullcalenda, $empresasId, $tipoServicosId, $sevicosId) {
 
         try {
@@ -488,6 +562,15 @@ class Reserva extends AppModel {
         }
     }
 
+    /**
+     * 
+     * @param type $reservasId
+     * @param type $empresasId
+     * @param type $tiposServicosId
+     * @param type $servicosId
+     * @return boolean
+     * @throws Exception
+     */
     public function countAssossiationList($reservasId, $empresasId, $tiposServicosId, $servicosId) {
 
         try {
@@ -519,6 +602,12 @@ class Reserva extends AppModel {
         }
     }
 
+    /**
+     * 
+     * @param type $empresaId
+     * @param type $reservasId
+     * @return type
+     */
     public function listarDespesasRegistro($empresaId, $reservasId) {
         try {
             $sql = "SELECT 
@@ -536,6 +625,14 @@ class Reserva extends AppModel {
         }
     }
     
+    /**
+     * 
+     * @param type $mesas
+     * @param type $reservaId
+     * @param type $data
+     * @return type
+     * @throws Exception
+     */
     public function mesasReservas( $mesas, $reservaId, $data ){
         try {
             
@@ -570,7 +667,13 @@ class Reserva extends AppModel {
         }
     }
     
-    
+    /**
+     * 
+     * @param type $ambientes
+     * @param type $reservaId
+     * @return type
+     * @throws Exception
+     */
     public function AmbientesReservas( $ambientes, $reservaId ){
         try {
             
@@ -597,7 +700,12 @@ class Reserva extends AppModel {
         }
     }
 
-    
+    /**
+     * 
+     * @param type $reservaId
+     * @return type
+     * @throws Exception
+     */
     public function listarMesasReservas( $reservaId ){
         try {
             
@@ -618,7 +726,14 @@ class Reserva extends AppModel {
         }
     }
     
-    
+    /**
+     * 
+     * @param type $empresaId
+     * @param type $usuarioId
+     * @param type $data
+     * @return type
+     * @throws Exception
+     */
     public function cadastroBasico( $empresaId, $usuarioId, $data ){
         try {
             
@@ -673,6 +788,21 @@ class Reserva extends AppModel {
         try {
             if( !empty($reservaId) ){
                 $sql = "DELETE FROM reservas.reservas_has_mesas 
+                        WHERE
+                            reservas_id = $reservaId;";
+
+                return $this->query($sql);
+            }
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function deletaAmbientes( $reservaId ){
+        try {
+            if( !empty($reservaId) ){
+                $sql = "DELETE FROM reservas.reservas_has_ambientes 
                         WHERE
                             reservas_id = $reservaId;";
 

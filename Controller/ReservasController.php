@@ -528,6 +528,7 @@ class ReservasController extends AppController {
     }
 
     public function edit() {
+                
             $idReserva 						      = null;
             $_POST[$this->Reserva->name]['id']     = $_SESSION['Form']['reservas_id'];
             
@@ -556,6 +557,11 @@ class ReservasController extends AppController {
              */
             $mesas = $_POST[$this->Reserva->name]['mesas_id'];
             unset( $_POST[$this->Reserva->name]['mesas_id'] );
+            /**
+             * retiro os ambientes
+             */
+            $ambientes = $_POST[$this->Reserva->name]['ambientes_id'];
+            unset($_POST[$this->Reserva->name]['ambientes_id']);
             
             
             
@@ -588,6 +594,8 @@ class ReservasController extends AppController {
                 */
                $this->Reserva->deletaMesas($idReserva);
                $this->Reserva->mesasReservas($mesas, $idReserva, $_POST[$this->Reserva->name]['start']);
+               $this->Reserva->deletaAmbientes($idReserva);
+               $this->Reserva->AmbientesReservas($ambientes, $idReserva);
                 
                echo json_encode(array(
                    'funcao' => "sucessoForm( 'Sua alteração efetuada com sucesso!', '#ReservaAddForm' ); "
@@ -1020,18 +1028,6 @@ class ReservasController extends AppController {
         return $newMiddle;
     }
     
-    
-    protected function lista( array $array, $node = NULL ){
-        $newArray = array();
-        foreach ($array as $lista ){
-            if( $node != NULL ){
-                $newArray[ $lista[$node]['id'] ] = $lista[$node]['nome'];
-            } else {
-                $newArray[ $lista['id'] ] = $lista['nome'];
-            }
-        }
-        return $newArray;
-    }
     
     final public function confirmReserva(){
         try {
