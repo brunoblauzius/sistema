@@ -13,7 +13,7 @@ class EventosController extends AppController {
     }
     
     public function index(){
-        
+        echo 'teste';
     }
     
 }
