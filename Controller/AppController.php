@@ -267,4 +267,22 @@ class AppController extends Render {
         }
     }
     
+    /**
+    * @todo metodo que cria uma lista para a view;
+    * @param array $array
+    * @param type $node
+    * @return array
+    */
+    public function lista( array $array, $node = NULL ){
+        $newArray = array();
+        foreach ($array as $lista ){
+            if( $node != NULL ){
+                $newArray[ $lista[$node]['id'] ] = $lista[$node]['nome'];
+            } else {
+                $newArray[ $lista['id'] ] = $lista['nome'];
+            }
+        }
+        return $newArray;
+    }
+    
 }

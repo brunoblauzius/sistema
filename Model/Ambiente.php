@@ -89,4 +89,36 @@ class Ambiente extends AppModel{
         }
     }
     
+    
+    public function ambientesReservas($reservasId){
+        
+        try {
+            $arraySaida = array();
+            
+            if( !empty($reservasId)){
+                $sql = "SELECT 
+                            Ambiente.id, Ambiente.nome
+                        FROM
+                            reservas.reservas_has_ambientes AS ResAmbi
+                                INNER JOIN
+                            ambientes AS Ambiente ON ResAmbi.ambientes_id = Ambiente.id
+                        WHERE
+                            reservas_id = $reservasId;";
+                
+                $registros = $this->query($sql);
+                
+                foreach ( $registros as $ambiente ){
+                   $arraySaida[$ambiente['id']] = $ambiente['nome']; 
+                }
+                                
+            }
+            
+            return $arraySaida;
+            
+        } catch (Exception $ex) {
+            
+        }
+        
+    }
+    
 }

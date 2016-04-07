@@ -25,7 +25,7 @@
 <div class="col-sm-4">
     <div class="form-group" id="AmbienteId">
         <small>Ambiente: <strong class="text text-danger ">*</strong></small><br>
-        <select name="Reserva[ambientes_id]" class="form-control chosen-select rounded" id="SelectAmbienteId">
+        <select name="Reserva[ambientes_id][]" class="form-control chosen-select rounded" multiple id="SelectAmbienteId">
             <option value=""> selecione o salão </option>
         </select>
     </div>

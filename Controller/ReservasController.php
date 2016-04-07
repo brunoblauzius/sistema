@@ -22,7 +22,7 @@ class ReservasController extends AppController {
                 'js/fullcalendar2.0/fullcalendar',
                 'js/fullcalendar2.0/bootstrap-fullcalendar',
                 'js/datatimepicker2.0/bootstrap-datetimepicker.min',
-//                'js/select2/select2',
+                'js/select2/select2',
                 ));
         
         $this->js = array_merge($this->js, array(
@@ -31,9 +31,8 @@ class ReservasController extends AppController {
                 'js/fullcalendar2.0/lang-all',
                 'js/datatimepicker2.0/bootstrap-datetimepicker.min',
                 'js/easypiechart/jquery.easypiechart',
-//                'js/select2/select2',
-//                'js/select-init',
-                
+                'js/select2/select2',
+                'js/select-init',
                 ));
         
         
@@ -210,24 +209,22 @@ class ReservasController extends AppController {
              * listar as mesas por registro
              */
             $newRegistros = array();
-            
+            $ambienteModel = new Ambiente();
+            $mesaModel = new Mesa();
             
             foreach ($registros as $registro) {
                    
                 /**
                 * recupero as mesas
                 */
-               $mesaModel = new Mesa();
-               $mesas = $mesaModel->mesasReservas($registro['id']);
-               $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
-               $mesas = $mesaModel->selectIn($mesas);
-               $arrayMesas = array('mesas' => join(', ', $mesas));
+               $ambientesLista= $ambienteModel->ambientesReservas($registro['id']);
+               $mesas         = $mesaModel->mesasReservas($registro['id']);
+               $arrayMesas = array('mesas' => join(', ', $mesas), 'ambiente' => join(', ', $ambientesLista));
 
                $newRegistros[] = array_merge($registro, $arrayMesas);
                      
             }
             
-            //Utils::pre($newRegistros);
             
             $this->set('registros', $newRegistros);
             
@@ -263,7 +260,9 @@ class ReservasController extends AppController {
     
 
     public function add() {
-            $idReserva 						      = null;
+        
+            //Utils::pre($_POST);exit();
+            $idReserva                             = null;
             $_POST[$this->Reserva->name]['id']     = $_SESSION['Form']['reservas_id'];
             
             
@@ -284,6 +283,11 @@ class ReservasController extends AppController {
             $_POST[$this->Reserva->name]['end']   = Utils::adicionaHora( 1, $dataCallendar );
             
             
+            /**
+             * retiro os ambientes do node central
+             */
+            $ambientes = $_POST[$this->Reserva->name]['ambientes_id'];
+            unset( $_POST[$this->Reserva->name]['ambientes_id'] );
             /**
              * retiro as mesas do node central
              */
@@ -326,6 +330,10 @@ class ReservasController extends AppController {
                 */
                $this->Reserva->mesasReservas($mesas, $idReserva, $_POST[$this->Reserva->name]['start']);
                
+               /**
+                * gravar ambientes
+                */
+               $this->Reserva->AmbientesReservas($ambientes, $idReserva);
                
                 /**
                  * recupero o salão e ambiente da reserva
@@ -355,8 +363,9 @@ class ReservasController extends AppController {
                       * recupero as mesas
                       */
                      $mesaModel = new Mesa();
+                     $ambientesModel = new Ambiente();
                      $mesas = $mesaModel->selectIn($mesas);
-
+                     $ambientes = $ambientesModel->ambientesReservas($idReserva);
 
 
                      /**
@@ -389,7 +398,7 @@ class ReservasController extends AppController {
                         '__DATA_INICIO__'      => $dataMail[0],
                         '__HORAS_INICIO__'     => $dataMail[1],
                         '__SALAO__'            => $dadoEmailReserva[0]['salao'],
-                        '__AMBIENTE__'         => $dadoEmailReserva[0]['ambiente'],
+                        '__AMBIENTE__'         => join(' - ', array_values($ambientes)),
                         '__CAPACIDADE__'       => $dadoEmailReserva[0]['capacidade'],
                         '__URL_ATIVAR__'       => Router::url(array('Reservas', 'confirmReservaEmail',  $_POST[$this->Reserva->name]['token'] ))
                      );
@@ -473,9 +482,8 @@ class ReservasController extends AppController {
              * recupero minha reserva
              */
             $lista = $this->Reserva->find('first', array('empresas_id' => $this->empresas_id, 'id' => $id));
-
-            
-            
+            $ambientesLista = $modelAmbiente->ambientesReservas($id);
+                        
             $data = explode(' ', $lista[0]['Reserva']['start']);
             $lista[0]['Reserva']['start'] = Utils::convertData($data[0]);
             $lista[0]['Reserva']['end']   = ($data[1]);
@@ -499,15 +507,16 @@ class ReservasController extends AppController {
              */
             
             
-            $mesas = $modelMesa->mesasReservadasDisponiveis(  (int) $lista[0]['Reserva']['ambientes_id'], (int) $_POST['id'], $data[0] );
+            $mesas = $modelMesa->mesasReservadasDisponiveis( array_keys($ambientesLista), (int) $id, $data[0] );
             $mesas = $this->montarArray( $mesas );
-            $mesasReservadas = $modelMesa->mesasReservas( (int) $_POST['id'] );
             
-            
+            $mesasReservadas = $modelMesa->mesasReservasPure( (int) $id );
+                        
             $this->set('mesasReservadas',$this->lista($mesasReservadas));
             $this->set('saloes', $salao);
             $this->set('mesas', $mesas);
             $this->set('ambientes', $ambientes);
+            $this->set('ambientesLista', $ambientesLista);
             $this->set('cliente', $cliente);
             $this->set('lista', ($lista[0]) );
             
@@ -519,6 +528,7 @@ class ReservasController extends AppController {
     }
 
     public function edit() {
+                
             $idReserva 						      = null;
             $_POST[$this->Reserva->name]['id']     = $_SESSION['Form']['reservas_id'];
             
@@ -547,6 +557,11 @@ class ReservasController extends AppController {
              */
             $mesas = $_POST[$this->Reserva->name]['mesas_id'];
             unset( $_POST[$this->Reserva->name]['mesas_id'] );
+            /**
+             * retiro os ambientes
+             */
+            $ambientes = $_POST[$this->Reserva->name]['ambientes_id'];
+            unset($_POST[$this->Reserva->name]['ambientes_id']);
             
             
             
@@ -579,6 +594,8 @@ class ReservasController extends AppController {
                 */
                $this->Reserva->deletaMesas($idReserva);
                $this->Reserva->mesasReservas($mesas, $idReserva, $_POST[$this->Reserva->name]['start']);
+               $this->Reserva->deletaAmbientes($idReserva);
+               $this->Reserva->AmbientesReservas($ambientes, $idReserva);
                 
                echo json_encode(array(
                    'funcao' => "sucessoForm( 'Sua alteração efetuada com sucesso!', '#ReservaAddForm' ); "
@@ -604,12 +621,14 @@ class ReservasController extends AppController {
             
             $this->layout = 'null';
             $lista = $this->Reserva->perfil(md5(($_POST['id'])));
+            $ambienteModel = new Ambiente();
+            $ambientes     = $ambienteModel->ambientesReservas($lista['id']);
             $mesas = $this->Reserva->listarMesasReservas( $lista['id'] );
             
             $urlPDF = "http://snappypdf.com.br/gerar.php?url=" . Router::url(array('Reservas', 'imprimir', md5($lista['id']) ));
             
-            
             $this->set('lista', $lista);
+            $this->set('ambientes', $ambientes);
             $this->set('urlPDF', $urlPDF);
             $this->set('mesas', $this->montarArray($mesas));
             $this->render();
@@ -670,19 +689,17 @@ class ReservasController extends AppController {
             
             
             $newRegistros = array();
-            
-            
+            $ambienteModel = new Ambiente();
+            $mesaModel = new Mesa();
             
             foreach ($registros as $registro) {
                    
                 /**
                 * recupero as mesas
                 */
-               $mesaModel = new Mesa();
-               $mesas = $mesaModel->mesasReservas($registro['id']);
-               $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
-               $mesas = $mesaModel->selectIn($mesas);
-               $arrayMesas = array('mesas' => join(', ', $mesas));
+               $ambientes     = $ambienteModel->ambientesReservas($registro['id']);
+               $mesas         = $mesaModel->mesasReservas($registro['id']);
+               $arrayMesas = array('mesas' => join(', ', $mesas), 'ambiente' => join(', ', $ambientes));
 
                $newRegistros[] = array_merge($registro, $arrayMesas);
                      
@@ -823,10 +840,9 @@ class ReservasController extends AppController {
                  * recupero as mesas
                  */
                 $mesaModel = new Mesa();
-                $mesas = $mesaModel->mesasReservas($reserva['Reserva']['id']);
-                $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
-                $mesas = $mesaModel->selectIn($mesas);
-
+                $ambientesModel = new Ambiente();
+                $mesas     = $mesaModel->mesasReservas($reserva['Reserva']['id']);
+                $ambientes = $ambientesModel->ambientesReservas($reserva['Reserva']['id']);
                 
                 /**
                  * #faço a troca de siglas para personalizar o email
@@ -858,7 +874,7 @@ class ReservasController extends AppController {
                     '__DATA_INICIO__'      => $dataMail[0],
                     '__HORAS_INICIO__'     => $dataMail[1],
                     '__SALAO__'            => $dadoEmailReserva[0]['salao'],
-                    '__AMBIENTE__'         => $dadoEmailReserva[0]['ambiente'],
+                    '__AMBIENTE__'         => join(' - ', array_values($ambientes)),
                     '__CAPACIDADE__'       => $dadoEmailReserva[0]['capacidade'],
                     '__URL_ATIVAR__'       => Router::url(array('Reservas', 'confirmReservaEmail', $reserva['Reserva']['token'] ))
                 );
@@ -1013,18 +1029,6 @@ class ReservasController extends AppController {
     }
     
     
-    protected function lista( array $array, $node = NULL ){
-        $newArray = array();
-        foreach ($array as $lista ){
-            if( $node != NULL ){
-                $newArray[ $lista[$node]['id'] ] = $lista[$node]['nome'];
-            } else {
-                $newArray[ $lista['id'] ] = $lista['nome'];
-            }
-        }
-        return $newArray;
-    }
-    
     final public function confirmReserva(){
         try {
             
@@ -1108,10 +1112,9 @@ class ReservasController extends AppController {
             * recupero as mesas
             */
            $mesaModel = new Mesa();
+           $ambienteModel = new Ambiente();
            $mesas = $mesaModel->mesasReservas($reserva['Reserva']['id']);
-           $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
-           $mesas = $mesaModel->selectIn($mesas);
-            
+           $ambientes = $ambienteModel->ambientesReservas($reserva['Reserva']['id']);
            
            $dadoEmailReserva = $this->Reserva->recuperaDadosReservaEmail($reserva['Reserva']['id']);
            
@@ -1133,6 +1136,7 @@ class ReservasController extends AppController {
             
             $this->set('reserva', $reserva);
             $this->set('contaEmpresa', $contaEmpresa[0]);
+            $this->set('ambientes', join(', ', $ambientes));
             $this->set('cliente', array_shift($cliente));
             $this->set('empresa', array_shift($empresa));
             $this->set('mesas', join(', ',$mesas));
@@ -1203,16 +1207,17 @@ class ReservasController extends AppController {
              * listar as mesas por registro
              */
             $newRegistros = array();
+            $ambienteModel = new Ambiente();
+            $mesaModel     = new Mesa();
+            
             foreach ($registros as $registro) {
                    
                 /**
                 * recupero as mesas
                 */
-               $mesaModel = new Mesa();
-               $mesas = $mesaModel->mesasReservas($registro['id']);
-               $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
-               $mesas = $mesaModel->selectIn($mesas);
-               $arrayMesas = array('mesas' => join(', ', $mesas));
+               $ambientes     = $ambienteModel->ambientesReservas($registro['id']);
+               $mesas         = $mesaModel->mesasReservas($registro['id']);
+               $arrayMesas = array('mesas' => join(', ', $mesas), 'ambiente' => join(', ', $ambientes));
 
                $newRegistros[] = array_merge($registro, $arrayMesas);
                      
@@ -1641,22 +1646,22 @@ class ReservasController extends AppController {
              */
             
             $newRegistros = array();
+            $ambienteModel = new Ambiente();
+            $mesaModel = new Mesa();
             
             foreach ($registros as $registro) 
             {
                 /**
                 * recupero as mesas
                 */
-               $mesaModel = new Mesa();
+               $ambientes     = $ambienteModel->ambientesReservas($registro['reservas_id']);
                $mesas = $mesaModel->mesasReservas($registro['reservas_id']);
-               $mesas = ($mesaModel->mesasReservasList($mesas, 'id'));
-               $mesas = $mesaModel->selectIn($mesas);
-               $arrayMesas = array('mesas' => join(', ', $mesas));              
+               $arrayMesas = array('mesas' => join(', ', $mesas), 'nome_ambiente' => join(', ', $ambientes));           
                
                $arrayMesas     = array_merge($arrayMesas, $this->Reserva->confirmadosParaEvento( $registro['reservas_id'] ));
                $newRegistros[] = array_merge($registro, $arrayMesas);
             }
-            
+              
             $this->set('registros',$newRegistros);
             $this->render();
             

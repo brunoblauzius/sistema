@@ -221,17 +221,37 @@
                             $lista = $this->createListMenu();
                             foreach ($lista as $menu) :
                                 ?>
-                                <li class="sub-menu">
-                                    <a href="javascript:;">
-                                        <!--<i class="fa fa-users"></i>-->
-                                        <span><i class="fa <?= $menu['icon']?>"></i> <?= ucfirst($menu['link_name']) ?></span>
-                                    </a>
-                                    <ul class="sub">
-                                        <?php foreach ($menu['links'] as $subMenu): ?>
-                                        <li><a href="<?= Router::url($menu['controller'] . '/' . $subMenu['action']) ?>"><i class="fa fa-circle" style="font-size:10px;"></i> <?= $subMenu['nome_link'] ?></a></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </li>
+                                <?php if( $menu['controller'] == 'Eventos'):?>
+                                    <?php if($_SESSION['ContaEmpresa']['gestao_de_eventos'] == true):?>
+                                    <li class="sub-menu">
+                                            <a href="javascript:;">
+                                                <!--<i class="fa fa-users"></i>-->
+                                                <span><i class="fa <?= $menu['icon']?>"></i> <?= ucfirst($menu['link_name']) ?></span>
+                                            </a>
+                                            <ul class="sub">
+                                                <?php foreach ($menu['links'] as $subMenu): ?>
+
+                                                    <li><a href="<?= Router::url($menu['controller'] . '/' . $subMenu['action']) ?>"><i class="fa fa-circle" style="font-size:10px;"></i> <?= $subMenu['nome_link'] ?></a></li>
+
+                                                <?php endforeach; ?>
+                                            </ul>
+                                    </li>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <li class="sub-menu">
+                                            <a href="javascript:;">
+                                                <!--<i class="fa fa-users"></i>-->
+                                                <span><i class="fa <?= $menu['icon']?>"></i> <?= ucfirst($menu['link_name']) ?></span>
+                                            </a>
+                                            <ul class="sub">
+                                                <?php foreach ($menu['links'] as $subMenu): ?>
+
+                                                    <li><a href="<?= Router::url($menu['controller'] . '/' . $subMenu['action']) ?>"><i class="fa fa-circle" style="font-size:10px;"></i> <?= $subMenu['nome_link'] ?></a></li>
+
+                                                <?php endforeach; ?>
+                                            </ul>
+                                    </li>
+                                <?php endif; ?>
                             <?php endforeach; ?>
 
                             <?php //if( Session::read('Usuario.roles_id') == 3 ):?>

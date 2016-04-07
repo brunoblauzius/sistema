@@ -25,7 +25,7 @@
             <tr style="<?= $statusCadastro?>">
                 <td style="<?= $statusCadastro?>"><?= ( $registro['status_reserva'] > 0 )? $registro['cliente'] : 'Cadastro Iniciado' ?></td>
                 <td ><strong><?= $registro['telefone'] ?></strong></td>
-                <td ><?= $registro['ambiente'] ?></td>
+                <td ><small><?= $registro['ambiente'] ?></small></td>
                 <td ><?= $registro['qtde_pessoas'] ?></td>
                 <td ><small><?= $registro['mesas'] ?></small></td>
                 <td ><?= Utils::convertData($registro['start']) ?></td>

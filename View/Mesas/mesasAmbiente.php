@@ -11,12 +11,19 @@
             <input type="checkbox" name="" value="1" class="check-all"> Selecionar todas.
         </label>
 
-        <?php  foreach ($mesas as $mesa) :?>
+        <?php foreach ($mesas as $mesa) :?>
             <div class="col-sm-4">
                 <?php foreach ($mesa as $key => $value) :?>
-                    <label class="checkbox">
-                        <input type="checkbox" name="Reserva[mesas_id][]" class="mesas-lista" value="<?= $key ?>"> <?= ucwords($value) ?>
-                    </label>
+
+                    <?php if( array_keys($mesasReservadas, $value)):?>
+                        <label class="checkbox">
+                            <input type="checkbox" name="Reserva[mesas_id][]" value="<?= $key ?>" checked="checked"> <?= ucwords($value) ?>
+                        </label>
+                    <?php else:?>
+                        <label class="checkbox">
+                            <input type="checkbox" name="Reserva[mesas_id][]" value="<?= $key ?>"> <?= ucwords($value) ?>
+                        </label>
+                    <?php endif;?>
                 <?php endforeach;?>
             </div>
         <?php endforeach;?>
@@ -26,3 +33,4 @@
     <hr>
     
 <?php endif;?>
+
