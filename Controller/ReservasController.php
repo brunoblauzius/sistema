@@ -217,9 +217,9 @@ class ReservasController extends AppController {
                 /**
                 * recupero as mesas
                 */
-               $ambientes     = $ambienteModel->ambientesReservas($registro['id']);
+               $ambientesLista= $ambienteModel->ambientesReservas($registro['id']);
                $mesas         = $mesaModel->mesasReservas($registro['id']);
-               $arrayMesas = array('mesas' => join(', ', $mesas), 'ambiente' => join(', ', $ambientes));
+               $arrayMesas = array('mesas' => join(', ', $mesas), 'ambiente' => join(', ', $ambientesLista));
 
                $newRegistros[] = array_merge($registro, $arrayMesas);
                      
@@ -1116,8 +1116,9 @@ class ReservasController extends AppController {
             * recupero as mesas
             */
            $mesaModel = new Mesa();
+           $ambienteModel = new Ambiente();
            $mesas = $mesaModel->mesasReservas($reserva['Reserva']['id']);
-            
+           $ambientes = $ambienteModel->ambientesReservas($reserva['Reserva']['id']);
            
            $dadoEmailReserva = $this->Reserva->recuperaDadosReservaEmail($reserva['Reserva']['id']);
            
@@ -1139,6 +1140,7 @@ class ReservasController extends AppController {
             
             $this->set('reserva', $reserva);
             $this->set('contaEmpresa', $contaEmpresa[0]);
+            $this->set('ambientes', join(', ', $ambientes));
             $this->set('cliente', array_shift($cliente));
             $this->set('empresa', array_shift($empresa));
             $this->set('mesas', join(', ',$mesas));

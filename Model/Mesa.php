@@ -80,7 +80,7 @@ class Mesa extends AppModel{
             }
             
             if( !empty($ambienteId) && !empty($dataReserva) && !empty($empresaId) ){
-                echo $sql = "SELECT 
+                $sql = "SELECT 
                         *
                     FROM
                         reservas.mesas AS Mesa

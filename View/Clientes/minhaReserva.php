@@ -35,7 +35,7 @@
                                 <td><strong>Cliente Reserva:</strong></td>
                                 <td><?= $cliente['Cliente']['nome']?></td>
                                 <td><strong>Salão - Ambiente:</strong></td>
-                                <td><?= $dadoEmailReserva[0]['salao']?> - <?= $dadoEmailReserva[0]['ambiente']?></td>
+                                <td><?= $dadoEmailReserva[0]['salao']?> / (<?= $ambientes?>)</td>
                             </tr>
                             <tr>
                                 <td><strong>Mesas:</strong></td>
