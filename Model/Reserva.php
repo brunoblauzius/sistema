@@ -732,7 +732,7 @@ class Reserva extends AppModel {
                                     INNER JOIN
                         empresas AS Empresa ON Empresa.id = Reserva.empresas_id
                     WHERE
-                        DATE(Reserva.start) BETWEEN DATE_SUB(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL 2 MONTH)
+                        DATE(Reserva.start) BETWEEN DATE_SUB(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL 4 MONTH)
 								AND LAST_DAY(DATE_FORMAT(NOW(), '%Y-%m-%d'))
                             AND Empresa.pessoas_id = {$pessoasId}
                             AND Reserva.status = 1
