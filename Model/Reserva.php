@@ -723,7 +723,8 @@ class Reserva extends AppModel {
                         CONCAT( YEAR(Reserva.start), '-', MONTH(Reserva.start) ) AS data,
                         SUM(qtde_pessoas) AS total_pessoas,
                         Reserva.empresas_id,
-                        upper(Juridica.nome_fantasia) as nome_fantasia
+                        upper(Juridica.nome_fantasia) as nome_fantasia,
+                        MONTH(Reserva.start) as month
                     FROM
                         reservas AS Reserva
                             INNER JOIN
@@ -731,7 +732,8 @@ class Reserva extends AppModel {
                                     INNER JOIN
                         empresas AS Empresa ON Empresa.id = Reserva.empresas_id
                     WHERE
-                        DATE(Reserva.start) BETWEEN DATE('2015-01-01') AND DATE('2015-12-01')
+                        DATE(Reserva.start) BETWEEN DATE_SUB(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL 2 MONTH)
+								AND LAST_DAY(DATE_FORMAT(NOW(), '%Y-%m-%d'))
                             AND Empresa.pessoas_id = {$pessoasId}
                             AND Reserva.status = 1
                     GROUP BY Reserva.empresas_id, MONTH(Reserva.start), YEAR(Reserva.start) order by Reserva.start DESC;";
