@@ -48,11 +48,15 @@
                                         <!-- End checkbox -->
 
                                         <!-- Submit button -->
-                                        <p class="form-group">
-                                                <button type="submit" class="btn pi-btn-base pi-btn-wide pi-weight-600">
-                                                        Logar se
-                                                </button>
-                                        </p>
+                                        <div class="pi-row">
+                                            <div class="pi-col-md-12">
+                                                <div class="form-group">
+                                                        <button type="submit" class="btn pi-btn-base pi-btn-wide pi-weight-600">
+                                                                Logar se
+                                                        </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- End submit button -->
                                     </form>
 				</div>
