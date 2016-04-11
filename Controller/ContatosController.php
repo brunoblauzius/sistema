@@ -13,11 +13,12 @@
 class ContatosController extends AppController{
     //put your code here
     
+    public $ClasseAllow = array('addEmpresa');
+    
     public $Contato = null;
     
     public function __construct() {
         parent::__construct();
-        
         $this->Contato = new Contato();
     }
     
@@ -113,6 +114,64 @@ class ContatosController extends AppController{
         } catch (Exception $ex) {
             echo json_encode(array(
                 'funcao' => "infoErro('".utf8_encode($ex->getMessage())."', '#ContatoEditForm');",
+            ));
+        }
+    }
+    
+    
+    public function addEmpresa(){
+        try {
+            
+            $this->Contato->data = $_POST['Contato'];
+            
+            if( $this->Contato->validates() ){
+                
+                $contatoId = $this->Contato->genericInsert($this->Contato->data);
+                
+                $this->Contato->inserirContatoEmpresa($this->empresas_id, $contatoId);
+                
+                $json = json_encode(array(
+                    'message' => 'Registro inserido com sucesso!',
+                    "style" =>'success',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => "window.location.reload();",
+                    'before' => "$('#loading').fadeOut(500);",
+                    'icon'   => 'check',
+                    'title'  => 'Atenção!'
+                ));
+                
+            } else {
+                
+                $json = json_encode(array(
+                    'message' => $this->Contato->refactoryError(),
+                    "style" =>'warning',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => NULL,
+                    'before' => "$('#loading').fadeOut(500);",
+                    'icon'   => 'check',
+                    'title'  => 'Atenção!'
+                ));
+            }
+            
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json );",
+            ));
+            
+        } catch (Exception $ex) {
+            $json = json_encode(array(
+                    'message' => $ex->getMessage(),
+                    "style" =>'danger',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => NULL,
+                    'before' => "$('#loading').fadeOut(500);",
+                    'icon'   => 'check',
+                    'title'  => 'Atenção!'
+                ));
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json );",
             ));
         }
     }

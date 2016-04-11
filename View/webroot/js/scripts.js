@@ -108,12 +108,17 @@
                         success: function (data, textStatus, jqXHR) {
                             bootsAlert(data);
                         }
-                    });
-                    
-                    
+                    });                    
                 });
                 
-                
+                $('#btn-novo-contato').click(function(){
+                    $('#alterar-contatos').hide();
+                    $('#add-novo').fadeIn(500);
+                });
+                $('#cancelar-cadastro-contato').click(function(){
+                    $('#alterar-contatos').fadeIn(500);
+                    $('#add-novo').hide();
+                });
                 
                 
 		if( $('#despesa_fixa').val() == 0 ){

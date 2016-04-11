@@ -451,8 +451,6 @@ class EmpresasController extends AppController {
                  */
                 
                 $contaEmpresa = $this->ContaEmpresa->inserirContaEmpresa( $empresaId, $_SESSION['Produto']['id'] );
-                
-                
                 /**
                  * criar um endereco para a empresa
                  */

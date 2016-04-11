@@ -72,11 +72,13 @@
                                                 <input type="checkbox" name="Empresa[envio_outlook]" <?= $envio_outlook?>> Envio pelo OUTLOOK.
                                             </div>
                                         </div>
+                                        <?php if($_SESSION['ContaEmpresa']['envio_email_dados_reserva'] == 1 ):?>
                                         <div class="form-group">
                                             <div class="checkbox">
                                                 <input type="checkbox" name="Empresa[envio_sistema]" <?= $envio_sistema?>> Envio pelo SISTEMA.
                                             </div>
                                         </div>
+                                        <?php endif;?>
                                     </div>
                                     <button type="submit" class="btn btn-primary" style="margin-top:20px;">Alterar</button>
                                 </form>
@@ -126,8 +128,41 @@
                     <section class="panel panel-info">
                         <div class="panel-heading">
                             Telefones de Contato.
+                            <button class="btn btn-xs btn-default pull-right" id="btn-novo-contato"><i class="fa fa-plus-circle"></i> Novo</button>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body" id="add-novo" style="display: none;">
+                            <form action="<?= Router::url( array('Contatos', 'add-empresa') ) ?>" method="POST" id="ContatoAddForm">
+                                <div class="row">
+                                    <div class="col-md-12">         
+                                                <div class="col-sm-8 form-group" style="padding-left: 0px;">
+                                                    <small>Telefone: <strong class="text text-danger">*</strong></small>
+                                                    <input type="text" name="Contato[telefone]" class="form-control fone" placeholder="Número:" value="">
+                                                </div>
+                                                <div class="col-sm-4 form-group">
+                                                    <small>Tipo: <strong class="text text-danger">*</strong></small>
+                                                    <select name="Contato[tipo]" class="form-control">
+                                                        <option value="1"> Fixo </option>
+                                                        <option value="2"> Celular </option>
+                                                    </select>
+                                                </div>
+
+
+                                            <div class="clearfix"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <hr>
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <button type="submit" class="btn btn-primary">Cadastrar dados</button>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <a class="btn btn-default" id="cancelar-cadastro-contato" >Cancelar e Fechar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-body" id="alterar-contatos">
                             <form enctype="multipart/form-data" action="<?= Router::url( array('Contatos', 'edit') ) ?>" method="POST" id="ContatoEditForm">
                                 <div class="row">
                                     <div class="col-md-12">         
