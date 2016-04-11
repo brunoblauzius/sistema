@@ -450,13 +450,23 @@ class EmpresasController extends AppController {
                  * criar uma conta para empresa
                  */
                 
-                $contaEmpresa = $this->ContaEmpresa->inserirContaEmpresa($empresaId);
+                $contaEmpresa = $this->ContaEmpresa->inserirContaEmpresa( $empresaId, $_SESSION['Produto']['id'] );
                 
                 
                 /**
                  * criar um endereco para a empresa
                  */
                 $this->Endereco->inserirEnderecosEmpresa($empresaId, $_POST['Endereco']);
+                
+                /**
+                 * inserir telefone empresa
+                 */
+                $contatoId = $this->Contato->genericInsert(array(
+                    'telefone' => $_POST['Pessoa']['ddd'] . $_POST['Pessoa']['telefone'],
+                    'tipo' => 1,
+                ));
+                
+                $this->Contato->inserirContatoEmpresa($empresaId, $contatoId);
 
                 $_SESSION['Empresa'] = $_POST['Empresa'];
                 $_SESSION['Empresa']['pessoaJuridica_id'] = $pessoaJuridica_id;

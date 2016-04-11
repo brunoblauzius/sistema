@@ -38,6 +38,9 @@ class PagesController extends AppController{
             'scripts/pi.parallax',
             'scripts/pi.init.parallax',
             'scripts/pi.init.revolutionSlider',
+            'scripts/funcoes.site',
+            'scripts/ajaxForm',
+            'scripts/criar.conta',
         ));
         
         $this->addCss(array(
@@ -49,8 +52,10 @@ class PagesController extends AppController{
             'css/portfolio',
             'css/slider',
             'css/counters',
+            'css/pricing-tables',
             'css/social',
             '3dParty/fontello/css/fontello',
+            
         ));
         
         $this->layout = 'layout_site';       
@@ -97,6 +102,12 @@ class PagesController extends AppController{
     
     
     public function criarConta(){
+                
+        if( isset($_GET['param']) && !empty($_GET['param'])){
+            $_SESSION['Produto']['id'] = intval(isset($_GET['param']));
+        } else {
+            $_SESSION['Produto']['id'] = 2;
+        }
         
         $this->addJs(array(
             '3dParty/jquery-1.11.0.min',
@@ -402,8 +413,25 @@ class PagesController extends AppController{
         
         $parameters = array_merge($parameters, $_POST);
         
-        echo CurlStatic::send($parameters, 'json', Enum::URL_SERVIDOR_DE_EMAIL , 'POST');
-        exit();
+        $retorno = CurlStatic::send($parameters, 'json', Enum::URL_SERVIDOR_DE_EMAIL , 'POST');
+        $retorno = json_decode($retorno, TRUE);
+        
+        if($retorno['success'] == true ){
+            echo json_encode(array(
+                    'erro' => false,
+                    'mensagem' => '',
+                    'funcao' => "msg_sucesso( 'Seu contato foi enviado com sucesso, aguarde e retornaremos em breve!' , '#ContatoSend');limparFormulario();"
+                ));
+        } else {
+            unset($retorno['success']);
+            unset($retorno['style']);
+            $this->User->validateErros = $retorno;                    
+            echo json_encode(array(
+                    'erro' => true,
+                    'funcao' => "msg_erro( '{$this->User->refactoryError()}' , '#ContatoSend');hideLoaderForm('#ContatoSend');",
+                ));
+        }
+        
     }
     
 }

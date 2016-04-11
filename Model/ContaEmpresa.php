@@ -21,28 +21,28 @@ class ContaEmpresa extends AppModel {
     public $primaryKey = 'id';
     
     
-    public final function inserirContaEmpresa( $empresaId ){
+    public final function inserirContaEmpresa( $empresaId, $produtoId ){
         try {
             
             $sql = "SELECT
-                    valor,
-                    qtde_funcionarios,
-                    duracao_contrato,
-                    valor_funcionario_adicional,
-                    qtde_empresas_conta,
-                    reservas_mes,
-                    envio_email_dados_reserva,
-                    lembrete_reserva,
-                    lista_convidados_cliente,
-                    emails_personalizados,
-                    controle_presencao_portaria,
-                    gerenciamento_ingressos,
-                    integracao_midias_sociais,
-                    gestao_de_eventos,
-                    gestao_ordens_servico,
-                    intranet
+                        valor,
+                        qtde_funcionarios,
+                        duracao_contrato,
+                        valor_funcionario_adicional,
+                        qtde_empresas_conta,
+                        reservas_mes,
+                        envio_email_dados_reserva,
+                        lembrete_reserva,
+                        lista_convidados_cliente,
+                        emails_personalizados,
+                        controle_presencao_portaria,
+                        gerenciamento_ingressos,
+                        integracao_midias_sociais,
+                        gestao_de_eventos,
+                        gestao_ordens_servico,
+                        intranet
                 FROM
-                    reservas.contas_empresas_tipos WHERE id = 2;";
+                    reservas.contas_empresas_tipos WHERE id = $produtoId;";
             $registro = $this->query($sql);
             $registro = array_shift($registro);
             
@@ -74,7 +74,7 @@ class ContaEmpresa extends AppModel {
                                     {$empresaId},
                                     1, 
                                     1,
-                                    2,
+                                    $produtoId,
                                     NOW(),
                                     DATE_ADD(NOW(), INTERVAL 1 MONTH),
                                     {$registro['valor']},

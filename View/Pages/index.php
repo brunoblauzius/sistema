@@ -160,7 +160,7 @@
                         <h5 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Conforto</a></h5>
 
                         <p class="pi-margin-bottom-10">
-                             Traz comodidade para seu cliente que garantirá sua reserva com a lista de seus convidados de forma on-line.
+                            Traz comodidade para seu cliente que garantirá sua reserva com a lista de seus convidados de forma on-line.
                         </p>
 
                     </div>
@@ -184,7 +184,7 @@
                         <h5 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Tecnologia</a></h5>
 
                         <p class="pi-margin-bottom-10">
-                             Permite a hostess registrar as presenças por dispositivos eletrônicos.
+                            Permite a hostess registrar as presenças por dispositivos eletrônicos.
                         </p>
 
                     </div>
@@ -211,7 +211,7 @@
                         <h5 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Estratégia</a></h5>
 
                         <p class="pi-margin-bottom-10">
-                             Mostra taxas de no-show por reserva, perfil do cliente, histórico de visitas e muito mais!
+                            Mostra taxas de no-show por reserva, perfil do cliente, histórico de visitas e muito mais!
                         </p>
 
                     </div>
@@ -245,7 +245,7 @@
         <div class="pi-row">
             <div class="pi-margin-bottom-15 pi-col-xs-12 pi-col-sm-7">
                 O <span class="pi-text-pink">MyNight</span> traz para dentro de sua casa uma plataforma eficiente na gestão de reservas, centralizando todas as informações on-line, facilitando a operação e visualização a partir de qualquer dispositivo conectado à internet. Isso permite uma total autonomia para sua equipe de promoção, aumentando consideravelmente sua capacidade de atendimento.
-Além disso, você terá acesso a todo o histórico de reservas por cliente, podendo emitir relatórios de reservas por idade, sexo e número de convidados.
+                Além disso, você terá acesso a todo o histórico de reservas por cliente, podendo emitir relatórios de reservas por idade, sexo e número de convidados.
             </div>
             <div class="pi-margin-bottom-15 pi-col-xs-12 pi-col-sm-5">
                 <img src="<?= Router::url('View/webroot/site/img/BALADA-6.jpg') ?>">
@@ -273,7 +273,7 @@ Além disso, você terá acesso a todo o histórico de reservas por cliente, pod
             </div>
             <div class="pi-margin-bottom-15 pi-col-xs-12 pi-col-sm-7">
                 O <span class="pi-text-pink">MyNight</span> disponibiliza para seus clientes um ambiente personalizado de cada reserva que ele fez, permitindo com que ele envie emails diretamente a seus convidados. 
-Toda a comunicação com seu cliente é automática, desde a confirmação da reserva, registro da lista de convidados e check-in na portaria!
+                Toda a comunicação com seu cliente é automática, desde a confirmação da reserva, registro da lista de convidados e check-in na portaria!
 
             </div>
         </div>
@@ -281,6 +281,219 @@ Toda a comunicação com seu cliente é automática, desde a confirmação da re
 </div>
 <!-- - - - - - - - - - END SECTION - - - - - - - - - -->
 
+<!-- - - - - - - - - - PRICE TABLES - - - - - - - - - -->
+<div class="pi-section pi-padding-bottom-60" >
+
+    <div class="pi-text-center">
+        <h1 class="pi-uppercase pi-weight-700 pi-has-border pi-has-tall-border pi-has-short-border pi-margin-bottom-70">
+            Nossos Produtos
+        </h1>
+    </div>
+
+    <div class="pi-row pi-grid-small-margins" id="plano">
+
+        <div class="pi-col-md-3 pi-col-xs-6">
+            <table class="pi-pricing">
+                <thead>
+                    <tr>
+                        <td class="pi-pricing-head-dark pi-text-center">
+                            <span class="pi-pricing-title">Trial</span>
+
+                            <div class="pi-pricing-price">
+                                <span class="pi-pricing-amount">Gratis</span>
+                            </div>
+                            <p class="pi-italic">
+                                Conta Gratuita para testes durante um mês
+
+                            </p>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>15 Reservas</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>1 Funcionário</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clientes Ilimitado</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>1 Empresa</strong></td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-check pi-text-green pi-icon-left"></i>Suporte on-line</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <p>
+                                <a href="<?= Router::url(array('Pages', 'criar-conta', 2));?>" class="btn pi-btn-base pi-btn-wide">Eu quero!</a>
+                            </p>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="pi-col-md-3 pi-col-xs-6">
+            <table class="pi-pricing">
+                <thead>
+                    <tr>
+                        <td class="pi-pricing-head-base pi-text-center">
+                            <span class="pi-pricing-title">HOSTESS BÁSICO</span>
+
+                            <div class="pi-pricing-price">
+                                <span class="pi-pricing-currency">R$</span>
+                                <span class="pi-pricing-amount">79.</span>
+                                <span class="pi-pricing-currency">90</span>
+                                <span class="pi-pricing-period">/mês</span>
+                            </div>
+                            <p class="pi-italic">
+                                Esta conta é recomendada para bares e restaurantes.
+                            </p>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>100 Reservas</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>2 Funcionários</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clientes Ilimitados</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>1 Empresa</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Envios dos dados da reserva por e-mail</strong> <span class="pi-text-bg-green pi-weight-700">FREE</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lembrete da Reserva</strong></td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-check pi-text-green pi-icon-left"></i>Suporte on-line</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <p>
+                                <a href="<?= Router::url(array('Pages', 'criar-conta', 4));?>" class="btn pi-btn-base pi-btn-wide">Recomendado</a>
+                            </p>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="pi-col-md-3 pi-col-xs-6">
+            <table class="pi-pricing">
+                <thead>
+                    <tr>
+                        <td class="pi-pricing-head-dark pi-text-center">
+                            <span class="pi-pricing-title">HOSTESS PRO</span>
+
+                            <div class="pi-pricing-price">
+                                <span class="pi-pricing-currency">R$</span>
+                                <span class="pi-pricing-amount">190</span>
+                                <span class="pi-pricing-period">/Mês</span>
+                            </div>
+                            <p class="pi-italic">
+                                Conta recomendada para baladas e grandes eventos.
+                            </p>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>500 Reservas</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>5 Funcionários</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clientes Ilimitados</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>1 Empresa</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Envios dos dados da reserva por e-mail</strong> <span class="pi-text-bg-green pi-weight-700">FREE</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lembrete da Reserva</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lista de convidados</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Controle de presença portaria</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gerenciamento de ingressos</strong></td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-check pi-text-green pi-icon-left"></i>Suporte on-line</td>
+                    </tr>
+                    <tr>
+                        <td><i class="icon-check pi-text-green pi-icon-left"></i>Email e Forum para suporte</td>
+                    </tr>
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <p>
+                                <a href="<?= Router::url(array('Pages', 'criar-conta', 3));?>" class="btn pi-btn-base pi-btn-wide">Eu quero</a>
+                            </p>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="pi-col-md-3 pi-col-xs-6">
+            <table class="pi-pricing">
+                <thead>
+                <thead>
+                    <tr>
+                        <td class="pi-pricing-head-dark pi-text-center">
+                            <span class="pi-pricing-title">Personalizado</span>
+
+                            <div class="pi-pricing-price">
+                                <span class="pi-pricing-amount">Consultar</span>
+                            </div>
+                            <p class="pi-italic">
+                                Envienos um e-mail para consultar uma conta personalizada! 
+                            </p>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <p>
+                                <a href="#" class="btn pi-btn-base pi-btn-wide" id="plano-personalizado" href="#contato" data-scroll-to="#contato">Eu quero</a>
+                            </p>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+</div>
+<!-- - - - - - - - - - END PRICE TABLES - - - - - - - - - -->
 
 
 <!-- - - - - - - - - - CONTACT SECTION - - - - - - - - - -->
@@ -295,19 +508,19 @@ Toda a comunicação com seu cliente é automática, desde a confirmação da re
                     </h2>
 
                     <!-- Contact form -->
-                    <form role="form" action="<?= Router::url(array('Pages', 'send-contato'));?>" method="post" class="SendContact">
+                    <form role="form" action="<?= Router::url(array('Pages', 'send-contato')); ?>" method="post" class="SendContact" id="ContatoSend">
 
                         <div class="pi-error-container"></div>
 
                         <div class="form-group">
                             <label for="exampleInputName1">Nome *</label>
-                            <input type="text" class="form-control form-control-name" id="exampleInputName1" name="nome"
+                            <input type="text" class="form-control" id="exampleInputName1" name="nome"
                                    placeholder="ex. Adam Smith">
                         </div>
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">E-mail *</label>
-                            <input type="email" class="form-control form-control-email" id="exampleInputEmail1" name="email"
+                            <input type="email" class="form-control" id="exampleInputEmail1" name="email"
                                    placeholder="ex. mail@example.com">
                         </div>
 
@@ -315,25 +528,25 @@ Toda a comunicação com seu cliente é automática, desde a confirmação da re
                             <div class="pi-col-sm-3">
                                 <div class="form-group">
                                     <label for="exampleInputPhone">DDD *</label>
-                                    <input type="text" class="form-control form-control-phone" id="exampleInputPhone" name="ddd" placeholder="41">
+                                    <input type="text" class="form-control " id="exampleInputPhone" name="ddd" placeholder="41" maxlength="2">
                                 </div>
                             </div>
                             <div class="pi-col-sm-9">
                                 <div class="form-group">
                                     <label for="exampleInputPhone">Telefone *</label>
-                                    <input type="text" class="form-control form-control-phone" id="exampleInputPhone" name="telefone" placeholder="ex. 55 41.99999999">
+                                    <input type="text" class="form-control " id="exampleInputPhone" name="telefone" placeholder="ex. 55 41.99999999" maxlength="9">
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="exampleInputSelect">Assunto de envio *</label>
-                            <input type="text" class="form-control form-control-phone" id="exampleInputSelect" name="assunto" placeholder="ex. Solicitação de cadastro">
+                            <input type="text" class="form-control " id="InputAssunto" name="assunto" placeholder="ex. Solicitação de cadastro">
                         </div>
 
                         <div class="form-group">
                             <label for="exampleInputMessage1">Mensagem *</label>
-                            <textarea class="form-control form-control-comments" name="mensagem" id="exampleInputMessage1" placeholder="Qual sua mensagem para nós?"
+                            <textarea class="form-control " name="mensagem" id="exampleInputMessage1" placeholder="Qual sua mensagem para nós?"
                                       rows="3"></textarea>
                         </div>
                         <p>

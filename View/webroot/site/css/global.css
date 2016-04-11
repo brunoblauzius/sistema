@@ -8304,7 +8304,7 @@ select.form-control {
   background: #f8fafa;
   border-color: #dde1e1;
   border-top-color: #dde1e1;
-  color: #afb8bb;
+  //color: #afb8bb;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.03);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.03);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.03);

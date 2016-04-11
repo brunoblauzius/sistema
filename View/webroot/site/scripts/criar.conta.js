@@ -3,6 +3,9 @@
         $('#exampleInputLogin').val(login[0]);
     });
     
+    $('#plano-personalizado').click(function(){
+        $('#InputAssunto').val('Quero um Plano personalizado.');
+    });
     
     /**
      * @todo funcao que envia as requisições em ajax do sistema

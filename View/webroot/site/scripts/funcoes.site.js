@@ -8,7 +8,7 @@ function msg_sucesso( msg , div){
                                     msg
                                 +'</p>'+
                             '</section>';
-    $(elemento).prependTo(div).fadeIn(500);
+    $(elemento).prependTo(div).fadeIn(500).delay(3000).fadeOut(500);
 }
 
 function msg_erro( msg , div){
@@ -52,4 +52,9 @@ function tratarJSON( data ) {
    if( data.funcao ){
        eval(data.funcao);
    }
+}
+
+function limparFormulario(){
+    $('input').val(null);
+    $('textarea').val(null);
 }

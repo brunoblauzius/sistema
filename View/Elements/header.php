@@ -20,6 +20,7 @@
                         <li class=""><a href="#quem-somos" data-scroll-to="#quem-somos"><span>Sobre o Sistema</span></a></li>
                         <li class=""><a href="#empresa" data-scroll-to="#empresa"><span>Empresa</span></a></li>
                         <li class=""><a href="#cliente" data-scroll-to="#cliente"><span>Cliente</span></a></li>
+                        <li class=""><a href="#plano" data-scroll-to="#plano"><span>Nossos Planos</span></a></li>
                         <li class=""><a href="#contato" data-scroll-to="#contato"><span>Contato</span></a></li>
 
                     </ul>
