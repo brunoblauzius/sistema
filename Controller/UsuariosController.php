@@ -162,7 +162,7 @@ class UsuariosController extends AppController {
                 'js/toggle-init',
             ));
             
-            
+            //Utils::pre($_SESSION['ContaEmpresa']);
             
             $this->checaEmpresa();
             
@@ -173,6 +173,7 @@ class UsuariosController extends AppController {
             $contatos = $modelEmpresa->contatosEmpresa( $this->empresas_id );
             $endereco = $modelEndereco->findEnderecosEmpresa( $this->empresas_id );
                         
+            //Utils::pre($contatos);
             
             $_SESSION['Form']['enderecos_id'] = $endereco[0]['enderecos_id'];
             
@@ -535,11 +536,13 @@ class UsuariosController extends AppController {
 
                 Session::initAuth();
                 Session::createSession($usuario);
-
+                
                 /**
                  * Usuario operador logar com a empresa já na session
                  */
                 if (in_array($usuario[$this->User->name]['roles_id'], array(2,6))) {
+                    
+                    
                     $modelFuncionario = new Funcionario();
                     $modelEmpresa     = new Empresa();
                     $funcionario      = $modelFuncionario->find('first', array('pessoas_id' => $usuario[$this->User->name]['pessoas_id']) );
@@ -564,7 +567,7 @@ class UsuariosController extends AppController {
                         
                     }
                 } 
-                else if( $usuario[$this->User->name]['roles_id'] == 3 ) {
+                else if( in_array($usuario[$this->User->name]['roles_id'], array(3,4)) ) {
                     
                     /**
                      * VERIFICO SE EXISTE APENAS UMA EMPRESA VINCULADA
@@ -572,6 +575,8 @@ class UsuariosController extends AppController {
                     
                     $modelEmpresa     = new Empresa();
                     $empresas = $modelEmpresa->empresasRelacionadas(md5($usuario[$this->User->name]['pessoas_id']), $usuario[$this->User->name]['roles_id']); 
+                    
+                    
                     
                     if ( count($empresas) == 1 ) {
                         
