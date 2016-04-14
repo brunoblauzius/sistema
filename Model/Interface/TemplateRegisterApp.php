@@ -72,21 +72,55 @@ abstract class TemplateRegisterApp extends AppModel {
         return $this;
     }
     
-    public function authentictionFacebook() {
+    
+    
+    abstract public function cadastro( $created );
+    abstract public function update( $created, $registro );
+    abstract public function sqlAutentication();
+    
+    public function authentiction(){
         try {
-
-            $sql = "SELECT * FROM vw_clientes WHERE facebook_id = $this->facebookId ";
-            $fecth = $this->query($sql);
+            
+            $fecth = $this->query( $this->sqlAutentication() );
 
             if (empty($fecth)) {
                 throw new Exception('Usuario não foi encontrado no sistema!', 002);
             }
+            
             return $fecth;
+            
         } catch (Exception $ex) {
             throw $ex;
         }
     }
     
-    abstract public function register();
+    public function register(){
+        try {
+
+             $created = date('Y-m-d H:i:s');
+             /**
+              * VERIFICAR SE EXISTE UMA NOVA PESSOA
+              */
+             $modelCliente = new Cliente();
+                          
+             $registro = $modelCliente->recuperaCliente($this->getNome(), $this->getPhone());
+             
+             if( empty($registro) ){                 
+                 $registro = $this->cadastro($created);
+             } else {
+                 $registro = $this->update($created, $registro);
+             }
+                
+            return $registro;
+        } 
+        catch (PDOException $ex) {
+            throw $ex;
+        }
+        catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
     
 }

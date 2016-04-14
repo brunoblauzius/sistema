@@ -1,21 +1,15 @@
 <?php
 
+
 require_once 'Interface/TemplateRegisterApp.php';
-        
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- * Description of Facebook
+ * Description of Mobile
  *
  * @author BRUNO
  */
-class Facebook extends TemplateRegisterApp {
+class Mobile extends TemplateRegisterApp {
 
-    //put your code here
     public $validate = array(
         'nome' => array(
             'notEmpty' => array(
@@ -23,7 +17,7 @@ class Facebook extends TemplateRegisterApp {
                 'mensagem' => Enum::VAZIO
             ),
         ),
-        'facebook_id' => array(
+        'senha' => array(
             'notEmpty' => array(
                 'rule' => array('notEmpty'),
                 'mensagem' => Enum::VAZIO
@@ -48,10 +42,10 @@ class Facebook extends TemplateRegisterApp {
     );
     
     public function sqlAutentication() {
-        return "SELECT * FROM vw_clientes WHERE facebook_id = {$this->getFacebookId()} ";
+        return "SELECT * FROM vw_clientes WHERE email = '{$this->getEmail()}' AND senha = '".Authentication::password($this->getPass())."}' ";
     }
     
-    public function cadastro( $created ) {
+    public function cadastro($created) {
         /**
         * criar uma pessoa
         */
@@ -96,9 +90,8 @@ class Facebook extends TemplateRegisterApp {
             'created' => $created,
             'email' => $this->getEmail(),
             'login' => $this->getEmail(),
-            'senha' => Authentication::password( $this->getPhone() ),
+            'senha' => Authentication::password( $this->getPass() ),
             'chave' => Authentication::uuid(),
-            'facebook_id' => $this->getFacebookId(),
         ));
 
         $modelCliente->genericInsert(array(
@@ -107,22 +100,11 @@ class Facebook extends TemplateRegisterApp {
             'sexo'   => 0,
         ));
 
-        return  $modelCliente->recuperaCliente($this->getNome(), $this->getPhone());
+        $registro = $modelCliente->recuperaCliente($this->getNome(), $this->getPhone());
     }
+
     
     public function update($created, $registro) {
-        /**
-        * criar um usuario
-        */
-        $modelUsuario = new Usuario();
-        $modelUsuario->genericUpdate(array(
-           'facebook_id' => $this->getFacebookId(),
-           'id'   => $registro['usuarios_id']
-       ));
-
-       $registro['facebook_id'] = $this->getFacebookId();
-       
-       return $registro;
+        return NULL;
     }
-    
 }

@@ -284,7 +284,7 @@ class Cliente extends AppModel {
             $sql = " SELECT * FROM vw_clientes WHERE $NOME $TELEFONE ";
             $registro = $this->query($sql);
             
-            return $registro;
+            return array_shift($registro);
             
         } catch (Exception $ex) {
             throw $ex;

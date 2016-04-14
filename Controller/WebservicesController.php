@@ -11,7 +11,7 @@
  */
 class WebservicesController extends AppController {
     
-    public $ClasseAllow = array('cep', 'listarEmpresas', 'autenticacaoFacebook', 'cadastroFacebook');
+    public $ClasseAllow = array('cep', 'listarEmpresas', 'autenticacaoFacebook', 'cadastroMobileFacebook', 'cadastroMobile', 'autenticacaoMobile');
     
     private $Pessoa = null;
     private $User = null;
@@ -207,7 +207,7 @@ class WebservicesController extends AppController {
             
             $usuario = $facebook->setFacebookId((int)$_POST['facebook_id'])
                                 ->facebookIdNull()
-                                ->authentictionFacebook();
+                                ->authentiction();
                     
             echo json_encode(array(
                 'erro'    => false,
@@ -225,7 +225,33 @@ class WebservicesController extends AppController {
         }
     }
     
-    public function cadastroFacebook(){
+    public function autenticacaoMobile(){
+        try {
+            
+            $facebook = new Mobile();
+           
+            
+            $usuario = $facebook->setEmail($_POST['email'])
+                                ->setPass($_POST['senha'])
+                                ->authentiction();
+                    
+            echo json_encode(array(
+                'erro'    => false,
+                'code'    => 000,
+                'message' => 'success',
+                'resultado' => $usuario
+            ));
+            
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                'erro'    => true,
+                'code'    => $ex->getCode(),
+                'message' => $ex->getMessage(),
+            ));
+        }
+    }
+    
+    public function cadastroMobileFacebook(){
         try {
             
             $facebook = new Facebook();
@@ -255,6 +281,48 @@ class WebservicesController extends AppController {
                     'erro'    => true,
                     'code'    => 001,
                     'errors' => $facebook->validateErros,
+                ));
+            }
+            
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                'erro'    => true,
+                'code'    => $ex->getCode(),
+                'message' => $ex->getMessage(),
+            ));
+        }
+    }
+    
+    public function cadastroMobile(){
+        try {
+            
+            $model = new Mobile();
+             
+            if(empty($_POST)){
+                throw new Exception('erro do post');
+            }
+                        
+            $model->data = $_POST;
+            
+            if( $model->validates() ){
+            
+                $dados = $model->setEmail($model->data['email'])
+                        ->setNome($model->data['nome'])
+                        ->setPhone($model->data['telefone'])
+                        ->setPass($model->data['senha'])
+                        ->register();
+                
+                 echo json_encode(array(
+                    'erro'    => false,
+                    'code'    => 000,
+                    'message' => 'success',
+                    'resultado' => $dados
+                ));
+            } else {
+                echo json_encode(array(
+                    'erro'    => true,
+                    'code'    => 001,
+                    'errors' => $model->validateErros,
                 ));
             }
             
