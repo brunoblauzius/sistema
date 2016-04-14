@@ -121,7 +121,7 @@
                                     <div class="checkbox pi-margin-bottom-20">
                                         <label class="pi-small-text">
                                             <input type="hidden" name="Pessoa[termo]" value="0">
-                                            <input type="checkbox" name="Pessoa[termo]" value="1">Veja os  <a href="#">termos do Contrato</a>
+                                            <input type="checkbox" name="Pessoa[termo]" value="1">Veja os  <a style="cursor: pointer" data-toggle="modal" data-target="#modal-termo">TERMOS DE USO DO SISTEMA.</a>
                                         </label>
                                     </div>
                                 </div>
@@ -154,4 +154,50 @@
         </div>
                 
     </div>
+</div>
+
+
+<div class="modal fade" id="modal-termo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Termos para o uso do sistema MYNIGHT</h4>
+      </div>
+      <div class="modal-body">
+        
+          <h2 class="pi-text-center">Termos de Uso</h2>
+          <ol>
+              <li>Ao utilizar o site ou baixar os aplicativos móveis, você concorda com os termos de utilização (“Termos de Uso”), ainda que não se torne um usuário cadastrado. Portanto, o presente termo rege a acesso ao site, acesso aos aplicativos móveis e de demais serviços disponibilizados pela solução MyNight.</li>
+              <li>A solução Mynight (denominada simplesmente “MyNight”) fornece uma plataforma online que pode ser acessada por qualquer browser web nos diversos sistemas operacionais (“o site”), além de dispositivos móveis rodando Android(“o app disponível na Google Play”) ou iOs(“o app disponível na Apple Store”).</li>
+              <li>MyNight disponibiliza serviços tanto para casas noturnas, clubs, baladas, festas, raves, bares, restaurantes e similares (denominados “Anfitriões”) quanto para os clientes que frequentam os Anfitriões (denominados simplesmente “Clientes”)
+</li>
+              <li>O cadastro dos anfitriões na solução MyNight seguirá a política de pacotes disponíveis para utilização da solução MyNight, conforme tabela disponibilizada em link tabela.</li>
+              <li>O cadastro e utilização da solução MyNight para os clientes é totalmente gratuito, podendo ser realizado através dos aplicativos móveis ou pelo site.</li>
+              <li>MyNight irá disponibilizar aos clientes, informações sobre todos os dados disponíveis de seus anfitriões, como endereço, horário de funcionamento, programação, entre outras informações, portanto, MyNight não será responsável pela exatidão nessas informações, sendo isso de total responsabilidade de seus anfitriões.</li>
+              <li>Caso haja qualquer compra de produtos ou serviços dos anfitriões pelo MyNight, a responsabilidade sobre informações de compra, alterações do produto ou serviço, garantias, devoluções, etc, é de inteira responsabilidade do anfitrião, sendo necessário entrar em contato diretamente com este pelos canais disponibilizados por ele.</li>
+              <li>A solução MyNight não poderá se responsabilizar quando não for possível o acesso a sua plataforma devido a problemas de internet, nos computadores ou dispositivos móveis, além de problemas apresentados pelo seu provedor de conteúdo, onde se encontra hospedada a solução, exonerando-se de qualquer tipo de dano, perda ou obrigação que tais problemas poderão ocorrer tanto aos anfitriões quanto aos clientes, não sendo devida qualquer indenização nesses casos.</li>
+              <li>A solução MyNight não constitui parte em qualquer contrato celebrado entre anfitriões e clientes, portanto, não se responsabiliza por qualquer serviço ora oferecido diretamente pelo anfitrião ou solicitado pelo cliente.</li>
+              <li>Qualquer tipo de anúncio, promoção ou informação adicional oferecida pelos anfitriões é de total responsabilidade destes.</li>
+              <li>A solução MyNight não possui controle sobre a conduta dos anfitriões e seus clientes, exonerando-se de qualquer responsabilidade a esse respeito, na máxima extensão permitida pela lei.</li>
+              <li>Os Anfitriões que utilizam a solução concordam em permitir que o aplicativo MyNight divulgue seus dados, bem como disponibilizar recursos para seus clientes terem acesso às funções apresentadas pela MyNight.</li>
+          </ol>
+          
+          <h2 class="pi-text-center">Politica de Privacidade.</h2>
+          
+          <ol>
+              <li>MyNight irá coletar informações dos clientes através de um cadastro básico, ou mesmo pela permissão do vínculo a sua conta do Facebook.</li>
+              <li>MyNight poderá permitir ao cliente curtir, compartilhar, fazer check-in e apresentar eventos no Facebook através do aplicativo MyNight. O cliente poderá ainda receber e-mails, publicações, sms e outras formas de contato, podendo o cliente solicitar o cancelamento desses recebimentos a qualquer momento.
+</li>
+              <li>A solução MyNight toma todos os cuidados necessários quanto a segurança dos dados de seus anfitriões e clientes, mantendo a aplicação em ambiente considerado seguro.</li>
+              <li>A solução MyNight poderá utilizar cookies, permitindo a melhor navegabilidade de anfitriões e clientes, além de poder coletar informações básicas de navegação, como ip da máquina, sistema operacional utilizado, nome e versão do browser, idioma e provedor de serviço. Se não desejar permitir a utilização de cookies, verifique a documentação do seu browser para desabilitá-lo.
+</li>
+              <li>O cadastro dos clientes na solução MyNight poderá ser compartilhado por todos os anfitriões no intuito de identificá-lo de forma mais rápida na solução, evitando duplicidades no banco, sem mostrar em hipótese alguma o anfitrião que fez o primeiro cadastro ou a lista de anfitriões visitados pelo cliente.
+</li>
+              <li>A solução MyNight poderá apresentar banners, links e propagandas de terceiros e portanto as disposições de privacidade e segurança já não estarão mais sob responsabilidade da MyNight.
+</li>
+          </ol>
+      </div>
+    </div>
+  </div>
 </div>
