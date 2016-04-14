@@ -273,7 +273,6 @@ class Cliente extends AppModel {
             
             $NOME = null;
             $TELEFONE = null;
-            $EMAIL = null;
             
             if( !empty($nome)){
                 $NOME =  " nome = '{$nome}' ";

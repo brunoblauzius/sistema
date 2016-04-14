@@ -11,7 +11,7 @@
  */
 class WebservicesController extends AppController {
     
-    public $ClasseAllow = array('cep', 'listarEmpresas', 'autenticacaoFacebook');
+    public $ClasseAllow = array('cep', 'listarEmpresas', 'autenticacaoFacebook', 'cadastroFacebook');
     
     private $Pessoa = null;
     private $User = null;
@@ -206,7 +206,7 @@ class WebservicesController extends AppController {
             $facebook = new Facebook();
             
             $usuario = $facebook->setFacebookId((int)$_POST['facebook_id'])
-                                ->idNull()
+                                ->facebookIdNull()
                                 ->authentictionFacebook();
                     
             echo json_encode(array(
@@ -230,6 +230,10 @@ class WebservicesController extends AppController {
             
             $facebook = new Facebook();
              
+            if(empty($_POST)){
+                throw new Exception('erro do post');
+            }
+                        
             $facebook->data = $_POST;
             
             if( $facebook->validates() ){
