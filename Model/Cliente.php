@@ -267,4 +267,30 @@ class Cliente extends AppModel {
         }
     }
     
+    
+    public function recuperaCliente( $nome, $telefone ){
+        try {
+            
+            $NOME = null;
+            $TELEFONE = null;
+            $EMAIL = null;
+            
+            if( !empty($nome)){
+                $NOME =  " nome = '{$nome}' ";
+            }
+            if( !empty($telefone)){
+                $TELEFONE =  " and telefone = '{$telefone}' ";
+            }
+            
+            $sql = " SELECT * FROM vw_clientes WHERE $NOME $TELEFONE ";
+            $registro = $this->query($sql);
+            
+            return $registro;
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
 }

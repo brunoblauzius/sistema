@@ -11,7 +11,7 @@
  */
 class WebservicesController extends AppController {
     
-    public $ClasseAllow = array('cep', 'listarEmpresas');
+    public $ClasseAllow = array('cep', 'listarEmpresas', 'autenticacaoFacebook');
     
     private $Pessoa = null;
     private $User = null;
@@ -199,4 +199,68 @@ class WebservicesController extends AppController {
         }
     }
 
+    
+    public function autenticacaoFacebook(){
+        try {
+            
+            $facebook = new Facebook();
+            
+            $usuario = $facebook->setFacebookId((int)$_POST['facebook_id'])
+                                ->idNull()
+                                ->authentictionFacebook();
+                    
+            echo json_encode(array(
+                'erro'    => false,
+                'code'    => 000,
+                'message' => 'success',
+                'resultado' => $usuario
+            ));
+            
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                'erro'    => true,
+                'code'    => $ex->getCode(),
+                'message' => $ex->getMessage(),
+            ));
+        }
+    }
+    
+    public function cadastroFacebook(){
+        try {
+            
+            $facebook = new Facebook();
+             
+            $facebook->data = $_POST;
+            
+            if( $facebook->validates() ){
+            
+                $dados = $facebook->setEmail($facebook->data['email'])
+                        ->setFacebookId($facebook->data['facebook_id'])
+                        ->setNome($facebook->data['nome'])
+                        ->setPhone($facebook->data['telefone'])
+                        ->register();
+                
+                 echo json_encode(array(
+                    'erro'    => false,
+                    'code'    => 000,
+                    'message' => 'success',
+                    'resultado' => $dados
+                ));
+            } else {
+                echo json_encode(array(
+                    'erro'    => true,
+                    'code'    => 001,
+                    'errors' => $facebook->validateErros,
+                ));
+            }
+            
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                'erro'    => true,
+                'code'    => $ex->getCode(),
+                'message' => $ex->getMessage(),
+            ));
+        }
+    }
+    
 }
