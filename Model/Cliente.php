@@ -141,7 +141,7 @@ class Cliente extends AppModel {
         }
         
         $sql = "SELECT 
-                    Cliente.id,
+                    Cliente.clientes_id AS id,
                     Cliente.nome,
                     Cliente.sexo,
                     Cliente.status,
@@ -149,16 +149,18 @@ class Cliente extends AppModel {
                     Cliente.telefone,
                     Cliente.rg,
                     Juridica.nome_fantasia,
-                    Cliente.dt_nascimento
+                    Cliente.data_nascimento
                 FROM
-                    clientes AS Cliente
+                    vw_clientes AS Cliente
                         INNER JOIN
-                    empresas AS Empresa ON Cliente.empresas_id = Empresa.id
+                    clientes_empresas AS CliEmp ON CliEmp.clientes_id = Cliente.clientes_id
+                        INNER JOIN
+                    empresas AS Empresa ON CliEmp.empresas_id = Empresa.id
                         INNER JOIN
                     pessoaJuridica AS Juridica ON Juridica.id = Empresa.pessoaJuridica_id
                 WHERE
-                    Empresa.pessoas_id = $proprietarioId 
-                                AND ". $NOME . $TELEFONE . $RG . $EMAIL .";";
+                    Empresa.pessoas_id  = $proprietarioId 
+                        AND ". $NOME . $TELEFONE . $RG . $EMAIL .";";
         
         return $this->query($sql);
     }
@@ -201,11 +203,27 @@ class Cliente extends AppModel {
         }
     }
     
-    
+    /**
+     * @todo METODO QUE ASSOCIA O CLIENTE A EMPRESA
+     * @author BRUNO BLAUZIUS
+     * @param Bigint $clientesId
+     * @param Bigint $empresasID
+     * @return boolean
+     * @throws Exception
+     */
     public function clientesEmpresas( $clientesId, $empresasID ){
         try {
-            $sql = "INSERT INTO clientes_empresas (clientes_id, empresas_id) VALUES ($clientesId, $empresasID);";
-            return $this->query($sql);
+            
+            $sql = "SELECT * FROM clientes_empresas WHERE clientes_id = {$clientesId} AND  empresas_id = {$empresasID} ";
+            $registro = $this->query($sql);
+            
+            if( empty($registro))
+            {
+                $sql = "INSERT INTO clientes_empresas (clientes_id, empresas_id) VALUES ($clientesId, $empresasID);";
+                return $this->query($sql);
+            }
+            
+            return null;
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -291,5 +309,24 @@ class Cliente extends AppModel {
         }
     }
     
+    public final function updateClienteSp( ){
+        try {
+            $vEmpresasId = $this->data['empresas_id'];
+            $vPessoasId = $this->data['pessoas_id'];
+            $vClientesId = $this->data['id'];
+            $vEmail = $this->data['email'];
+            $vNome = $this->data['nome'];
+            $vCpf = '0000000000';
+            $vDt_Nascimento = $this->data['dt_nascimento'];
+            $vTelefone = $this->data['telefone'];
+            $vSexo = $this->data['sexo'];
+            
+             $sql = "CALL sp_update_clientes( $vEmpresasId,$vPessoasId,$vClientesId,'{$vEmail}','{$vNome}','{$vCpf}','{$vDt_Nascimento}','{$vTelefone}',{$vSexo});";
+             return $this->call($sql);
+             
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
     
 }

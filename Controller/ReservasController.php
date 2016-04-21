@@ -2,7 +2,7 @@
 
 class ReservasController extends AppController {
 
-    public $ClasseAllow = array('filtrarConvidados', 'graficoReservasConvidados', 'deletarRegistro');
+    public $ClasseAllow = array('filtrarConvidados', 'graficoReservasConvidados', 'deletarRegistro', 'confirmReservaEmail', 'adicionarConvidados');
     
     private $Reserva = null;
     private $Funcionario = null;
@@ -103,8 +103,8 @@ class ReservasController extends AppController {
              */
             
             
-            $idReserva = $this->Reserva->cadastroBasico($this->empresas_id, $this->pessoas_id, $_POST['data']);
-            $_SESSION['Form']['reservas_id'] = $idReserva;
+           $idReserva = $this->Reserva->cadastroBasico($this->empresas_id, $this->pessoas_id, $_POST['data']);
+           $_SESSION['Form']['reservas_id'] = $idReserva;
             
             $this->layout= 'null';
             $this->render();
@@ -351,7 +351,7 @@ class ReservasController extends AppController {
                      */
                      $email = new Email();
                      $email->useTable = 'emails_sistema';
-                     $registro = $email->find('first', array('tag' => 'cadastro_reserva'));
+                     $registro = $email->find('first', array('tag' => 'email_confirmacao'));
 
                      /**
                       * recupero o endereço da empresa
@@ -1258,7 +1258,7 @@ class ReservasController extends AppController {
 
                 $this->Cliente->data = $cliente[$this->Cliente->name];
 
-                            $this->Cliente->validate = $this->Cliente->validate_convidados;
+                $this->Cliente->validate = $this->Cliente->validate_convidados;
 
                 if( $this->Cliente->validates() ){
                     /**

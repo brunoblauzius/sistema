@@ -489,9 +489,6 @@ class Reserva extends AppModel {
                             " . $AMBIENTE . "
                             and Calendar.status in (0,1)
                     " . $DATE . " ORDER BY Cliente.nome ASC;";
-
-
-
             $retorno = $this->query($sql);
 
             return $retorno;

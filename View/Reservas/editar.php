@@ -128,25 +128,30 @@
             </div>
 
             <div class="col-sm-12" id="mesas-cadastro">
+                
                 <h5>Mesas Livres:</h5>
                     <?php if(empty($mesas)):?>
                         <div class="alert alert-warning">
                             <p class="text-center"> Não existem mesas disponíveis para esse ambiente!</p>
                         </div>
+                    <?php else:?>
+                        <label class="checkbox">
+                            <input type="checkbox" name="" value="1" id="listAll"> Selecionar todas.
+                        </label>
                     <?php endif;?>
-
+                
                     <div class="col-sm-12">
                         <?php foreach ($mesas as $mesa) :?>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4 ">
                                 <?php foreach ($mesa as $key => $value) :?>
 
                                     <?php if( array_keys($mesasReservadas, $value)):?>
                                         <label class="checkbox">
-                                            <input type="checkbox" name="Reserva[mesas_id][]" value="<?= $key ?>" checked="checked"> <?= ucwords($value) ?>
+                                            <input  type="checkbox" name="Reserva[mesas_id][]" value="<?= $key ?>" checked="checked"> <?= ucwords($value) ?>
                                         </label>
                                     <?php else:?>
                                         <label class="checkbox">
-                                            <input type="checkbox" name="Reserva[mesas_id][]" value="<?= $key ?>"> <?= ucwords($value) ?>
+                                            <input class="mesas-lista" type="checkbox" name="Reserva[mesas_id][]" value="<?= $key ?>"> <?= ucwords($value) ?>
                                         </label>
                                     <?php endif;?>
                                 <?php endforeach;?>
