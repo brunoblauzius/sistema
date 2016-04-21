@@ -266,3 +266,45 @@ function filtrarListaDeConvidadosHostess( nome ){
           }); 
     }
 }
+
+
+function filtrarReservas( ambientes_id, data_inicio, data_fim ){
+        var fraseLoading = '';
+            if (data_inicio.length > 0) {
+                fraseLoading = ' para a data <strong>' + data_inicio + '</strong> ';
+            }
+
+            $('#panel-body').empty();
+            //$('<div class="alert alert-info"><p>Filtrando Reservas ' + fraseLoading + ' ...</p></div>').appendTo('#panel-body');
+            loadingElement('<br>Filtrando Reservas ' + fraseLoading, '#panel-body');
+            $.ajax({
+                url: web_root + 'Reservas/filtrar',
+                data: {
+                    ambientes_id: ambientes_id,
+                    data_inicio: data_inicio,
+                    data_fim: data_fim,
+                },
+                dataType: 'html',
+                type: 'post',
+                success: function(data, textStatus, jqXHR) {
+                    $('#panel-body').html(data);
+                }
+            });
+}
+    
+function disponibilidadeDeMesas( data_inicio ){
+    $('#disponibilidadeMesas').empty();
+    //$('<div class="alert alert-info"><p>Verificando a disponibilidade de mesas para a data <b>'+data_inicio+'</b></p></div>').appendTo('#disponibilidadeMesas');
+    loadingElement('<br>Verificando a disponibilidade de mesas para a data <b>' + data_inicio, '#disponibilidadeMesas');
+    $.ajax({
+        url: web_root + 'Reservas/disponibilidadeMesas',
+        data: {
+            data: data_inicio,
+        },
+        dataType: 'html',
+        type: 'post',
+        success: function(data, textStatus, jqXHR) {
+            $('#disponibilidadeMesas').html(data);
+        }
+    });
+}

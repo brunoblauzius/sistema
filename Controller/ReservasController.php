@@ -599,7 +599,10 @@ class ReservasController extends AppController {
                 
                echo json_encode(array(
                    'funcao' => "sucessoForm( 'Sua alteração efetuada com sucesso!', '#ReservaAddForm' ); "
-                   . "window.location.reload();",
+                   . "filtrarReservas( '' , '{$_POST[$this->Reserva->name]['start']}', '' ); "
+                   . "disponibilidadeDeMesas( '{$_POST[$this->Reserva->name]['start']}' );"
+                   . "$('#ModalFormulario').modal('hide');"
+                   . "$('#loading').fadeOut(500);",
                 ));
 
                
