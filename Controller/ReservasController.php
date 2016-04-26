@@ -2,7 +2,7 @@
 
 class ReservasController extends AppController {
 
-    public $ClasseAllow = array('filtrarConvidados', 'graficoReservasConvidados', 'deletarRegistro', 'confirmReservaEmail', 'adicionarConvidados');
+    public $ClasseAllow = array('filtrarConvidados', 'graficoReservasConvidados', 'deletarRegistro', 'confirmReservaEmail', 'adicionarConvidados', 'emailEnviadoPainel');
     
     private $Reserva = null;
     private $Funcionario = null;
@@ -427,29 +427,34 @@ class ReservasController extends AppController {
                      $emailEnvio = $objeto->sendMail();
                      
                      
-                     /*if( $emailEnvio ){
-                    
-                        $gravaEmail = array(
-                                'reservas_id' => $idReserva,
-                                'empresas_id' => $_POST[$this->Reserva->name]['empresas_id'],
-                                'pessoas_id'  => $this->pessoas_id,
-                                'clientes_id' => $_POST[$this->Reserva->name]['clientes_id'],
-                                'created' => date('Y-m-d H:i:s'),
-                                'status' => 1
-                        );
-                         
-                        $this->Reserva->gravaEnvioEmail( $gravaEmail );
-
-                    }*/
+                    if( $emailEnvio )
+                    {
+                       $gravaEmail = array(
+                               'reservas_id' => $idReserva,
+                               'empresas_id' => $_POST[$this->Reserva->name]['empresas_id'],
+                               'pessoas_id'  => $this->pessoas_id,
+                               'clientes_id' => $_POST[$this->Reserva->name]['clientes_id'],
+                               'created' => date('Y-m-d H:i:s'),
+                               'status' => 1
+                       );
+                       $this->Reserva->gravaEnvioEmail( $gravaEmail );
+                    }
                      
                 }
                
                
+//                echo json_encode(array(
+//                    'funcao' => "sucessoForm( 'Cadastro efetuado com sucesso!', '#ReservaAddForm' ); "
+//                    . "window.location.reload();",
+//                   ));
+                
                 echo json_encode(array(
-                    'funcao' => "sucessoForm( 'Cadastro efetuado com sucesso!', '#ReservaAddForm' ); "
-                    . "window.location.reload();",
-                   ));
-
+                   'funcao' => "sucessoForm( 'Cadastro efetuado com sucesso!', '#ReservaAddForm' ); "
+                   . "filtrarReservas( '' , '{$_POST[$this->Reserva->name]['start']}', '' ); "
+                   . "disponibilidadeDeMesas( '{$_POST[$this->Reserva->name]['start']}' );"
+                   . "$('#ModalFormulario').modal('hide');"
+                   . "$('#loading').fadeOut(500);",
+                ));
                
             } else {
                 echo json_encode(array(
@@ -1031,6 +1036,63 @@ class ReservasController extends AppController {
         return $newMiddle;
     }
     
+    
+    final public function emailEnviadoPainel(){
+        try {
+            
+            if( $this->is('post') ){
+                $token = $_POST['token'];
+            } else {
+                $token = $_GET['param'];
+            }
+            
+            
+            if ( $this->Reserva->emailEnviadoPainel( $token ) ) {
+                             
+                echo json_encode(array(
+
+                        'message' => 'Reserva foi confirmada pelo painel administrativo!',
+                        "style" =>'success',
+                        'time' => 5000,
+                        'size' => 'sm',
+                        'callback' => false,
+                        'before' => "$('#loading').fadeOut(1000);",
+                        'icon'   => 'check',
+                        'title'  => 'Sucesso!'
+
+                    ));
+                
+                
+            } else {
+                
+                echo json_encode(array(
+                    
+                    'message' => 'Não foi possivel cancelar o registro, tente novamente mais tarde!',
+                    "style" =>'warning',
+                    'time' => 5000,
+                    'size' => 'sm',
+                    'callback' => false,
+                    'before' => "$('#loading').fadeOut(1000);",
+                    'icon'   => 'warning',
+                    'title'  => 'Falha!'
+                                
+                ));
+            }
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                    
+                'message' => $ex->getMessage(),
+                "style" =>'danger',
+                'time' => 5000,
+                'size' => 'sm',
+                'callback' => false,
+                'before' => "$('#loading').fadeOut(1000);",
+                'icon'   => 'times',
+                'title'  => 'Falha no servidor!'
+
+            ));
+        }
+    }
     
     final public function confirmReserva(){
         try {

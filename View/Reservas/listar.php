@@ -111,9 +111,9 @@
                             <td class="hidden-xs hidden-sm"><?= Utils::convertData($registro['start']) ?></td>
                             <td class="text-center hidden-xs hidden-sm">
                                 <?php if ($registro['status']): ?>
-                                    <strong class="text text-success"><i class="fa fa-check"></i> Sim</strong>
+                                    <a class="btn btn-success btn-xs"><i class="fa fa-check"></i> Sim</a>
                                 <?php else: ?>
-                                    <strong class="text text-danger"><i class="fa fa-times"></i> Não</strong>
+                                    <a class="btn btn-danger btn-xs email-enviado-painel" data-token="<?= $registro['token'];?>" ><i class="fa fa-times"></i> Não</a>
                                 <?php endif; ?>
                             </td>
                             <td class="text-center hidden-xs hidden-sm">
@@ -293,6 +293,33 @@
                     if (data.style == 'success') {
                         $($this).addClass('label-success');
                         $($this).removeClass('label-danger');
+                        $($this).find('i').removeClass('fa-times');
+                        $($this).find('i').addClass('fa-check');
+                    }
+                    bootsAlert(data);
+
+                }
+            });
+        }
+    });
+    
+    
+    $(document).on('click', '.email-enviado-painel', function() {
+        var token = $(this).data('token');
+        $this = $(this);
+
+        if (token.length > 0) {
+            $('#loading').fadeIn(500);
+            $.ajax({
+                url: web_root + 'Reservas/emailEnviadoPainel/',
+                data: {token: token},
+                dataType: 'json',
+                type: 'post',
+                success: function(data) {
+
+                    if (data.style == 'success') {
+                        $($this).addClass('btn-success');
+                        $($this).removeClass('btn-danger');
                         $($this).find('i').removeClass('fa-times');
                         $($this).find('i').addClass('fa-check');
                     }

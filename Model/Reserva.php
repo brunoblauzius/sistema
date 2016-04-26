@@ -1075,6 +1075,36 @@ class Reserva extends AppModel {
         }
     }
     
+    public function emailEnviadoPainel( $token ){
+        try {
+                     
+            if( !empty($token) ){
+                
+                $reserva = $this->query("SELECT * FROM reservas where token = '{$token}' and status = 1;");
+                $reserva = array_shift($reserva); 
+                
+                
+                if( !empty($reserva) ){
+                    
+                    $gravaEmail = array(
+                            'reservas_id' => $reserva['id'],
+                            'empresas_id' => $reserva['empresas_id'],
+                            'pessoas_id'  => $reserva['pessoas_id'],
+                            'clientes_id' => $reserva['clientes_id'],
+                            'created' => date('Y-m-d H:i:s'),
+                            'status' => 1
+                    );
+
+                    return $this->gravaEnvioEmail( $gravaEmail );
+                   
+                } 
+            }
+           
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
     
     
     

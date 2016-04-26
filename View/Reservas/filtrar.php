@@ -30,11 +30,11 @@
                 <td ><small><?= $registro['mesas'] ?></small></td>
                 <td ><?= Utils::convertData($registro['start']) ?></td>
                 <td class="text-center">
-                    <?php if($registro['status']):?>
-                        <strong class="text text-success"><i class="fa fa-check"></i> Sim</strong>
-                    <?php else:?>
-                        <strong class="text text-danger"><i class="fa fa-times"></i> Não</strong>
-                    <?php endif;?>
+                    <?php if ($registro['status']): ?>
+                        <a class="btn btn-success btn-xs"><i class="fa fa-check"></i> Sim</a>
+                    <?php else: ?>
+                        <a class="btn btn-danger btn-xs email-enviado-painel" data-token="<?= $registro['token'];?>" ><i class="fa fa-times"></i> Não</a>
+                    <?php endif; ?>
                 </td>
                 <td class="text-center">
                     <?php if($registro['confirm']):?>
