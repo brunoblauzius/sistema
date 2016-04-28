@@ -2,15 +2,15 @@
     <div class="row">
         <section class="panel">
             <header class="panel-heading">
-                dados da reserva
+                Informações da Reserva
               <!--span class="tools pull-right">
                   <a href="javascript:;" class="fa fa-chevron-down"></a>
                </span-->
             </header>
             <div class="panel-body">
                 
-                <div class="alert alert-success">
-                    <h4>
+                <div class="alert alert-success text-center text-capitalize">
+                    <h4 style="margin: 0px;">
                         Sua reserva foi confirmada com sucesso! 
                     </h4>
                 </div>
@@ -69,6 +69,50 @@
 </div>
     <?php if( in_array($contaEmpresa['contas_empresas_tipos_id'], array(1,3,5)) ):?>
     <div class="row">
+        
+         <div class="col-sm-4 col-md-4">
+             
+             <section class="alert alert-info text-justify">
+                 <h3>Inclua seus convidados na lista!</h3>
+                 <p>
+                     Cadastre seus convidados e coloque os na lista sem esforço,
+                     preencha corretamente o nome e o telefone.
+                 </p>
+             </section>
+             
+             
+            <section class="panel">
+                <header class="panel-heading bg-header-primary">
+                    Cadastrar Convidado
+                </header>
+                <div class="panel-body ">
+                    <div class="painel-edit"></div>
+                    <div class="painel-cadastro">
+                        <form method="post" action="<?= Router::url(array('Reservas', 'adicionarConvidados'))?>" id="ClienteAddForm">
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <small>Nome: <strong class="text text-danger">*</strong></small>
+                                    <input type="text" name="Cliente[nome]" class="form-control input-sm rounded" placeholder="Nome:">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <small>Telefone: <strong class="text text-danger">*</strong></small>
+                                    <input type="text" name="Cliente[telefone]" class="form-control input-sm  rounded telefone" placeholder="Telefone:">
+                                    <input type="hidden" name="Reserva[token]" value="<?= ($reserva['Reserva']['token'])?>">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <button class="btn btn-s-md btn-primary btn-rounded btn-block">Cadastrar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        
+        
         <div class="col-sm-8 col-md-8">
             <section class="panel">
                 <header class="panel-heading">
@@ -122,45 +166,7 @@
             </section>
         </div>
         
-        <div class="col-sm-4 col-md-4">
-            <section class="panel">
-                <header class="panel-heading">
-                    Cadastrar Convidado
-                </header>
-                <div class="panel-body ">
-                    <div class="painel-edit"></div>
-                    <div class="painel-cadastro">
-                        <form method="post" action="<?= Router::url(array('Reservas', 'adicionarConvidados'))?>" id="ClienteAddForm">
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <small>Nome: <strong class="text text-danger">*</strong></small>
-                                    <input type="text" name="Cliente[nome]" class="form-control input-sm rounded" placeholder="Nome:">
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <small>E-mail: <strong class="text text-danger">*</strong></small>
-                                    <input type="text" name="Cliente[email]" class="form-control input-sm rounded" placeholder="E-mail:">
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <small>RG: <strong class="text text-danger"></strong></small>
-                                    <input type="text" name="Cliente[rg]" class="form-control input-sm rounded" placeholder="RG:">
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <small>Telefone: <strong class="text text-danger">*</strong></small>
-                                    <input type="text" name="Cliente[telefone]" class="form-control input-sm  rounded telefone" placeholder="Telefone:">
-                                    <input type="hidden" name="Reserva[token]" value="<?= ($reserva['Reserva']['token'])?>">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <button class="btn btn-s-md btn-primary btn-rounded btn-block">Cadastrar</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </section>
-
-        </div>
+       
     </div>
     <?php endif;?>
 </div>

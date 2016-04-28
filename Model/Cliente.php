@@ -64,12 +64,12 @@ class Cliente extends AppModel {
                 'mensagem' => Enum::VAZIO
             ),
         ),
-//        'telefone' => array(
-//            'notEmpty' => array(
-//                'rule' => array('notEmpty'),
-//                'mensagem' => Enum::VAZIO
-//            ),
-//        ),
+        'telefone' => array(
+            'notEmpty' => array(
+                'rule' => array('notEmpty'),
+                'mensagem' => Enum::VAZIO
+            ),
+        ),
         /*'rg' => array(
 			'notEmpty' => array(
                 'rule' => array('notEmpty'),
@@ -324,6 +324,26 @@ class Cliente extends AppModel {
              $sql = "CALL sp_update_clientes( $vEmpresasId,$vPessoasId,$vClientesId,'{$vEmail}','{$vNome}','{$vCpf}','{$vDt_Nascimento}','{$vTelefone}',{$vSexo});";
              return $this->call($sql);
              
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    /**
+     * @todo metodo que cadastra o cliente com o novo padrao em varias tabelas separadas
+     * @author bruno blauizus
+     * @param Integer $telefone
+     * @param String $nome
+     * @param String $mail
+     * @param Bigint $empresaId
+     * @param Date $dataNascimento
+     * @throws Exception
+     */
+    public function novoCadastro($telefone, $nome, $email, $empresaId, $sexo, $dataNascimento = '0000-00-00', $clienteId = 0) {
+        try {
+
+            $sql = "CALL sp_cadastra_clientes({$empresaId}, {$clienteId}, '{$email}', '{$nome}', '{$dataNascimento}', {$telefone}, {$sexo} );";
+            return $this->call($sql);
         } catch (Exception $ex) {
             throw $ex;
         }

@@ -1311,6 +1311,7 @@ class ReservasController extends AppController {
         try {
             
             if( $this->is('post') && empty($Convidado)){
+                
                 $cliente[$this->Cliente->name] = $_POST[$this->Cliente->name];
                 $cliente[$this->Cliente->name]['telefone'] = Utils::returnNumeric($cliente[$this->Cliente->name]['telefone']);
                 
@@ -1339,7 +1340,8 @@ class ReservasController extends AppController {
                      */
                     $this->Reserva->inserirConvidado($clienteId, $reservaId);
 
-
+                    $this->Cliente->novoCadastro( $cliente[$this->Cliente->name]['telefone'], $cliente[$this->Cliente->name]['nome'], '', $cliente[$this->Cliente->name]['empresas_id'], 1, '0000-00-00', $clienteId);
+                    
                     $alert = json_encode(array(
 
                                 'message' => 'Seu convidado foi registrado com sucesso',

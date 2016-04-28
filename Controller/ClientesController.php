@@ -116,7 +116,7 @@ class ClientesController extends AppController {
                 /**
                  * Cadastro de cliente
                  */
-                $registro = $this->novoCadastro(
+                $registro = $this->Cliente->novoCadastro(
                         $_POST[$this->Cliente->name]['telefone'], $_POST[$this->Cliente->name]['nome'], $_POST[$this->Cliente->name]['email'], $this->empresas_id, $_POST[$this->Cliente->name]['sexo'], $_POST[$this->Cliente->name]['dt_nascimento'], $clientesId
                 );
 
@@ -197,7 +197,7 @@ class ClientesController extends AppController {
                 /**
                  * Cadastro de cliente
                  */
-                $registro = $this->novoCadastro(
+                $registro = $this->Cliente->novoCadastro(
                         $_POST[$this->Cliente->name]['telefone'], $_POST[$this->Cliente->name]['nome'], $_POST[$this->Cliente->name]['email'], $this->empresas_id, $_POST[$this->Cliente->name]['sexo'], $_POST[$this->Cliente->name]['dt_nascimento'], $clientesId
                 );
 
@@ -257,7 +257,7 @@ class ClientesController extends AppController {
         //Utils::pre($clientes);exit();
 
         foreach ($clientes as $cliente) {
-            $r[] = $this->novoCadastro(
+            $r[] = $this->Cliente->novoCadastro(
                     $cliente['telefone'], $cliente['nome'], $cliente['email'], $cliente['empresas_id'], $cliente['sexo'], ($cliente['dt_nascimento']) ? $cliente['dt_nascimento'] : '0000-00-00', $cliente['id']
             );
         }
