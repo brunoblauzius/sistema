@@ -55,15 +55,28 @@
                     });
                 });
                 
-//                $(document).on('click', '.check-all', function(){
-//                    $('.mesas-lista').each(
-//                         function(){
-//                           if ($(this).prop( "checked")) 
-//                           $(this).prop("checked", false);
-//                           else $(this).prop("checked", true);               
-//                         }
-//                    );
-//                });
+                $(document).on('click', '.check-all', function(){
+                   
+                    $('.mesas-lista').each(
+                         function(){
+                           if ($(this).prop( "checked")) 
+                           $(this).prop("checked", false);
+                           else $(this).prop("checked", true);               
+                         }
+                    );
+            
+                });
+                
+                
+                $(function () {
+                    $('#listAll').click(function () {
+                       var val = this.checked;
+                       $('.mesas-lista').each(function () {
+                          $(this).prop('checked', val);
+                       });
+                    });
+                 });
+                
                 
 	});
 	

@@ -2,7 +2,7 @@
 
 class ReservasController extends AppController {
 
-    public $ClasseAllow = array('filtrarConvidados', 'graficoReservasConvidados', 'deletarRegistro');
+    public $ClasseAllow = array('filtrarConvidados', 'graficoReservasConvidados', 'deletarRegistro', 'confirmReservaEmail', 'adicionarConvidados', 'emailEnviadoPainel');
     
     private $Reserva = null;
     private $Funcionario = null;
@@ -103,8 +103,8 @@ class ReservasController extends AppController {
              */
             
             
-            $idReserva = $this->Reserva->cadastroBasico($this->empresas_id, $this->pessoas_id, $_POST['data']);
-            $_SESSION['Form']['reservas_id'] = $idReserva;
+           $idReserva = $this->Reserva->cadastroBasico($this->empresas_id, $this->pessoas_id, $_POST['data']);
+           $_SESSION['Form']['reservas_id'] = $idReserva;
             
             $this->layout= 'null';
             $this->render();
@@ -351,7 +351,7 @@ class ReservasController extends AppController {
                      */
                      $email = new Email();
                      $email->useTable = 'emails_sistema';
-                     $registro = $email->find('first', array('tag' => 'cadastro_reserva'));
+                     $registro = $email->find('first', array('tag' => 'email_confirmacao'));
 
                      /**
                       * recupero o endereço da empresa
@@ -427,29 +427,34 @@ class ReservasController extends AppController {
                      $emailEnvio = $objeto->sendMail();
                      
                      
-                     /*if( $emailEnvio ){
-                    
-                        $gravaEmail = array(
-                                'reservas_id' => $idReserva,
-                                'empresas_id' => $_POST[$this->Reserva->name]['empresas_id'],
-                                'pessoas_id'  => $this->pessoas_id,
-                                'clientes_id' => $_POST[$this->Reserva->name]['clientes_id'],
-                                'created' => date('Y-m-d H:i:s'),
-                                'status' => 1
-                        );
-                         
-                        $this->Reserva->gravaEnvioEmail( $gravaEmail );
-
-                    }*/
+                    if( $emailEnvio )
+                    {
+                       $gravaEmail = array(
+                               'reservas_id' => $idReserva,
+                               'empresas_id' => $_POST[$this->Reserva->name]['empresas_id'],
+                               'pessoas_id'  => $this->pessoas_id,
+                               'clientes_id' => $_POST[$this->Reserva->name]['clientes_id'],
+                               'created' => date('Y-m-d H:i:s'),
+                               'status' => 1
+                       );
+                       $this->Reserva->gravaEnvioEmail( $gravaEmail );
+                    }
                      
                 }
                
                
+//                echo json_encode(array(
+//                    'funcao' => "sucessoForm( 'Cadastro efetuado com sucesso!', '#ReservaAddForm' ); "
+//                    . "window.location.reload();",
+//                   ));
+                
                 echo json_encode(array(
-                    'funcao' => "sucessoForm( 'Cadastro efetuado com sucesso!', '#ReservaAddForm' ); "
-                    . "window.location.reload();",
-                   ));
-
+                   'funcao' => "sucessoForm( 'Cadastro efetuado com sucesso!', '#ReservaAddForm' ); "
+                   . "filtrarReservas( '' , '{$_POST[$this->Reserva->name]['start']}', '' ); "
+                   . "disponibilidadeDeMesas( '{$_POST[$this->Reserva->name]['start']}' );"
+                   . "$('#ModalFormulario').modal('hide');"
+                   . "$('#loading').fadeOut(500);",
+                ));
                
             } else {
                 echo json_encode(array(
@@ -599,7 +604,10 @@ class ReservasController extends AppController {
                 
                echo json_encode(array(
                    'funcao' => "sucessoForm( 'Sua alteração efetuada com sucesso!', '#ReservaAddForm' ); "
-                   . "window.location.reload();",
+                   . "filtrarReservas( '' , '{$_POST[$this->Reserva->name]['start']}', '' ); "
+                   . "disponibilidadeDeMesas( '{$_POST[$this->Reserva->name]['start']}' );"
+                   . "$('#ModalFormulario').modal('hide');"
+                   . "$('#loading').fadeOut(500);",
                 ));
 
                
@@ -1029,6 +1037,63 @@ class ReservasController extends AppController {
     }
     
     
+    final public function emailEnviadoPainel(){
+        try {
+            
+            if( $this->is('post') ){
+                $token = $_POST['token'];
+            } else {
+                $token = $_GET['param'];
+            }
+            
+            
+            if ( $this->Reserva->emailEnviadoPainel( $token ) ) {
+                             
+                echo json_encode(array(
+
+                        'message' => 'Reserva foi confirmada pelo painel administrativo!',
+                        "style" =>'success',
+                        'time' => 5000,
+                        'size' => 'sm',
+                        'callback' => false,
+                        'before' => "$('#loading').fadeOut(1000);",
+                        'icon'   => 'check',
+                        'title'  => 'Sucesso!'
+
+                    ));
+                
+                
+            } else {
+                
+                echo json_encode(array(
+                    
+                    'message' => 'Não foi possivel cancelar o registro, tente novamente mais tarde!',
+                    "style" =>'warning',
+                    'time' => 5000,
+                    'size' => 'sm',
+                    'callback' => false,
+                    'before' => "$('#loading').fadeOut(1000);",
+                    'icon'   => 'warning',
+                    'title'  => 'Falha!'
+                                
+                ));
+            }
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                    
+                'message' => $ex->getMessage(),
+                "style" =>'danger',
+                'time' => 5000,
+                'size' => 'sm',
+                'callback' => false,
+                'before' => "$('#loading').fadeOut(1000);",
+                'icon'   => 'times',
+                'title'  => 'Falha no servidor!'
+
+            ));
+        }
+    }
+    
     final public function confirmReserva(){
         try {
             
@@ -1246,6 +1311,7 @@ class ReservasController extends AppController {
         try {
             
             if( $this->is('post') && empty($Convidado)){
+                
                 $cliente[$this->Cliente->name] = $_POST[$this->Cliente->name];
                 $cliente[$this->Cliente->name]['telefone'] = Utils::returnNumeric($cliente[$this->Cliente->name]['telefone']);
                 
@@ -1258,7 +1324,7 @@ class ReservasController extends AppController {
 
                 $this->Cliente->data = $cliente[$this->Cliente->name];
 
-                            $this->Cliente->validate = $this->Cliente->validate_convidados;
+                $this->Cliente->validate = $this->Cliente->validate_convidados;
 
                 if( $this->Cliente->validates() ){
                     /**
@@ -1274,7 +1340,8 @@ class ReservasController extends AppController {
                      */
                     $this->Reserva->inserirConvidado($clienteId, $reservaId);
 
-
+                    $this->Cliente->novoCadastro( $cliente[$this->Cliente->name]['telefone'], $cliente[$this->Cliente->name]['nome'], '', $cliente[$this->Cliente->name]['empresas_id'], 1, '0000-00-00', $clienteId);
+                    
                     $alert = json_encode(array(
 
                                 'message' => 'Seu convidado foi registrado com sucesso',
@@ -1606,6 +1673,30 @@ class ReservasController extends AppController {
             $this->checaEmpresa();
             $this->verificaContaEmpresa();
             
+            $registros = $this->Reserva->buscaConvidadoHostess( NULL, date('Y-m-d'), $this->empresas_id );
+            
+            /**
+             * listar as mesas por registro
+             */
+            
+            $newRegistros = array();
+            $ambienteModel = new Ambiente();
+            $mesaModel = new Mesa();
+            
+            foreach ($registros as $registro) 
+            {
+                /**
+                * recupero as mesas
+                */
+               $ambientes     = $ambienteModel->ambientesReservas($registro['reservas_id']);
+               $mesas = $mesaModel->mesasReservas($registro['reservas_id']);
+               $arrayMesas = array('mesas' => join(', ', $mesas), 'nome_ambiente' => join(', ', $ambientes));           
+               
+               $arrayMesas     = array_merge($arrayMesas, $this->Reserva->confirmadosParaEvento( $registro['reservas_id'] ));
+               $newRegistros[] = array_merge($registro, $arrayMesas);
+            }
+                          
+            $this->set('registros',$newRegistros);
             $this->set('title_layout', 'Reservas -  Página Inicial');
             $this->render();
             

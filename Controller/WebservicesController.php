@@ -1,18 +1,13 @@
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 /**
- * Description of PessoasController
+ * Description of 
  *
  * @author blauzius
  */
 class WebservicesController extends AppController {
-    
+
     public $ClasseAllow = array('cep', 'listarEmpresas', 'autenticacaoFacebook', 'cadastroMobileFacebook', 'cadastroMobile', 'autenticacaoMobile');
-    
     private $Pessoa = null;
     private $User = null;
 
@@ -21,7 +16,7 @@ class WebservicesController extends AppController {
         $this->Pessoa = new Pessoa();
         $this->User = new Usuario();
     }
-    
+
     public function cadastroEmpresa() {
         try {
             $_POST = Utils::sanitazeArray($_POST);
@@ -173,166 +168,160 @@ class WebservicesController extends AppController {
             echo $ex->getMessage();
         }
     }
-    
+
     /**
      * @todo metodo que lista todas as empresas para o app
      */
-    public function listarEmpresas(){
+    public function listarEmpresas() {
         try {
-            
-            $Empresas  = new Empresa();
-            $telefone  = new Contato();
-            
+
+            $Empresas = new Empresa();
+            $telefone = new Contato();
+
             $registros = $Empresas->query('SELECT * FROM vw_empresas_sistema WHERE status = 1');
-            
+
             $i = 0;
-            
-            foreach ( $registros as $registro ){
+
+            foreach ($registros as $registro) {
                 $registros[$i] = array_merge($registro, array('telefones' => $telefone->findEmpresasContatos($registro['id'])));
                 $i++;
             }
-            
+
             echo json_encode($registros);
-            
         } catch (Exception $ex) {
             
         }
     }
 
-    
-    public function autenticacaoFacebook(){
+    public function autenticacaoFacebook() {
         try {
-            
+
             $facebook = new Facebook();
-            
-            $usuario = $facebook->setFacebookId((int)$_POST['facebook_id'])
-                                ->facebookIdNull()
-                                ->authentiction();
-                    
+
+            $usuario = $facebook->setFacebookId((int) $_POST['facebook_id'])
+                    ->facebookIdNull()
+                    ->authentiction();
+
             echo json_encode(array(
-                'erro'    => false,
-                'code'    => 000,
+                'erro' => false,
+                'code' => 000,
                 'message' => 'success',
                 'resultado' => $usuario
             ));
-            
         } catch (Exception $ex) {
             echo json_encode(array(
-                'erro'    => true,
-                'code'    => $ex->getCode(),
+                'erro' => true,
+                'code' => $ex->getCode(),
                 'message' => $ex->getMessage(),
             ));
         }
     }
-    
-    public function autenticacaoMobile(){
+
+    public function autenticacaoMobile() {
         try {
-            
+
             $facebook = new Mobile();
-           
-            
+
+
             $usuario = $facebook->setEmail($_POST['email'])
-                                ->setPass($_POST['senha'])
-                                ->authentiction();
-                    
+                    ->setPass($_POST['senha'])
+                    ->authentiction();
+
             echo json_encode(array(
-                'erro'    => false,
-                'code'    => 000,
+                'erro' => false,
+                'code' => 000,
                 'message' => 'success',
                 'resultado' => $usuario
             ));
-            
         } catch (Exception $ex) {
             echo json_encode(array(
-                'erro'    => true,
-                'code'    => $ex->getCode(),
+                'erro' => true,
+                'code' => $ex->getCode(),
                 'message' => $ex->getMessage(),
             ));
         }
     }
-    
-    public function cadastroMobileFacebook(){
+
+    public function cadastroMobileFacebook() {
         try {
-            
+
             $facebook = new Facebook();
-             
-            if(empty($_POST)){
+
+            if (empty($_POST)) {
                 throw new Exception('erro do post');
             }
-                        
+
             $facebook->data = $_POST;
-            
-            if( $facebook->validates() ){
-            
+
+            if ($facebook->validates()) {
+
                 $dados = $facebook->setEmail($facebook->data['email'])
                         ->setFacebookId($facebook->data['facebook_id'])
                         ->setNome($facebook->data['nome'])
                         ->setPhone($facebook->data['telefone'])
                         ->register();
-                
-                 echo json_encode(array(
-                    'erro'    => false,
-                    'code'    => 000,
+
+                echo json_encode(array(
+                    'erro' => false,
+                    'code' => 000,
                     'message' => 'success',
                     'resultado' => $dados
                 ));
             } else {
                 echo json_encode(array(
-                    'erro'    => true,
-                    'code'    => 001,
+                    'erro' => true,
+                    'code' => 001,
                     'errors' => $facebook->validateErros,
                 ));
             }
-            
         } catch (Exception $ex) {
             echo json_encode(array(
-                'erro'    => true,
-                'code'    => $ex->getCode(),
+                'erro' => true,
+                'code' => $ex->getCode(),
                 'message' => $ex->getMessage(),
             ));
         }
     }
-    
-    public function cadastroMobile(){
+
+    public function cadastroMobile() {
         try {
-            
+
             $model = new Mobile();
-             
-            if(empty($_POST)){
+
+            if (empty($_POST)) {
                 throw new Exception('erro do post');
             }
-                        
+
             $model->data = $_POST;
-            
-            if( $model->validates() ){
-            
+
+            if ($model->validates()) {
+
                 $dados = $model->setEmail($model->data['email'])
                         ->setNome($model->data['nome'])
                         ->setPhone($model->data['telefone'])
                         ->setPass($model->data['senha'])
                         ->register();
-                
-                 echo json_encode(array(
-                    'erro'    => false,
-                    'code'    => 000,
+
+                echo json_encode(array(
+                    'erro' => false,
+                    'code' => 000,
                     'message' => 'success',
                     'resultado' => $dados
                 ));
             } else {
                 echo json_encode(array(
-                    'erro'    => true,
-                    'code'    => 001,
+                    'erro' => true,
+                    'code' => 001,
                     'errors' => $model->validateErros,
                 ));
             }
-            
         } catch (Exception $ex) {
             echo json_encode(array(
-                'erro'    => true,
-                'code'    => $ex->getCode(),
+                'erro' => true,
+                'code' => $ex->getCode(),
                 'message' => $ex->getMessage(),
             ));
         }
     }
-    
+
 }

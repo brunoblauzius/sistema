@@ -82,7 +82,7 @@ abstract class TemplateRegisterApp extends AppModel {
         try {
             
             $fecth = $this->query( $this->sqlAutentication() );
-
+            $fecth= array_shift($fecth);
             if (empty($fecth)) {
                 throw new Exception('Usuario não foi encontrado no sistema!', 002);
             }

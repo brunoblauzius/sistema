@@ -561,10 +561,11 @@ class UsuariosController extends AppController {
                         /**
                          * recuperando a conta empresa e guardando na sessao
                          */
+                        $contatos = $modelEmpresa->contatosEmpresa($funcionario[0][$modelFuncionario->name]['empresas_id']);
                         $contaEmpresa = $modelEmpresa->contaEmpresa(md5($funcionario[0][$modelFuncionario->name]['empresas_id']));
                         $_SESSION[$modelEmpresa->name] = $empresa[0];
                         $_SESSION['ContaEmpresa'] = $contaEmpresa[0];
-                        
+                        $_SESSION['Contato'] = $contatos;
                     }
                 } 
                 else if( in_array($usuario[$this->User->name]['roles_id'], array(3,4)) ) {

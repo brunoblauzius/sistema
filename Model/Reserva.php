@@ -489,9 +489,6 @@ class Reserva extends AppModel {
                             " . $AMBIENTE . "
                             and Calendar.status in (0,1)
                     " . $DATE . " ORDER BY Cliente.nome ASC;";
-
-
-
             $retorno = $this->query($sql);
 
             return $retorno;
@@ -1078,6 +1075,36 @@ class Reserva extends AppModel {
         }
     }
     
+    public function emailEnviadoPainel( $token ){
+        try {
+                     
+            if( !empty($token) ){
+                
+                $reserva = $this->query("SELECT * FROM reservas where token = '{$token}' and status = 1;");
+                $reserva = array_shift($reserva); 
+                
+                
+                if( !empty($reserva) ){
+                    
+                    $gravaEmail = array(
+                            'reservas_id' => $reserva['id'],
+                            'empresas_id' => $reserva['empresas_id'],
+                            'pessoas_id'  => $reserva['pessoas_id'],
+                            'clientes_id' => $reserva['clientes_id'],
+                            'created' => date('Y-m-d H:i:s'),
+                            'status' => 1
+                    );
+
+                    return $this->gravaEnvioEmail( $gravaEmail );
+                   
+                } 
+            }
+           
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
     
     
     
@@ -1264,8 +1291,13 @@ class Reserva extends AppModel {
     public function buscaConvidadoHostess( $nome, $date = NULL, $empresasId = null ){
         try {
         
+            $NOME = NULL;
             if( $date === null ){
                 $date = date('Y-m-d');
+            }
+            
+            if( !empty($nome) ){
+                $NOME = " AND nome LIKE '%{$nome}%' ";
             }
             
             $sql = "SELECT 
@@ -1274,8 +1306,8 @@ class Reserva extends AppModel {
                         reservas.vw_listaConvidados
                     WHERE
                         empresas_id = $empresasId 
-                            AND DATE(start) = DATE('{$date}')
-                            AND nome LIKE '%{$nome}%' "
+                            AND DATE(start) = DATE('{$date}')".
+                                    $NOME
                     . " ORDER BY nome, confirmado ASC;";
                             
             return $this->query($sql);

@@ -2,12 +2,12 @@
     <div class="panel-heading">Lista de Reservas.</div>
     <div class="panel-body" id="panel-body">
 
-        <div class="col-md-12 " style="margin-bottom: 20px;">
+        <div class="col-md-12 col-sm-12 col-xs-12 " style="margin-bottom: 20px;">
             <div class="col-md-6 pull-right">
-                <div class="col-md-8">
+                <div class="col-md-8 col-sm-6 col-xs-6">
                     <input type="text" placeholder="Nome do convidado" class="form-control input-sm" id="nome-convidado">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-sm-6  col-xs-6">
                     <button class="btn btn-primary btn-sm btn-block" id="btn-filtrar">Filtrar</button>
                 </div>
             </div>
@@ -16,6 +16,8 @@
         <div class="clearfix"></div>
         
         <div id="filtro-resultados">
+            
+            <?= Render::element('reservas_hostess', array('registros' => $registros))?>
             
         </div>
         
