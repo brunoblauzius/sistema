@@ -1673,6 +1673,30 @@ class ReservasController extends AppController {
             $this->checaEmpresa();
             $this->verificaContaEmpresa();
             
+            $registros = $this->Reserva->buscaConvidadoHostess( NULL, date('Y-m-d'), $this->empresas_id );
+            
+            /**
+             * listar as mesas por registro
+             */
+            
+            $newRegistros = array();
+            $ambienteModel = new Ambiente();
+            $mesaModel = new Mesa();
+            
+            foreach ($registros as $registro) 
+            {
+                /**
+                * recupero as mesas
+                */
+               $ambientes     = $ambienteModel->ambientesReservas($registro['reservas_id']);
+               $mesas = $mesaModel->mesasReservas($registro['reservas_id']);
+               $arrayMesas = array('mesas' => join(', ', $mesas), 'nome_ambiente' => join(', ', $ambientes));           
+               
+               $arrayMesas     = array_merge($arrayMesas, $this->Reserva->confirmadosParaEvento( $registro['reservas_id'] ));
+               $newRegistros[] = array_merge($registro, $arrayMesas);
+            }
+                          
+            $this->set('registros',$newRegistros);
             $this->set('title_layout', 'Reservas -  Página Inicial');
             $this->render();
             

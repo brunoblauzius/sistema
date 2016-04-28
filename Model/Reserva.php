@@ -1291,8 +1291,13 @@ class Reserva extends AppModel {
     public function buscaConvidadoHostess( $nome, $date = NULL, $empresasId = null ){
         try {
         
+            $NOME = NULL;
             if( $date === null ){
                 $date = date('Y-m-d');
+            }
+            
+            if( !empty($nome) ){
+                $NOME = " AND nome LIKE '%{$nome}%' ";
             }
             
             $sql = "SELECT 
@@ -1301,8 +1306,8 @@ class Reserva extends AppModel {
                         reservas.vw_listaConvidados
                     WHERE
                         empresas_id = $empresasId 
-                            AND DATE(start) = DATE('{$date}')
-                            AND nome LIKE '%{$nome}%' "
+                            AND DATE(start) = DATE('{$date}')".
+                                    $NOME
                     . " ORDER BY nome, confirmado ASC;";
                             
             return $this->query($sql);
