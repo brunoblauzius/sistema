@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="<?= $this->charset; ?>">
-
+        <meta name="google-site-verification" content="twj4fiGGd-FvfYM3ksYunHmzSGDDcsfjLVO3_oaRtuQ" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Sistemas de reservas para bares, restaurantes e casas noturnas">
+        <meta name="description" content="<?= $description?>">
         <meta name="author" content="bruno blauzius schuindt">
         <link rel="shortcut icon" href="<?= Router::url(array('View', 'webroot', 'img', 'icone.png')) ?>">
 
@@ -59,10 +59,20 @@
             })(document, "script");
         </script>
         <!--End of Zopim Live Chat Script-->
+        
     </head>
 
     <body>
+<script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+            ga('create', 'UA-77302933-1', 'auto');
+            ga('send', 'pageview');
+
+          </script>
 
         <?= Router::element('header_not_menu' ); ?>
 

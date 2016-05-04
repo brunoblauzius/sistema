@@ -6,7 +6,7 @@
             <div class="pi-section pi-row-lg " >
                 <!-- Logo -->
                 <div class="pi-row-block pi-row-block-logo">
-                    <a href="<?= Router::url(); ?>"><img src="<?= Router::url('View/webroot/site/img/logo-base.png'); ?>" alt="Mynight sistemas de reservas" ></a>
+                    <a href="<?= Router::url(); ?>" title="<?= $title_layout?>"><img src="<?= Router::url('View/webroot/site/img/logo-base.png'); ?>" alt="Mynight sistemas de reservas"></a>
                 </div>
                 <!-- End logo -->
                 <!-- Text -->
