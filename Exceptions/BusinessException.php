@@ -30,6 +30,8 @@ class BusinessException extends Exception {
             die( $class->render(array('controller' => 'Erros', 'view' => 'notPermisson')) );
         } else if( $this->getCode() == 113 ){
             die( $class->render(array('controller' => 'Erros', 'view' => 'notPermisson')) );
+        } else if( $this->getCode() == 114 ){
+            die( $class->render(array('controller' => 'Erros', 'view' => 'notPermisson')) );
         }
     }
     

@@ -3,7 +3,7 @@
     <div class="pi-section pi-text-center">
 
         <h1 class="h1 pi-text-shadow pi-weight-700 pi-uppercase" style="font-size: 60px;">
-            My<span class="pi-text-pink"> Nyght</span> Controle de Reservas e Eventos
+            My<span class="pi-text-pink"> Night</span> Controle de Reservas e Eventos
         </h1>
 
         <h2 class="lead-20 pi-weight-300 pi-margin-bottom-30">

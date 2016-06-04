@@ -14,11 +14,67 @@
 class Empresa extends AppModel {
 
     //put your code here
-
+    
+    private $nome = null;
+    private $cidade = null;
+    private $lat = null;
+    private $long = null;
+    
     public $useTable = 'empresas';
     public $name = 'Empresa';
     public $primaryKey = 'id';
     
+    public function getNome() {
+        return $this->nome;
+    }
+
+    public function getCidade() {
+        return $this->cidade;
+    }
+
+    public function getLat() {
+        return $this->lat;
+    }
+
+    public function getLong() {
+        return $this->long;
+    }
+
+    public function setNome($nome) {
+        if( !empty($nome) ){
+            $this->nome = " AND nome_fantasia like '%{$nome}%' ";
+        }
+        return $this;
+    }
+
+    public function setCidade($cidade) {
+         
+        if( !empty($cidade) ){
+            $this->cidade = " AND cidade = '{$cidade}' ";
+        }
+        return $this;
+    }
+
+    public function setLat($lat) {
+        if( !empty($lat) ){
+            $this->cidade = NULL;
+            $this->nome = NULL;
+            $this->lat = " AND lat = {$lat} ";
+        }
+        return $this;
+    }
+
+    public function setLong($long) {
+        if( !empty($long) ){
+                $this->cidade = NULL;
+                $this->nome = NULL;
+                $this->long = " AND  long = {$long}";
+            }
+        return $this;
+    }
+
+    
+        
     public $validate = array(
         'razao' => array(
             'notEmpty' => array(
@@ -403,5 +459,25 @@ class Empresa extends AppModel {
         }
     }
     
+    
+    public function listEmpresas(){
+        try {
+            
+            $telefone = new Contato();
+            
+            $registros = $this->query('SELECT * FROM vw_empresas_sistema WHERE status = 1 '. $this->cidade . $this->nome . $this->lat . $this->long);
+            
+             $i = 0;
+            foreach ($registros as $registro) {
+                $registros[$i] = array_merge($registro, array('telefones' => $telefone->findEmpresasContatos($registro['id'])));
+                $i++;
+            }
+            
+            return $registros;
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
     
 }

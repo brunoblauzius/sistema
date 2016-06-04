@@ -54,7 +54,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que renderiza a pagina inicial para a view
      *
@@ -73,7 +73,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que renderiza a pagina de suporte para o usuario
      *
@@ -143,7 +143,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que renderiza a pagina de configurações de usuario para a view
      *
@@ -195,7 +195,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que renderiza a pagina do painel para a view
      *
@@ -239,7 +239,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que renderiza a pagina de edição para a view
      *
@@ -300,7 +300,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que renderiza a pagina de cadastro para a view
      *
@@ -319,7 +319,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que realiza a adiciona e persistencia de dados do usuario no banco de dados
      *
@@ -404,7 +404,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que realiza a edicao e persistencia de dados do usuario no banco de dados
      *
@@ -504,7 +504,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que realiza o login do usuario no sistema
      *
@@ -615,7 +615,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que desloga o usuario no sistema
      *
@@ -632,7 +632,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que realiza a exclusao dos dados do usuario no banco de dados
      *
@@ -677,7 +677,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que realiza a alteração e persistencia de senha do usuario no banco de dados
      *
@@ -835,7 +835,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que realiza a recuperação de senha do usuario no banco de dados
      *
@@ -886,7 +886,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que reseta a senha do usuario no banco de dados
      *
@@ -916,7 +916,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que realiza a edicao e persistencia de dados do usuario no banco de dados
      *
@@ -956,7 +956,7 @@ class UsuariosController extends AppController {
     }
 
     /**
-     * @author bruno blauzius schuindt
+     * @author FreelaPHP schuindt
      * @version 1.0
      * @todo metodo que realiza a edicao e persistencia de dados do usuario no banco de dados
      *

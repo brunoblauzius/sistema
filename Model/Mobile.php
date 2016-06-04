@@ -68,7 +68,7 @@ class Mobile extends TemplateRegisterApp {
          */
         $modelContato = new Contato();
         $contatoId = $modelContato->genericInsert(array(
-            'telefone' => $this->getPhone(),
+            'telefone' => Utils::returnNumeric( $this->getPhone() ),
             'tipo'     => 1,
         ));
         $modelContato->inserirContato($pessoasId, $contatoId);
@@ -93,7 +93,8 @@ class Mobile extends TemplateRegisterApp {
             'senha' => Authentication::password( $this->getPass() ),
             'chave' => Authentication::uuid(),
         ));
-
+         
+        $modelCliente = new Cliente();
         $modelCliente->genericInsert(array(
             'pessoas_id' => $pessoasId,
             'status' => 1,

@@ -5,7 +5,7 @@
         <meta name="google-site-verification" content="twj4fiGGd-FvfYM3ksYunHmzSGDDcsfjLVO3_oaRtuQ" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="<?= $description?>">
-        <meta name="author" content="bruno blauzius schuindt">
+        <meta name="author" content="FreelaPHP schuindt">
         <link rel="shortcut icon" href="<?= Router::url(array('View', 'webroot', 'img', 'icone.png')) ?>">
 
         <script>

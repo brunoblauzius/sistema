@@ -60,7 +60,7 @@ class PagesController extends AppController{
         
         $this->layout = 'layout_site';       
         $this->set('description', 'Otimize o trabalho de gerenciamento de reservas e eventos e de quebra receba uma ferramenta poderosíssima de gestão de clientes. Com o MyNight, você terá informações da mais alta qualidade para conseguir visualizar como está a procura por reservas na sua casa, verificando o perfil do cliente, reservas por dia da semana, ociosidade do salão, clientes mais frequentes, taxas de no-show e muito mais!');
-        $this->set('title_layout', 'My Nyght Software Controle de Eventos e Reservas - ' . $this->systemName );
+        $this->set('title_layout', 'My Night Software Controle de Eventos e Reservas - ' . $this->systemName );
         $this->render();
         
     }

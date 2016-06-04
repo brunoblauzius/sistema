@@ -351,7 +351,7 @@ class ReservasController extends AppController {
                      */
                      $email = new Email();
                      $email->useTable = 'emails_sistema';
-                     $registro = $email->find('first', array('tag' => 'email_confirmacao'));
+                     $registro = $email->find('first', array('tag' => 'reserva_nova'));
 
                      /**
                       * recupero o endereço da empresa
@@ -391,6 +391,7 @@ class ReservasController extends AppController {
                         '__CLIENTE__'          => $cliente[0]['Cliente']['nome'],
                         '__DATE__'             => date('d/m/Y h:i:s'),
                         '__NOME_FANTASIA__'    => Session::read('Empresa.nome_fantasia'),
+                        '__LOGO__'             => Session::read('Empresa.logo'),
                         '__CONVIDADOS__'       =>  $_POST[$this->Reserva->name]['qtde_pessoas'],
                         '__LUGARES__'          =>  $_POST[$this->Reserva->name]['assentos'],
                         '__ENDERECO_EMPRESA__' => $enderecoEmpresa,
@@ -534,7 +535,7 @@ class ReservasController extends AppController {
 
     public function edit() {
                 
-            $idReserva 						      = null;
+            $idReserva 				   = NULL;
             $_POST[$this->Reserva->name]['id']     = $_SESSION['Form']['reservas_id'];
             
                     
@@ -589,6 +590,8 @@ class ReservasController extends AppController {
              */
             if ($this->Reserva->validates()) {
 
+               $modelMesa = new Mesa();
+               $modelMesa->mesasAmbientesVerify($_POST[$this->Reserva->name]['id'], $_POST[$this->Reserva->name]['start'], $mesas);
                 
                $this->Reserva->genericUpdate( $_POST[$this->Reserva->name] );
                $idReserva = $_SESSION['Form']['reservas_id'];
@@ -620,7 +623,19 @@ class ReservasController extends AppController {
         } catch (SystemException $ex) {
             echo $ex->getErrorJson('#ReservaAddForm');
         } catch (Exception $e) {
-            echo $e->getMessage();
+                $json = json_encode(array(
+                    'message' => $e->getMessage(),
+                    "style" =>'warning',
+                    'time' => 5000,
+                    'size' => 'md',
+                    'callback' => NULL,
+                    'before' => "$('#loading').fadeOut(200);",
+                    'icon'   => 'check',
+                    'title'  => 'Atenção leia as instruções!'
+                ));
+                echo json_encode(array(
+                    'funcao' => "bootsAlert( $json );",
+                ));
         }
     }
 
