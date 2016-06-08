@@ -35,7 +35,7 @@ class Lista extends AppModel{
         ),
     );
     
-    public function listarCadastrosListaPromoters( $pessoasId, $empresasId ){
+    public function listarCadastrosListaPromoters( $pessoasId, $eventosId ){
         try {
             
             $sql = " SELECT 
@@ -45,7 +45,7 @@ class Lista extends AppModel{
                         reservas.eventos_has_tipos_listas etp
                             INNER JOIN
                         tipos_listas tp ON tp.id = etp.tipos_listas_id
-                        WHERE etp.empresas_id = $empresasId
+                        WHERE etp.eventos_id = $eventosId
                         AND pessoas_id = $pessoasId; ";
             
             $registros = $this->query($sql);
@@ -73,6 +73,41 @@ class Lista extends AppModel{
             $registro = $this->query($sql);
             
             return $registro[0]['total'];
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    public function copyListaPromoter( $pessoasIdCopy, $pessoasId, $eventosId){
+        try {
+            
+            $sql = "INSERT INTO eventos_has_tipos_listas ( eventos_id, tipos_listas_id, pessoas_id, empresas_id, quantidade ) 
+                        SELECT eventos_id, tipos_listas_id, $pessoasId, empresas_id, quantidade 
+                        FROM eventos_has_tipos_listas WHERE eventos_id = $eventosId AND pessoas_id = $pessoasIdCopy; ";
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function listaDisponivel( $pessoasId ){
+        try {
+            
+            $sql = " SELECT 
+                            TL.id,
+                            TL.title
+                        FROM
+                            eventos_has_tipos_listas AS ETL
+                                INNER JOIN
+                            tipos_listas AS TL ON TL.id = ETL.tipos_listas_id
+                        WHERE
+                            ETL.pessoas_id = {$pessoasId}
+                                AND ETL.quantidade > 0; ";
+                            
+            return $this->query($sql);
             
         } catch (Exception $ex) {
             throw $ex;

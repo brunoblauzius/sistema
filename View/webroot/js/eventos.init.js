@@ -135,6 +135,27 @@ function selectAtracoes(){
     });
 }
 
+function carregarListaFuncionarios( pessoasid, eventosid){
+    $.ajax({
+        beforeSend: function (xhr) {
+            $('#carregar-lista').html('<b>Carregando...</b>');
+        },
+        method: 'get', 
+        dataType: 'html',
+        data:{
+            pessoas_id: pessoasid,
+            eventos_id: eventosid,
+        },
+        url: web_root + 'Listas/carregar-lista-promoters',
+        success: function (data, textStatus, jqXHR) {
+            $('#carregar-lista').html(data);
+        }, 
+        error: function (jqXHR, textStatus, errorThrown) {
+            
+        }
+    });
+}
+
 /**
  * deletar atração
  */
@@ -173,22 +194,34 @@ $(document).on('click', '#btn-save', function(){
 
 
 $(document).on('click', '.carregar-lista-funcionario', function(){
-    $.ajax({
+    carregarListaFuncionarios($(this).data('pessoasid'), $(this).data('eventosid'));
+});
+
+$(document).on('click', '.copiar-distribuicao', function(){
+   var pessoas_id    = $(this).data('pessoasid');
+   var eventos_id    = $(this).data('eventosid');
+   var pessoasidcopy = $(this).data('pessoasidcopy');
+   
+   $.ajax({
         beforeSend: function (xhr) {
-            $('#carregar-lista').html('<b>Carregando...</b>');
+            $('#loading').fadeIn(500);
         },
-        method: 'get', 
-        dataType: 'html',
+        method: 'post', 
+        dataType: 'json',
         data:{
-            pessoas_id: $(this).data('pessoasid'),
-            eventos_id: $(this).data('eventosid'),
+            pessoas_id: pessoas_id,
+            eventos_id: eventos_id,
+            pessoas_idcopy: pessoasidcopy,
         },
-        url: web_root + 'Listas/carregar-lista-promoters',
+        url: web_root + 'Listas/copiar-lista-promoter',
         success: function (data, textStatus, jqXHR) {
-            $('#carregar-lista').html(data);
+            
+            tratarJSON(data);
+            
         }, 
         error: function (jqXHR, textStatus, errorThrown) {
-            
+            $('#loading').fadeOut(500);
         }
     });
-})
+   
+});

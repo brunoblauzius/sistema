@@ -569,10 +569,10 @@
                         //$('#loading').fadeOut(500);
                     }
                     if( json.erro == false ){
-                        $('#logradouro').val(json.resultado.logradouro);
-                        $('#cidade').val(json.resultado.cidade);
-                        $('#uf').val(json.resultado.uf);
-                        $('#bairro').val(json.resultado.bairro);
+                        $('#logradouro').val(json.resultado[0].logradouro);
+                        $('#cidade').val(json.resultado[0].cidade);
+                        $('#uf').val(json.resultado[0].uf);
+                        $('#bairro').val(json.resultado[0].bairro);
                         //$('#loading').fadeOut(500);
                     } else {
                         $('#logradouro').attr('disabled', false);

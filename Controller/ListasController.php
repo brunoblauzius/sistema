@@ -13,7 +13,7 @@
  */
 class ListasController extends AppController{
     //put your code here
-    public $ClasseAllow = array('index', 'add', 'montarTabelaLista', 'editar', 'edit', 'alterarStatus', 'carregarListaPromoters');
+    public $ClasseAllow = array('index', 'add', 'montarTabelaLista', 'editar', 'edit', 'alterarStatus', 'carregarListaPromoters', 'copiarListaPromoter');
     
     public $Lista;
     
@@ -26,6 +26,11 @@ class ListasController extends AppController{
     
     public function carregarListaPromoters(){
         $this->layout = 'null';
+        
+        $funcionariosModel = new Funcionario();
+        $funcionarios = array();
+        $funcionarios = $funcionariosModel->funcionariosEmpresa( $this->empresas_id );
+        
         $records = $this->Lista->find('all', array( 'empresas_id' => $this->empresas_id), NULL, NULL, array('title ASC'));
         $listaCadastro = $this->Lista->listarCadastrosListaPromoters($_GET['pessoas_id'], $_GET['eventos_id']);
         $totalNaLista = $this->Lista->totalNalistaEvento($_GET['eventos_id']);
@@ -36,6 +41,7 @@ class ListasController extends AppController{
                     'eventos_id' => $_GET['eventos_id'], 
                     'listaCadastro' => $listaCadastro,
                     'totalNaLista' => $totalNaLista,
+                    'funcionarios' => $funcionarios,
                 ));
     }
     
@@ -281,5 +287,42 @@ class ListasController extends AppController{
         }
     }
     
+    
+    public function copiarListaPromoter(){
+        try {
+            
+            $this->Lista->copyListaPromoter($_POST['pessoas_idcopy'], $_POST['pessoas_id'], $_POST['eventos_id']);
+            
+            $json = json_encode(array(
+                'message' => 'Lista Copiada com sucesso',
+                "style" => 'success',
+                'time' => 5000,
+                'size' => 'md',
+                'callback' => "carregarListaFuncionarios('{$_POST['pessoas_id']}', '{$_POST['eventos_id']}');",
+                'before' => "$('#loading').fadeOut(500);",
+                'icon' => 'check',
+                'title' => 'Success!'
+            ));
+            
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json )",
+            ));
+            
+        } catch (Exception $ex) {
+            $json = json_encode(array(
+                'message' => $ex->getMessage(),
+                "style" => 'danger',
+                'time' => 5000,
+                'size' => 'md',
+                'callback' => NULL,
+                'before' => "$('#loading').fadeOut(500);",
+                'icon' => 'check',
+                'title' => 'Danger!'
+            ));
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json )",
+            ));
+        }
+    }
     
 }

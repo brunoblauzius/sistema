@@ -8,7 +8,7 @@
 class EventosController extends AppController {
     //put your code here
     
-    public $ClasseAllow = array('cadastro', 'addAtracao', 'listAtracao', 'add', 'distribuicaoPromoters', 'addDistruibuicaoPromoters');
+    public $ClasseAllow = array('cadastro', 'addAtracao', 'listAtracao', 'add', 'addListaVip', 'distribuicaoPromoters', 'addDistruibuicaoPromoters', 'editar', 'edit', 'portaria', 'minhaLista');
     public $Evento;
     public $Atracao;
     
@@ -60,6 +60,9 @@ class EventosController extends AppController {
         }
     }
     
+    /**
+     * @todo pagina de cadastro
+     */
     public function cadastro(){
         
         $this->layout = 'null';
@@ -70,7 +73,65 @@ class EventosController extends AppController {
         
     }
     
+    /**
+     * @todo renderiza a pagina da portaria
+     */
+    public function portaria(){
+        try {
+            $token = null;
+            
+            if( isset($_GET['param']) ){
+                $token = $_GET['param'];
+            }
+            
+            
+            
+            $this->render();
+            
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
     
+    
+    /**
+     * @todo renderiza a pagina da minha lista
+     */
+    public function minhaLista(){
+        try {
+            
+            $token = null;
+            
+            $listaModel = new Lista();
+            
+            if( isset($_GET['param']) ){
+                $token = $_GET['param'];
+            }
+            
+            $record = $this->Evento->find('first', array('md5(id)' => $token));
+            $record = array_shift($record);
+            
+            if( !empty($record) ){
+                unset($_SESSION['Form']);
+                $_SESSION['Form']['eventos_id'] = intval($record['Evento']['id']);
+            }
+            
+            $lista = $listaModel->listaDisponivel($this->pessoas_id);
+            
+            $this->set('evento', $record );
+            $this->set('lista', $lista);
+            $this->render();
+            
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+    
+    
+    
+    /**
+     * @todo metodo que persiste os dados no banco e envia as imagens
+     */
     public function add(){
         try {
             
@@ -209,6 +270,19 @@ class EventosController extends AppController {
         }
     }
     
+    
+    /**
+     * 
+     */
+    public function editar(){
+        
+        $record = $this->Evento->find('first', array('md5(id)' => $_GET['param']));
+        
+        $this->set('registro', array_shift($record[0]));
+        $this->set('title_layout', 'Editar Evento');
+        $this->render();
+    }
+    
     /**
      * 
      */
@@ -258,7 +332,7 @@ class EventosController extends AppController {
                 "style" => 'success',
                 'time' => 5000,
                 'size' => 'md',
-                'callback' => "",
+                'callback' => "carregarListaFuncionarios('{$_POST['pessoas_id']}', '{$_POST['eventos_id']}');",
                 'before' => "$('#loading').fadeOut(500);",
                 'icon' => 'check',
                 'title' => 'Success!'
@@ -268,6 +342,79 @@ class EventosController extends AppController {
                     ));
         } catch (Exception $ex) {
              $json = json_encode(array(
+                'message' => $ex->getMessage(),
+                "style" => 'danger',
+                'time' => 5000,
+                'size' => 'md',
+                'callback' => NULL,
+                'before' => "$('#loading').fadeOut(500);",
+                'icon' => 'check',
+                'title' => 'Danger!'
+            ));
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json )",
+            ));
+        } 
+    }
+    
+    public function addListaVip(){
+        $json = NULL;
+        try {
+            $eventosId = Session::read('Form.eventos_id');
+            $model = new Mobile();
+            $newArr = $this->Evento->quebraLinha($_POST['nomes_listas']);
+            foreach ( $newArr as $lista ){
+                
+                $model->data = $_POST;
+                
+                if ($model->validates()) {
+
+                    /**
+                     * verificar ou listar o cliente
+                     */
+                    $registro = $model->setNome( $lista['nome'] )
+                                      ->setPhone( $lista['telefone'] )
+                                      ->register();
+                    
+                    /**
+                     * inserir na lista vip
+                     */
+                    $this->Evento->addClientVipList( $registro['pessoas_id'], $eventosId, $_POST['tipos_listas_id'] );
+                    
+                    unset($_SESSION['Form']);
+                    
+                    $json = json_encode(array(
+                        'message' => 'Operação realizada com sucesso',
+                        "style" => 'success',
+                        'time' => 5000,
+                        'size' => 'md',
+                        'callback' => "",
+                        'before' => "$('#loading').fadeOut(500);",
+                        'icon' => 'check',
+                        'title' => 'Success!'
+                    ));
+                    
+                    
+                } else {
+                    $json = json_encode(array(
+                        'message' => $model->refactoryError(),
+                        "style" => 'warning',
+                        'time' => 5000,
+                        'size' => 'md',
+                        'callback' => NULL,
+                        'before' => "$('#loading').fadeOut(500);",
+                        'icon' => 'check',
+                        'title' => 'Warning!'
+                    ));
+                }
+            }
+            
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json )",
+            ));
+            
+        } catch (Exception $ex) {
+            $json = json_encode(array(
                 'message' => $ex->getMessage(),
                 "style" => 'danger',
                 'time' => 5000,

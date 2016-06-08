@@ -292,16 +292,15 @@ class Cliente extends AppModel {
             $NOME = null;
             $TELEFONE = null;
             
-            if( !empty($nome)){
-                $NOME =  " nome = '{$nome}' ";
-            }
             if( !empty($telefone)){
-                $TELEFONE =  " and telefone = '{$telefone}' ";
+                $TELEFONE =  "telefone = '{$telefone}'";
+            }
+            if( !empty($nome)){
+                $NOME =  " AND lower(nome) = lower(CAST(_latin1'{$nome}' AS CHAR CHARACTER SET utf8))";
             }
             
-            $sql = " SELECT * FROM vw_clientes WHERE $NOME $TELEFONE ";
+            $sql = "SELECT * FROM vw_clientes WHERE $TELEFONE $NOME;";
             $registro = $this->query($sql);
-            
             return array_shift($registro);
             
         } catch (Exception $ex) {

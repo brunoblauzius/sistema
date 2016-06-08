@@ -46,6 +46,7 @@ class Mobile extends TemplateRegisterApp {
     }
     
     public function cadastro($created) {
+        
         /**
         * criar uma pessoa
         */
@@ -72,27 +73,35 @@ class Mobile extends TemplateRegisterApp {
             'tipo'     => 1,
         ));
         $modelContato->inserirContato($pessoasId, $contatoId);
+        
         /**
          * criar um email
          */
-        $modelEmail = new Email();
-        $modelEmail->inserirEmailPessoa($pessoasId, $this->getEmail());
-
+        if( $this->getEmail() != NULL ){
+            $modelEmail = new Email();
+            $modelEmail->inserirEmailPessoa($pessoasId, $this->getEmail());
+        }
+        
         /**
          * criar um usuario
-         */
-         $modelUsuario = new Usuario();
-         $usuarioId = $modelUsuario->genericInsert(array(
-            'roles_id' => 1,
-            'pessoas_id' => $pessoasId,
-            'status' => 1,
-            'perfil_teste' => 0,
-            'created' => $created,
-            'email' => $this->getEmail(),
-            'login' => $this->getEmail(),
-            'senha' => Authentication::password( $this->getPass() ),
-            'chave' => Authentication::uuid(),
-        ));
+         */         
+         if( $this->getPass() != null ){
+             
+            $modelUsuario = new Usuario();
+            $this->setPass( Authentication::password($this->getPass()) );
+            
+            $usuarioId = $modelUsuario->genericInsert(array(
+               'roles_id' => 1,
+               'pessoas_id' => $pessoasId,
+               'status' => 1,
+               'perfil_teste' => 0,
+               'created' => $created,
+               'email' => $this->getEmail(),
+               'login' => $this->getEmail(),
+               'senha' => $this->getPass(),
+               'chave' => Authentication::uuid(),
+           ));
+        }
          
         $modelCliente = new Cliente();
         $modelCliente->genericInsert(array(
@@ -101,11 +110,11 @@ class Mobile extends TemplateRegisterApp {
             'sexo'   => 0,
         ));
 
-        $registro = $modelCliente->recuperaCliente($this->getNome(), $this->getPhone());
+        return $modelCliente->recuperaCliente($this->getNome(), $this->getPhone()); 
     }
 
     
     public function update($created, $registro) {
-        return NULL;
+        return $registro;
     }
 }

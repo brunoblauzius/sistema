@@ -1,7 +1,25 @@
 <form action="<?= Router::url(array('Eventos', 'addDistruibuicaoPromoters'));?>" method="post" id="addDistruibuicaoPromoters">
+    <!-- menu -->
     <div>
-        <button class="btn btn-primary btn-sm pull-right" style="margin-bottom: 10px;">Salvar</button>
+        <div class="dropdown pull-left">
+            <a class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Copiar a distribuição do <strong>Promoter</strong>
+                <span class="fa fa-bars"></span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <?php foreach ($funcionarios as $funcionario):?>
+                    <?php if( $pessoas_id != $funcionario['pessoas_id']):?>
+                        <li><a href="#" class="copiar-distribuicao" data-pessoasid='<?= $pessoas_id?>' data-pessoasidcopy="<?= $funcionario['pessoas_id']?>" data-eventosid="<?= $eventos_id?>"><?= ucfirst($funcionario['nome']);?></a></li>
+                    <?php endif;?>
+              <?php endforeach;?>
+            </ul>
+        </div>
+        <div class="pull-right">
+            <button class="btn btn-primary btn-sm" style="margin-bottom: 10px;">Salvar</button>
+        </div>
     </div>
+    <!-- // fim menu -->
+    
     <div class="clearfix"></div>
     <table class="table table-condensed table-hover table-responsive table-striped" id="data-table-eventos">
         <thead class="bg-header-primary">
