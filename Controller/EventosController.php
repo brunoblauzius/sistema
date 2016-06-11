@@ -8,13 +8,12 @@
 class EventosController extends AppController {
     //put your code here
     
-    public $ClasseAllow = array('cadastro', 'addAtracao', 'listAtracao', 'add', 'addListaVip', 'distribuicaoPromoters', 'addDistruibuicaoPromoters', 'editar', 'edit', 'portaria', 'minhaLista');
+    public $ClasseAllow = array('cadastro','carregaListaPortaria', 'edit', 'resumo', 'carregaMinhaLista', 'liberarClientePortaria' ,'addAtracao', 'listAtracao', 'add', 'addListaVip', 'distribuicaoPromoters', 'addDistruibuicaoPromoters', 'editar', 'edit', 'portaria', 'minhaLista');
     public $Evento;
     public $Atracao;
     
     public function __construct() {
         parent::__construct();
-        
         $this->Atracao = new Atracao();
         $this->Evento = new Evento();
         $this->layout = 'painel';
@@ -80,12 +79,16 @@ class EventosController extends AppController {
         try {
             $token = null;
             
+            $this->addJs(array(
+                'js/portaria.init'
+            ));
+            
             if( isset($_GET['param']) ){
                 $token = $_GET['param'];
             }
             
-            
-            
+            $registro = $this->Evento->clientsInList($token);
+            $this->set('registros', $registro);
             $this->render();
             
         } catch (Exception $ex) {
@@ -99,7 +102,9 @@ class EventosController extends AppController {
      */
     public function minhaLista(){
         try {
-            
+            $this->addJs(array(
+                'js/minhaLista.init'
+            ));
             $token = null;
             
             $listaModel = new Lista();
@@ -128,6 +133,16 @@ class EventosController extends AppController {
     }
     
     
+    private function validTokenEnterprises($token){
+        try {
+            
+            
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
     
     /**
      * @todo metodo que persiste os dados no banco e envia as imagens
@@ -141,7 +156,8 @@ class EventosController extends AppController {
             $_POST['Evento']['empresas_id'] = $this->empresas_id;
             $_POST['Evento']['pessoas_id'] = $this->pessoas_id;
             $_POST['Evento']['data'] = Utils::convertDataSemHora($_POST['Evento']['data']);
-             
+            $_POST['Evento']['created'] = date('Y-m-d H:i:s');
+            
             $this->Evento->data = $_POST['Evento'];
             
             if( $this->Evento->validates() ){
@@ -158,6 +174,90 @@ class EventosController extends AppController {
                             'time' => 5000,
                             'size' => 'md',
                             'callback' => "$('#ModalFormulario').modal('hide');",
+                            'before' => "$('#loading').fadeOut(500);",
+                            'icon' => 'check',
+                            'title' => 'Success!'
+                        ));
+                    } else {
+                        $json = json_encode(array(
+                            'message' => 'Não foi possivel realizar o cadastro',
+                            "style" => 'warning',
+                            'time' => 5000,
+                            'size' => 'md',
+                            'callback' => NULL,
+                            'before' => "$('#loading').fadeOut(500);",
+                            'icon' => 'check',
+                            'title' => 'Warning!'
+                        ));
+                    }
+
+                } else {
+                    $json = json_encode(array(
+                            'message' => $this->Evento->refactoryError(),
+                            "style" => 'warning',
+                            'time' => 5000,
+                            'size' => 'md',
+                            'callback' => NULL,
+                            'before' => "$('#loading').fadeOut(500);",
+                            'icon' => 'check',
+                            'title' => 'Warning!'
+                        ));
+                }
+                
+                echo json_encode(array(
+                    'funcao' => "bootsAlert( $json )",
+                ));
+            
+        } catch (Exception $ex) {
+            $json = json_encode(array(
+                'message' => $ex->getMessage(),
+                "style" => 'danger',
+                'time' => 5000,
+                'size' => 'md',
+                'callback' => NULL,
+                'before' => "$('#loading').fadeOut(500);",
+                'icon' => 'check',
+                'title' => 'Danger!'
+            ));
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json )",
+            ));
+        }
+    }
+    
+    /**
+     * @todo metodo que persiste os dados no banco e envia as imagens
+     */
+    public function edit(){
+        try {
+            
+            $token = Authentication::uuid();
+            
+            $_POST['Evento']['token'] = $token;
+            $_POST['Evento']['empresas_id'] = $this->empresas_id;
+            $_POST['Evento']['pessoas_id'] = $this->pessoas_id;
+            $_POST['Evento']['data'] = Utils::convertDataSemHora(trim($_POST['Evento']['data']));
+            $_POST['Evento']['id'] = Session::read('Form.eventos_id');
+             
+            $this->Evento->data = $_POST['Evento'];
+            
+            
+            if( $this->Evento->validates() ){
+                
+                /**
+                 * Envio o banner para o servidor
+                 */
+                $this->Evento->uploadBanner($_FILES, $this->Evento->data);
+                
+                
+                if( $this->Evento->genericUpdate($this->Evento->data)){
+                    $url = Router::url('Eventos', 'index');
+                    $json = json_encode(array(
+                            'message' => 'Cadastro realizado com sucesso',
+                            "style" => 'success',
+                            'time' => 5000,
+                            'size' => 'md',
+                            'callback' => "$('#ModalFormulario').modal('hide');redirect('{$url}');",
                             'before' => "$('#loading').fadeOut(500);",
                             'icon' => 'check',
                             'title' => 'Success!'
@@ -275,9 +375,27 @@ class EventosController extends AppController {
      * 
      */
     public function editar(){
+        unset($_SESSION['Form']);
+        $this->addCss(array(
+            'js/morris-chart/morris',
+            'js/datatimepicker2.0/bootstrap-datetimepicker.min',
+
+        ));
+
+        $this->addJs(
+            array(
+                'js/fullcalendar2.0/lib/moment.min',
+                'js/fullcalendar2.0/fullcalendar',
+                'js/fullcalendar2.0/lang-all',
+                'js/datatimepicker2.0/bootstrap-datetimepicker.min',
+                'js/morris-chart/morris',
+                'js/morris-chart/raphael-min',
+            )
+        );
+        
         
         $record = $this->Evento->find('first', array('md5(id)' => $_GET['param']));
-        
+        $_SESSION['Form']['eventos_id'] = $record[0]['Evento']['id'];
         $this->set('registro', array_shift($record[0]));
         $this->set('title_layout', 'Editar Evento');
         $this->render();
@@ -362,7 +480,16 @@ class EventosController extends AppController {
         try {
             $eventosId = Session::read('Form.eventos_id');
             $model = new Mobile();
+            
             $newArr = $this->Evento->quebraLinha($_POST['nomes_listas']);
+            
+            if( empty($_POST['tipos_listas_id']) ){
+                throw new Exception('O tipo da lista é um campo requirido!');
+            }
+            if( empty($newArr) ){
+                throw new Exception('Você deve adicionar nomes a lista respeitando a formatação.');
+            }
+            
             foreach ( $newArr as $lista ){
                 
                 $model->data = $_POST;
@@ -379,7 +506,7 @@ class EventosController extends AppController {
                     /**
                      * inserir na lista vip
                      */
-                    $this->Evento->addClientVipList( $registro['pessoas_id'], $eventosId, $_POST['tipos_listas_id'] );
+                    $this->Evento->addClientVipList( $registro['pessoas_id'], $eventosId, $_POST['tipos_listas_id'], $this->pessoas_id );
                     
                     unset($_SESSION['Form']);
                     
@@ -388,7 +515,7 @@ class EventosController extends AppController {
                         "style" => 'success',
                         'time' => 5000,
                         'size' => 'md',
-                        'callback' => "",
+                        'callback' => "carregaMinhaLista();",
                         'before' => "$('#loading').fadeOut(500);",
                         'icon' => 'check',
                         'title' => 'Success!'
@@ -428,6 +555,72 @@ class EventosController extends AppController {
                 'funcao' => "bootsAlert( $json )",
             ));
         } 
+    }
+    
+    public function carregaListaPortaria(){
+        $nome = Utils::sanitazeString($_POST['nome']);
+        $registros = $this->Evento->clientsInListByNome($nome);
+        echo Render::element('Eventos/lista-portaria', array('registros' => $registros));
+    }
+    
+    public function liberarClientePortaria(){
+        try {
+            
+            $pessoasId = $_POST['pessoas_id'];
+            $eventosId = $_POST['eventos_id'];
+            
+            if( $this->Evento->liberarClientePortaria($pessoasId, $eventosId)){
+             $json = json_encode(array(
+                        'message' => 'Confirmada a presença com sucesso',
+                        "style" => 'success',
+                        'time' => 5000,
+                        'size' => 'md',
+                        'callback' => "carregaListaPortaria('');",
+                        'before' => "$('#loading').fadeOut(500);",
+                        'icon' => 'check',
+                        'title' => 'Success!'
+                    ));
+                } else {
+                    $json = json_encode(array(
+                        'message' => 'Não foi possivel liberar',
+                        "style" => 'warning',
+                        'time' => 5000,
+                        'size' => 'md',
+                        'callback' => NULL,
+                        'before' => "$('#loading').fadeOut(500);",
+                        'icon' => 'check',
+                        'title' => 'Warning!'
+                    ));
+                }
+             echo json_encode(array(
+                'funcao' => "bootsAlert( $json )",
+            ));
+        } catch (Exception $ex) {
+             $json = json_encode(array(
+                'message' => $ex->getMessage(),
+                "style" => 'danger',
+                'time' => 5000,
+                'size' => 'md',
+                'callback' => NULL,
+                'before' => "$('#loading').fadeOut(500);",
+                'icon' => 'check',
+                'title' => 'Danger!'
+            ));
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json )",
+            ));
+        }
+    }
+    
+    public function carregaMinhaLista(){
+        $registros = $this->Evento->clientsMyList($this->pessoas_id, Session::read('Form.eventos_id'));
+        echo Render::element('Eventos/minha-lista', array('registros' => $registros));
+    }
+    
+    
+    public function resumo(){
+        $registros = $this->Evento->relatorioResumoFuncionario($this->pessoas_id, Session::read('Form.eventos_id'));
+        echo Render::element('Eventos/resumo', array('registros' => array_shift($registros) ));
     }
     
 }

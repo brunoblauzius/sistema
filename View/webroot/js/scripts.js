@@ -94,14 +94,15 @@
 		$('.data_time').mask('00:00'); 
 		
 		$(function () {
-			$('.datetimepicker2').datetimepicker({
+                    $('.datetimepicker2').datetimepicker({
                             language: 'pt-br',
                             format: 'DD/MM/YYYY',
                             disabledHours: true,
-			 });
-                        $('#datetimepicker3').datetimepicker({
-                           format: 'LT'
-                        });
+                     });
+                     
+                    $('#datetimepicker3').datetimepicker({
+                       format: 'LT'
+                    });
 		});
 		
                 $('.excluir-convidado').click(function(){

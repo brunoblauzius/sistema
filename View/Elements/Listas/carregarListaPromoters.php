@@ -33,11 +33,11 @@
            <tr>
                 <td>
                     <?php if($registro['Lista']['sexo'] == 0 ):?>
-                        <span class="bg-header-female">Feminino</span>
+                    <span class="bg-header-female"><i class="fa fa-female marginNull"></i> Feminino</span>
                     <?php elseif($registro['Lista']['sexo'] == 1 ):?>
-                        <span class="bg-header-male">Masculino</span>
+                        <span class="bg-header-male"><i class="fa fa-male marginNull"></i> Masculino</span>
                     <?php else:?>
-                        <span class="bg-header-male-female">Unissex</span>
+                        <span class="bg-header-male-female"><i class="fa fa-female marginNull"></i><i class="fa fa-male marginNull"></i> Unissex</span>
                     <?php endif;?>
                 </td> 
                 <td>

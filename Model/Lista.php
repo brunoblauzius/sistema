@@ -82,10 +82,18 @@ class Lista extends AppModel{
     public function copyListaPromoter( $pessoasIdCopy, $pessoasId, $eventosId){
         try {
             
+            $registros = $this->listarCadastrosListaPromoters($pessoasIdCopy, $eventosId);
+            
+            if( count($registros) == 0 ){
+                throw new Exception('Não existe nenhuma lista relacionada a esse funcionário');
+            }
+            
             $sql = "INSERT INTO eventos_has_tipos_listas ( eventos_id, tipos_listas_id, pessoas_id, empresas_id, quantidade ) 
                         SELECT eventos_id, tipos_listas_id, $pessoasId, empresas_id, quantidade 
                         FROM eventos_has_tipos_listas WHERE eventos_id = $eventosId AND pessoas_id = $pessoasIdCopy; ";
-            return $this->query($sql);
+            $this->query($sql);
+                 
+            return $registros;
             
         } catch (Exception $ex) {
             throw $ex;

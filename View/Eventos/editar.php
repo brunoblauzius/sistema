@@ -7,12 +7,16 @@
             <div class="col-md-9">
 
                     <div id="eventos" class="div-container">
-                        <form action="<?= Router::url(array('Eventos', 'add'));?>" method="post" enctype="multipart/form-data" id="EventosAdd">
+                        <form action="<?= Router::url(array('Eventos', 'edit'));?>" method="post" enctype="multipart/form-data" id="EventosEdit">
 
-                            <div class="form-group" id="content-image" style="display: none">
+                            <div class="form-group" id="content-image">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <img src="http://placehold.it/850x400" class="img-thumbnail" id="img-event"/>
+                                        <?php if( !empty($registro['imagem']) && file_exists( ROOT. DS .'View/webroot/img/eventos_banner/'.$registro['imagem'] ) ):?>
+                                            <img src="<?= Router::url('/View/webroot/img/eventos_banner/'.$registro['imagem'])?>" class="img-thumbnail" id="img-event"/>
+                                        <?php else:?>
+                                            <img src="http://placehold.it/850x400" class="img-thumbnail" id="img-event"/>
+                                        <?php endif;?>
                                     </div>
                                 </div>
                             </div>

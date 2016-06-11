@@ -65,6 +65,8 @@ class Evento extends AppModel {
                     require_once("Library/wideimage/WideImage.php");
 
                     WideImage::load($files['arquivo']['tmp_name'])->resize($width, $height, 'outside')->saveToFile($pathFile, 90);
+                    $post['imagem'] =  URL::sanitizeTitleWithDashes($fileName) . '.' . $extension;
+                    
                 } else {
                     throw new Exception('é permitido somente arquivos do tipo ' . join(',', $extensionPermiss));
                 }
@@ -168,7 +170,7 @@ class Evento extends AppModel {
      * @return boolean
      * @throws Exception
      */
-    public function addClientVipList($pessoasId, $eventosId, $tiposListasId) {
+    public function addClientVipList($pessoasId, $eventosId, $tiposListasId, $funcionariosPessoasId) {
         try {
 
             if (!empty($pessoasId) && !empty($eventosId) && !empty($tiposListasId)) {
@@ -177,7 +179,7 @@ class Evento extends AppModel {
                 $record = $this->query($sql);
                 
                 if( empty($record) ){
-                    $sql = "INSERT INTO eventos_pessoas ( pessoas_id, eventos_id, tipos_listas_id ) VALUES ( {$pessoasId}, {$eventosId}, {$tiposListasId} );";
+                    $sql = "INSERT INTO eventos_pessoas ( pessoas_id, eventos_id, tipos_listas_id, funcionarios_pessoas_id ) VALUES ( {$pessoasId}, {$eventosId}, {$tiposListasId}, {$funcionariosPessoasId} );";
                     return $this->query($sql);
                 }
                 
@@ -191,7 +193,7 @@ class Evento extends AppModel {
     
     /**
      * @todo retorna todos os clientes da lista do evento
-     * @param int $eventosId
+     * @param string $eventosId deve se passar o has md5 do id
      * @return array
      * @throws Exception
      */
@@ -202,15 +204,22 @@ class Evento extends AppModel {
                         evetp.pessoas_id,
                         evetp.eventos_id,
                         evetp.presente,
-                        pf.nome,
-                        tl.title
+                        upper(cl.nome) as nome,
+                        cl.telefone,
+                        tl.title,
+                        tl.sexo,
+                        upper(pf.nome) as promoter
                     FROM
                         eventos_pessoas AS evetp
-                            INNER JOIN
-                        pessoaFisica AS pf ON pf.pessoas_id = evetp.pessoas_id
-                        inner join tipos_listas as tl on tl.id = evetp.tipos_listas_id
+                            left JOIN
+                        vw_clientes AS cl ON cl.pessoas_id = evetp.pessoas_id
+                            left JOIN
+                        tipos_listas AS tl ON tl.id = evetp.tipos_listas_id
+                            right JOIN
+                        pessoaFisica AS pf ON pf.pessoas_id = evetp.funcionarios_pessoas_id
                     WHERE
-                    evetp.eventos_id = $eventosId;";
+                        presente = 0
+                        AND md5(eventos_id) = '$eventosId';";
 
             return $this->query($sql);
 
@@ -219,4 +228,157 @@ class Evento extends AppModel {
         }
     }
 
+    
+    public function validTokenEnterprises( $token, $empresasId ){
+        try {
+            
+            $sql = "select * from eventos where md5(id) = '{$token}' and empresas_id = $empresasId;";
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    public function clientsInListByNome( $nome ){
+        try {
+            
+            $NOME = NULL;
+            
+            if( !empty($nome)){
+             $NOME = "AND lower(cl.nome) like lower(CAST(_latin1'%{$nome}%' AS CHAR CHARACTER SET utf8));";   
+            }
+            
+            $sql = " SELECT 
+                        evetp.pessoas_id,
+                        evetp.eventos_id,
+                        evetp.presente,
+                        upper(cl.nome) as nome,
+                        cl.telefone,
+                        tl.title,
+                        tl.sexo,
+                        upper(pf.nome) as promoter
+                    FROM
+                        eventos_pessoas AS evetp
+                            left JOIN
+                        vw_clientes AS cl ON cl.pessoas_id = evetp.pessoas_id
+                            left JOIN
+                        tipos_listas AS tl ON tl.id = evetp.tipos_listas_id
+                            right JOIN
+                        pessoaFisica AS pf ON pf.pessoas_id = evetp.funcionarios_pessoas_id
+                    WHERE
+                        presente = 0
+                        $NOME LIMIT 200";
+
+            return $this->query($sql);
+
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function clientsMyList( $pessoasId, $eventosId ){
+        try {
+            
+            
+            $sql = " SELECT 
+                        evetp.pessoas_id,
+                        evetp.eventos_id,
+                        evetp.presente,
+                        upper(cl.nome) as nome,
+                        cl.telefone,
+                        tl.title,
+                        tl.sexo,
+                        upper(pf.nome) as promoter
+                    FROM
+                        eventos_pessoas AS evetp
+                            left JOIN
+                        vw_clientes AS cl ON cl.pessoas_id = evetp.pessoas_id
+                            left JOIN
+                        tipos_listas AS tl ON tl.id = evetp.tipos_listas_id
+                            right JOIN
+                        pessoaFisica AS pf ON pf.pessoas_id = evetp.funcionarios_pessoas_id
+                    WHERE
+                        evetp.funcionarios_pessoas_id = $pessoasId
+                        AND evetp.eventos_id = $eventosId;";
+
+            return $this->query($sql);
+
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function relatorioPorLista( $pessoasId, $eventosId ){
+        try {
+            $sql = " SELECT 
+                            count(evetp.tipos_listas_id) total, 
+                        evetp.eventos_id,
+                        sum(if(evetp.presente = 0, 1, 0)) nao_presente,
+                        sum(if(evetp.presente = 1, 1, 0)) presente,
+                        tl.title,
+                        tl.sexo,
+                        upper(pf.nome) as promoter
+                    FROM
+                        eventos_pessoas AS evetp
+                            left JOIN
+                        vw_clientes AS cl ON cl.pessoas_id = evetp.pessoas_id
+                            left JOIN
+                        tipos_listas AS tl ON tl.id = evetp.tipos_listas_id
+                            right JOIN
+                        pessoaFisica AS pf ON pf.pessoas_id = evetp.funcionarios_pessoas_id
+                    WHERE
+                        evetp.funcionarios_pessoas_id = $pessoasId
+                        AND evetp.eventos_id = $eventosId
+                        GROUP BY evetp.tipos_listas_id";
+
+            return $this->query($sql);
+
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function relatorioResumoFuncionario( $pessoasId, $eventosId ){
+        try {
+            $sql = " SELECT 
+                        count(evetp.eventos_id) total,
+                        sum(if(tl.sexo = 2, 1, 0)) unissex,
+                        sum(if(tl.sexo = 1, 1, 0)) masculino,
+                        sum(if(tl.sexo = 0, 1, 0)) feminino
+                    FROM
+                        eventos_pessoas AS evetp
+                            left JOIN
+                        tipos_listas AS tl ON tl.id = evetp.tipos_listas_id
+                    WHERE
+                        evetp.funcionarios_pessoas_id = $pessoasId
+                        AND evetp.eventos_id = $eventosId
+                        GROUP BY evetp.eventos_id; ";
+
+            return $this->query($sql);
+
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function liberarClientePortaria($pessoasId, $eventosId){
+        try {
+            
+            $sql = "update eventos_pessoas set presente = 1 where pessoas_id = {$pessoasId} and eventos_id = {$eventosId};";
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    
+    
+    
 }
