@@ -310,4 +310,15 @@ class AppController extends Render {
         return $newArray;
     }
     
+    protected function exportWord( $fileName ){
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-Type: application/force-download");
+        header("Content-type: application/msword");
+        header("Content-Type: application/download");
+        header("Content-Disposition: attachment;filename=$fileName.doc");
+        header("Content-Transfer-Encoding: binary ");
+    }
+    
 }

@@ -157,7 +157,9 @@ class ClientesController extends AppController {
 
     public function procurarCliente() {
         try {
+            
             $this->layout = 'null';
+            
             $cliente = array();
 
             if ($this->is('POST')) {
@@ -175,8 +177,13 @@ class ClientesController extends AppController {
                 
             }
 
-            $this->set('cliente', $cliente);
-            $this->render();
+            $saida = [
+                'total' => (int) count($cliente),
+                'html' => Render::element('Clientes/procurarCliente', ['total' => (int) count($cliente), 'cliente' => $cliente] ),  
+            ];
+            
+            echo json_encode($saida);
+            
         } catch (Exception $ex) {
             echo $ex->getMessage();
         }

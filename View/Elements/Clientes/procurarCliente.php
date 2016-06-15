@@ -1,4 +1,4 @@
-<?php if(count($cliente) == 0 ):?>
+<?php if($total === 0 ):?>
 <div class="col-sm-12 form-group-sm">
     <form method="post" action="<?= Router::url(array('Clientes', 'addReserva'))?>" id="ClienteAddForm">
     <table class="table table-condensed">
@@ -51,36 +51,13 @@
    
 </div>
 
-<?php elseif ( count($cliente) == 1 ):?>
+<?php elseif ( $total === 1 ):?>
 
 <div class="col-sm-12 form-group-sm">
-                <div class="col-md-3">
-                    <small>Nome:</small>
-                    <input type="text"  class="form-control" value="<?= $cliente[0]['nome']?>" disabled="true">
-                </div>
-                <div class="col-md-3">
-                    <small>E-mail:</small>
-                    <input type="text" class="form-control" value="<?= $cliente[0]['email']?>" disabled="true">
-                </div>
-            
-            
-                <div class="col-md-3">
-                    <small>Rg:</small>
-                    <input type="text"  class="form-control" value="<?= $cliente[0]['rg']?>" disabled="true">
-                </div>
-                <div class="col-md-3">
-                    <small>Telefone:</small>
-                    <input type="text"  class="form-control" value="<?= $cliente[0]['telefone']?>" disabled="true">
-                </div>
-            
-   
-    <div class="col-md-3 pull-right" style="margin-top:15px;">
-        <a class="btn btn-primary btn-xs pull-right" id="continuar-reserva" > Continuar a reserva </a>
         <input type="hidden" name="Reserva[clientes_id]" class="form-control" value="<?= md5($cliente[0]['id'])?>">
-    </div>
 </div>
 
-<?php elseif ( count($cliente) > 1 ):?>
+<?php elseif ( $total > 1 ):?>
 <div class="col-sm-12" style="overflow-y:auto; height:200px;" >
     <table class="table table-condensed table-striped table-responsive">
         <thead>

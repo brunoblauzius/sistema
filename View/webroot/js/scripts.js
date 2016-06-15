@@ -34,27 +34,6 @@
 		}
 		
                 
-                $('#continuar-reserva').click(function(){
-                    var url   = web_root + 'Reservas/cadastroContinuacao';
-                    //$('#loading').fadeIn(500);
-                    // iniciar o loader
-                    $('#dados-reserva').empty();
-                    loadingElement('<br>Carregando Informações...','#dados-reserva' );
-                    $.ajax({
-                        url: url,
-                        data:{},
-                        dataType: 'html',
-                        type: 'get',
-                        success: function (html) {
-                            // encerrar loader
-                            //$('#loading').fadeOut(500);  
-                            // dados
-                            $('#dados-reserva').html(html);
-                            $('#continuar-reserva').remove();
-                        }
-                    });
-                });
-                
                 $(document).on('click', '.check-all', function(){
                    
                     $('.mesas-lista').each(
@@ -1097,111 +1076,6 @@
     });
     
     
-    $(document).on('click', '#procurar-cliente', function(){
-        
-        var url   = web_root + 'Clientes/procurarCliente';
-        var busca = $('#BuscarPor').val();
-        var valor = $('#cliente').val();
-        
-        
-        if( busca === 'telefone' ){
-            var ddd = $('#ddd').val();
-            valor = ddd + valor;
-        }
-        
-        if( valor != null || valor != '' ){
-            //$('#loading').fadeIn(500);
-            //
-            $('#dados-cliente').empty();
-            $('#dados-reserva').empty();
-            $('#dados-cliente').empty();
-            loadingElement('<br>Carregando Informações...', '#dados-cliente');
-            // iniciar o loader
-            $.ajax({
-                url: url,
-                data:{
-                    busca: busca,
-                    valor: valor,
-                },
-                dataType: 'html',
-                type: 'post',
-                success: function (html) {
-                    // encerrar loader
-                    //$('#loading').fadeOut(500);
-                    // dados
-                    
-                    $('#dados-cliente').html(html);
-                    $('input[name$="['+busca+']"]').val(valor);
-                    $('#dados-reserva').empty();
-                }
-            });
-        }
-    });
-    
-    
-    $(document).on('keypress', "#cliente", function(e){
-        if(e.which == 13 ){
-            $('#dados-cliente').empty();
-            $('#dados-reserva').empty();
-            
-            var url   = web_root + 'Clientes/procurarCliente';
-            var busca = $('#BuscarPor').val();
-            var valor = $('#cliente').val();
-
-            if( busca === 'telefone' ){
-                var ddd = $('#ddd').val();
-                valor = ddd + valor;
-            }
-
-
-            if( valor != null || valor != '' ){
-                
-                loadingElement('<br>Carregando Informações...', '#dados-cliente');
-                
-                // iniciar o loader
-                $.ajax({
-                    url: url,
-                    data:{
-                        busca: busca,
-                        valor: valor,
-                    },
-                    dataType: 'html',
-                    type: 'post',
-                    success: function (html) {
-                        // encerrar loader
-                        //$('#loading').fadeOut(500);
-                        // dados
-                        
-                        $('#dados-cliente').html(html);
-                        $('input[name$="['+busca+']"]').val(valor);
-                        $('#dados-reserva').empty();
-                    }
-                });
-            }
-        }
-    })
-    
-    $(document).on('change', '#BuscarPor', function(){
-        if( $('#BuscarPor').val() == 'telefone' ){
-            $('#cliente').parent('div').parent('div').addClass('col-md-9');
-            $('#cliente').parent('div').parent('div').removeClass('col-md-12');
-            $('#ddd').attr('disabled', false);
-            $('#ddd').parent('div').parent('div').show(300);
-            $('#cliente').attr('placeholder', 'Telefone sem separação');
-        } else {
-            $('#ddd').parent('div').parent('div').hide();
-            $('#ddd').attr('disabled', true);
-            $('#cliente').parent('div').parent('div').removeClass('col-md-9');
-            $('#cliente').parent('div').parent('div').addClass('col-md-12');
-            $('#cliente').removeClass('telefone');
-            $('#cliente').removeAttr('autocomplete');
-            $('#cliente').removeAttr('maxlength');
-            $('#cliente').attr('placeholder', 'Digite aqui o valor');
-        }
-        $('#cliente').val(null);
-    });
-    
-
     function infoErro( mensagem, elementoDiv ) {
         $(elementoDiv).find('.msgError').remove();
         var elemento = '';

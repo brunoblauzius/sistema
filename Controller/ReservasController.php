@@ -2,7 +2,7 @@
 
 class ReservasController extends AppController {
 
-    public $ClasseAllow = array('filtrarConvidados', 'graficoReservasConvidados', 'deletarRegistro', 'confirmReservaEmail', 'adicionarConvidados', 'emailEnviadoPainel');
+    public $ClasseAllow = array('filtrarConvidados', 'graficoReservasConvidados', 'exportarLista', 'deletarRegistro', 'confirmReservaEmail', 'adicionarConvidados', 'emailEnviadoPainel');
     
     private $Reserva = null;
     private $Funcionario = null;
@@ -102,9 +102,7 @@ class ReservasController extends AppController {
              * gerar um cadastro stand para o novo registro e devolver o id da reserva 
              */
             
-            
-           $idReserva = $this->Reserva->cadastroBasico($this->empresas_id, $this->pessoas_id, $_POST['data']);
-           $_SESSION['Form']['reservas_id'] = $idReserva;
+            $_SESSION['Form']['reservas_id'] = $this->Reserva->cadastroBasico($this->empresas_id, $this->pessoas_id, $_POST['data']);
             
             $this->layout= 'null';
             $this->render();
@@ -187,11 +185,13 @@ class ReservasController extends AppController {
                              
             $this->checaEmpresa();
             $this->verificaContaEmpresa();
-            $Modelambientes = new Ambiente();
-            
-            
+            $Modelambientes = new Ambiente();            
             $usuariosEmpresa = array();
             $condicao = array();
+            
+            $this->addJs(array(
+                'js/reservas.cadastro.init',
+            ));
             
             /**
              * 	SE O ROLE ID FOR Usuario ELE PEGA SOMENTE O Usuario SE NãoO OS USUARIOS DA EMPRESA
@@ -453,8 +453,8 @@ class ReservasController extends AppController {
                    'funcao' => "sucessoForm( 'Cadastro efetuado com sucesso!', '#ReservaAddForm' ); "
                    . "filtrarReservas( '' , '{$_POST[$this->Reserva->name]['start']}', '' ); "
                    . "disponibilidadeDeMesas( '{$_POST[$this->Reserva->name]['start']}' );"
-                   . "$('#ModalFormulario').modal('hide');"
-                   . "$('#loading').fadeOut(500);",
+                   . "$('#loading').fadeOut(500);"
+                   . "$('#ModalFormulario').modal('hide');",
                 ));
                
             } else {
@@ -1913,4 +1913,18 @@ class ReservasController extends AppController {
                 ));
         }
     }
+    
+    
+    public final function exportarLista(){
+        
+        $this->exportWord('minhaLista');
+        
+        $token = $_GET['param'];
+        $convidados = $this->Reserva->listaConvidados($token);
+        
+        echo Render::element('Reservas/exportList', array('pessoas' => $convidados));
+        exit();
+        
+    }
+    
 }
