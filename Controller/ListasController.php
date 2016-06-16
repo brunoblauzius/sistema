@@ -13,7 +13,7 @@
  */
 class ListasController extends AppController{
     //put your code here
-    public $ClasseAllow = array('index', 'add', 'montarTabelaLista', 'editar', 'edit', 'alterarStatus', 'carregarListaPromoters', 'copiarListaPromoter');
+    public $ClasseAllow = array('index', 'add', 'montarTabelaLista', 'editar', 'copiarListaEvento', 'edit', 'alterarStatus', 'carregarListaPromoters', 'copiarListaPromoter');
     
     public $Lista;
     
@@ -299,6 +299,44 @@ class ListasController extends AppController{
                 'time' => 5000,
                 'size' => 'md',
                 'callback' => "carregarListaFuncionarios('{$_POST['pessoas_id']}', '{$_POST['eventos_id']}');",
+                'before' => "$('#loading').fadeOut(500);",
+                'icon' => 'check',
+                'title' => 'Success!'
+            ));
+            
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json )",
+            ));
+            
+        } catch (Exception $ex) {
+            $json = json_encode(array(
+                'message' => $ex->getMessage(),
+                "style" => 'danger',
+                'time' => 5000,
+                'size' => 'md',
+                'callback' => NULL,
+                'before' => "$('#loading').fadeOut(500);",
+                'icon' => 'check',
+                'title' => 'Danger!'
+            ));
+            echo json_encode(array(
+                'funcao' => "bootsAlert( $json )",
+            ));
+        }
+    }
+    
+    
+    public function copiarListaEvento(){
+        try {
+            
+            $this->Lista->copyListaPromoterEventos($_POST['eventos_idcopy'], $_POST['eventos_id'], $this->empresas_id);
+            
+            $json = json_encode(array(
+                'message' => 'Lista Copiada com sucesso',
+                "style" => 'success',
+                'time' => 5000,
+                'size' => 'md',
+                'callback' => NULL,
                 'before' => "$('#loading').fadeOut(500);",
                 'icon' => 'check',
                 'title' => 'Success!'

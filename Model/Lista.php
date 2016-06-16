@@ -113,7 +113,32 @@ class Lista extends AppModel{
                             tipos_listas AS TL ON TL.id = ETL.tipos_listas_id
                         WHERE
                             ETL.pessoas_id = {$pessoasId}
-                                AND ETL.quantidade > 0; ";
+                                AND ETL.quantidade > 0
+                                GROUP BY TL.id; ";
+                            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
+    
+    public function copyListaPromoterEventos( $eventos_idcopy, $eventosId, $empresasId){
+        try {
+            
+            /**
+             * verificar se tem uma lista disponivel
+             */
+            $existList = $this->query("select * from eventos_has_tipos_listas where eventos_id = $eventos_idcopy and empresas_id = $empresasId;");
+            
+            if(empty($existList)){
+                throw new Exception('Não existe nenhuma distribuição para o evento selecionado');
+            }
+            
+            $sql = " INSERT INTO eventos_has_tipos_listas ( eventos_id, tipos_listas_id, pessoas_id, empresas_id, quantidade ) 
+                        SELECT $eventosId, tipos_listas_id, pessoas_id, empresas_id, quantidade 
+                        FROM eventos_has_tipos_listas WHERE eventos_id = $eventos_idcopy AND empresas_id = $empresasId; ";
                             
             return $this->query($sql);
             

@@ -8,7 +8,7 @@
 class EventosController extends AppController {
     //put your code here
     
-    public $ClasseAllow = array('cadastro','carregaListaPortaria', 'edit', 'resumo', 'carregaMinhaLista', 'liberarClientePortaria' ,'addAtracao', 'listAtracao', 'add', 'addListaVip', 'distribuicaoPromoters', 'addDistruibuicaoPromoters', 'editar', 'edit', 'portaria', 'minhaLista');
+    public $ClasseAllow = array('cadastro','carregaListaPortaria', 'edit', 'graficoEventos', 'resumo', 'carregaMinhaLista', 'liberarClientePortaria' ,'addAtracao', 'listAtracao', 'add', 'addListaVip', 'distribuicaoPromoters', 'addDistruibuicaoPromoters', 'editar', 'edit', 'portaria', 'relatorio', 'minhaLista');
     public $Evento;
     public $Atracao;
     
@@ -42,10 +42,9 @@ class EventosController extends AppController {
                     'js/fullcalendar2.0/fullcalendar',
                     'js/fullcalendar2.0/lang-all',
                     'js/datatimepicker2.0/bootstrap-datetimepicker.min',
-                    'js/morris-chart/morris',
-                    'js/morris-chart/raphael-min',
+                    'js/chart-js/Chart',
                     'js/eventos.init',
-                    'js/data-table-eventos',
+                    'js/eventos.grafico.init',
                 )
             );
             
@@ -430,10 +429,13 @@ class EventosController extends AppController {
             );
         $funcionariosModel = new Funcionario();
         $evento = $this->Evento->find('first', array('md5(id)' => $_GET['param']));
+        $eventos = $this->Evento->findAll( $this->empresas_id );
         $funcionarios = array();
         $funcionarios = $funcionariosModel->funcionariosEmpresa( $this->empresas_id );
         
+        
         $this->set('funcionarios', $funcionarios);
+        $this->set('eventos', $eventos);
         $this->set('registro', array_shift($evento[0]));
         $this->render();
         
@@ -508,14 +510,12 @@ class EventosController extends AppController {
                      */
                     $this->Evento->addClientVipList( $registro['pessoas_id'], $eventosId, $_POST['tipos_listas_id'], $this->pessoas_id );
                     
-                    unset($_SESSION['Form']);
-                    
                     $json = json_encode(array(
                         'message' => 'Operação realizada com sucesso',
                         "style" => 'success',
                         'time' => 5000,
                         'size' => 'md',
-                        'callback' => "carregaMinhaLista();",
+                        'callback' => "carregaMinhaLista();carregaResumoFuncionario();",
                         'before' => "$('#loading').fadeOut(500);",
                         'icon' => 'check',
                         'title' => 'Success!'
@@ -621,6 +621,29 @@ class EventosController extends AppController {
     public function resumo(){
         $registros = $this->Evento->relatorioResumoFuncionario($this->pessoas_id, Session::read('Form.eventos_id'));
         echo Render::element('Eventos/resumo', array('registros' => array_shift($registros) ));
+    }
+    
+    public function graficoEventos(){
+        $registro = $this->Evento->graficoEventosPessoasListas($this->empresas_id);
+        echo json_encode($registro);
+    }
+    
+    public final function relatorio(){
+        try {
+            
+            $token = $_GET['param'];
+            $registros = $this->Evento->relatorioListas($this->empresas_id, $token);
+            $evento    = $this->Evento->find('first', array('md5(id)' => $token));
+            $totalEvento = $this->Evento->relatorioTotalEvento($token);
+            
+            $this->set('totalEvento', array_shift($totalEvento));
+            $this->set('registros', $registros);
+            $this->set('evento', array_shift($evento[0]) );
+            $this->set('title_layout', 'Relatório Geral');
+            $this->render();
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
     }
     
 }

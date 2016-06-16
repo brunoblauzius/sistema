@@ -377,8 +377,154 @@ class Evento extends AppModel {
         }
     }
     
+    /**
+     * 
+     * @param int $empresasId
+     * @param string $eventosId
+     * @param int $pessoasId
+     * @param boolean $date
+     * @throws Exception
+     */
+    public function relatorioListas( $empresasId, $eventosId = null, $pessoasId = null, $date = true ){
+        try {
+            $EVENTOS = null;
+            $DATE = null;
+            $FUNCIONARIOS = null;
+            
+            if( !empty($eventosId) ){
+                $EVENTOS = " AND MD5(EP.eventos_id) = '$eventosId' " ;
+            }
+            
+            if( $date === true ){
+                $DATE = " AND CONCAT(YEAR(EVT.data), '-', MONTH(EVT.data)) = CONCAT(YEAR(NOW()), '-', MONTH(NOW())) " ;
+            }
+            
+            if( !empty($pessoasId) ){
+                $FUNCIONARIOS = " AND EP.funcionarios_pessoas_id = $pessoasId ";
+            }
+            
+            $sql = "SELECT 
+                        COUNT(EVT.empresas_id) total,
+                        SUM(IF(TL.sexo = 2, 1, 0)) unissex,
+                        SUM(IF(TL.sexo = 1, 1, 0)) male,
+                        SUM(IF(TL.sexo = 0, 1, 0)) female,
+                        EVT.title,
+                        EVT.empresas_id,
+                        EP.eventos_id,
+                        TL.title as lista
+                    FROM
+                        eventos_pessoas AS EP
+                            INNER JOIN
+                        eventos AS EVT ON EVT.id = EP.eventos_id
+                            INNER JOIN
+                        tipos_listas AS TL ON TL.id = EP.tipos_listas_id
+                    WHERE
+                        EVT.empresas_id = $empresasId
+                            $EVENTOS
+                            $DATE
+                            $FUNCIONARIOS
+                    GROUP BY EP.tipos_listas_id;";
+            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
     
+    public final function relatorioTotalEvento($eventosId){
+        try {
+            
+            $sql = "SELECT 
+                        COUNT(EVT.empresas_id) total,
+                        SUM(IF(TL.sexo = 2, 1, 0)) unissex,
+                        SUM(IF(TL.sexo = 1, 1, 0)) male,
+                        SUM(IF(TL.sexo = 0, 1, 0)) female,
+                        EVT.title,
+                        EVT.empresas_id,
+                        EP.eventos_id
+                    FROM
+                        eventos_pessoas AS EP
+                            INNER JOIN
+                        eventos AS EVT ON EVT.id = EP.eventos_id
+                            INNER JOIN
+                        tipos_listas AS TL ON TL.id = EP.tipos_listas_id
+                    WHERE
+                        MD5(EP.eventos_id) = '$eventosId'
+                            AND CONCAT(YEAR(EVT.data), '-', MONTH(EVT.data)) = CONCAT(YEAR(NOW()), '-', MONTH(NOW()))
+                    GROUP BY EP.eventos_id;";
+            
+            return $this->query($sql);
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
     
-    
+    public function graficoEventosPessoasListas( $empresasId ){
+        try {
+            
+            $sql = " SELECT 
+                        EVT.title,
+                        EVT.data,
+                        MONTHNAME(data) month_name,
+                        MONTH(data) month,
+                        SUM(EVTL.quantidade) total_disponivel,
+                        (SELECT COUNT(*) FROM
+                                eventos_pessoas WHERE eventos_id = EVTL.eventos_id) pessoas
+                    FROM
+                        eventos_has_tipos_listas AS EVTL
+                            INNER JOIN
+                        eventos AS EVT ON EVTL.eventos_id = EVT.id
+                    WHERE
+                        EVT.empresas_id = $empresasId
+                    GROUP BY EVTL.eventos_id; ";
+            
+            $registros = $this->query($sql);
+            
+            
+        /**
+             * fazer os ajustes para a view
+             */
+            foreach ( $registros as $node ){
+                $labels[] = Utils::getDate($node['data']);
+                
+                $datasets = array(
+                    /*CONFIRM*/
+                     array(
+                         'fillColor' => "#f7aa04",
+                         'strokeColor' => "#f7aa04",
+                         'data' => array(56,55,40)
+                     ),
+                    /*NOT CONFIRM*/
+                         array(
+                         'fillColor' => "#79D1CF",
+                         'strokeColor' => "#79D1CF",
+                         'data' => array(56,55,40)
+                     )
+                 );
+                
+                $total_disponivel[] = intval($node['total_disponivel']);
+                $pessoas[] = intval($node['pessoas']);
+                
+            }
+            
+            
+            $datasets[1]['data'] = $pessoas; 
+            $datasets[0]['data'] = $total_disponivel; 
+            
+            
+            $dados['labels'] = $labels;
+            $dados['datasets'] = $datasets;
+            
+            
+            return $dados;   
+            
+        } catch (PDOException $ex) {
+            throw $ex;
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
     
 }

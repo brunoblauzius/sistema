@@ -6,8 +6,11 @@
         </div>
     </div>
 </div>
+
 <div class="panel panel-body" >
-    <div id="graph-area" style="height: 200px;"></div>
+    <div class="chartJS">
+        <canvas id="bar-chart-js" height="250" width="900" ></canvas>
+    </div>
 </div>
 
 <div class="panel">
@@ -31,6 +34,7 @@
                         <a class="btn btn-xs btn-info tooltips" href="<?= Router::url(array('Eventos', 'editar',  md5($registro['id'])))?>"  data-original-title="Editar" type="button" data-toggle="tooltip" data-placement="top" title="Editar" ><i class="fa fa-pencil marginNull"></i></a>
                         <a class="btn btn-xs btn-warning tooltips" href="<?= Router::url(array('Eventos', 'distribuicao-promoters',  md5($registro['id'])))?>"  data-original-title="Distribuição para Promoters" type="button" data-toggle="tooltip" data-placement="top" title="Distribuição para Promoters" ><i class="fa fa-sitemap marginNull"></i></a>
                         <a class="btn btn-xs btn-primary tooltips" href="<?= Router::url(array('Eventos', 'portaria',  md5($registro['id'])))?>"  data-original-title="Portaria" type="button" data-toggle="tooltip" data-placement="top" title="Portaria" ><i class="fa fa-sign-in marginNull"></i></a>
+                        <a class="btn btn-xs btn-primary tooltips" href="<?= Router::url(array('Eventos', 'relatorio',  md5($registro['id'])))?>"  data-original-title="Relatórios" type="button" data-toggle="tooltip" data-placement="top" title="Relatórios" ><i class="fa fa-bar-chart-o marginNull"></i></a>
                         <a class="btn btn-xs btn-warning tooltips" href="<?= Router::url(array('Eventos', 'minha-lista',  md5($registro['id'])))?>"  data-original-title="Adicionar Lista Vip" type="button" data-toggle="tooltip" data-placement="top" title="Minha Lista Vip" ><i class="fa fa-bars marginNull"></i></a>
                     </p>
                 </div>
