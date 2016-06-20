@@ -527,4 +527,25 @@ class Evento extends AppModel {
         }
     }
     
+    
+    public function verificaEventosParaPromoter( $pessoasId ){
+        try {
+            
+            $sql = "SELECT 
+                        *
+                    FROM
+                        eventos_has_tipos_listas AS EVTL
+                            INNER JOIN
+                        eventos AS EVT on EVT.id = EVTL.eventos_id
+                        WHERE 
+                            EVTL.pessoas_id = $pessoasId
+                            AND CONCAT(YEAR(EVT.data), '-', MONTH(EVT.data)) = CONCAT(YEAR(NOW()), '-', MONTH(NOW()))
+                        GROUP BY EVTL.eventos_id;";
+            return $this->query($sql);
+            
+        } catch (PDOException $ex) {
+            throw $ex;
+        }
+    }
+    
 }

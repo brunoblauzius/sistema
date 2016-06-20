@@ -178,7 +178,7 @@
                                 <li><a href="<?= Router::url('Usuarios/editar') ?>"><i class="fa fa-user"></i> Config. Usuário</a></li>
                                 <li><a href="<?= Router::url(array('Usuarios', 'logout')) ?>"><i class="fa fa-power-off"></i> Sair</a></li>
                                 <div class="divider"></div>
-                                <li><a style="font-size:10px;" class="text text-success">Versao do sistema 1.0</a></li>
+                                <li><a style="font-size:10px;" class="text text-success">Versao do sistema 2.5</a></li>
                             </ul>
 
                         </li>
@@ -218,11 +218,9 @@
                             <li><a href="<?= Router::url('Usuarios/painel') ?>"><i class="fa fa-home"></i> Página Inicial </a></li>
 
                             <?php
-                            $lista = $this->createListMenu();
-                            foreach ($lista as $menu) :
-                                ?>
-                                <?php if( $menu['controller'] == 'Eventos'):?>
-                                    <?php if($_SESSION['ContaEmpresa']['gestao_de_eventos'] == true):?>
+                                $lista = $this->createListMenu();
+                                foreach ($lista as $menu) :
+                            ?>
                                     <li class="sub-menu">
                                             <a href="javascript:;">
                                                 <!--<i class="fa fa-users"></i>-->
@@ -236,28 +234,12 @@
                                                 <?php endforeach; ?>
                                             </ul>
                                     </li>
-                                    <?php endif; ?>
-                                <?php else: ?>
-                                    <li class="sub-menu">
-                                            <a href="javascript:;">
-                                                <!--<i class="fa fa-users"></i>-->
-                                                <span><i class="fa <?= $menu['icon']?>"></i> <?= ucfirst($menu['link_name']) ?></span>
-                                            </a>
-                                            <ul class="sub">
-                                                <?php foreach ($menu['links'] as $subMenu): ?>
-
-                                                    <li><a href="<?= Router::url($menu['controller'] . '/' . $subMenu['action']) ?>"><i class="fa fa-circle" style="font-size:10px;"></i> <?= $subMenu['nome_link'] ?></a></li>
-
-                                                <?php endforeach; ?>
-                                            </ul>
-                                    </li>
-                                <?php endif; ?>
                             <?php endforeach; ?>
 
                             <?php //if( Session::read('Usuario.roles_id') == 3 ):?>
-    <!-- li><a href="<?= Router::url('Carrinhos/index') ?>"><i class="fa fa-bar-chart-o"></i> Minha Conta </a></li-->
+                            <!-- li><a href="<?= Router::url('Carrinhos/index') ?>"><i class="fa fa-bar-chart-o"></i> Minha Conta </a></li-->
                             <?php //endif; ?>
-                            <?php if (in_array(Session::read('Usuario.roles_id'), array(2, 3, 4))): ?>
+                            <?php if ( !in_array(Session::read('Usuario.roles_id'), array(PainelConstantes::ADMIN, 1))): ?>
                                 <li><a href="<?= Router::url('Usuarios/suporte') ?>"><i class="fa fa-comments "></i> Suporte </a></li>
                             <?php endif; ?>
 

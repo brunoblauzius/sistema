@@ -24,6 +24,9 @@
         else if (file_exists('Model' . DS . 'Entity' . DS . $classe ) ) {
             require_once 'Model' . DS . 'Entity' . DS . $classe;
         }
+        else if (file_exists('Model' . DS . 'Interface' . DS . $classe ) ) {
+            require_once 'Model' . DS . 'Interface' . DS . $classe;
+        }
         else if (file_exists('Library' . DS . $classe ) ) {
             require_once 'Library' . DS . $classe;
         }

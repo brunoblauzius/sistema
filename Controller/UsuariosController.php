@@ -203,36 +203,14 @@ class UsuariosController extends AppController {
      * */
     public function painel() {
         try {
-            $clientes     = 0;
-            $funcionarios = 0;
             
-            $this->addJs(array(
-                'js/chart-js/Chart',
-                'js/chartjs.init',
-            ));
+            $chainPainel = new ChainPainel(
+                            intval(Session::read('Usuario.roles_id')),
+                            $this
+                          );
             
-            $this->layout = 'painel';
-            $this->Utils = new Utils();
-            $endereco = null;
-            if( Session::check('Empresa')){
-                $modelCliente = new Cliente();
-                $modelFuncionario = new Funcionario();
-                
-                $clientes = $modelCliente->clientesProprietario($this->pessoas_id, session::read('Usuario.roles_id'));
-                $clientes = count($clientes);
-                
-                $funcionarios = $modelFuncionario->find('all', array('empresas_id' => $this->empresas_id));
-                $funcionarios = count($funcionarios);
-                $endereco = $this->Endereco->findEnderecosEmpresa( $this->empresas_id );
-                $endereco = $endereco[0];
-            }
+            $chainPainel->getPainel();
             
-            $this->set('title_layout', 'Painel Administrativo');
-            $this->set('endereco', $endereco);
-            $this->set('clientes', $clientes);
-            $this->set('funcionarios', $funcionarios);
-
-            $this->render();
         } catch (Exception $ex) {
             echo $ex->getMessage();
         }
@@ -540,7 +518,7 @@ class UsuariosController extends AppController {
                 /**
                  * Usuario operador logar com a empresa já na session
                  */
-                if (in_array($usuario[$this->User->name]['roles_id'], array(2,6))) {
+                if (in_array($usuario[$this->User->name]['roles_id'], array(2,6, 7))) {
                     
                     
                     $modelFuncionario = new Funcionario();
@@ -556,7 +534,6 @@ class UsuariosController extends AppController {
 
                     $empresa      =  $modelEmpresa->findEmpresa($funcionario[0][$modelFuncionario->name]['empresas_id']);
                     
-
                     if( count($empresa) > 0 ){
                         /**
                          * recuperando a conta empresa e guardando na sessao

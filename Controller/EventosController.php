@@ -21,6 +21,7 @@ class EventosController extends AppController {
     
     public function index(){
         try {
+            
             /**
              * verifico se tem alguma empresa logada
              */
@@ -52,9 +53,18 @@ class EventosController extends AppController {
             
             $this->set('registros', $record);
             $this->render();
+                        
+        } catch (BusinessException $buEx) {
+            $buEx->getBusinessMessage($this, 'notPermisson');
+        } catch( Exception $ex ){
             
-        } catch (BusinessException $ex) {
-            $ex->getBusinessMessage($this);
+            if( $ex->getCode() == 2015 ){
+                $this->set( 'mensagem', $ex->getMessage() );
+                die( $this->render(array('controller' => 'Erros', 'view' => 'sessaoEmpresa')) );
+            } else {
+                echo $ex->getMessage();
+            }
+            
         }
     }
     
@@ -483,13 +493,16 @@ class EventosController extends AppController {
             $eventosId = Session::read('Form.eventos_id');
             $model = new Mobile();
             
-            $newArr = $this->Evento->quebraLinha($_POST['nomes_listas']);
-            
+            if( empty($_POST['nomes_listas']) ){
+                throw new Exception('A lista deve conter ao menos um nome e telefone!');
+            }
             if( empty($_POST['tipos_listas_id']) ){
                 throw new Exception('O tipo da lista é um campo requirido!');
             }
+            
+            $newArr = $this->Evento->quebraLinha($_POST['nomes_listas']);
             if( empty($newArr) ){
-                throw new Exception('Você deve adicionar nomes a lista respeitando a formatação.');
+                throw new Exception('Você deve adicionar nomes a lista respeitando a formatação. ex: NOME - FONE');
             }
             
             foreach ( $newArr as $lista ){

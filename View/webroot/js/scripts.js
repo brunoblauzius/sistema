@@ -610,7 +610,7 @@
             }); 
          });  
         
-       $('.add-actions').click(function(){
+       $(document).on('click', '.add-actions' ,function(){
             $('#loading').fadeIn(500);
             var  elemento   = $(this);
             var  grupoId   = elemento.data('grupo');
@@ -634,26 +634,27 @@
                 dataType: 'json',
                 type: 'post',
                  success: function(data) {
-//                    if( data.erro == 0 && data.acao == 'insert'){
-//                        elemento.addClass('btn-success').removeClass( 'btn-danger' );
-//                        elemento.children('i').addClass('fa-check').removeClass('fa-times');
-//                        elemento.attr('data-ativo', 1 );
-//                    } else if( data.erro == 0 && data.acao == 'update'){
-//                        elemento.addClass('btn-danger').removeClass( 'btn-success' );
-//                        elemento.children('i').addClass('fa-times').removeClass('fa-check');
-//                        elemento.attr('data-ativo', 0 );
-//                    } else {
-//                        alert('erro');
-//                    }
+                    if( data.erro == 0 && data.acao == 'insert'){
+                        elemento.addClass('btn-success').removeClass( 'btn-danger' );
+                        elemento.children('i').addClass('fa-check').removeClass('fa-times');
+                        elemento.data('ativo', 1 );
+                    } else if( data.erro == 0 && data.acao == 'update'){
+                        elemento.addClass('btn-danger').removeClass( 'btn-success' );
+                        elemento.children('i').addClass('fa-times').removeClass('fa-check');
+                        elemento.data('ativo', 0 );
+                    } else {
+                        alert('erro');
+                    }
                     if( data.erro == 0){
                         alertaInformacao();
-                        window.location.reload();
+                        //window.location.reload();
                     }
                     $('#loading').fadeOut(500);
                  }  
             });
 
          });
+         
          
          /**
         * @todo

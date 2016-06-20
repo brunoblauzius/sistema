@@ -169,7 +169,7 @@ class Cliente extends AppModel {
     public function clientesProprietario( $pessoasId, $roleId ){
         try {
             
-            if ( in_array($roleId, array(2,3,6)) ){
+            if ( $roleId != PainelConstantes::PROPRIETARIO ){
                 $modelEmpresa = new Empresa();
                 $proprietarioId = $modelEmpresa->proprietario(md5($pessoasId));
                 $proprietarioId = (int) $proprietarioId[0]['pessoas_id'];
