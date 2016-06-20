@@ -2,7 +2,7 @@
     <div class="modal-body">
         
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <div class="form-group">
                     <small>Data: <strong class="text text-danger">*</strong></small>
                     <div class='input-group date datetimepicker2'>
@@ -13,45 +13,10 @@
                 </div>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-6">
                 <div class="form-group">
                     <small>Hora: <strong class="text text-danger">*</strong></small>
                         <input type='text' class="form-control data_time " id="hora" name="Reserva[hora]" placeholder="ex. 20:00" value="<?= $lista['Reserva']['end']?>"/>                              
-                </div>
-            </div>
-            
-            
-            <div class="col-md-4">
-                <div class="col-md-3" style="padding-left:5px; padding-right:5px;">
-                    <div class="form-group">
-                        <small>DDD:</small>
-                        <input type='text' class="form-control" name="Busca[ddd]" id="ddd" value="<?= substr($_SESSION['Contato'][0]['telefone'], 0,2)?>"/>
-                    </div>
-                </div>
-                <div class="col-md-9" style="padding-left:5px; padding-right:5px;">
-                    <div class="form-group">
-                        <small>Cliente: <strong class="text text-danger">*</strong></small>
-                        <input type='text' class="form-control" name="Busca[cliente]" id="cliente" placeholder="Telefone sem separação" value=""/>
-                    </div>
-                </div>
-            </div>
-            
-            
-
-            <div class="col-md-3">
-                <div class="form-group">
-                    <small>Burcar cliente por: <strong class="text text-danger">*</strong></small>
-                    <select name="Busca[buscaPor]" class="form-control" id="BuscarPor">
-                        <option value="telefone"> TELEFONE </option>
-                        <option value="nome"> NOME </option>
-                        <option value="rg"> RG </option>
-                        <option value="email"> E-MAIL </option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    <a class="btn btn-primary pull-right btn-xs" id="procurar-cliente">Procurar Cliente</a>
                 </div>
             </div>
             
@@ -59,27 +24,9 @@
         
         
         <div class="row" id="dados-cliente"> 
-            <div class="col-sm-12 form-group-sm">
-                <table class="table table-condensed">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <small>Nome:</small>
-                                <input type="text"  class="form-control" value="<?= $cliente[0]['Cliente']['nome']?>" disabled="true">
-                            </td>
-                            <td>
-                                <small>Telefone:</small>
-                                <input type="text"  class="form-control" value="<?= $cliente[0]['Cliente']['telefone']?>" disabled="true">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div>
-                    
+            <div class="col-sm-12 form-group-sm">                
                     <input type="hidden" name="Reserva[clientes_id]" class="form-control" value="<?= md5($cliente[0]['Cliente']['id'])?>">
-                </div>
             </div>
-            
         </div>
 
 

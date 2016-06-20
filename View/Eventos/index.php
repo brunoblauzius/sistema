@@ -1,10 +1,16 @@
 <div class="row">
     <div class="col-md-12 margin20">
-       <a class="btn btn-default btn-xs pull-right" id="criar-novo-evento" data-url="<?= Router::url(array('Eventos', 'cadastro'));?>"><i class="fa fa-plus-circle marginNull"></i> Criar novo Evento</a>
+        <div class="col-md-4 pull-right">
+            <a class="btn btn-primary" id="criar-novo-evento" data-url="<?= Router::url(array('Eventos', 'cadastro'));?>"><i class="fa fa-plus-circle marginNull"></i> Criar novo Evento</a>
+            <a class="btn btn-primary pull-right" href="<?= Router::url(array('Listas', 'index'));?>"><i class="fa fa-plus-circle marginNull"></i> Listas</a>
+        </div>
     </div>
 </div>
+
 <div class="panel panel-body" >
-    <div id="graph-area" style="height: 200px;"></div>
+    <div class="chartJS">
+        <canvas id="bar-chart-js" height="250" width="900" ></canvas>
+    </div>
 </div>
 
 <div class="panel">
@@ -12,53 +18,27 @@
        Eventos : <?= Session::read('Empresa.nome_fantasia')?>
     </header>
     <div class="panel panel-body">
+        
             <div class="clearfix"></div>
-
-            <table class="table table-condensed table-hover table-responsive table-striped" id="dynamic-table">
-                <thead>
-                    <th style="width: 30%">TITULO</th>
-                    <th style="width: 10%">DATA</th>
-                    <th style="width: 10%">LISTA VIP</th>
-                    <th class="text-center" style="width: 6%">ATIVO</th>
-                    <th style="width: 6%"></th>
-                </thead>
-                <tbody>
-                   <tr>
-                        <td>Evento 1</td>
-                        <td>19/07/1999</td>                                
-                        <td>
-                            <span style="cursor: pointer">
-                                700 clientes - <i class="fa fa-user marginNull"></i>
-                            </span>
-                        </td>                                
-                        <td class="text-center">
-                            <a class="btn btn-success btn-xs tooltips " data-id="" data-status="0" data-url="<?= Router::url(array('Clientes', 'alterarStatus'))?>" data-original-title="Desativar Registro" type="button" data-toggle="tooltip" data-placement="top" title="" ><i class="fa fa-check-circle marginNull"></i></a>
-                            <a class="btn btn-danger btn-xs tooltips " data-id="" data-status="1" data-url="<?= Router::url(array('Clientes', 'alterarStatus'))?>"  data-original-title="Ativar Registro" type="button" data-toggle="tooltip" data-placement="top" title=""><i class="fa fa-times-circle marginNull"></i></a>
-                        </td>
-                        <td>
-                            <button class="btn btn-xs btn-info tooltips " data-id="" data-url="<?= Router::url(array('Clientes', 'editar'))?>"  data-original-title="Editar" type="button" data-toggle="tooltip" data-placement="top" ><i class="fa fa-pencil marginNull"></i></button>
-                        </td>
-                    </tr>
+            <?php foreach ($registros as $registro):?>
+                <div class="col-md-3 col-sm-3 col-xs-12 text-center">
+                    <h4><?= Utils::getDate($registro['data'])?></h4>
+                    <h5 class="marginNull pddnull"><?= $registro['title']?></h5>
                     
-                    <tr>
-                        <td>Evento 2</td>
-                        <td>20/07/1999</td>                                
-                        <td>
-                            <span style="cursor: pointer">
-                                1000 clientes - <i class="fa fa-user marginNull"></i>
-                            </span>
-                        </td>                                
-                        <td class="text-center">
-                            <a class="btn btn-success btn-xs tooltips " data-id="" data-status="0" data-url="<?= Router::url(array('Clientes', 'alterarStatus'))?>" data-original-title="Desativar Registro" type="button" data-toggle="tooltip" data-placement="top" title="" ><i class="fa fa-check-circle marginNull"></i></a>
-                            <a class="btn btn-danger btn-xs tooltips " data-id="" data-status="1" data-url="<?= Router::url(array('Clientes', 'alterarStatus'))?>"  data-original-title="Ativar Registro" type="button" data-toggle="tooltip" data-placement="top" title=""><i class="fa fa-times-circle marginNull"></i></a>
-                        </td>
-                        <td>
-                            <button class="btn btn-xs btn-info tooltips " data-id="" data-url="<?= Router::url(array('Clientes', 'editar'))?>"  data-original-title="Editar" type="button" data-toggle="tooltip" data-placement="top" ><i class="fa fa-pencil marginNull"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
+                    <p class="btn btn-group-xs btn-group-sm btn-group">
+                        <?php if($registro['status'] == 1 ):?>
+                            <a class="btn btn-success btn-xs tooltips alterar-status-lista" data-url="<?= Router::url(array('Eventos', 'alterarStatus',  md5($registro['id'])))?>" data-original-title="Desativar Registro" type="button" data-toggle="tooltip" data-placement="top" title="" ><i class="fa fa-check-circle marginNull"></i></a>
+                        <?php else:?>
+                            <a class="btn btn-danger btn-xs tooltips alterar-status-lista" data-url="<?= Router::url(array('Eventos', 'alterarStatus',  md5($registro['id'])))?>"  data-original-title="Ativar Registro" type="button" data-toggle="tooltip" data-placement="top" title=""><i class="fa fa-times-circle marginNull"></i></a>
+                        <?php endif;?>
+                        <a class="btn btn-xs btn-info tooltips" href="<?= Router::url(array('Eventos', 'editar',  md5($registro['id'])))?>"  data-original-title="Editar" type="button" data-toggle="tooltip" data-placement="top" title="Editar" ><i class="fa fa-pencil marginNull"></i></a>
+                        <a class="btn btn-xs btn-warning tooltips" href="<?= Router::url(array('Eventos', 'distribuicao-promoters',  md5($registro['id'])))?>"  data-original-title="Distribuição para Promoters" type="button" data-toggle="tooltip" data-placement="top" title="Distribuição para Promoters" ><i class="fa fa-sitemap marginNull"></i></a>
+                        <a class="btn btn-xs btn-primary tooltips" href="<?= Router::url(array('Eventos', 'portaria',  md5($registro['id'])))?>"  data-original-title="Portaria" type="button" data-toggle="tooltip" data-placement="top" title="Portaria" ><i class="fa fa-sign-in marginNull"></i></a>
+                        <a class="btn btn-xs btn-primary tooltips" href="<?= Router::url(array('Eventos', 'relatorio',  md5($registro['id'])))?>"  data-original-title="Relatórios" type="button" data-toggle="tooltip" data-placement="top" title="Relatórios" ><i class="fa fa-bar-chart-o marginNull"></i></a>
+                        <a class="btn btn-xs btn-warning tooltips" href="<?= Router::url(array('Eventos', 'minha-lista',  md5($registro['id'])))?>"  data-original-title="Adicionar Lista Vip" type="button" data-toggle="tooltip" data-placement="top" title="Minha Lista Vip" ><i class="fa fa-bars marginNull"></i></a>
+                    </p>
+                </div>
+            <?php endforeach;?>
     </div>
 </div>
 

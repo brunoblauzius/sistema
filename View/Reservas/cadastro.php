@@ -5,7 +5,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <small>Data: <strong class="text text-danger">*</strong></small>
-                    <div class='input-group date datetimepicker2'>
+                    <div class='input-group date datetimepicker3'>
                         <input type='text' class="form-control date_time" name="Reserva[data]" id="start"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-md-9" style="padding-left:5px; padding-right:5px;">
                     <div class="form-group">
-                        <small>Cliente: <strong class="text text-danger">*</strong></small>
+                        <small>Nome/Telefone: <strong class="text text-danger">*</strong></small>
                         <input type='text' class="form-control" name="Busca[cliente]" id="cliente" placeholder="Telefone sem separação"/>
                     </div>
                 </div>

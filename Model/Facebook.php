@@ -74,7 +74,7 @@ class Facebook extends TemplateRegisterApp {
          */
         $modelContato = new Contato();
         $contatoId = $modelContato->genericInsert(array(
-            'telefone' => $this->getPhone(),
+            'telefone' => Utils::returnNumeric( $this->getPhone() ),
             'tipo'     => 1,
         ));
         $modelContato->inserirContato($pessoasId, $contatoId);
@@ -101,6 +101,8 @@ class Facebook extends TemplateRegisterApp {
             'facebook_id' => $this->getFacebookId(),
         ));
 
+         
+        $modelCliente = new Cliente();
         $modelCliente->genericInsert(array(
             'pessoas_id' => $pessoasId,
             'status' => 1,

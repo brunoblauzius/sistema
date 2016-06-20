@@ -201,13 +201,23 @@ class Utils {
     
     
     /**
-     * @retiro todos os numeros da minha string alfanumerica
+     * @retiro todos os numeros da minha string numerica
      * @param string $string
      * @return int
      */
     public static function returnNumeric( $string = null ) {
         preg_match_all('/[0-9]/', $string, $matches );
         return join( array_shift( $matches ) );
+    }
+    
+    /**
+     * @retiro todos os numeros da minha string alfabetica
+     * @param string $string
+     * @return string
+     */
+    public static function returnStrings( $string = null ) {
+        preg_match_all('/[A-Za-z. ]/', $string, $matches );
+        return trim(join( array_shift( $matches ) ));
     }
     
     

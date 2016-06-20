@@ -34,27 +34,6 @@
 		}
 		
                 
-                $('#continuar-reserva').click(function(){
-                    var url   = web_root + 'Reservas/cadastroContinuacao';
-                    //$('#loading').fadeIn(500);
-                    // iniciar o loader
-                    $('#dados-reserva').empty();
-                    loadingElement('<br>Carregando Informações...','#dados-reserva' );
-                    $.ajax({
-                        url: url,
-                        data:{},
-                        dataType: 'html',
-                        type: 'get',
-                        success: function (html) {
-                            // encerrar loader
-                            //$('#loading').fadeOut(500);  
-                            // dados
-                            $('#dados-reserva').html(html);
-                            $('#continuar-reserva').remove();
-                        }
-                    });
-                });
-                
                 $(document).on('click', '.check-all', function(){
                    
                     $('.mesas-lista').each(
@@ -94,14 +73,15 @@
 		$('.data_time').mask('00:00'); 
 		
 		$(function () {
-			$('.datetimepicker2').datetimepicker({
+                    $('.datetimepicker2').datetimepicker({
                             language: 'pt-br',
                             format: 'DD/MM/YYYY',
                             disabledHours: true,
-			 });
-                        $('#datetimepicker3').datetimepicker({
-                           format: 'LT'
-                        });
+                     });
+                     
+                    $('#datetimepicker3').datetimepicker({
+                       format: 'LT'
+                    });
 		});
 		
                 $('.excluir-convidado').click(function(){
@@ -569,10 +549,10 @@
                         //$('#loading').fadeOut(500);
                     }
                     if( json.erro == false ){
-                        $('#logradouro').val(json.resultado.logradouro);
-                        $('#cidade').val(json.resultado.cidade);
-                        $('#uf').val(json.resultado.uf);
-                        $('#bairro').val(json.resultado.bairro);
+                        $('#logradouro').val(json.resultado[0].logradouro);
+                        $('#cidade').val(json.resultado[0].cidade);
+                        $('#uf').val(json.resultado[0].uf);
+                        $('#bairro').val(json.resultado[0].bairro);
                         //$('#loading').fadeOut(500);
                     } else {
                         $('#logradouro').attr('disabled', false);
@@ -630,7 +610,7 @@
             }); 
          });  
         
-       $('.add-actions').click(function(){
+       $(document).on('click', '.add-actions' ,function(){
             $('#loading').fadeIn(500);
             var  elemento   = $(this);
             var  grupoId   = elemento.data('grupo');
@@ -654,26 +634,27 @@
                 dataType: 'json',
                 type: 'post',
                  success: function(data) {
-//                    if( data.erro == 0 && data.acao == 'insert'){
-//                        elemento.addClass('btn-success').removeClass( 'btn-danger' );
-//                        elemento.children('i').addClass('fa-check').removeClass('fa-times');
-//                        elemento.attr('data-ativo', 1 );
-//                    } else if( data.erro == 0 && data.acao == 'update'){
-//                        elemento.addClass('btn-danger').removeClass( 'btn-success' );
-//                        elemento.children('i').addClass('fa-times').removeClass('fa-check');
-//                        elemento.attr('data-ativo', 0 );
-//                    } else {
-//                        alert('erro');
-//                    }
+                    if( data.erro == 0 && data.acao == 'insert'){
+                        elemento.addClass('btn-success').removeClass( 'btn-danger' );
+                        elemento.children('i').addClass('fa-check').removeClass('fa-times');
+                        elemento.data('ativo', 1 );
+                    } else if( data.erro == 0 && data.acao == 'update'){
+                        elemento.addClass('btn-danger').removeClass( 'btn-success' );
+                        elemento.children('i').addClass('fa-times').removeClass('fa-check');
+                        elemento.data('ativo', 0 );
+                    } else {
+                        alert('erro');
+                    }
                     if( data.erro == 0){
                         alertaInformacao();
-                        window.location.reload();
+                        //window.location.reload();
                     }
                     $('#loading').fadeOut(500);
                  }  
             });
 
          });
+         
          
          /**
         * @todo
@@ -1096,111 +1077,6 @@
     });
     
     
-    $(document).on('click', '#procurar-cliente', function(){
-        
-        var url   = web_root + 'Clientes/procurarCliente';
-        var busca = $('#BuscarPor').val();
-        var valor = $('#cliente').val();
-        
-        
-        if( busca === 'telefone' ){
-            var ddd = $('#ddd').val();
-            valor = ddd + valor;
-        }
-        
-        if( valor != null || valor != '' ){
-            //$('#loading').fadeIn(500);
-            //
-            $('#dados-cliente').empty();
-            $('#dados-reserva').empty();
-            $('#dados-cliente').empty();
-            loadingElement('<br>Carregando Informações...', '#dados-cliente');
-            // iniciar o loader
-            $.ajax({
-                url: url,
-                data:{
-                    busca: busca,
-                    valor: valor,
-                },
-                dataType: 'html',
-                type: 'post',
-                success: function (html) {
-                    // encerrar loader
-                    //$('#loading').fadeOut(500);
-                    // dados
-                    
-                    $('#dados-cliente').html(html);
-                    $('input[name$="['+busca+']"]').val(valor);
-                    $('#dados-reserva').empty();
-                }
-            });
-        }
-    });
-    
-    
-    $(document).on('keypress', "#cliente", function(e){
-        if(e.which == 13 ){
-            $('#dados-cliente').empty();
-            $('#dados-reserva').empty();
-            
-            var url   = web_root + 'Clientes/procurarCliente';
-            var busca = $('#BuscarPor').val();
-            var valor = $('#cliente').val();
-
-            if( busca === 'telefone' ){
-                var ddd = $('#ddd').val();
-                valor = ddd + valor;
-            }
-
-
-            if( valor != null || valor != '' ){
-                
-                loadingElement('<br>Carregando Informações...', '#dados-cliente');
-                
-                // iniciar o loader
-                $.ajax({
-                    url: url,
-                    data:{
-                        busca: busca,
-                        valor: valor,
-                    },
-                    dataType: 'html',
-                    type: 'post',
-                    success: function (html) {
-                        // encerrar loader
-                        //$('#loading').fadeOut(500);
-                        // dados
-                        
-                        $('#dados-cliente').html(html);
-                        $('input[name$="['+busca+']"]').val(valor);
-                        $('#dados-reserva').empty();
-                    }
-                });
-            }
-        }
-    })
-    
-    $(document).on('change', '#BuscarPor', function(){
-        if( $('#BuscarPor').val() == 'telefone' ){
-            $('#cliente').parent('div').parent('div').addClass('col-md-9');
-            $('#cliente').parent('div').parent('div').removeClass('col-md-12');
-            $('#ddd').attr('disabled', false);
-            $('#ddd').parent('div').parent('div').show(300);
-            $('#cliente').attr('placeholder', 'Telefone sem separação');
-        } else {
-            $('#ddd').parent('div').parent('div').hide();
-            $('#ddd').attr('disabled', true);
-            $('#cliente').parent('div').parent('div').removeClass('col-md-9');
-            $('#cliente').parent('div').parent('div').addClass('col-md-12');
-            $('#cliente').removeClass('telefone');
-            $('#cliente').removeAttr('autocomplete');
-            $('#cliente').removeAttr('maxlength');
-            $('#cliente').attr('placeholder', 'Digite aqui o valor');
-        }
-        $('#cliente').val(null);
-    });
-    
-
     function infoErro( mensagem, elementoDiv ) {
         $(elementoDiv).find('.msgError').remove();
         var elemento = '';

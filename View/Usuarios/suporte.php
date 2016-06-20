@@ -35,24 +35,14 @@
 
                 </div>
                 <div class="clearfix"></div>
-                <!-- div class="col-md-6 form-group">
-                    <small>Nome <span class="text text-red">*</span></small>
-                    <input name="Usuario[nome]" class="form-control " placeholder="Nome:" id="" value="">
-                </div-->
             </div> 
-            <!--div class="col-md-12">
-                <div class="col-md-6 form-group">
-                    <small>Email <span class="text text-red"></span></small>
-                    <input name="Usuario[email]" class="form-control" placeholder="Email:" id="" value="">
-                </div> 
-            </div-->
 
             <div class="clearfix"></div>
 			<div class="col-md-12">
-	            <div class="col-md-6 col-xs-6 col-lg-6">
-	                <small>Sua mensagem: <span class="text text-danger">*</span></small>
-	                <textarea name="Usuario[mensagem]" class="form-control"  style="height:100px;" placeholder="Deixe sua mensagem e logo retornaremos"></textarea>
-	            </div>
+                            <div class="col-md-12 col-xs-12 col-lg-6">
+                                <small>Sua mensagem: <span class="text text-danger">*</span></small>
+                                <textarea name="Usuario[mensagem]" class="form-control"  style="height:100px;" placeholder="Deixe sua mensagem e logo retornaremos"></textarea>
+                            </div>
 				
 				<div class="clearfix"></div>
 	            <div class="col-md-6" style="margin-top:20px;">

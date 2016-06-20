@@ -95,6 +95,10 @@
                                     <input type="text" name="Cliente[nome]" class="form-control input-sm rounded" placeholder="Nome:">
                                 </div>
                                 <div class="form-group col-md-12">
+                                    <small>E-mail: <strong class="text text-danger">*</strong></small>
+                                    <input type="text" name="Cliente[email]" class="form-control input-sm rounded" placeholder="E-mail:">
+                                </div>
+                                <div class="form-group col-md-12">
                                     <small>Telefone: <strong class="text text-danger">*</strong></small>
                                     <input type="text" name="Cliente[telefone]" class="form-control input-sm  rounded telefone" placeholder="Telefone:">
                                     <input type="hidden" name="Reserva[token]" value="<?= ($reserva['Reserva']['token'])?>">

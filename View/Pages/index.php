@@ -3,12 +3,12 @@
     <div class="pi-section pi-text-center">
 
         <h1 class="h1 pi-text-shadow pi-weight-700 pi-uppercase" style="font-size: 60px;">
-            My<span class="pi-text-pink"> Nyght</span>
+            My<span class="pi-text-pink"> Night</span> Controle de Reservas e Eventos
         </h1>
 
-        <p class="lead-20 pi-weight-300 pi-margin-bottom-30">
-            Sua casa precisa de gestão de reservas de forma eficiente e estratégica
-        </p>
+        <h2 class="lead-20 pi-weight-300 pi-margin-bottom-30">
+            Sua Balada, Restaurante ou Bar precisa de um sistema que gerencie reservas ou eventos de forma eficiente e estratégica?
+        </h2>
 
         <p>
             <a href="<?= Router::url(array('Pages', 'login')); ?>" class="btn pi-btn-contur-3 pi-btn-big">
@@ -36,9 +36,9 @@
             <h6 class="pi-uppercase pi-letter-spacing-3 pi-text-base pi-margin-bottom-15">
                 Serviços
             </h6>
-            <h2 class="h1 pi-weight-700 pi-uppercase pi-has-border pi-has-tall-border pi-has-short-border">
-                O que nós oferecemos!
-            </h2>
+            <h3 class="h1 pi-weight-700 pi-uppercase pi-has-border pi-has-tall-border pi-has-short-border">
+                O que nós oferecemos?
+            </h3>
         </div>
 
         <!-- Row -->
@@ -55,7 +55,7 @@
 
                     <div class="pi-icon-box-content-2">
 
-                        <h5 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Inovação</a></h5>
+                        <h3 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Inovação</a></h3>
 
                         <p class="pi-margin-bottom-10">
                             Disponibiliza aos seus clientes e sua equipe uma plataforma rápida, eficiente e inovadora.
@@ -79,7 +79,7 @@
 
                     <div class="pi-icon-box-content-2">
 
-                        <h5 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Agilidade</a></h5>
+                        <h3 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Agilidade</a></h3>
 
                         <p class="pi-margin-bottom-10">
                             Facilita a reserva de mesas, camarotes, eventos e listas de convidados.
@@ -105,7 +105,7 @@
 
                     <div class="pi-icon-box-content-2">
 
-                        <h5 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Fidelização</a></h5>
+                        <h3 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Fidelização de Clientes</a></h3>
 
                         <p class="pi-margin-bottom-10">
                             Retém não só os clientes que fizeram a reserva, mas todos os seus convidados.
@@ -131,7 +131,7 @@
 
                     <div class="pi-icon-box-content-2">
 
-                        <h5 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Gestão</a></h5>
+                        <h3 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Gestão</a></h3>
 
                         <p class="pi-margin-bottom-10">
                             Mostra ocupação de salões e mesas em qualquer data e a qualquer momento.
@@ -157,7 +157,7 @@
 
                     <div class="pi-icon-box-content-2">
 
-                        <h5 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Conforto</a></h5>
+                        <h3 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Conforto</a></h3>
 
                         <p class="pi-margin-bottom-10">
                             Traz comodidade para seu cliente que garantirá sua reserva com a lista de seus convidados de forma on-line.
@@ -181,7 +181,7 @@
 
                     <div class="pi-icon-box-content-2">
 
-                        <h5 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Tecnologia</a></h5>
+                        <h3 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Tecnologia</a></h3>
 
                         <p class="pi-margin-bottom-10">
                             Permite a hostess registrar as presenças por dispositivos eletrônicos.
@@ -208,7 +208,7 @@
 
                     <div class="pi-icon-box-content-2">
 
-                        <h5 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Estratégia</a></h5>
+                        <h3 class="pi-uppercase pi-weight-700"><a href="#" class="pi-link-dark">Estratégia</a></h3>
 
                         <p class="pi-margin-bottom-10">
                             Mostra taxas de no-show por reserva, perfil do cliente, histórico de visitas e muito mais!
@@ -248,7 +248,7 @@
                 Além disso, você terá acesso a todo o histórico de reservas por cliente, podendo emitir relatórios de reservas por idade, sexo e número de convidados.
             </div>
             <div class="pi-margin-bottom-15 pi-col-xs-12 pi-col-sm-5">
-                <img src="<?= Router::url('View/webroot/site/img/BALADA-6.jpg') ?>">
+                <img src="<?= Router::url('View/webroot/site/img/BALADA-6.jpg') ?>" alt="<?= $title_layout?>" title="<?= $title_layout?>">
             </div>
         </div>
     </div>
@@ -269,7 +269,7 @@
         <!-- Row -->
         <div class="pi-row">
             <div class="pi-margin-bottom-15 pi-col-xs-12 pi-col-sm-5">
-                <img src="<?= Router::url('View/webroot/site/img/shutterstock_107906300.jpg') ?>">
+                <img src="<?= Router::url('View/webroot/site/img/shutterstock_107906300.jpg') ?>" alt="<?= $title_layout?>" title="<?= $title_layout?>">
             </div>
             <div class="pi-margin-bottom-15 pi-col-xs-12 pi-col-sm-7">
                 O <span class="pi-text-pink">MyNight</span> disponibiliza para seus clientes um ambiente personalizado de cada reserva que ele fez, permitindo com que ele envie emails diretamente a seus convidados. 
@@ -285,9 +285,9 @@
 <div class="pi-section pi-padding-bottom-60" >
 
     <div class="pi-text-center">
-        <h1 class="pi-uppercase pi-weight-700 pi-has-border pi-has-tall-border pi-has-short-border pi-margin-bottom-70">
+        <h3 class="pi-uppercase pi-weight-700 pi-has-border pi-has-tall-border pi-has-short-border pi-margin-bottom-70">
             Nossos Produtos
-        </h1>
+        </h3>
     </div>
 
     <div class="pi-row pi-grid-small-margins" id="plano">
@@ -503,9 +503,9 @@
 
             <div class="pi-row">
                 <div class="pi-col-sm-6">
-                    <h2 class="h4 pi-has-bg pi-weight-700 pi-uppercase pi-letter-spacing pi-margin-bottom-30">
+                    <h5 class="h4 pi-has-bg pi-weight-700 pi-uppercase pi-letter-spacing pi-margin-bottom-30">
                         ENTRE EM CONTATO
-                    </h2>
+                    </h5>
 
                     <!-- Contact form -->
                     <form role="form" action="<?= Router::url(array('Pages', 'send-contato')); ?>" method="post" class="SendContact" id="ContatoSend">
@@ -562,9 +562,9 @@
 
 
 
-                    <h2 class="h4 pi-has-bg pi-weight-700 pi-uppercase pi-letter-spacing pi-margin-bottom-30">
+                    <h5 class="h4 pi-has-bg pi-weight-700 pi-uppercase pi-letter-spacing pi-margin-bottom-30">
                         NOS CONTATE.
-                    </h2>
+                    </h5>
 
                     <p class="h6 pi-uppercase pi-weight-700">
                         <i class="icon-mail pi-text-base" style="margin-right: 5px;"></i> <a href="#" class="pi-link-dark">CONTATO@MYNIGHT.COM.BR</a>

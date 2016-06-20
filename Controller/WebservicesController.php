@@ -171,25 +171,36 @@ class WebservicesController extends AppController {
 
     /**
      * @todo metodo que lista todas as empresas para o app
+     * @param string $_POST['nome'] nome da balada
+     * @param string $_POST['cidade'] cidade que eu procuro as baladas
+     * @param string $_POST['lat'] baladas proximas
+     * @param string $_POST['long'] baladas mais proximas
+     * 
      */
     public function listarEmpresas() {
         try {
-
-            $Empresas = new Empresa();
-            $telefone = new Contato();
-
-            $registros = $Empresas->query('SELECT * FROM vw_empresas_sistema WHERE status = 1');
-
-            $i = 0;
-
-            foreach ($registros as $registro) {
-                $registros[$i] = array_merge($registro, array('telefones' => $telefone->findEmpresasContatos($registro['id'])));
-                $i++;
-            }
-
-            echo json_encode($registros);
-        } catch (Exception $ex) {
             
+            $Empresas = new Empresa();
+            
+            $Empresas->setNome($_POST['nome'])
+                     ->setCidade($_POST['cidade'])
+                     ->setLat($_POST['lat'])
+                     ->setLong($_POST['long']);
+            
+            $registros = $Empresas->listEmpresas();
+
+            echo json_encode(array(
+                        'erro' => false,
+                        'message' => 'success',
+                        'retorno' => $registros
+                    ));
+            
+        } catch (Exception $ex) {
+            echo json_encode(array(
+                'erro' => TRUE,
+                'message' => $ex->getMessage(),
+                'retorno' => NULL
+            ));
         }
     }
 
@@ -199,8 +210,8 @@ class WebservicesController extends AppController {
             $facebook = new Facebook();
 
             $usuario = $facebook->setFacebookId((int) $_POST['facebook_id'])
-                    ->facebookIdNull()
-                    ->authentiction();
+                                ->facebookIdNull()
+                                ->authentiction();
 
             echo json_encode(array(
                 'erro' => false,

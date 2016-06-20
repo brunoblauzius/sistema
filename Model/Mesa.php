@@ -234,4 +234,41 @@ class Mesa extends AppModel{
         }
     }
     
+    
+    public function mesasAmbientesVerify( $reservaId,  $data, array $mesas ){
+        try {
+            
+            if( !empty($mesas) ){
+                
+                $mesas = join(',', $mesas);
+
+                $sql = " SELECT 
+                                me.nome
+                            FROM
+                                reservas_has_mesas as res
+                                inner join mesas as me on me.id = res.mesas_id
+                            WHERE
+                                    res.reservas_id != $reservaId
+                                AND res.mesas_id in ( $mesas )
+                                AND date(res.data) = date('$data'); ";
+                
+                $retorno = $this->query($sql);
+                $novaLista = array();
+                
+                foreach ($retorno as $nome){
+                    $novaLista[] = $nome['nome']; 
+                }
+                
+                if( count($novaLista) > 0 ){
+                    throw new Exception( 'A(s) mesa(s) ( ' . join(',', $novaLista) . ' ) já está(ão) ocupada(s) para a data selecionada', 224 );
+                }
+                
+                return join(',', $novaLista);
+            }
+            
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+    
 }

@@ -52,9 +52,8 @@
 </div>
 
 <?php elseif ( count($cliente) == 1 ):?>
+
 <div class="col-sm-12 form-group-sm">
-   
-            
                 <div class="col-md-3">
                     <small>Nome:</small>
                     <input type="text"  class="form-control" value="<?= $cliente[0]['nome']?>" disabled="true">
@@ -79,7 +78,6 @@
         <a class="btn btn-primary btn-xs pull-right" id="continuar-reserva" > Continuar a reserva </a>
         <input type="hidden" name="Reserva[clientes_id]" class="form-control" value="<?= md5($cliente[0]['id'])?>">
     </div>
-    
 </div>
 
 <?php elseif ( count($cliente) > 1 ):?>
@@ -98,32 +96,11 @@
                     <td><?= $pessoa['email']?></td>
                     <td><?= $pessoa['telefone']?></td>
                     <td>
-                        <a class="btn btn-primary btn-xs encontratId" data-id="<?= md5($pessoa['id'])?>"><i class="fa fa-sign-in"></i></a>
+                        <a class="btn btn-primary btn-xs" id="encontratId" data-id="<?= md5($pessoa['id'])?>"><i class="fa fa-sign-in"></i></a>
                     </td>
                 </tr>
             <?php endforeach;?>
         </tbody>
     </table>
 </div>
-<script>
-    $('.encontratId').click(function(){
-        var url   = web_root + 'Clientes/procurarCliente/' + $(this).data('id');
-        $('#dados-cliente').empty();
-        loadingElement('<br>Carregando Informações...', '#dados-cliente');
-        // iniciar o loader
-        $.ajax({
-            url: url,
-            data:{},
-            dataType: 'html',
-            type: 'get',
-            success: function (html) {
-                // encerrar loader
-                //$('#loading').fadeOut(500);  
-                // dados
-                $('#dados-cliente').html(html);
-                $('#dados-reserva').empty();
-            }
-        });
-    });
-</script>
 <?php endif; ?>

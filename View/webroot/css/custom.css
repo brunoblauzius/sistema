@@ -48,6 +48,30 @@ and open the template in the editor.
     font-size:16px;
 }
 
+.bg-header-female{
+    background-color: #D6487E;
+    color: #FFF;
+    padding: 3px;
+    border-radius:5px;
+    font-size:10px;
+}
+
+.bg-header-male{
+    background-color: #3A87AD;
+    color: #FFF;
+    padding: 3px;
+    border-radius:5px;
+    font-size:10px;
+}
+
+.bg-header-male-female{
+    background-color: #82AF6F;
+    color: #FFF;
+    padding: 3px;
+    border-radius:5px;
+    font-size:10px;
+}
+
 .label-base{
     background-color: #1FB5AD;
     text-transform:uppercase;

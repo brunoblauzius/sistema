@@ -59,7 +59,8 @@ class PagesController extends AppController{
         ));
         
         $this->layout = 'layout_site';       
-        $this->set('title_layout', ' Sistemas de reservas para bares, restaurantes e casas noturnas ' . $this->systemName );
+        $this->set('description', 'Otimize o trabalho de gerenciamento de reservas e eventos e de quebra receba uma ferramenta poderosíssima de gestão de clientes. Com o MyNight, você terá informações da mais alta qualidade para conseguir visualizar como está a procura por reservas na sua casa, verificando o perfil do cliente, reservas por dia da semana, ociosidade do salão, clientes mais frequentes, taxas de no-show e muito mais!');
+        $this->set('title_layout', 'My Night Software Controle de Eventos e Reservas - ' . $this->systemName );
         $this->render();
         
     }
@@ -95,6 +96,7 @@ class PagesController extends AppController{
             exit();
         } else {
             $this->layout = 'layout_site_not_header';
+             $this->set('description', 'Otimize o trabalho de gerenciamento de reservas e eventos e de quebra receba uma ferramenta poderosíssima de gestão de clientes. Com o MyNight, você terá informações da mais alta qualidade para conseguir visualizar como está a procura por reservas na sua casa, verificando o perfil do cliente, reservas por dia da semana, ociosidade do salão, clientes mais frequentes, taxas de no-show e muito mais!');
             $this->set('title_layout', ' Logar no sistema' . $this->systemName);
             $this->render();
         }
@@ -146,7 +148,8 @@ class PagesController extends AppController{
             '3dParty/fontello/css/fontello',
         ));
         
-        $this->layout = 'layout_site_menu_sem_link';          
+        $this->layout = 'layout_site_menu_sem_link';
+         $this->set('description', 'Otimize o trabalho de gerenciamento de reservas e eventos e de quebra receba uma ferramenta poderosíssima de gestão de clientes. Com o MyNight, você terá informações da mais alta qualidade para conseguir visualizar como está a procura por reservas na sua casa, verificando o perfil do cliente, reservas por dia da semana, ociosidade do salão, clientes mais frequentes, taxas de no-show e muito mais!');
         $this->set('title_layout', ' Crie sua conta com a my night ' . $this->systemName );
         $this->render();
     }
@@ -192,7 +195,8 @@ class PagesController extends AppController{
                 'css/social',
                 '3dParty/fontello/css/fontello',
             ));
-            $this->layout = 'layout_site_menu_sem_link';          
+            $this->layout = 'layout_site_menu_sem_link';   
+             $this->set('description', 'Otimize o trabalho de gerenciamento de reservas e eventos e de quebra receba uma ferramenta poderosíssima de gestão de clientes. Com o MyNight, você terá informações da mais alta qualidade para conseguir visualizar como está a procura por reservas na sua casa, verificando o perfil do cliente, reservas por dia da semana, ociosidade do salão, clientes mais frequentes, taxas de no-show e muito mais!');
             $this->set('title_layout', ' Crie sua conta com a my night ' . $this->systemName );
             $this->render();
         } else {
@@ -275,7 +279,8 @@ class PagesController extends AppController{
                 '3dParty/fontello/css/fontello',
             ));
             
-            $this->layout = 'layout_site_menu_sem_link';          
+            $this->layout = 'layout_site_menu_sem_link';
+             $this->set('description', 'Otimize o trabalho de gerenciamento de reservas e eventos e de quebra receba uma ferramenta poderosíssima de gestão de clientes. Com o MyNight, você terá informações da mais alta qualidade para conseguir visualizar como está a procura por reservas na sua casa, verificando o perfil do cliente, reservas por dia da semana, ociosidade do salão, clientes mais frequentes, taxas de no-show e muito mais!');
             $this->set('title_layout', ' Crie sua conta com a my night ' . $this->systemName );
             $this->render();
             
@@ -331,6 +336,7 @@ class PagesController extends AppController{
                 ));
 
                 $this->layout = 'layout_site_menu_sem_link';
+                 $this->set('description', 'Otimize o trabalho de gerenciamento de reservas e eventos e de quebra receba uma ferramenta poderosíssima de gestão de clientes. Com o MyNight, você terá informações da mais alta qualidade para conseguir visualizar como está a procura por reservas na sua casa, verificando o perfil do cliente, reservas por dia da semana, ociosidade do salão, clientes mais frequentes, taxas de no-show e muito mais!');
                 $this->set('title_layout', 'Conta Ativada!');
                 $this->render();
             } else {
@@ -381,7 +387,8 @@ class PagesController extends AppController{
                 'css/social',
                 '3dParty/fontello/css/fontello',
             ));
-            $this->layout = 'layout_site_menu_sem_link';    
+            $this->layout = 'layout_site_menu_sem_link';   
+             $this->set('description', 'Otimize o trabalho de gerenciamento de reservas e eventos e de quebra receba uma ferramenta poderosíssima de gestão de clientes. Com o MyNight, você terá informações da mais alta qualidade para conseguir visualizar como está a procura por reservas na sua casa, verificando o perfil do cliente, reservas por dia da semana, ociosidade do salão, clientes mais frequentes, taxas de no-show e muito mais!');
             $this->set('title_layout', 'Cadastro efetuado com sucesso');
             $this->render();
             
@@ -394,6 +401,7 @@ class PagesController extends AppController{
         try{
             
             $this->layout = 'default';
+             $this->set('description', 'Otimize o trabalho de gerenciamento de reservas e eventos e de quebra receba uma ferramenta poderosíssima de gestão de clientes. Com o MyNight, você terá informações da mais alta qualidade para conseguir visualizar como está a procura por reservas na sua casa, verificando o perfil do cliente, reservas por dia da semana, ociosidade do salão, clientes mais frequentes, taxas de no-show e muito mais!');
             $this->set('title_layout', 'Veja os planos para sua empresa');
             $this->render();
             

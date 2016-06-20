@@ -1200,7 +1200,7 @@ class Reserva extends AppModel {
                             INNER JOIN
                         clientes_convidados AS Convidados ON Convidados.reservas_id = Reserva.id
                             INNER JOIN
-                        clientes AS Cliente ON Convidados.clientes_id = Cliente.id
+                        vw_clientes AS Cliente ON Convidados.clientes_id = Cliente.clientes_id
                     WHERE
                         Reserva.token = '{$token}'"
                         . " ORDER BY Cliente.nome ASC;";

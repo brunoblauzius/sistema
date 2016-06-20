@@ -246,6 +246,10 @@ class AppController extends Render {
         }
     }
 
+    /**
+     * @todo verifica tem alguma empresa logada
+     * @throws Exception
+     */
     protected function checaEmpresa() {
         try {
             if (!Session::check('Empresa')) {
@@ -256,6 +260,10 @@ class AppController extends Render {
         }
     }
 
+    /**
+     * @todo verifica o limite de cadastros de reservas das empresas
+     * @throws BusinessException
+     */
     public function verificaCadastrosReservas( ){
         try {
             $reservas = new Reserva();
@@ -266,6 +274,23 @@ class AppController extends Render {
             throw $ex;
         }
     }
+    
+    /**
+     * @todo verifico se minha empresa tem permissão
+     * @throws BusinessException
+     */
+    public function verificaPermissaoEventos(){
+        try {
+            
+            if( Session::read('ContaEmpresa.gestao_de_eventos') == 0 ){
+                throw new BusinessException('sem premissão para utilizar está area', 114);
+            }
+            
+        } catch (BusinessException $ex) {
+            throw $ex;
+        }
+    }
+    
     
     /**
     * @todo metodo que cria uma lista para a view;
@@ -283,6 +308,17 @@ class AppController extends Render {
             }
         }
         return $newArray;
+    }
+    
+    protected function exportWord( $fileName ){
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-Type: application/force-download");
+        header("Content-type: application/msword");
+        header("Content-Type: application/download");
+        header("Content-Disposition: attachment;filename=$fileName.doc");
+        header("Content-Transfer-Encoding: binary ");
     }
     
 }
